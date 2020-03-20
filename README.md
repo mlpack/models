@@ -1,5 +1,20 @@
-In mlpack-model-zoo **project**, we provide state of the art **pre-built 
-models** and solutions to some standard datasets.
+The mlpack **models** repository provides **ready-to-use** implementations of popular
+and cutting-edge machine learning models---mostly deep learning models.  The
+implementations in this repository are intended to be compiled into command-line
+programs and bindings to Python and other languages.
+
+_(This README contains various TODO comments like this one , so if you are
+helping with the transition from the `examples/` repository, be sure to look for
+comments like this one.  Once the transition is done, we can remove this
+comment (and the others).)_
+
+_(If we have functionality to download datasets and also to download
+pretrained model weights, we should put a comment about that here in the main
+description of the repository.)_
+
+_(If this repository gets set up as a submodule to the main mlpack repository
+and that is how everything in it should be compiled, then we should point that
+out here!)_
 
 ### 0. Contents
 
@@ -12,50 +27,59 @@ models** and solutions to some standard datasets.
 
 ###  1. Introduction
 
-   This repository contains a number of different models implemented in C++ using
-   mlpack. To understand more about mlpack refer to the following links. The sample folder 
-   contains snippets and smaller models that demonstrate features of mlpack. 
-  - [mlpack homepage](https://www.mlpack.org/)
-  - [mlpack documentation](https://www.mlpack.org/docs.html)
-  - [Tutorials](https://www.mlpack.org/doc/mlpack-git/doxygen/tutorials.html)
+This repository contains a number of different models implemented in C++ using
+mlpack. To understand more about mlpack, refer to the [mlpack
+repository](https://github.com/mlpack/mlpack/) or the [mlpack
+website](https://www.mlpack.org/).
 
-### 2. Dependencies
+In order to compile and build the programs in this repository, you'll need to
+make sure that you have the same dependencies available that mlpack requires, in
+addition to mlpack itself.
 
-To run this project you need:
+_(If this should only be built as a submodule, we should probably remove this
+part about dependencies and instruct users to build this as a submodule of the
+main mlpack repository.)_
 
       mlpack
-      Armadillo     >= 8.400.0
+      Armadillo      >= 8.400.0
       Boost (program_options, math_c99, unit_test_framework, serialization,
-             spirit)
-      CMake         >= 3.3.2
-      ensmallen     >= 2.10.0
-To install mlpack refer to the [install guide.](https://www.mlpack.org/docs.html)
+             spirit) >= 1.58
+      CMake          >= 3.3.2
+      ensmallen      >= 2.10.0
 
-All of those should be available in your distribution's package manager. If
-not, you will have to compile each of them by hand. See the documentation for
-each of those packages for more information.
+To install mlpack refer to the [installation
+guide](https://www.mlpack.org/docs.html) that's available in the mlpack
+documentation.
+
+All of those dependencies should be available in your distribution's package
+manager. If not, you will have to compile each of them by hand. See the
+documentation for each of those packages for more information.
 
 ### 3. Building from source
 
 To install this project run the following command.
-  
+
   `mkdir build && cd build && cmake ../`
 
 Use the optional command `-D DEBUG=ON ` to enable debugging.
 
-Run the make file. Use -jN with the following command where N is the number of cores to be used for the build. 
-For instance,
-  
+Once CMake is configured, compile:
+
+  `make`
+
+You can also build with multiple cores using the `-j` option.  For example,
+building with 4 cores can be done with the following command:
+
   `make -j4`
 
 ### 4. Running Models
 
-After building the projects all datasets will be unzipped and executables of the model will be made available in 
-bin. You can either execute the same file using:
+_(This section needs significant overhaul once we clean up our build system.)_
 
-  `./bin/fileName`
-  
 ### 5. Current Models
+
+_(This section also needs some cleanup once we know what we're keeping and what
+we're not keeping.)_
 
 Currently model-zoo project has the following models implemented:
 
@@ -64,8 +88,11 @@ Currently model-zoo project has the following models implemented:
   - Univariate Time Series prediction using LSTM on Electricity Consumption Dataset.
   - Variational Auto-Encoder on MNIST dataset.
   - Variational Convolutional Auto-Encoder on MNIST.
-  
+
 ### 6. Datasets
+
+_(This section will also need to be overhauled, but we should wait until we
+overhaul the sections above too.)_
 
 Model-Zoo project has the following datasets available:
 
