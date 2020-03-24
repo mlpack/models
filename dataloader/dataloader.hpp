@@ -10,8 +10,11 @@
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
 #include <mlpack/core/data/scaler_methods/min_max_scaler.hpp>
+#include <mlpack/core/math/shuffle_data.hpp>
 #include <mlpack/core/data/split_data.hpp>
 #include <mlpack/prereqs.hpp>
+#include <utils/utils.hpp>
+
 
 #ifndef MODELS_DATALOADER_HPP
 #define MODELS_DATALOADER_HPP
@@ -45,6 +48,33 @@ class DataLoader
                  std::vector<std::string>(),
              const double augmentationProbability = 0.2);
 
+  /**
+   * Function to load and preprocess train or test data stored in CSV files.
+   * 
+   * @param datasetPath Path to the dataset.
+   * @param loadTrainData Boolean to determine whether data will be stored for
+   *                      training or testing. If true, data will be loaded for training.
+   *                      Note: This option augmentation to NULL, set ratio to 1 and
+   *                      scaler will be used to only transform the test data.
+   * @param shuffle Boolean to determine whether or not to shuffle the data.
+   * @param ratio Ratio for train-test split.
+   * @param useScaler Fits the scaler on training data and transforms dataset.
+   * @param dropHeader Drops the first row from CSV.
+   * @param startInputFeatures First Index which will be fed into the model as input.
+   *                           Note: Indicies are wrapped and -1 implies last
+   *                           column.
+   * @param endInputFeature Last Index which will be fed into the model as input.
+   *                        Note: Indicies are wrapped and -1 implies last
+   *                        column.
+   * @param startPredictionFeatures First Index which be predicted by the model as output.
+   *                                Note: Indicies are wrapped and -1 implies last
+   *                                column.
+   * @param endPredictionFeatures Last Index which be predicted by the model as output.
+   *                              Note: Indicies are wrapped and -1 implies last
+   *                              column.
+   * @param augmentation Vector strings of augmentations supported by mlpack.
+   * @param augmentationProbability Probability of applying augmentation to a particular cell.
+   */
   void LoadCSV(const std::string &datasetPath,
                const bool loadTrainData = true,
                const bool shuffle = true,

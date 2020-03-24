@@ -16,9 +16,6 @@
 #ifndef MODELS_DATALOADER_IMPL_HPP
 #define MODELS_DATALOADER_IMPL_HPP
 
-#include <mlpack/core/data/split_data.hpp>
-#include <mlpack/core/math/shuffle_data.hpp>
-#include <mlpack/prereqs.hpp>
 #include "dataloader.hpp"
 
 using namespace mlpack;
@@ -49,11 +46,20 @@ template<
 {
   if (dataset == "mnist")
   {
+    if (Utils::PathExists("./../data/mnist_train.csv"))
+    {
+      Utils::DownloadFile("https://raw.githubusercontent.com/kartikdutt18/mlpack-models-weights-and-datasets/master/mnist-dataset/mnist_train.csv");
+    }
+
     LoadCSV("./../data/mnist_train.csv", true, true, ratio, useScaler, true,
         1, -1, 0, 0);
-
     trainY = trainY + 1;
     validY = validY + 1;
+
+    if (Utils::PathExists("./../data/mnist_test.csv"))
+    {
+      Utils::DownloadFile("https://raw.githubusercontent.com/kartikdutt18/mlpack-models-weights-and-datasets/master/mnist-dataset/mnist_test.csv");
+    }
 
     LoadCSV("./../data/mnist_test.csv", false, false, useScaler, true, 0, -1);
   }

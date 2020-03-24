@@ -210,13 +210,12 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
 # Recurse into each model.
 set(DIRS
   # Model directories.
-  Kaggle/DigitRecognizer
-  Kaggle/DigitRecognizerCNN
-  Kaggle/DigitRecognizerBatchNorm
-  vae/vae_mnist
-  vae/vae_cnn_mnist
-  LSTM/TimeSeries-Univariate
-  LSTM/TimeSeries-Multivariate
+  #vae/vae_mnist
+  #vae/vae_cnn_mnist
+  utils/
+  dataloader/
+  models/
+  tests/
 )
 
 foreach(dir ${DIRS})
