@@ -48,7 +48,8 @@ template<
   {
     if (Utils::PathExists("./../data/mnist_train.csv"))
     {
-      Utils::DownloadFile("https://raw.githubusercontent.com/kartikdutt18/mlpack-models-weights-and-datasets/master/mnist-dataset/mnist_train.csv");
+      Utils::DownloadFile("https://raw.githubusercontent.com/kartikdutt18/mlpack-models-weights-and-datasets/master/mnist-dataset/mnist_train.csv",
+          "./../data/mnist_train.csv");
     }
 
     LoadCSV("./../data/mnist_train.csv", true, true, ratio, useScaler, true,
@@ -58,7 +59,8 @@ template<
 
     if (Utils::PathExists("./../data/mnist_test.csv"))
     {
-      Utils::DownloadFile("https://raw.githubusercontent.com/kartikdutt18/mlpack-models-weights-and-datasets/master/mnist-dataset/mnist_test.csv");
+      Utils::DownloadFile("https://raw.githubusercontent.com/kartikdutt18/mlpack-models-weights-and-datasets/master/mnist-dataset/mnist_test.csv",
+          "./../data/mnist_test.csv");
     }
 
     LoadCSV("./../data/mnist_test.csv", false, false, useScaler, true, 0, -1);

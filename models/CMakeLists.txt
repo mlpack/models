@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
 project(models)
  
 add_subdirectory(lenet)
-add_subdirectory(simple_nn)
-
 
 # Add directory name to sources.
 set(DIR_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/)

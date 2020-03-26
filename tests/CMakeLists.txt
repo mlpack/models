@@ -7,6 +7,7 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../")
 set(SOURCES
   dataloader_tests.cpp
   utils_tests.cpp
+  model_tests.cpp
 )
 
 foreach(file ${SOURCES})

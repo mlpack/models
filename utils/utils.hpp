@@ -16,6 +16,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <sys/stat.h>
+#include <openssl/sha.h>
 
 class Utils
 {
@@ -36,12 +37,28 @@ class Utils
    * Downloads files using wget command.
    * 
    * @param url URL for file which is to be downloaded.
+   * @param fileName output fileName.
    * @returns 0 to determine success.
    */
-  static int DownloadFile(std::string url)
+  static int DownloadFile(std::string url, std::string fileName)
   {
-    std:: string command = "wget " + url;
+    std:: string command = "libcurl " + url + " -o " + fileName + "--progress-bar";
     return system((const char *)command.c_str());
+  }
+
+  static bool CompareSHA256(std::string path, std::string hash)
+  {
+    return true; // Complete this function.
+  }
+
+  static std::string GetSHA256(std::string path)
+  {
+    std::ifstream file(path, std::ios::in | std::ios::binary);
+    if (!file.good())
+    {
+      std::cout << "Cannot Open File." << std::endl;
+    }
+    // Complete This function.
   }
 };
 #endif
