@@ -59,6 +59,7 @@ class Utils
       std::cout << "Cannot Open File." << std::endl;
     }
     // Complete This function.
+    return std::string(1, 'a');
   }
 };
 #endif

@@ -19,34 +19,32 @@
 namespace mlpack {
 namespace ann {
 
-LeNet::LeNet(const size_t inputChannel,
-             const size_t inputWidth,
-             const size_t inputHeight,
-             const size_t numClasses,
-             const std::string& weights,
-             const int leNetVer) :
-             LeNet(
-                std::tuple<size_t, size_t, size_t>(
-                    inputChannel,
-                    inputWidth,
-                    inputHeight),
-                numClasses,
-                weights,
-                leNetVer)
+template<size_t leNetVer>
+LeNet<leNetVer>::LeNet(const size_t inputChannel,
+                       const size_t inputWidth,
+                       const size_t inputHeight,
+                       const size_t numClasses,
+                       const std::string& weights) :
+                       LeNet<leNetVer>(
+                          std::tuple<size_t, size_t, size_t>(
+                              inputChannel,
+                              inputWidth,
+                              inputHeight),
+                          numClasses,
+                          weights)
 {
   // Nothing to do here.
 }
 
-LeNet::LeNet(const std::tuple<size_t, size_t, size_t> inputShape,
-             const size_t numClasses,
-             const std::string &weights,
-             const int leNetVer) :
-             inputChannel(std::get<0>(inputShape)),
-             inputWidth(std::get<1>(inputShape)),
-             inputHeight(std::get<2>(inputShape)),
-             numClasses(numClasses),
-             weights(weights),
-             leNetVer(leNetVer)
+template<size_t leNetVer>
+LeNet<leNetVer>::LeNet(const std::tuple<size_t, size_t, size_t> inputShape,
+                       const size_t numClasses,
+                       const std::string &weights) :
+                       inputChannel(std::get<0>(inputShape)),
+                       inputWidth(std::get<1>(inputShape)),
+                       inputHeight(std::get<2>(inputShape)),
+                       numClasses(numClasses),
+                       weights(weights)
 {
   leNet = new Sequential<>();
   ConvolutionBlock(inputChannel, 6, 5, 5, 1, 1, 2, 2);
@@ -85,14 +83,16 @@ LeNet::LeNet(const std::tuple<size_t, size_t, size_t> inputShape,
   }
 }
 
-Sequential<> *LeNet::LoadModel(const std::string &filePath)
+template<size_t leNetVer>
+Sequential<> *LeNet<leNetVer>::LoadModel(const std::string &filePath)
 {
   std::cout << "Loading model" << std::endl;
   data::Load(filePath, "LeNet", leNet);
   return leNet;
 }
 
-void LeNet::SaveModel(const std::string &filePath)
+template<size_t leNetVer>
+void LeNet<leNetVer>::SaveModel(const std::string &filePath)
 {
   std::cout << "Saving model" << std::endl;
   data::Save(filePath, "LeNet", leNet);

@@ -149,7 +149,7 @@ private:
   //! Locally stored labels for testing.
   DataSetY testY;
 
-  //! Locally Stored scalaer.
+  //! Locally Stored scaler.
   ScalerType scaler;
 
   //! Locally stored path of dataset.

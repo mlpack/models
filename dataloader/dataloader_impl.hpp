@@ -23,7 +23,7 @@ using namespace mlpack;
 template<
   typename DataSetX,
   typename DataSetY,
-  typename ScalerType
+  class ScalerType
 >DataLoader<
     DataSetX, DataSetY, ScalerType
 >::DataLoader()

@@ -39,7 +39,10 @@ namespace ann /** Artificial Neural Network. */{
 
 /**
  * Definition of a LeNet CNN.
+ * 
+ * @param leNetVer Version of LeNet.
  */
+template<size_t leNetVer = 1>
 class LeNet
 {
  public:
@@ -55,14 +58,12 @@ class LeNet
    * @param numClasses Optional number of classes to classify images into,
    *                   only to be specified if includeTop is  true.
    * @param weights One of 'none', 'imagenet'(pre-training on mnist) or path to weights.
-   * @param leNetVer Version of LeNet.
    */
   LeNet(const size_t inputChannel,
         const size_t inputWidth,
         const size_t inputHeight,
         const size_t numClasses = 1000,
-        const std::string &weights = "none",
-        const int leNetVer = 1);
+        const std::string &weights = "none");
 
   /**
    * LeNet constructor intializes input shape and number of classes.
@@ -74,12 +75,10 @@ class LeNet
    * @param numClasses Optional number of classes to classify images into,
    *                   only to be specified if includeTop is  true.
    * @param weights One of 'none', 'mnist'(pre-training on MNIST) or path to weights.
-   * @param leNetVer Version of LeNet.
    */
   LeNet(const std::tuple<size_t, size_t, size_t> inputShape,
         const size_t numClasses = 1000,
-        const std::string &weights = "none",
-        const int leNetVer = 1);
+        const std::string &weights = "none");
 
   //! Get Layers of the model.
   Sequential<>* GetModel() { return leNet; };
@@ -178,9 +177,6 @@ class LeNet
 
   //! Locally stored LeNet Model.
   Sequential<> *leNet;
-
-  //! Locally stored LeNet version.
-  int leNetVer;
 
   //! Locally stored width of the image.
   size_t inputWidth;
