@@ -22,7 +22,7 @@
 template<
   typename DataSetX = arma::mat,
   typename DataSetY = arma::mat,
-  typename ScalerType = mlpack::data::MinMaxScaler
+  class ScalerType = mlpack::data::MinMaxScaler
 >
 class DataLoader
 {

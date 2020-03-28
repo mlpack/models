@@ -34,7 +34,7 @@ template<
 template<
   typename DataSetX,
   typename DataSetY,
-  typename ScalerType
+  class ScalerType
 >DataLoader<
     DataSetX, DataSetY, ScalerType
 >::DataLoader(const std::string &dataset,
@@ -46,10 +46,10 @@ template<
 {
   if (dataset == "mnist")
   {
-    if (Utils::PathExists("./../data/mnist_train.csv"))
+    if (!Utils::PathExists("./../data/mnist_train.csv"))
     {
       Utils::DownloadFile("https://raw.githubusercontent.com/kartikdutt18/mlpack-models-weights-and-datasets/master/mnist-dataset/mnist_train.csv",
-          "./../data/mnist_train.csv");
+          "./../data/mnist_train.csv", "mnist_train.csv");
     }
 
     LoadCSV("./../data/mnist_train.csv", true, true, ratio, useScaler, true,
@@ -57,10 +57,10 @@ template<
     trainY = trainY + 1;
     validY = validY + 1;
 
-    if (Utils::PathExists("./../data/mnist_test.csv"))
+    if (!Utils::PathExists("./../data/mnist_test.csv"))
     {
       Utils::DownloadFile("https://raw.githubusercontent.com/kartikdutt18/mlpack-models-weights-and-datasets/master/mnist-dataset/mnist_test.csv",
-          "./../data/mnist_test.csv");
+          "./../data/mnist_test.csv", "mnist_test.csv");
     }
 
     LoadCSV("./../data/mnist_test.csv", false, false, useScaler, true, 0, -1);
@@ -71,7 +71,7 @@ template<
 template<
   typename DataSetX,
   typename DataSetY,
-  typename ScalerType
+  class ScalerType
 > void DataLoader<
     DataSetX, DataSetY, ScalerType
 >::LoadCSV(const std::string &datasetPath,
@@ -128,7 +128,7 @@ template<
   {
     if (useScaler)
     {
-      scaler.Transform(dataset);
+      scaler.Transform(dataset, dataset);
     }
 
     testX = dataset.submat(wrapIndex(startInputFeatures, dataset.n_rows),
