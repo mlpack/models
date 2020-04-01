@@ -9,7 +9,7 @@
  * 3-clause BSD license along with mlpack.  If not, see
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
-
+#define BOOST_TEST_DYN_LINK
 #include <utils/utils.hpp>
 #include <boost/test/unit_test.hpp>
 

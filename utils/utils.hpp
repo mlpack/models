@@ -58,11 +58,6 @@ class Utils
 
   static std::string GetSHA256(std::string path)
   {
-    std::ifstream file(path, std::ios::in | std::ios::binary);
-    if (!file.good())
-    {
-      std::cout << "Cannot Open File." << std::endl;
-    }
     // Complete This function.
     return std::string(1, 'a');
   }

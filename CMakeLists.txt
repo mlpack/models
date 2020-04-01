@@ -215,8 +215,8 @@ set(DIRS
   utils/
   dataloader/
   models/
-  #tests/
   examples/
+  tests/
 )
 
 foreach(dir ${DIRS})
