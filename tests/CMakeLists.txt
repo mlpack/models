@@ -5,8 +5,8 @@ set(MODEL_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/)
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../")
 
 add_executable(models_test
-               dataloader_tests.cpp
                utils_tests.cpp
+               dataloader_tests.cpp
 )
 
 # Link dependencies of test executable.

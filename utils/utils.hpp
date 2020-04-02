@@ -40,14 +40,22 @@ class Utils
    * @param fileName output fileName.
    * @returns 0 to determine success.
    */
-  static int DownloadFile(std::string url, std::string fileName, std::string name = "")
+  static int DownloadFile(std::string url,
+                          std::string fileName,
+                          std::string name = "",
+                          bool progressBar = true)
   {
     if (name.length())
     {
       std::cout << "Downloading "<< name << std::endl;
     }
 
-    std:: string command = "curl " + url + " -o " + fileName + " --progress-bar";
+    std:: string command = "curl " + url + " -o " + fileName;
+    if (progressBar)
+      command += " --progress-bar";
+    else
+      command += " --silent";
+    
     return system((const char *)command.c_str());
   }
 
