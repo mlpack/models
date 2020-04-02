@@ -13,6 +13,7 @@
 #include <mlpack/core/math/shuffle_data.hpp>
 #include <mlpack/core/data/split_data.hpp>
 #include <mlpack/prereqs.hpp>
+#include <dataloader/datasets.hpp>
 #include <mlpack/core.hpp>
 #include <utils/utils.hpp>
 

@@ -11,6 +11,7 @@
  */
 #define BOOST_TEST_DYN_LINK
 #include <utils/utils.hpp>
+#include <dataloader/datasets.hpp>
 #include <boost/test/unit_test.hpp>
 
 BOOST_AUTO_TEST_SUITE(UtilsTest);
@@ -20,14 +21,13 @@ BOOST_AUTO_TEST_SUITE(UtilsTest);
  */
 BOOST_AUTO_TEST_CASE(DownloadFileTest)
 {
-  Utils::DownloadFile("https://raw.githubusercontent.com/kartikdutt18/mlpack-models-weights-and-datasets/master/mnist-dataset/mnist_train.csv", "./../data/mnist_train.csv", "", false);
+  Utils::DownloadFile(Datasets::MNIST().trainDownloadUrl, "./../data/mnist_train.csv", "", false);
   BOOST_REQUIRE(Utils::PathExists("./../data/mnist_train.csv"));
-  BOOST_REQUIRE(Utils::CompareSHA256("./../data/mninst_train.csv", "correct-checksum-here"));
+  BOOST_REQUIRE(Utils::CompareSHA256("./../data/mninst_train.csv", Datasets::MNIST().trainHash));
 
-  Utils::DownloadFile("https://raw.githubusercontent.com/kartikdutt18/mlpack-models-weights-and-datasets/master/mnist-dataset/mnist_test.csv", "./../data/mnist_test.csv", "", false);
+  Utils::DownloadFile(Datasets::MNIST().testDownloadUrl, "./../data/mnist_test.csv", "", false);
   BOOST_REQUIRE(Utils::PathExists("./../data/mnist_test.csv"));
-  BOOST_REQUIRE(Utils::CompareSHA256("./../data/mninst_test.csv", "correct-checksum-here"));
-
+  BOOST_REQUIRE(Utils::CompareSHA256("./../data/mninst_test.csv", Datasets::MNIST().testHash));
 }
 
 /**
@@ -35,8 +35,8 @@ BOOST_AUTO_TEST_CASE(DownloadFileTest)
  */
 BOOST_AUTO_TEST_CASE(CheckSumTest)
 {
-  BOOST_REQUIRE(Utils::CompareSHA256("./../data/models/lenet.hpp", "correct-checksum-here"));
-  BOOST_REQUIRE(Utils::CompareSHA256("./.gitignore", "correct-checksum-here"));
+  BOOST_REQUIRE(Utils::CompareSHA256("./.gitignore",
+      "d1ceb335f6fb27209271c893fcdac809c7ff0381d00ffd28a9fdbe09e6dda9e2"));
 }
 
 /**

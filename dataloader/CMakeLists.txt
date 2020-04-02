@@ -6,6 +6,7 @@ option(DEBUG "DEBUG" OFF)
 set(DIR_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/)
 
 set(SOURCES
+    datasets.hpp
     dataloader.hpp
     dataloader_impl.hpp
 )
