@@ -15,6 +15,7 @@ target_link_libraries(models_test
   ${ARMADILLO_LIBRARIES}
   ${BOOST_LIBRARIES}
   ${COMPILER_SUPPORT_LIBRARIES}
+  ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
 )
 
 # Add tests to the testing framework

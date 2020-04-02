@@ -10,8 +10,10 @@
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
 #define BOOST_TEST_DYN_LINK
+#define BOOST_TEST_MAIN // Do not define this anywhere else.
 #include <dataloader/dataloader.hpp>
 #include <boost/test/unit_test.hpp>
+using namespace boost::unit_test;
 
 BOOST_AUTO_TEST_SUITE(DataLoadersTest);
 
