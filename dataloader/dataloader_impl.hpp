@@ -50,6 +50,9 @@ template<
     {
       Utils::DownloadFile(Datasets::MNIST().trainDownloadUrl, "./../data/mnist_train.csv",
           "mnist_train.csv");
+
+      if (!Utils::CompareSHA256("./../data/mnist_train.csv", Datasets::MNIST().trainHash))
+        std::cout << "Corrupted Train Data Downloaded." << std::endl;
     }
 
     LoadCSV("./../data/mnist_train.csv", true, true, ratio, useScaler, true,
@@ -59,8 +62,11 @@ template<
 
     if (!Utils::PathExists("./../data/mnist_test.csv"))
     {
-      Utils::DownloadFile(Datasets::MNIST().testUrl, "./../data/mnist_test.csv",
+      Utils::DownloadFile(Datasets::MNIST().testDownloadUrl, "./../data/mnist_test.csv",
           "mnist_test.csv");
+
+      if (!Utils::CompareSHA256("./../data/mnist_test.csv", Datasets::MNIST().testHash))
+        std::cout << "Corrupted Test Data Downloaded." << std::endl;
     }
 
     LoadCSV("./../data/mnist_test.csv", false, false, useScaler, true, 0, -1);

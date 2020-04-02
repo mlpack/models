@@ -28,9 +28,6 @@ BOOST_AUTO_TEST_CASE(MNISTDataLoaderTest)
   BOOST_REQUIRE_EQUAL(dataloader.TestX().n_cols, 784);
   BOOST_REQUIRE_EQUAL(dataloader.ValidX().n_cols, 784);
   BOOST_REQUIRE_EQUAL(dataloader.TrainX().n_rows, 33600);
-
-  // Check for SHA256 Checksum.
-  
 }
 
 BOOST_AUTO_TEST_SUITE_END();
