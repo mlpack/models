@@ -130,7 +130,7 @@ template<
   {
     if (useScaler)
     {
-      scaler.Transform(dataset, dataset);
+      //scaler.Transform(dataset, dataset);
     }
 
     testX = dataset.submat(wrapIndex(startInputFeatures, dataset.n_rows),
