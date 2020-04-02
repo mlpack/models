@@ -22,7 +22,7 @@ int main()
   const int BATCH_SIZE = 32;
   const double RATIO = 0.2;
 
-  DataLoader<> dataloader("mnist", true);
+  DataLoader<> dataloader("mnist", true, RATIO);
 
   FFN<NegativeLogLikelihood<>, RandomInitialization> model;
   LeNet<> module1(1, 28, 28, 10);

@@ -111,21 +111,17 @@ template<
       scaler.Transform(validDataset, validDataset);
     }
 
-    trainX = trainDataset.submat(wrapIndex(startInputFeatures, trainDataset.n_rows),
-        0, wrapIndex(endInputFeatures, trainDataset.n_rows),
-        trainDataset.n_cols - 1);
+    trainX = trainDataset.rows(wrapIndex(startInputFeatures, trainDataset.n_rows),
+        wrapIndex(endInputFeatures, trainDataset.n_rows));
 
-    trainY = trainDataset.submat(wrapIndex(startPredictionFeatures, trainDataset.n_rows),
-        0, wrapIndex(endPredictionFeatures, trainDataset.n_rows),
-        trainDataset.n_cols - 1);
+    trainY = trainDataset.rows(wrapIndex(startPredictionFeatures, trainDataset.n_rows),
+        wrapIndex(endPredictionFeatures, trainDataset.n_rows));
 
-    validX = validDataset.submat(wrapIndex(startInputFeatures, validDataset.n_rows),
-        0, wrapIndex(endInputFeatures, validDataset.n_rows),
-        validDataset.n_cols - 1);
+    validX = validDataset.rows(wrapIndex(startInputFeatures, validDataset.n_rows),
+        wrapIndex(endInputFeatures, validDataset.n_rows));
 
-    validY = trainDataset.submat(wrapIndex(startPredictionFeatures, validDataset.n_rows),
-        0, wrapIndex(endPredictionFeatures, validDataset.n_rows),
-        validDataset.n_cols - 1);
+    validY = trainDataset.rows(wrapIndex(startPredictionFeatures, validDataset.n_rows),
+        wrapIndex(endPredictionFeatures, validDataset.n_rows));
 
     // Add support for augmentation here.
     std::cout << "Training Dataset Loaded." << std::endl;
