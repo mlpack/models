@@ -22,8 +22,8 @@
 #define MODELS_DATALOADER_HPP
 
 template<
-  typename DataSetX = arma::mat,
-  typename DataSetY = arma::mat,
+  typename DatasetX = arma::mat,
+  typename DatasetY = arma::mat,
   class ScalerType = mlpack::data::MinMaxScaler
 >
 class DataLoader
@@ -92,35 +92,35 @@ class DataLoader
                const double augmentationProbability = 0.2);
 
   //! Get the Training Dataset.
-  DataSetX TrainX() const { return trainX; }
+  DatasetX TrainX() const { return trainX; }
 
   //! Modify the Training Dataset.
-  DataSetX &TrainX() { return trainX; }
+  DatasetX &TrainX() { return trainX; }
 
   //! Get the Training Dataset.
-  DataSetY TrainY() const { return trainY; }
+  DatasetY TrainY() const { return trainY; }
   //! Modify the Training Dataset.
-  DataSetY &TrainY() { return trainY; }
+  DatasetY &TrainY() { return trainY; }
 
   //! Get the Test Dataset.
-  DataSetX TestX() const { return testX; }
+  DatasetX TestX() const { return testX; }
   //! Modify the Test Dataset.
-  DataSetX &TestX() { return testX; }
+  DatasetX &TestX() { return testX; }
 
   //! Get the Test Dataset.
-  DataSetY TestY() const { return testY; }
+  DatasetY TestY() const { return testY; }
   //! Modify the Training Dataset.
-  DataSetY &TestY() { return testY; }
+  DatasetY &TestY() { return testY; }
 
   //! Get the Validation Dataset.
-  DataSetX ValidX() const { return validX; }
+  DatasetX ValidX() const { return validX; }
   //! Modify the Validation Dataset.
-  DataSetX &ValidX() { return validX; }
+  DatasetX &ValidX() { return validX; }
 
   //! Get the Validation Dataset.
-  DataSetY ValidY() const { return validY; }
+  DatasetY ValidY() const { return validY; }
   //! Modify the Validation Dataset.
-  DataSetY &ValidY() { return validY; }
+  DatasetY &ValidY() { return validY; }
 
   //!Get the Scaler.
   ScalerType Scaler() const { return scaler; }
@@ -128,8 +128,39 @@ class DataLoader
   ScalerType &Scaler() { return scaler; }
 
 private:
+  /**
+   * Downloads and checks hash for given dataset.
+   */
+  void DownloadDataset(const std::string& dataset)
+  {
+    if (!Utils::PathExists(datasetMap[dataset].trainPath))
+    {
+      Utils::DownloadFile(datasetMap[dataset].trainDownloadUrl, datasetMap[dataset].trainPath,
+                          dataset + "_training_data.");
+
+      if (!Utils::CompareSHA256(datasetMap[dataset].trainPath, datasetMap[dataset].trainHash))
+        mlpack::Log::Fatal << "Corrupted Training Data Downloaded." << std::endl;
+    }
+    if (!Utils::PathExists(datasetMap[dataset].testPath))
+    {
+      Utils::DownloadFile(datasetMap[dataset].trainDownloadUrl, datasetMap[dataset].testPath,
+                          dataset + "_training_data.");
+
+      if (!Utils::CompareSHA256(datasetMap[dataset].testPath, datasetMap[dataset].testHash))
+        mlpack::Log::Fatal << "Corrupted Testing Data Downloaded." << std::endl;
+    }
+  }
+
+  /**
+   * Intializes dataset map to provide access to dataset details.
+   */
+  void InitializeDatasets()
+  {
+    datasetMap["mnist"] = Datasets::MNIST();
+  }
+
   // Utility Function to wrap indices.
-  size_t wrapIndex(int index, size_t length)
+  size_t WrapIndex(int index, size_t length)
   {
     if (index < 0)
       return length - size_t(std::abs(index));
@@ -137,19 +168,22 @@ private:
     return index;
   }
 
+  //! Locally stored mappings for some well known datasets.
+  std::unordered_map<std::string, DatasetDetails> datasetMap;
+
   //! Locally stored input for training.
-  DataSetX trainX;
+  DatasetX trainX;
   //! Locally stored input for testing.
-  DataSetX validX;
+  DatasetX validX;
   //! Locally stored input for validation.
-  DataSetX testX;
+  DatasetX testX;
 
   //! Locally stored labels for training.
-  DataSetY trainY;
+  DatasetY trainY;
   //! Locally stored labels for validation.
-  DataSetY validY;
+  DatasetY validY;
   //! Locally stored labels for testing.
-  DataSetY testY;
+  DatasetY testY;
 
   //! Locally Stored scaler.
   ScalerType scaler;

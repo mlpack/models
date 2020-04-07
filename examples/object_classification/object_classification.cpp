@@ -17,7 +17,7 @@ using namespace ens;
 
 int main()
 {
-  const int EPOCHS = 5;
+  const int EPOCHS = 10;
   const double STEP_SIZE = 1.2e-3;
   const int BATCH_SIZE = 32;
   const double RATIO = 0.2;
@@ -26,6 +26,7 @@ int main()
 
   FFN<NegativeLogLikelihood<>, RandomInitialization> model;
   LeNet<> module1(1, 28, 28, 10);
+  module1.LoadModel("./../weights/lenet.bin");
   Sequential<> *layer = module1.GetModel();
   model.Add<IdentityLayer<>>();
   model.Add(layer);

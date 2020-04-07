@@ -1,8 +1,5 @@
 /**
  * @file dataloader_impl.hpp
- * @author Eugene Freyman
- * @author Mehul Kumar Nirala.
- * @author Zoltan Somogyi
  * @author Kartik Dutt
  * 
  * Implementation of DataLoader.
@@ -21,65 +18,71 @@
 using namespace mlpack;
 
 template<
-  typename DataSetX,
-  typename DataSetY,
+  typename DatasetX,
+  typename DatasetY,
   class ScalerType
 >DataLoader<
-    DataSetX, DataSetY, ScalerType
+    DatasetX, DatasetY, ScalerType
 >::DataLoader()
 {
   // Nothing to do here.
 }
 
 template<
-  typename DataSetX,
-  typename DataSetY,
+  typename DatasetX,
+  typename DatasetY,
   class ScalerType
 >DataLoader<
-    DataSetX, DataSetY, ScalerType
->::DataLoader(const std::string &dataset,
+    DatasetX, DatasetY, ScalerType
+>::DataLoader(const std::string& dataset,
               const bool shuffle,
               const double ratio,
               const bool useScaler,
               const std::vector<std::string> augmentation,
               const double augmentationProbability)
 {
-  if (dataset == "mnist")
+  InitializeDatasets();
+  if (datasetMap.count(dataset))
   {
-    if (!Utils::PathExists("./../data/mnist_train.csv"))
+    // Use utility functions to download the dataset.
+    DownloadDataset(dataset);
+
+    if (datasetMap[dataset].loadCSV)
     {
-      Utils::DownloadFile(Datasets::MNIST().trainDownloadUrl, "./../data/mnist_train.csv",
-          "mnist_train.csv");
+      LoadCSV(datasetMap[dataset].trainPath, true, shuffle, ratio, useScaler,
+              datasetMap[dataset].dropHeader,
+              datasetMap[dataset].startTrainingInputFeatures,
+              datasetMap[dataset].endTrainingInputFeatures,
+              datasetMap[dataset].endTrainingPredictionFeatures,
+              datasetMap[dataset].endTrainingPredictionFeatures);
 
-      if (!Utils::CompareSHA256("./../data/mnist_train.csv", Datasets::MNIST().trainHash))
-        std::cout << "Corrupted Train Data Downloaded." << std::endl;
+      if (dataset == "mnist")
+      {
+        // Pre-Processing for mnist dataset.
+        trainY = trainY + 1;
+        validY = validY + 1;
+      }
+
+      LoadCSV(datasetMap[dataset].testPath, false, false, useScaler,
+              datasetMap[dataset].dropHeader,
+              datasetMap[dataset].startTestingInputFeatures,
+              datasetMap[dataset].endTestingInputFeatures);
     }
-
-    LoadCSV("./../data/mnist_train.csv", true, true, ratio, useScaler, true,
-        1, -1, 0, 0);
-    trainY = trainY + 1;
-    validY = validY + 1;
-
-    if (!Utils::PathExists("./../data/mnist_test.csv"))
-    {
-      Utils::DownloadFile(Datasets::MNIST().testDownloadUrl, "./../data/mnist_test.csv",
-          "mnist_test.csv");
-
-      if (!Utils::CompareSHA256("./../data/mnist_test.csv", Datasets::MNIST().testHash))
-        std::cout << "Corrupted Test Data Downloaded." << std::endl;
-    }
-
-    LoadCSV("./../data/mnist_test.csv", false, false, useScaler, true, 0, -1);
+  }
+  else
+  {
+    mlpack::Log::Fatal << "Unknown Dataset " << dataset << ". For other datasets try loading data using"
+    << "generic dataloader functions such as LoadCSV. Refer documentation for more info." << std::endl;
   }
 }
 
 
 template<
-  typename DataSetX,
-  typename DataSetY,
+  typename DatasetX,
+  typename DatasetY,
   class ScalerType
 > void DataLoader<
-    DataSetX, DataSetY, ScalerType
+    DatasetX, DatasetY, ScalerType
 >::LoadCSV(const std::string &datasetPath,
            const bool loadTrainData,
            const bool shuffle,
@@ -111,17 +114,17 @@ template<
       scaler.Transform(validDataset, validDataset);
     }
 
-    trainX = trainDataset.rows(wrapIndex(startInputFeatures, trainDataset.n_rows),
-        wrapIndex(endInputFeatures, trainDataset.n_rows));
+    trainX = trainDataset.rows(WrapIndex(startInputFeatures, trainDataset.n_rows),
+        WrapIndex(endInputFeatures, trainDataset.n_rows));
 
-    trainY = trainDataset.rows(wrapIndex(startPredictionFeatures, trainDataset.n_rows),
-        wrapIndex(endPredictionFeatures, trainDataset.n_rows));
+    trainY = trainDataset.rows(WrapIndex(startPredictionFeatures, trainDataset.n_rows),
+        WrapIndex(endPredictionFeatures, trainDataset.n_rows));
 
-    validX = validDataset.rows(wrapIndex(startInputFeatures, validDataset.n_rows),
-        wrapIndex(endInputFeatures, validDataset.n_rows));
+    validX = validDataset.rows(WrapIndex(startInputFeatures, validDataset.n_rows),
+        WrapIndex(endInputFeatures, validDataset.n_rows));
 
-    validY = trainDataset.rows(wrapIndex(startPredictionFeatures, validDataset.n_rows),
-        wrapIndex(endPredictionFeatures, validDataset.n_rows));
+    validY = trainDataset.rows(WrapIndex(startPredictionFeatures, validDataset.n_rows),
+        WrapIndex(endPredictionFeatures, validDataset.n_rows));
 
     // Add support for augmentation here.
     std::cout << "Training Dataset Loaded." << std::endl;
@@ -133,8 +136,8 @@ template<
       //scaler.Transform(dataset, dataset);
     }
 
-    testX = dataset.submat(wrapIndex(startInputFeatures, dataset.n_rows),
-      0, wrapIndex(endInputFeatures, dataset.n_rows), dataset.n_cols - 1);
+    testX = dataset.submat(WrapIndex(startInputFeatures, dataset.n_rows),
+      0, WrapIndex(endInputFeatures, dataset.n_rows), dataset.n_cols - 1);
     std::cout << "Testing Dataset Loaded." << std::endl;
   }
 }
