@@ -8,13 +8,6 @@ set(SOURCES
   object_classification.cpp
 )
 
-if(DEBUG)
-  message("Compilation with debug info (with ggdb3 flag)")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb3")
-else()
-   message("Compilation without debug info (without ggdb3 flag)")
-endif()
-
 foreach(file ${SOURCES})
   string( REPLACE ".cpp" "" name ${file})
   add_executable(${name} ${MODEL_SOURCE_DIR}/${file})

@@ -63,7 +63,7 @@ class LeNet
         const size_t inputWidth,
         const size_t inputHeight,
         const size_t numClasses = 1000,
-        const std::string &weights = "none");
+        const std::string& weights = "none");
 
   /**
    * LeNet constructor intializes input shape and number of classes.
@@ -78,7 +78,7 @@ class LeNet
    */
   LeNet(const std::tuple<size_t, size_t, size_t> inputShape,
         const size_t numClasses = 1000,
-        const std::string &weights = "none");
+        const std::string& weights = "none");
 
   //! Get Layers of the model.
   Sequential<>* GetModel() { return leNet; };

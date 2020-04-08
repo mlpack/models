@@ -36,6 +36,9 @@ struct DatasetDetails
   size_t endTestingInputFeatures;
   bool dropHeader;
 
+  // Default constructor.
+  DatasetDetails() {/* Nothing to do here. */}
+
   // Constructor for initializing object.
   DatasetDetails(const std::string& datasetName,
                  const std::string& trainDownloadUrl,

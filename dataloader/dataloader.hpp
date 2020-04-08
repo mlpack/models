@@ -156,7 +156,7 @@ private:
    */
   void InitializeDatasets()
   {
-    datasetMap["mnist"] = Datasets::MNIST();
+    datasetMap.insert({"mnist", Datasets::MNIST()});
   }
 
   // Utility Function to wrap indices.
