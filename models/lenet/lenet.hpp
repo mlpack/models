@@ -176,7 +176,7 @@ class LeNet
   }
 
   //! Locally stored LeNet Model.
-  Sequential<> *leNet;
+  Sequential<>* leNet;
 
   //! Locally stored width of the image.
   size_t inputWidth;

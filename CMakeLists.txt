@@ -111,6 +111,7 @@ if (WIN32)
       ${ARMADILLO_LIBRARIES} ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
 endif ()
 
+find_package(CURL REQUIRED)
 find_package(MLPACK REQUIRED)
 find_package(Ensmallen 1.10.0)
 if (NOT ENSMALLEN_FOUND)
@@ -191,10 +192,13 @@ link_directories(${Boost_LIBRARY_DIRS})
 set(MODELS_INCLUDE_DIRS ${MLPACK_INCLUDE_DIR}
                         ${ENSMALLEN_INCLUDE_DIR}
                         ${ARMADILLO_INCLUDE_DIR}
-                        ${Boost_INCLUDE_DIRS})
+                        ${Boost_INCLUDE_DIRS}
+                        ${CURL_INCLUDE_DIRS})
+
 set(MODELS_LIBRARIES ${MLPACK_LIBRARY}
                      ${ARMADILLO_LIBRARIES}
-                     ${Boost_LIBRARIES})
+                     ${Boost_LIBRARIES}
+                     ${CURL_LIBRARIES})
 
 include_directories(${MODELS_INCLUDE_DIRS})
 

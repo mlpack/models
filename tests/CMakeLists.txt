@@ -16,6 +16,7 @@ target_link_libraries(models_test
   ${BOOST_LIBRARIES}
   ${COMPILER_SUPPORT_LIBRARIES}
   ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
+  ${CURL_LIBRARIES}
 )
 
 # Add tests to the testing framework

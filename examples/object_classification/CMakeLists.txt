@@ -13,6 +13,7 @@ foreach(file ${SOURCES})
   add_executable(${name} ${MODEL_SOURCE_DIR}/${file})
   target_link_libraries(${name}
       ${MLPACK_LIBRARIES}
-     ${ARMADILLO_LIBRARIES}
-      ${Boost_LIBRARIES})
+      ${ARMADILLO_LIBRARIES}
+      ${Boost_LIBRARIES}
+      ${CURL_LIBRARIES})
 endforeach()
