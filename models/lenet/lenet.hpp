@@ -40,9 +40,15 @@ namespace ann /** Artificial Neural Network. */{
 /**
  * Definition of a LeNet CNN.
  * 
- * @param leNetVer Version of LeNet.
+ * @tparam OutputLayerType The output layer type used to evaluate the network.
+ * @tparam InitializationRuleType Rule used to initialize the weight matrix.
+ * @tparam leNetVer Version of LeNet.
  */
-template<size_t leNetVer = 1>
+template<
+  typename OutputLayerType = NegativeLogLikelihood<>,
+  typename InitializationRuleType = RandomInitialization,
+  size_t leNetVer = 1
+>
 class LeNet
 {
  public:
@@ -57,7 +63,7 @@ class LeNet
    * @param inputHeight Height of the input image.
    * @param numClasses Optional number of classes to classify images into,
    *                   only to be specified if includeTop is  true.
-   * @param weights One of 'none', 'imagenet'(pre-training on mnist) or path to weights.
+   * @param weights One of 'none', 'mnist'(pre-training on mnist) or path to weights.
    */
   LeNet(const size_t inputChannel,
         const size_t inputWidth,
@@ -81,10 +87,13 @@ class LeNet
         const std::string& weights = "none");
 
   //! Get Layers of the model.
-  Sequential<>* GetModel() { return leNet; };
+  FFN<OutputLayerType, InitializationRuleType>& GetModel() { return leNet;};
+
+  // Returns the model as a sequential layer.
+  Sequential<>* AsSequential();
 
   //! Load weights into the model.
-  Sequential<>* LoadModel(const std::string& filePath);
+  void LoadModel(const std::string& filePath);
 
   //! Save weights for the model.
   void SaveModel(const std::string& filePath);
@@ -111,10 +120,10 @@ class LeNet
                         const size_t padW = 0,
                         const size_t padH = 0)
   {
-    leNet->Add<Convolution<>>(inSize, outSize, kernelWidth,
+    leNet.Add<Convolution<>>(inSize, outSize, kernelWidth,
         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
         inputHeight);
-    leNet->Add<LeakyReLU<>>();
+    leNet.Add<LeakyReLU<>>();
 
     // Update inputWidth and input Height.
     inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
@@ -135,7 +144,7 @@ class LeNet
                     const size_t strideWidth = 1,
                     const size_t strideHeight = 1)
   {
-    leNet->Add<MaxPooling<>>(kernelWidth, kernelHeight,
+    leNet.Add<MaxPooling<>>(kernelWidth, kernelHeight,
         strideWidth, strideHeight, true);
     // Update inputWidth and inputHeight.
     inputWidth = PoolOutSize(inputWidth, kernelWidth, strideWidth);
@@ -176,7 +185,7 @@ class LeNet
   }
 
   //! Locally stored LeNet Model.
-  Sequential<>* leNet;
+  FFN<OutputLayerType, InitializationRuleType> leNet;
 
   //! Locally stored width of the image.
   size_t inputWidth;

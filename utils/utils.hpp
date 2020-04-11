@@ -21,6 +21,32 @@
 
 class Utils
 {
+  /**
+   * Progress bar for libCurl CPP API.
+   * 
+   * @param currentProgress Pointer set with CURLOPT_PROGRESSDATA,
+   *        passed along from the application to the callback.
+   * @param totalDownload Total data to be downloaded.
+   * @param currentDownload Data that has been downloaded.
+   * @param totalUpload Total data to be uploaded.
+   * @param currentUpload Data Currently uploaded.
+   */
+  static int ProgressBar(void* currentProgress, double totalDownload,
+                  double currentDownload, double totalUpload,
+                  double currntUpload)
+  {
+    int progressBarWidth = 40;
+    double progress = currentDownload / (totalDownload + 1e-50);
+    size_t downloaded = std::ceil(progress * progressBarWidth);
+    std::string progressBar(progressBarWidth, '.');
+    std::fill(progressBar.begin(), progressBar.begin() + downloaded, '=');
+    progressBar = "[" + progressBar;
+    progressBar += "] " + std::to_string(progress * 100);
+    std::cout << progressBar << '\r' <<std::flush;
+
+    return CURLE_OK;
+  }
+
  public:
   /**
    * Determines whether a path exists.
@@ -50,6 +76,11 @@ class Utils
     FILE *outputFile;
     CURLcode result;
     curl = curl_easy_init();
+    if (progressBar)
+    {
+      std::cout << "Downloading " + name << std::endl;
+    }
+
     if (curl)
     {
       // Create file for writing.
@@ -57,17 +88,15 @@ class Utils
 
       // Setup curl object to perform desired operation.
       curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-      if (!progressBar)
+      curl_easy_setopt(curl, CURLOPT_WRITEDATA, outputFile);
+      if (progressBar)
       {
-        // Disable progressbar.
-        //curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L);
-      }
-      else
-      {
-       // curl_easy_setopt(curl, CURLOPT_NOPROGRESS, true);
+        // Disable internal progress bar.
+        curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L);
+        // Enable progress bar.
+        curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, ProgressBar);
       }
 
-      curl_easy_setopt(curl, CURLOPT_WRITEDATA, outputFile);
       result = curl_easy_perform(curl);
 
       if (result != CURLE_OK)
@@ -75,6 +104,11 @@ class Utils
         mlpack::Log::Fatal << "Download Failed!" << std::endl;
         return 1;
       }
+      if (progressBar)
+      {
+        std::cout << "\n Download complete!" << std::endl;
+      }
+
       curl_easy_cleanup(curl);
       fclose(outputFile);
     }

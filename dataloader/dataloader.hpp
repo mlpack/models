@@ -95,37 +95,37 @@ class DataLoader
   DatasetX TrainX() const { return trainX; }
 
   //! Modify the Training Dataset.
-  DatasetX &TrainX() { return trainX; }
+  DatasetX& TrainX() { return trainX; }
 
   //! Get the Training Dataset.
   DatasetY TrainY() const { return trainY; }
   //! Modify the Training Dataset.
-  DatasetY &TrainY() { return trainY; }
+  DatasetY& TrainY() { return trainY; }
 
   //! Get the Test Dataset.
   DatasetX TestX() const { return testX; }
   //! Modify the Test Dataset.
-  DatasetX &TestX() { return testX; }
+  DatasetX& TestX() { return testX; }
 
   //! Get the Test Dataset.
   DatasetY TestY() const { return testY; }
   //! Modify the Training Dataset.
-  DatasetY &TestY() { return testY; }
+  DatasetY& TestY() { return testY; }
 
   //! Get the Validation Dataset.
   DatasetX ValidX() const { return validX; }
   //! Modify the Validation Dataset.
-  DatasetX &ValidX() { return validX; }
+  DatasetX& ValidX() { return validX; }
 
   //! Get the Validation Dataset.
   DatasetY ValidY() const { return validY; }
   //! Modify the Validation Dataset.
-  DatasetY &ValidY() { return validY; }
+  DatasetY& ValidY() { return validY; }
 
   //!Get the Scaler.
   ScalerType Scaler() const { return scaler; }
   //! Modify the Sclaer.
-  ScalerType &Scaler() { return scaler; }
+  ScalerType& Scaler() { return scaler; }
 
 private:
   /**
@@ -144,7 +144,7 @@ private:
     if (!Utils::PathExists(datasetMap[dataset].testPath))
     {
       Utils::DownloadFile(datasetMap[dataset].trainDownloadUrl, datasetMap[dataset].testPath,
-                          dataset + "_training_data.");
+                          dataset + "_testing_data.");
 
       if (!Utils::CompareSHA256(datasetMap[dataset].testPath, datasetMap[dataset].testHash))
         mlpack::Log::Fatal << "Corrupted Testing Data Downloaded." << std::endl;

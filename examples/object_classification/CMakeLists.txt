@@ -6,6 +6,7 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../../")
 
 set(SOURCES
   object_classification.cpp
+  loadmodel.cpp
 )
 
 foreach(file ${SOURCES})
