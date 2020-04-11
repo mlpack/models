@@ -57,13 +57,13 @@ struct DatasetDetails
                  trainPath(trainPath),
                  testPath(testPath)
   {
-   // Nothing to do here.
+    // Nothing to do here.
   }
 };
 
 class Datasets
 {
-  public:
+ public:
   const static DatasetDetails MNIST()
   {
     DatasetDetails mnistDetails("mnist",
@@ -83,8 +83,6 @@ class Datasets
     mnistDetails.dropHeader = true;
     return mnistDetails;
   }
-
-
 };
 
 #endif

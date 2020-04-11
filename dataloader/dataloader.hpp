@@ -122,12 +122,12 @@ class DataLoader
   //! Modify the Validation Dataset.
   DatasetY& ValidY() { return validY; }
 
-  //!Get the Scaler.
+  //! Get the Scaler.
   ScalerType Scaler() const { return scaler; }
   //! Modify the Sclaer.
   ScalerType& Scaler() { return scaler; }
 
-private:
+ private:
   /**
    * Downloads and checks hash for given dataset.
    */
@@ -135,19 +135,25 @@ private:
   {
     if (!Utils::PathExists(datasetMap[dataset].trainPath))
     {
-      Utils::DownloadFile(datasetMap[dataset].trainDownloadUrl, datasetMap[dataset].trainPath,
-                          dataset + "_training_data.");
+      Utils::DownloadFile(datasetMap[dataset].trainDownloadUrl,
+          datasetMap[dataset].trainPath, dataset + "_training_data.");
 
-      if (!Utils::CompareSHA256(datasetMap[dataset].trainPath, datasetMap[dataset].trainHash))
-        mlpack::Log::Fatal << "Corrupted Training Data Downloaded." << std::endl;
+      if (!Utils::CompareSHA256(datasetMap[dataset].trainPath,
+          datasetMap[dataset].trainHash))
+      {
+        mlpack::Log::Fatal << "Corrupted Training Data for " <<
+            dataset << "Downloaded." << std::endl;
+      }
     }
     if (!Utils::PathExists(datasetMap[dataset].testPath))
     {
-      Utils::DownloadFile(datasetMap[dataset].trainDownloadUrl, datasetMap[dataset].testPath,
-                          dataset + "_testing_data.");
+      Utils::DownloadFile(datasetMap[dataset].trainDownloadUrl,
+          datasetMap[dataset].testPath, dataset + "_testing_data.");
 
-      if (!Utils::CompareSHA256(datasetMap[dataset].testPath, datasetMap[dataset].testHash))
-        mlpack::Log::Fatal << "Corrupted Testing Data Downloaded." << std::endl;
+      if (!Utils::CompareSHA256(datasetMap[dataset].testPath,
+          datasetMap[dataset].testHash))
+        mlpack::Log::Fatal << "Corrupted Testing Data for " <<
+            dataset << "Downloaded." << std::endl;
     }
   }
 

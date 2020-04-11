@@ -71,8 +71,10 @@ template<
   }
   else
   {
-    mlpack::Log::Fatal << "Unknown Dataset " << dataset << ". For other datasets try loading data using"
-    << "generic dataloader functions such as LoadCSV. Refer documentation for more info." << std::endl;
+    mlpack::Log::Fatal << "Unknown Dataset " << dataset <<
+        ". For other datasets try loading data using" <<
+        "generic dataloader functions such as LoadCSV." <<
+        "Refer documentation for more info." << std::endl;
   }
 }
 
@@ -105,7 +107,7 @@ template<
   if (loadTrainData)
   {
     arma::mat trainDataset, validDataset;
-    data::Split(dataset, trainDataset, validDataset, ratio /* Add option for shuffle here.*/);
+    data::Split(dataset, trainDataset, validDataset, ratio /* Add shuffle*/);
 
     if (useScaler)
     {
@@ -114,17 +116,21 @@ template<
       scaler.Transform(validDataset, validDataset);
     }
 
-    trainX = trainDataset.rows(WrapIndex(startInputFeatures, trainDataset.n_rows),
-        WrapIndex(endInputFeatures, trainDataset.n_rows));
+    trainX = trainDataset.rows(WrapIndex(startInputFeatures,
+        trainDataset.n_rows), WrapIndex(endInputFeatures,
+        trainDataset.n_rows));
 
-    trainY = trainDataset.rows(WrapIndex(startPredictionFeatures, trainDataset.n_rows),
-        WrapIndex(endPredictionFeatures, trainDataset.n_rows));
+    trainY = trainDataset.rows(WrapIndex(startPredictionFeatures,
+        trainDataset.n_rows), WrapIndex(endPredictionFeatures,
+        trainDataset.n_rows));
 
-    validX = validDataset.rows(WrapIndex(startInputFeatures, validDataset.n_rows),
-        WrapIndex(endInputFeatures, validDataset.n_rows));
+    validX = validDataset.rows(WrapIndex(startInputFeatures,
+        validDataset.n_rows), WrapIndex(endInputFeatures,
+        validDataset.n_rows));
 
-    validY = trainDataset.rows(WrapIndex(startPredictionFeatures, validDataset.n_rows),
-        WrapIndex(endPredictionFeatures, validDataset.n_rows));
+    validY = trainDataset.rows(WrapIndex(startPredictionFeatures,
+        validDataset.n_rows), WrapIndex(endPredictionFeatures,
+        validDataset.n_rows));
 
     // Add support for augmentation here.
     std::cout << "Training Dataset Loaded." << std::endl;
@@ -133,7 +139,7 @@ template<
   {
     if (useScaler)
     {
-      //scaler.Transform(dataset, dataset);
+      scaler.Transform(dataset, dataset);
     }
 
     testX = dataset.submat(WrapIndex(startInputFeatures, dataset.n_rows),

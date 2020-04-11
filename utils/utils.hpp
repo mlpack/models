@@ -118,9 +118,7 @@ class Utils
 
   static bool CompareSHA256(std::string path, std::string hash)
   {
-    std::string s = GetSHA256(path);
-    std::cout << s << std::endl;
-    return true; // Complete this function.
+    return GetSHA256(path) == hash;
   }
 
   static std::string GetSHA256(std::string path)
@@ -135,7 +133,7 @@ class Utils
     unsigned char hash[SHA256_DIGEST_LENGTH];
     SHA256_CTX sha256;
     SHA256_Init(&sha256);
-    size_t bufferSize = 32768;
+    const size_t bufferSize = 32768;
     char buffer[bufferSize];
     int bufferRead = 0;
     do

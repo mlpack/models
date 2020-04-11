@@ -21,13 +21,19 @@ BOOST_AUTO_TEST_SUITE(UtilsTest);
  */
 BOOST_AUTO_TEST_CASE(DownloadFileTest)
 {
-  Utils::DownloadFile(Datasets::MNIST().trainDownloadUrl, "./../data/mnist_train.csv", "", false);
+  Utils::DownloadFile(Datasets::MNIST().trainDownloadUrl,
+      "./../data/mnist_train.csv", "", false);
   BOOST_REQUIRE(Utils::PathExists("./../data/mnist_train.csv"));
-  BOOST_REQUIRE(Utils::CompareSHA256("./../data/mninst_train.csv", Datasets::MNIST().trainHash));
 
-  Utils::DownloadFile(Datasets::MNIST().testDownloadUrl, "./../data/mnist_test.csv", "", false);
+  BOOST_REQUIRE(Utils::CompareSHA256("./../data/mninst_train.csv",
+      Datasets::MNIST().trainHash));
+
+  Utils::DownloadFile(Datasets::MNIST().testDownloadUrl,
+      "./../data/mnist_test.csv", "", false);
   BOOST_REQUIRE(Utils::PathExists("./../data/mnist_test.csv"));
-  BOOST_REQUIRE(Utils::CompareSHA256("./../data/mninst_test.csv", Datasets::MNIST().testHash));
+
+  BOOST_REQUIRE(Utils::CompareSHA256("./../data/mninst_test.csv",
+      Datasets::MNIST().testHash));
 }
 
 /**
