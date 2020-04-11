@@ -6,7 +6,6 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../../")
 
 set(SOURCES
   object_classification.cpp
-  loadmodel.cpp
 )
 
 foreach(file ${SOURCES})
@@ -16,5 +15,8 @@ foreach(file ${SOURCES})
       ${MLPACK_LIBRARIES}
       ${ARMADILLO_LIBRARIES}
       ${Boost_LIBRARIES}
-      ${CURL_LIBRARIES})
+      ${CURL_LIBRARIES}
+      ${OPENSSL_CRYPTO_LIBRARIES}
+      ${OPENSSL_SSL_LIBRARIES}
+)
 endforeach()

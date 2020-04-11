@@ -17,6 +17,7 @@
 #include <cstdlib>
 #include <sys/stat.h>
 #include <curl/curl.h>
+#include <openssl/sha.h>
 #include <mlpack/core.hpp>
 
 class Utils
@@ -72,8 +73,8 @@ class Utils
                           const std::string name = "",
                           const bool progressBar = true)
   {
-    CURL *curl;
-    FILE *outputFile;
+    CURL* curl;
+    FILE* outputFile;
     CURLcode result;
     curl = curl_easy_init();
     if (progressBar)
@@ -117,13 +118,35 @@ class Utils
 
   static bool CompareSHA256(std::string path, std::string hash)
   {
+    std::string s = GetSHA256(path);
+    std::cout << s << std::endl;
     return true; // Complete this function.
   }
 
   static std::string GetSHA256(std::string path)
   {
-    // Complete This function.
-    return std::string(1, 'a');
+    FILE* inputFile = fopen(path.c_str(), "rb");
+    if (!inputFile)
+    {
+      mlpack::Log::Fatal << "Cannot Open " + path + "." << std::endl;
+      return "";
+    }
+
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+    SHA256_CTX sha256;
+    SHA256_Init(&sha256);
+    size_t bufferSize = 32768;
+    char buffer[bufferSize];
+    int bufferRead = 0;
+    do
+    {
+      bufferRead = fread(buffer, 1, bufferSize, inputFile);
+      SHA256_Update(&sha256, buffer, bufferRead);
+    }while(bufferRead > 0);
+
+    fclose(inputFile);
+    SHA256_Final(hash, &sha256);
+    return std::string(reinterpret_cast<char*>(hash));
   }
 };
 #endif

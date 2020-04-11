@@ -113,6 +113,10 @@ endif ()
 
 find_package(CURL REQUIRED)
 find_package(MLPACK REQUIRED)
+
+# Make building tests optional
+find_package(OpenSSL REQUIRED)
+
 find_package(Ensmallen 1.10.0)
 if (NOT ENSMALLEN_FOUND)
   if (DOWNLOAD_ENSMALLEN)
@@ -193,12 +197,18 @@ set(MODELS_INCLUDE_DIRS ${MLPACK_INCLUDE_DIR}
                         ${ENSMALLEN_INCLUDE_DIR}
                         ${ARMADILLO_INCLUDE_DIR}
                         ${Boost_INCLUDE_DIRS}
-                        ${CURL_INCLUDE_DIRS})
+                        ${CURL_INCLUDE_DIRS}
+                        ${OPENSSL_INCLUDE_DIR}
+                        )
 
 set(MODELS_LIBRARIES ${MLPACK_LIBRARY}
                      ${ARMADILLO_LIBRARIES}
                      ${Boost_LIBRARIES}
-                     ${CURL_LIBRARIES})
+                     ${CURL_LIBRARIES}
+                     ${OPENSSL_LIBRARIES}
+                     ${OPENSSL_CRYPTO_LIBRARIES}
+                     ${OPENSSL_SSL_LIBRARIES}
+                     )
 
 include_directories(${MODELS_INCLUDE_DIRS})
 
