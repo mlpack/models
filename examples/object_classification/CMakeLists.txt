@@ -16,6 +16,6 @@ foreach(file ${SOURCES})
       ${ARMADILLO_LIBRARIES}
       ${Boost_LIBRARIES}
       ${CURL_LIBRARIES}
-      ${CRYPTOPP_LIBRARIES}
+      cryptopp-static
 )
 endforeach()

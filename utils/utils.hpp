@@ -132,7 +132,9 @@ class Utils
     CryptoPP::HashFilter filter(sha256, new CryptoPP::HexEncoder(new CryptoPP::StringSink(hash)));
 
     CryptoPP::ChannelSwitch channel;
-    CryptoPP::FileSource(path.c_str(), true, new CryptoPP::Redirector(channel));
+    std::ifstream inputFile(path.c_str());
+    CryptoPP::FileSource(inputFile, true, new CryptoPP::Redirector(channel));
+    std::cout << hash << std::endl;
     return hash;
   }
 };

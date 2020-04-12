@@ -142,7 +142,7 @@ class DataLoader
           datasetMap[dataset].trainHash))
       {
         mlpack::Log::Fatal << "Corrupted Training Data for " <<
-            dataset << "Downloaded." << std::endl;
+            dataset << " Downloaded." << std::endl;
       }
     }
     if (!Utils::PathExists(datasetMap[dataset].testPath))
@@ -153,7 +153,7 @@ class DataLoader
       if (!Utils::CompareSHA256(datasetMap[dataset].testPath,
           datasetMap[dataset].testHash))
         mlpack::Log::Fatal << "Corrupted Testing Data for " <<
-            dataset << "Downloaded." << std::endl;
+            dataset << " Downloaded." << std::endl;
     }
   }
 
