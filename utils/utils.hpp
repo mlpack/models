@@ -17,7 +17,11 @@
 #include <cstdlib>
 #include <sys/stat.h>
 #include <curl/curl.h>
-#include <openssl/sha.h>
+#include <cryptopp/sha.h>
+#include <cryptopp/filters.h>
+#include <cryptopp/channels.h>
+#include <cryptopp/files.h>
+#include <cryptopp/hex.h>
 #include <mlpack/core.hpp>
 
 class Utils
@@ -123,28 +127,13 @@ class Utils
 
   static std::string GetSHA256(std::string path)
   {
-    FILE* inputFile = fopen(path.c_str(), "rb");
-    if (!inputFile)
-    {
-      mlpack::Log::Fatal << "Cannot Open " + path + "." << std::endl;
-      return "";
-    }
+    std::string hash;
+    CryptoPP::SHA256 sha256;
+    CryptoPP::HashFilter filter(sha256, new CryptoPP::HexEncoder(new CryptoPP::StringSink(hash)));
 
-    unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256_CTX sha256;
-    SHA256_Init(&sha256);
-    const size_t bufferSize = 32768;
-    char buffer[bufferSize];
-    int bufferRead = 0;
-    do
-    {
-      bufferRead = fread(buffer, 1, bufferSize, inputFile);
-      SHA256_Update(&sha256, buffer, bufferRead);
-    }while(bufferRead > 0);
-
-    fclose(inputFile);
-    SHA256_Final(hash, &sha256);
-    return std::string(reinterpret_cast<char*>(hash));
+    CryptoPP::ChannelSwitch channel;
+    CryptoPP::FileSource(path.c_str(), true, new CryptoPP::Redirector(channel));
+    return hash;
   }
 };
 #endif

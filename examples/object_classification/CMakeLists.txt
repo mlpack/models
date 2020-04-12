@@ -16,7 +16,6 @@ foreach(file ${SOURCES})
       ${ARMADILLO_LIBRARIES}
       ${Boost_LIBRARIES}
       ${CURL_LIBRARIES}
-      ${OPENSSL_CRYPTO_LIBRARIES}
-      ${OPENSSL_SSL_LIBRARIES}
+      ${CRYPTOPP_LIBRARIES}
 )
 endforeach()

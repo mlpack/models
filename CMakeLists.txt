@@ -111,11 +111,18 @@ if (WIN32)
       ${ARMADILLO_LIBRARIES} ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
 endif ()
 
-find_package(CURL REQUIRED)
 find_package(MLPACK REQUIRED)
 
+find_package(CURL REQUIRED)
+if (NOT CURL_FOUND)
+  message("CURL NOT FOUND.")
+endif()
+
 # Make building tests optional
-find_package(OpenSSL REQUIRED)
+find_package(CryptoPP REQUIRED)
+if (NOT CryptoPP_FOUND)
+  message("CryptoPP NOT FOUND.")
+endif()
 
 find_package(Ensmallen 1.10.0)
 if (NOT ENSMALLEN_FOUND)
@@ -198,17 +205,15 @@ set(MODELS_INCLUDE_DIRS ${MLPACK_INCLUDE_DIR}
                         ${ARMADILLO_INCLUDE_DIR}
                         ${Boost_INCLUDE_DIRS}
                         ${CURL_INCLUDE_DIRS}
-                        ${OPENSSL_INCLUDE_DIR}
-                        )
+                        ${CRYPTOPP_INCLUDE_DIRS}
+)
 
 set(MODELS_LIBRARIES ${MLPACK_LIBRARY}
                      ${ARMADILLO_LIBRARIES}
                      ${Boost_LIBRARIES}
                      ${CURL_LIBRARIES}
-                     ${OPENSSL_LIBRARIES}
-                     ${OPENSSL_CRYPTO_LIBRARIES}
-                     ${OPENSSL_SSL_LIBRARIES}
-                     )
+                     ${CRYPTOPP_LIBRARIES}
+)
 
 include_directories(${MODELS_INCLUDE_DIRS})
 
