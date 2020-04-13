@@ -45,7 +45,7 @@ class DataLoader
   DataLoader(const std::string &dataset,
              const bool shuffle,
              const double ratio = 0.75,
-             const bool useScaler = false,
+             const bool useScaler = true,
              const std::vector<std::string> augmentation =
                  std::vector<std::string>(),
              const double augmentationProbability = 0.2);

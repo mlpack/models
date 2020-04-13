@@ -24,6 +24,7 @@
 #include <cryptopp/hex.h>
 #include <mlpack/core.hpp>
 
+
 class Utils
 {
   /**
@@ -75,7 +76,8 @@ class Utils
   static int DownloadFile(const std::string url,
                           const std::string fileName,
                           const std::string name = "",
-                          const bool progressBar = true)
+                          const bool progressBar = true,
+                          const bool zipFile = true)
   {
     CURL* curl;
     FILE* outputFile;
