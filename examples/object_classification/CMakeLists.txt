@@ -15,7 +15,5 @@ foreach(file ${SOURCES})
       ${MLPACK_LIBRARIES}
       ${ARMADILLO_LIBRARIES}
       ${Boost_LIBRARIES}
-      ${CURL_LIBRARIES}
-      cryptopp-static
 )
 endforeach()

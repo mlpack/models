@@ -21,28 +21,29 @@ BOOST_AUTO_TEST_SUITE(UtilsTest);
  */
 BOOST_AUTO_TEST_CASE(DownloadFileTest)
 {
-  Utils::DownloadFile(Datasets::MNIST().trainDownloadUrl,
-      "./../data/mnist_train.csv", "", false);
-  BOOST_REQUIRE(Utils::PathExists("./../data/mnist_train.csv"));
-
-  BOOST_REQUIRE(Utils::CompareSHA256("./../data/mnist.tar.gz",
-      Datasets::MNIST().trainHash));
-
-  Utils::DownloadFile(Datasets::MNIST().testDownloadUrl,
-      "./../data/mnist_test.csv", "", false);
-  BOOST_REQUIRE(Utils::PathExists("./../data/mnist_test.csv"));
-
-  BOOST_REQUIRE(Utils::CompareSHA256("./../data/mnist.tar.gz",
-      Datasets::MNIST().testHash));
+  // To check downloader, perform the following :
+  // 1. Download the file.
+  // 2. Check for it's existence.
+  // 3. Match checksum for given file.
+  Utils::DownloadFile("iris.csv", "./../data/iris.csv");
+  BOOST_REQUIRE(Utils::PathExists("./../data/iris.csv"));
+  BOOST_REQUIRE(Utils::CompareCRC32("./../data/iris.csv", 
+      "152ec23b"));
+  // Clean up.
+  Utils::RemoveFile("./../data/iris.csv");
 }
 
 /**
- * Simple test for CompareSHA256.
+ * Simple test for CompareCRC32.
  */
 BOOST_AUTO_TEST_CASE(CheckSumTest)
 {
- // BOOST_REQUIRE(Utils::CompareSHA256("./.gitignore",
-   //   "d1ceb335f6fb27209271c893fcdac809c7ff0381d00ffd28a9fdbe09e6dda9e2"));
+  // Download the file and verify it's checksum.
+  Utils::DownloadFile("iris_test.csv", "./../data/iris_test.csv");
+  BOOST_REQUIRE(Utils::CompareCRC32("./../data/iris_test.csv",
+      "c1d67a8f"));
+  // Clean up.
+  Utils::RemoveFile("./../data/iris.csv");
 }
 
 /**
@@ -50,8 +51,9 @@ BOOST_AUTO_TEST_CASE(CheckSumTest)
  */
 BOOST_AUTO_TEST_CASE(PathExistsTest)
 {
-  BOOST_REQUIRE(Utils::PathExists("./../models/lenet/lenet.hpp"));
-  BOOST_REQUIRE(Utils::PathExists("./../models/lenet/lenet_impl.hpp"));
+  // Check for files that exist.
+  BOOST_REQUIRE(Utils::PathExists("./../models/CMakeLists.txt"));
+  BOOST_REQUIRE(Utils::PathExists("./../CMakeLists.txt"));
 }
 
 BOOST_AUTO_TEST_SUITE_END();

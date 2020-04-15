@@ -137,9 +137,10 @@ class DataLoader
     if (!Utils::PathExists(datasetMap[dataset].trainPath))
     {
       Utils::DownloadFile(datasetMap[dataset].trainDownloadUrl,
-          datasetMap[dataset].trainPath, dataset + "_training_data.");
+          datasetMap[dataset].trainPath, dataset + "_training_data.",
+          false);
 
-      if (!Utils::CompareSHA256(datasetMap[dataset].trainPath,
+      if (!Utils::CompareCRC32(datasetMap[dataset].trainPath,
           datasetMap[dataset].trainHash))
       {
         mlpack::Log::Fatal << "Corrupted Training Data for " <<
@@ -149,9 +150,10 @@ class DataLoader
     if (!Utils::PathExists(datasetMap[dataset].testPath))
     {
       Utils::DownloadFile(datasetMap[dataset].trainDownloadUrl,
-          datasetMap[dataset].testPath, dataset + "_testing_data.");
+          datasetMap[dataset].testPath, dataset + "_testing_data.",
+          false);
 
-      if (!Utils::CompareSHA256(datasetMap[dataset].testPath,
+      if (!Utils::CompareCRC32(datasetMap[dataset].testPath,
           datasetMap[dataset].testHash))
         mlpack::Log::Fatal << "Corrupted Testing Data for " <<
             dataset << " Downloaded." << std::endl;

@@ -204,8 +204,6 @@ set(MODELS_INCLUDE_DIRS ${MLPACK_INCLUDE_DIR}
                         ${ENSMALLEN_INCLUDE_DIR}
                         ${ARMADILLO_INCLUDE_DIR}
                         ${Boost_INCLUDE_DIRS}
-                        ${CURL_INCLUDE_DIRS}
-                        ${CRYPTOPP_INCLUDE_DIRS}
 )
 
 set(MODELS_LIBRARIES ${MLPACK_LIBRARY}

@@ -69,8 +69,8 @@ class Datasets
     DatasetDetails mnistDetails("mnist",
         "/mnist-dataset/mnist_train.csv",
         "/mnist-dataset/mnist_test.csv",
-        "cc10cd2dcac4fa2b67b8e9b7c90019cb8669668ed11a1ea71d980418785b5b11",
-        "1e4c6240156c2316c012a655ff268e8b7f37b4a4dabe49853ab3a60af0ed1bca",
+        "772495e3",
+        "8bcdb7e1",
         true,
         "./../data/mnist_train.csv",
         "./../data/mnist_test.csv");
