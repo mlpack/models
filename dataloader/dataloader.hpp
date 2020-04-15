@@ -21,6 +21,13 @@
 #ifndef MODELS_DATALOADER_HPP
 #define MODELS_DATALOADER_HPP
 
+/**
+ * Dataloader class to load popular datasets.
+ *
+ * @tparam DatasetX Datatype for loading input features.
+ * @tparam DatasetY Datatype for prediction features.
+ * @tparam ScalerType mlpack's Scaler Object for scaling features.
+ */
 template<
   typename DatasetX = arma::mat,
   typename DatasetY = arma::mat,

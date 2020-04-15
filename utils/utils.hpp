@@ -20,6 +20,9 @@
 #include <boost/crc.hpp>
 #include <mlpack/core.hpp>
 
+/**
+ * Utils class to provide utility functions.
+ */
 class Utils
 {
  public:
@@ -124,11 +127,24 @@ class Utils
     return 0;
   }
 
+  /**
+   * Compare CheckSum for provided file and hash.
+   *
+   * @param path Path to file for which hash to be calculated.
+   * @param hash Desired value of hash for the given file.
+   * @returns Boolean determining whether the hash matches or not.
+   */
   static bool CompareCRC32(std::string path, std::string hash)
   {
     return GetCRC32(path) == hash;
   }
 
+  /**
+   * Calculates CRC32 checksum for given file.
+   *
+   * @param path Path for file whose checksum is to be calculated.
+   * returns String of CRC32 checksum.
+   */
   static std::string GetCRC32(std::string path)
   {
     boost::crc_32_type hash;
