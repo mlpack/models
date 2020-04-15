@@ -39,6 +39,7 @@ class DataLoader
    * @param datasetPath Path or name of dataset.
    * @param shuffle whether or not to shuffle the data.
    * @param ratio Ratio for train-test split.
+   * @param useScaler Use feature scaler for pre-processing the dataset.
    * @param augmentation Adds augmentation to training data only.
    * @param augmentationProbability Probability of applying augmentation on dataset.
    */

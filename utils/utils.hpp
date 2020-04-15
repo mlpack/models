@@ -14,16 +14,10 @@
 #define MODELS_UTILS_HPP
 
 #include <iostream>
+#include <boost/asio.hpp>
 #include <cstdlib>
 #include <sys/stat.h>
-#include <curl/curl.h>
-#include <cryptopp/sha.h>
-#include <cryptopp/filters.h>
-#include <cryptopp/channels.h>
-#include <cryptopp/files.h>
-#include <cryptopp/hex.h>
 #include <mlpack/core.hpp>
-
 
 class Utils
 {
@@ -41,16 +35,7 @@ class Utils
                   double currentDownload, double totalUpload,
                   double currntUpload)
   {
-    int progressBarWidth = 40;
-    double progress = currentDownload / (totalDownload + 1e-50);
-    size_t downloaded = std::ceil(progress * progressBarWidth);
-    std::string progressBar(progressBarWidth, '.');
-    std::fill(progressBar.begin(), progressBar.begin() + downloaded, '=');
-    progressBar = "[" + progressBar;
-    progressBar += "] " + std::to_string(progress * 100);
-    std::cout << progressBar << '\r' <<std::flush;
-
-    return CURLE_OK;
+    
   }
 
  public:
@@ -67,7 +52,7 @@ class Utils
   }
 
   /**
-   * Downloads files using wget command.
+   * Downloads files using boost asio.
    * 
    * @param url URL for file which is to be downloaded.
    * @param fileName output fileName (including path).
@@ -77,48 +62,74 @@ class Utils
                           const std::string fileName,
                           const std::string name = "",
                           const bool progressBar = true,
-                          const bool zipFile = true)
+                          const bool zipFile = true,
+                          const std::string serverName = "https://raw.githubusercontent.com/kartikdutt18/mlpack-models-weights-and-datasets/master/")
   {
-    CURL* curl;
-    FILE* outputFile;
-    CURLcode result;
-    curl = curl_easy_init();
-    if (progressBar)
+    // IO functionality by boost core.
+    boost::asio::io_service ioService;
+    // Use TCP protocol by boost asio to make a connection to desired server.
+    boost::asio::ip::tcp::resolver resolver(ioService);
+    // Resolver will converts the the query object into list of end-points.
+    boost::asio::ip::tcp::resolver::query query(serverName, "http");
+    // The list of endpoints is returned using an iterator using resolve member function.
+    boost::asio::ip::tcp::resolver::iterator endPoints  = resolver.resolve(query);
+    boost::asio::ip::tcp::resolver::iterator end;
+
+    // Establish a connection by trying to connect with each port.
+    boost::asio::ip::tcp::socket socket(ioService);
+    boost::system::error_code error = boost::asio::error::host_not_found;
+    // Iterate over ports.
+    while (error && endPoints != end)
     {
-      std::cout << "Downloading " + name << std::endl;
+      socket.close();
+      socket.connect(*endPoints++, error);
     }
 
-    if (curl)
+    boost::asio::streambuf request;
+    std::ostream requestStream(&request);
+    requestStream << "GET " << url << " HTTP/1.0\r\n";
+    requestStream << "Host: " << serverName << "\r\n";
+    requestStream << "Accept: */*\r\n";
+    requestStream << "Connection: close\r\n\r\n";
+
+    // Sending the request.
+    boost::asio::write(socket, request);
+
+    // Read the response status line.
+    boost::asio::streambuf response;
+    boost::asio::read_until(socket, response, "\r\n");
+    // Check that response is OK.
+    std::istream responseStream(&response);
+    std::string httpVer;
+    responseStream >> httpVer;
+    unsigned int statusCode;
+    responseStream >> statusCode;
+    if (statusCode != 200)
     {
-      // Create file for writing.
-      outputFile = fopen(fileName.c_str(), "wb");
-
-      // Setup curl object to perform desired operation.
-      curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-      curl_easy_setopt(curl, CURLOPT_WRITEDATA, outputFile);
-      if (progressBar)
-      {
-        // Disable internal progress bar.
-        curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L);
-        // Enable progress bar.
-        curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, ProgressBar);
-      }
-
-      result = curl_easy_perform(curl);
-
-      if (result != CURLE_OK)
-      {
-        mlpack::Log::Fatal << "Download Failed!" << std::endl;
-        return 1;
-      }
-      if (progressBar)
-      {
-        std::cout << "\n Download complete!" << std::endl;
-      }
-
-      curl_easy_cleanup(curl);
-      fclose(outputFile);
+      mlpack::Log::Fatal << "Connection returned with status " <<
+          statusCode << ". Terminating Connection." << std::endl;
+      return 1;
     }
+
+    boost::asio::read_until(socket, response, "\r\n\r\n");
+    // Read the response headers.
+    std::string header;
+    while (std::getline(responseStream, header) && header != "\r");
+    // Write remaining data in response if any.
+    std::ofstream outputFile(fileName.c_str(), std::ofstream::out | std::ofstream::binary);
+    if (response.size() > 0)
+    {
+      outputFile << &response;
+    }
+
+    // Read the response and write to desired file.
+    while (boost::asio::read(socket, response,
+        boost::asio::transfer_at_least(1), error))
+    {
+      outputFile << &response;
+    }
+
+    outputFile.close();
     return 0;
   }
 
@@ -129,15 +140,7 @@ class Utils
 
   static std::string GetSHA256(std::string path)
   {
-    std::string hash;
-    CryptoPP::SHA256 sha256;
-    CryptoPP::HashFilter filter(sha256, new CryptoPP::HexEncoder(new CryptoPP::StringSink(hash)));
-
-    CryptoPP::ChannelSwitch channel;
-    std::ifstream inputFile(path.c_str());
-    CryptoPP::FileSource(inputFile, true, new CryptoPP::Redirector(channel));
-    std::cout << hash << std::endl;
-    return hash;
+    return "";
   }
 };
 #endif
