@@ -7,6 +7,7 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../")
 add_executable(models_test
                utils_tests.cpp
                dataloader_tests.cpp
+               model_tests.cpp
 )
 
 # Link dependencies of test executable.

@@ -42,14 +42,14 @@ class Utils
    * Downloads files using boost asio.
    * 
    * @param url URL for file which is to be downloaded.
-   * @param fileName Output fileName (including path).
+   * @param downloadPath Output file path.
    * @param name Prints name of the file.
    * @param silent Boolean to display details of file being downloaded.
    * @param serverName Server to connect to, for downloading.
    * @returns 0 to determine success.
    */
   static int DownloadFile(const std::string url,
-                          const std::string fileName,
+                          const std::string downloadPath,
                           const std::string name = "",
                           const bool silent = true,
                           const std::string serverName = "https://www.mlpack.org/datasets/")
@@ -105,7 +105,7 @@ class Utils
     std::string header;
     while (std::getline(responseStream, header) && header != "\r");
     // Write remaining data in response if any.
-    std::ofstream outputFile(fileName.c_str(), std::ofstream::out |
+    std::ofstream outputFile(downloadPath.c_str(), std::ofstream::out |
         std::ofstream::binary);
     if (response.size() > 0)
     {

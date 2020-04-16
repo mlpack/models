@@ -103,7 +103,7 @@ template<
     typename InitializationRuleType,
     size_t leNetVer
 >
-Sequential<>* LeNet<
+Sequential<> LeNet<
     OutputLayerType, InitializationRuleType, leNetVer
 >::AsSequential()
 {

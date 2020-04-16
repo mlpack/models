@@ -13,6 +13,7 @@
 #include <utils/utils.hpp>
 #include <dataloader/datasets.hpp>
 #include <boost/test/unit_test.hpp>
+using namespace boost::unit_test;
 
 BOOST_AUTO_TEST_SUITE(UtilsTest);
 

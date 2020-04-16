@@ -90,7 +90,7 @@ class LeNet
   FFN<OutputLayerType, InitializationRuleType>& GetModel() { return leNet; };
 
   // Returns the model as a sequential layer.
-  Sequential<>* AsSequential();
+  Sequential<> AsSequential();
 
   //! Load weights into the model.
   void LoadModel(const std::string& filePath);

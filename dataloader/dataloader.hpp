@@ -50,7 +50,7 @@ class DataLoader
    * @param augmentation Adds augmentation to training data only.
    * @param augmentationProbability Probability of applying augmentation on dataset.
    */
-  DataLoader(const std::string &dataset,
+  DataLoader(const std::string& dataset,
              const bool shuffle,
              const double ratio = 0.75,
              const bool useScaler = true,
