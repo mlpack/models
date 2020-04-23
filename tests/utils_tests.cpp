@@ -28,7 +28,7 @@ BOOST_AUTO_TEST_CASE(DownloadFileTest)
   // 3. Match checksum for given file.
   Utils::DownloadFile("iris.csv", "./../data/iris.csv");
   BOOST_REQUIRE(Utils::PathExists("./../data/iris.csv"));
-  BOOST_REQUIRE(Utils::CompareCRC32("./../data/iris.csv", 
+  BOOST_REQUIRE(Utils::CompareCRC32("./../data/iris.csv",
       "152ec23b"));
   // Clean up.
   Utils::RemoveFile("./../data/iris.csv");
