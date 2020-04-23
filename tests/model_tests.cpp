@@ -21,20 +21,21 @@ BOOST_AUTO_TEST_SUITE(ModelTest);
 
 template<
     typename OptimizerType,
-    typename OutputLayerType = mlpack::ann::NegativeLogLikelihood<>, 
+    typename OutputLayerType = mlpack::ann::NegativeLogLikelihood<>,
     typename InitializationRuleType = mlpack::ann::RandomInitialization,
     class MetricType = mlpack::metric::SquaredEuclideanDistance,
     typename InputType = arma::mat,
     typename OutputType = arma::mat
 >
-void CheckFFNWeights(mlpack::ann::FFN<OutputLayerType, InitializationRuleType>& model,
-    const std::string& datasetName, const double threshold, const bool takeMean,
+void CheckFFNWeights(mlpack::ann::FFN<OutputLayerType,
+    InitializationRuleType>& model, const std::string& datasetName,
+    const double threshold, const bool takeMean,
     const OptimizerType& optimizer)
 {
   DataLoader<InputType, OutputType> dataloader(datasetName, true);
-  // Train the model. Note: Callbacks such as progress bar and loss aren't used in testing.
-  // Training the model for few epochs ensures that a user can use the pretrained model
-  // on any other dataset.
+  // Train the model. Note: Callbacks such as progress bar and loss aren't
+  // used in testing. Training the model for few epochs ensures that a
+  // user can use the pretrained model on any other dataset.
   model.Train(dataloader.TrainX(), dataloader.TrainY(), optimizer);
   // Verify viability of model on validation datset.
   OutputType predictions;
@@ -64,7 +65,7 @@ void CheckFFNWeights(mlpack::ann::FFN<OutputLayerType, InitializationRuleType>& 
  */
 template<
     typename OptimizerType,
-    typename OutputLayerType = mlpack::ann::NegativeLogLikelihood<>, 
+    typename OutputLayerType = mlpack::ann::NegativeLogLikelihood<>,
     typename InitializationRuleType = mlpack::ann::RandomInitialization,
     class MetricType = mlpack::metric::SquaredEuclideanDistance,
     typename InputType = arma::mat,
@@ -91,7 +92,12 @@ void CheckSequentialModel(mlpack::ann::Sequential<>* layer,
  */
 BOOST_AUTO_TEST_CASE(LeNetModelTest)
 {
-  // Add tests here.
+  mlpack::ann::LeNet<> lenetModel(1, 28, 28, 10, "mnist");
+  // Create an optimizer object for tests.
+  ens::SGD<ens::AdamUpdate> optimizer(1e-4, 16, 1000);
+  mlpack::ann::FFN<> model = lenetModel.GetModel();
+  CheckFFNWeights<ens::SGD<ens::AdamUpdate>>(model, "mnist", 1e-2,
+      true, optimizer);
 }
 
 BOOST_AUTO_TEST_SUITE_END();

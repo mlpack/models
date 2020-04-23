@@ -87,7 +87,7 @@ class LeNet
         const std::string& weights = "none");
 
   //! Get Layers of the model.
-  FFN<OutputLayerType, InitializationRuleType>& GetModel() { return leNet; };
+  FFN<OutputLayerType, InitializationRuleType>& GetModel() { return leNet; }
 
   // Returns the model as a sequential layer.
   Sequential<> AsSequential();

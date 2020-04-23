@@ -40,7 +40,10 @@ class Utils
 
   /**
    * Downloads files using boost asio.
-   * 
+   *
+   * For more information on how to download using boost asio, refer to
+   * the following boost_asio/example/cpp03 on boost asio examples.
+   *
    * @param url URL for file which is to be downloaded.
    * @param downloadPath Output file path.
    * @param name Prints name of the file.
@@ -52,7 +55,8 @@ class Utils
                           const std::string downloadPath,
                           const std::string name = "",
                           const bool silent = true,
-                          const std::string serverName = "https://www.mlpack.org/datasets/")
+                          const std::string serverName =
+                              "https://www.mlpack.org/datasets/")
   {
     // IO functionality by boost core.
     boost::asio::io_service ioService;
@@ -60,18 +64,18 @@ class Utils
     boost::asio::ip::tcp::resolver resolver(ioService);
     // Resolver will converts the the query object into list of end-points.
     boost::asio::ip::tcp::resolver::query query(serverName, "http");
-    // The list of endpoints is returned using an iterator using resolve member function.
-    boost::asio::ip::tcp::resolver::iterator endPoints  = resolver.resolve(query);
+    // The list of endpoints is returned using an iterator.
+    boost::asio::ip::tcp::resolver::iterator endPoint = resolver.resolve(query);
     boost::asio::ip::tcp::resolver::iterator end;
 
     // Establish a connection by trying to connect with each port.
     boost::asio::ip::tcp::socket socket(ioService);
     boost::system::error_code error = boost::asio::error::host_not_found;
     // Iterate over ports.
-    while (error && endPoints != end)
+    while (error && endPoint != end)
     {
       socket.close();
-      socket.connect(*endPoints++, error);
+      socket.connect(*endPoint++, error);
     }
 
     boost::asio::streambuf request;
@@ -103,7 +107,11 @@ class Utils
     boost::asio::read_until(socket, response, "\r\n\r\n");
     // Read the response headers.
     std::string header;
-    while (std::getline(responseStream, header) && header != "\r");
+    while (std::getline(responseStream, header) && header != "\r")
+    {
+      // Nothing to do here.
+    }
+
     // Write remaining data in response if any.
     std::ofstream outputFile(downloadPath.c_str(), std::ofstream::out |
         std::ofstream::binary);
@@ -151,7 +159,7 @@ class Utils
     std::ifstream inputFile(path.c_str(), std::ios::in | std::ios::binary);
     // Read File in chunks to prevent reading whole file into memory.
     std::vector<char> buffer(1024);
-    while(inputFile.read(&buffer[0], buffer.size()))
+    while (inputFile.read(&buffer[0], buffer.size()))
     {
       hash.process_bytes(&buffer[0], inputFile.gcount());
     }
