@@ -19,6 +19,7 @@
 #include <sys/stat.h>
 #include <boost/crc.hpp>
 #include <mlpack/core.hpp>
+#include <boost/filesystem.hpp>
 
 /**
  * Utils class to provide utility functions.
@@ -30,12 +31,16 @@ class Utils
    * Determines whether a path exists.
    * 
    * @param path Global or relative path.
-   * @return true if path exists else false.
+   * @param absolutePath Boolean to determine if path is absolute or relative.
+   * @return true if path exists else false. Defaults to false.
    */
-  static bool PathExists(std::string path)
+  static bool PathExists(std::string path, bool absolutePath = false)
   {
     struct stat buffer;
-    return (stat(path.c_str(), &buffer) == 0);
+    // Set correct path.
+    std::string filePath = absolutePath ? path :
+      boost::filesystem::current_path().string() + "/" + path;
+    return (stat(filePath.c_str(), &buffer) == 0);
   }
 
   /**
@@ -47,6 +52,7 @@ class Utils
    * @param url URL for file which is to be downloaded.
    * @param downloadPath Output file path.
    * @param name Prints name of the file.
+   * @param absolutePath Boolean to determine if path is absolute or relative.
    * @param silent Boolean to display details of file being downloaded.
    * @param serverName Server to connect to, for downloading.
    * @returns 0 to determine success.
@@ -54,16 +60,18 @@ class Utils
   static int DownloadFile(const std::string url,
                           const std::string downloadPath,
                           const std::string name = "",
+                          const bool absolutePath = false,
                           const bool silent = true,
                           const std::string serverName =
-                              "https://www.mlpack.org/datasets/")
+                              "www.mlpack.org")
   {
     // IO functionality by boost core.
     boost::asio::io_service ioService;
     // Use TCP protocol by boost asio to make a connection to desired server.
     boost::asio::ip::tcp::resolver resolver(ioService);
     // Resolver will converts the the query object into list of end-points.
-    boost::asio::ip::tcp::resolver::query query(serverName, "http");
+    boost::asio::ip::tcp::resolver::query query(serverName, "80",
+        boost::asio::ip::resolver_query_base::numeric_service);
     // The list of endpoints is returned using an iterator.
     boost::asio::ip::tcp::resolver::iterator endPoint = resolver.resolve(query);
     boost::asio::ip::tcp::resolver::iterator end;
@@ -80,10 +88,16 @@ class Utils
 
     boost::asio::streambuf request;
     std::ostream requestStream(&request);
-    requestStream << "GET " << url << " HTTP/1.0\r\n";
+    requestStream << "GET " << url << " HTTP/1.1\r\n";
     requestStream << "Host: " << serverName << "\r\n";
     requestStream << "Accept: */*\r\n";
     requestStream << "Connection: close\r\n\r\n";
+
+    if (!silent)
+    {
+      mlpack::Log::Info << "Connected to " << serverName <<
+          ". Attempting download of "<< name << std::endl;
+    }
 
     // Sending the request.
     boost::asio::write(socket, request);
@@ -113,7 +127,10 @@ class Utils
     }
 
     // Write remaining data in response if any.
-    std::ofstream outputFile(downloadPath.c_str(), std::ofstream::out |
+    std::string filePath = absolutePath ? downloadPath :
+      boost::filesystem::current_path().string() + "/" + downloadPath;
+
+    std::ofstream outputFile(filePath.c_str(), std::ofstream::out |
         std::ofstream::binary);
     if (response.size() > 0)
     {
@@ -121,16 +138,18 @@ class Utils
     }
 
     // Read the response and write to desired file.
-    do
+    while (boost::asio::read(socket, response,
+        boost::asio::transfer_at_least(1), error))
     {
       outputFile << &response;
-    } while (boost::asio::read(socket, response,
-        boost::asio::transfer_at_least(1), error));
+    }
 
     if (error != boost::asio::error::eof)
     {
-      mlpack::Log::Fatal << "Error in Downloading!" << std::endl;
+      mlpack::Log::Fatal << "Download Failed!" << std::endl;
+      return 1;
     }
+
     outputFile.close();
     return 0;
   }
@@ -151,21 +170,25 @@ class Utils
    * Calculates CRC32 checksum for given file.
    *
    * @param path Path for file whose checksum is to be calculated.
-   * returns String of CRC32 checksum.
+   * @param absolutePath Boolean to determine if path is absolute or relative.
+   * @returns String of CRC32 checksum.
    */
-  static std::string GetCRC32(std::string path)
+  static std::string GetCRC32(const std::string path,
+                              const bool absolutePath = false)
   {
     boost::crc_32_type hash;
+    std::string filePath = absolutePath ? path :
+      boost::filesystem::current_path().string() + "/" + path;
     std::ifstream inputFile(path.c_str(), std::ios::in | std::ios::binary);
     // Read File in chunks to prevent reading whole file into memory.
-    std::vector<char> buffer(1024);
+    std::vector<char> buffer(2048);
     while (inputFile.read(&buffer[0], buffer.size()))
     {
       hash.process_bytes(&buffer[0], inputFile.gcount());
     }
+
     std::stringstream hashString;
     hashString << std::hex << hash.checksum();
-    std::cout << hashString.str() << std::endl;
     return hashString.str();
   }
 
@@ -173,13 +196,22 @@ class Utils
    * Deletes the file whose path is given.
    *
    * @param path Path where file to be removed is stored.
+   * @param absolutePath Boolean to determine if path is absolute or relative.
+   * @returns An integer, 0 if file was removed and 1 if it wasn't.
    */
-  static void RemoveFile(std::string path)
+  static int RemoveFile(const std::string path,
+                        const bool absolutePath = false)
   {
-    if (std::remove(path.c_str()) != 0)
+    std::string filePath = absolutePath ? path :
+      boost::filesystem::current_path().string() + "/" + path;
+    std::remove(filePath.c_str());
+    if (PathExists(path) != 0)
     {
       mlpack::Log::Warn << "Error Deleting File." << std::endl;
+      return 1;
     }
+
+    return 0;
   }
 };
 #endif

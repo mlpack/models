@@ -24,6 +24,24 @@
 /**
  * Dataloader class to load popular datasets.
  *
+ * @code
+ * // Create a dataloader for any popular dataset.
+ * // Set parameters for dataset.
+ * const string datasetName = "mnist";
+ * bool shuffleData = true;
+ * double ratioForTrainTestSplit = 0.75;
+ * 
+ * // Create the DataLoader object.
+ * DataLoader<> dataloader(datasetName, shuffleData,
+ *    ratioForTrainTestSplit);
+ *
+ * // Use the dataloader for training.
+ * model.Train(dataloader.TrainFeatures(), dataloader.TrainLabels());
+ *
+ * // Use the dataloader for prediction.
+ * model.Predict(dataloader.TestFeatures(), dataloader.TestLabels());
+ * @endcode
+ * 
  * @tparam DatasetX Datatype for loading input features.
  * @tparam DatasetY Datatype for prediction features.
  * @tparam ScalerType mlpack's Scaler Object for scaling features.
@@ -85,7 +103,7 @@ class DataLoader
    * @param augmentation Vector strings of augmentations supported by mlpack.
    * @param augmentationProbability Probability of applying augmentation to a particular cell.
    */
-  void LoadCSV(const std::string &datasetPath,
+  void LoadCSV(const std::string& datasetPath,
                const bool loadTrainData = true,
                const bool shuffle = true,
                const double ratio = 0.75,
@@ -99,45 +117,65 @@ class DataLoader
                    std::vector<std::string>(),
                const double augmentationProbability = 0.2);
 
-  //! Get the Training Dataset.
-  DatasetX TrainX() const { return trainX; }
+  //! Get the training dataset features.
+  DatasetX TrainFeatures() const { return trainFeatures; }
 
-  //! Modify the Training Dataset.
-  DatasetX& TrainX() { return trainX; }
+  //! Modify the training dataset features.
+  DatasetX& TrainFeatures() { return trainFeatures; }
 
-  //! Get the Training Dataset.
-  DatasetY TrainY() const { return trainY; }
-  //! Modify the Training Dataset.
-  DatasetY& TrainY() { return trainY; }
+  //! Get the training dataset labels.
+  DatasetY TrainLabels() const { return trainLabels; }
+  //! Modify the training dataset labels.
+  DatasetY& TrainLabels() { return trainLabels; }
 
-  //! Get the Test Dataset.
-  DatasetX TestX() const { return testX; }
-  //! Modify the Test Dataset.
-  DatasetX& TestX() { return testX; }
+  //! Get the test dataset features.
+  DatasetX TestFeatures() const { return testFeatures; }
+  //! Modify the test dataset features.
+  DatasetX& TestFeatures() { return testFeatures; }
 
-  //! Get the Test Dataset.
-  DatasetY TestY() const { return testY; }
-  //! Modify the Training Dataset.
-  DatasetY& TestY() { return testY; }
+  //! Get the test dataset labels.
+  DatasetY TestLabels() const { return testLabels; }
+  //! Modify the test dataset labels.
+  DatasetY& TestLabels() { return testLabels; }
 
-  //! Get the Validation Dataset.
-  DatasetX ValidX() const { return validX; }
-  //! Modify the Validation Dataset.
-  DatasetX& ValidX() { return validX; }
+  //! Get the validation dataset features.
+  DatasetX ValidFeatures() const { return validFeatures; }
+  //! Modify the validation dataset features.
+  DatasetX& ValidFeatures() { return validFeatures; }
 
-  //! Get the Validation Dataset.
-  DatasetY ValidY() const { return validY; }
-  //! Modify the Validation Dataset.
-  DatasetY& ValidY() { return validY; }
+  //! Get the validation dataset labels.
+  DatasetY ValidLabels() const { return validLabels; }
+  //! Modify the validation dataset labels.
+  DatasetY& ValidLabels() { return validLabels; }
+
+  //! Get the training dataset.
+  std::tuple<DatasetX, DatasetY> TrainSet() const
+  {
+    return std::tuple<DatasetX, DatasetY>(trainFeatures, trainLabels);
+  }
+
+  //! Get the validation dataset.
+  std::tuple<DatasetX, DatasetY> ValidSet() const
+  {
+    return std::tuple<DatasetX, DatasetY>(validFeatures, validLabels);
+  }
+
+  //! Get the testing dataset.
+  std::tuple<DatasetX, DatasetY> TestSet() const
+  {
+    return std::tuple<DatasetX, DatasetY>(testFeatures, testLabels);
+  }
 
   //! Get the Scaler.
   ScalerType Scaler() const { return scaler; }
-  //! Modify the Sclaer.
+  //! Modify the Scaler.
   ScalerType& Scaler() { return scaler; }
 
  private:
   /**
    * Downloads and checks hash for given dataset.
+   *
+   * @param dataset Name of the data set which will be downloaded.
    */
   void DownloadDataset(const std::string& dataset)
   {
@@ -151,7 +189,7 @@ class DataLoader
           datasetMap[dataset].trainHash))
       {
         mlpack::Log::Fatal << "Corrupted Training Data for " <<
-            dataset << " Downloaded." << std::endl;
+            dataset << " downloaded." << std::endl;
       }
     }
     if (!Utils::PathExists(datasetMap[dataset].testPath))
@@ -162,8 +200,10 @@ class DataLoader
 
       if (!Utils::CompareCRC32(datasetMap[dataset].testPath,
           datasetMap[dataset].testHash))
-        mlpack::Log::Fatal << "Corrupted Testing Data for " <<
-            dataset << " Downloaded." << std::endl;
+        {
+          mlpack::Log::Fatal << "Corrupted Testing Data for " <<
+            dataset << " downloaded." << std::endl;
+        }
     }
   }
 
@@ -172,10 +212,16 @@ class DataLoader
    */
   void InitializeDatasets()
   {
-    datasetMap.insert({"mnist", Datasets::MNIST()});
+    datasetMap.insert({"mnist", Datasets<DatasetX, DatasetY>::MNIST()});
   }
 
-  // Utility Function to wrap indices.
+  /**
+   * Utility Function to wrap indices.
+   *
+   * @param index Index that will wraped over the length.
+   * @param length Size / length of array.
+   */
+
   size_t WrapIndex(int index, size_t length)
   {
     if (index < 0)
@@ -185,21 +231,22 @@ class DataLoader
   }
 
   //! Locally stored mappings for some well known datasets.
-  std::unordered_map<std::string, DatasetDetails> datasetMap;
+  std::unordered_map<std::string,
+      DatasetDetails<DatasetX, DatasetY>> datasetMap;
 
-  //! Locally stored input for training.
-  DatasetX trainX;
-  //! Locally stored input for testing.
-  DatasetX validX;
-  //! Locally stored input for validation.
-  DatasetX testX;
+  //! Locally stored input features for training.
+  DatasetX trainFeatures;
+  //! Locally stored input features for testing.
+  DatasetX validFeatures;
+  //! Locally stored input features for validation.
+  DatasetX testFeatures;
 
   //! Locally stored labels for training.
-  DatasetY trainY;
+  DatasetY trainLabels;
   //! Locally stored labels for validation.
-  DatasetY validY;
+  DatasetY validLabels;
   //! Locally stored labels for testing.
-  DatasetY testY;
+  DatasetY testLabels;
 
   //! Locally Stored scaler.
   ScalerType scaler;
@@ -216,7 +263,7 @@ class DataLoader
   //! Locally stored augmentation.
   std::vector<std::string> augmentation;
 
-  //! Locally stored augmented probability.
+  //! Locally stored augmentation probability.
   double augmentationProbability;
 };
 

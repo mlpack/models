@@ -26,10 +26,10 @@ BOOST_AUTO_TEST_CASE(DownloadFileTest)
   // 1. Download the file.
   // 2. Check for it's existence.
   // 3. Match checksum for given file.
-  Utils::DownloadFile("iris.csv", "./../data/iris.csv");
+  Utils::DownloadFile("/datasets/iris.csv", "./../data/iris.csv");
   BOOST_REQUIRE(Utils::PathExists("./../data/iris.csv"));
   BOOST_REQUIRE(Utils::CompareCRC32("./../data/iris.csv",
-      "152ec23b"));
+      "7c30e225"));
   // Clean up.
   Utils::RemoveFile("./../data/iris.csv");
 }
@@ -40,11 +40,12 @@ BOOST_AUTO_TEST_CASE(DownloadFileTest)
 BOOST_AUTO_TEST_CASE(CheckSumTest)
 {
   // Download the file and verify it's checksum.
-  Utils::DownloadFile("iris_test.csv", "./../data/iris_test.csv");
+  Utils::DownloadFile("/datasets/iris_test.csv", "./../data/iris_test.csv");
   BOOST_REQUIRE(Utils::CompareCRC32("./../data/iris_test.csv",
-      "c1d67a8f"));
+      "3be1f79e"));
+
   // Clean up.
-  Utils::RemoveFile("./../data/iris.csv");
+  Utils::RemoveFile("./../data/iris_test.csv");
 }
 
 /**
@@ -53,8 +54,24 @@ BOOST_AUTO_TEST_CASE(CheckSumTest)
 BOOST_AUTO_TEST_CASE(PathExistsTest)
 {
   // Check for files that exist.
-  BOOST_REQUIRE(Utils::PathExists("./../models/CMakeLists.txt"));
+  BOOST_REQUIRE(Utils::PathExists("./../tests/CMakeLists.txt"));
   BOOST_REQUIRE(Utils::PathExists("./../CMakeLists.txt"));
+}
+
+/**
+ * Simple test for RemoveFile.
+ */
+BOOST_AUTO_TEST_CASE(RemoveFileTest)
+{
+  // Check for files that exist.
+  bool file = static_cast<bool>(std::ofstream("./../data/file.txt").put('!'));
+  if (!file)
+  {
+    mlpack::Log::Warn << "Unable to create file for testing." << std::endl;
+  }
+
+  Utils::RemoveFile("./../data/file.txt");
+  BOOST_REQUIRE_EQUAL(Utils::PathExists("./../data/file.txt"), 0);
 }
 
 BOOST_AUTO_TEST_SUITE_END();

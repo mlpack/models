@@ -4,8 +4,10 @@ project(dataloaders)
 option(DEBUG "DEBUG" OFF)
 
 set(DIR_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/)
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../../")
 
 set(SOURCES
+    preprocessor.hpp
     datasets.hpp
     dataloader.hpp
     dataloader_impl.hpp

@@ -5,3 +5,4 @@ xcode*
 cmake-build-*
 *.csv
 .travis/configs.hpp
+Testing/*

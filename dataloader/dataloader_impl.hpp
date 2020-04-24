@@ -56,25 +56,22 @@ template<
               datasetMap[dataset].endTrainingPredictionFeatures,
               datasetMap[dataset].endTrainingPredictionFeatures);
 
-      if (dataset == "mnist")
-      {
-        // Pre-Processing for mnist dataset.
-        trainY = trainY + 1;
-        validY = validY + 1;
-      }
-
       LoadCSV(datasetMap[dataset].testPath, false, false, useScaler,
               datasetMap[dataset].dropHeader,
               datasetMap[dataset].startTestingInputFeatures,
               datasetMap[dataset].endTestingInputFeatures);
     }
+
+    // Preprocess the dataset.
+    datasetMap[dataset].PreProcess(trainFeatures, trainLabels,
+        validFeatures, validLabels, testFeatures);
   }
   else
   {
-    mlpack::Log::Fatal << "Unknown Dataset " << dataset <<
-        ". For other datasets try loading data using" <<
-        "generic dataloader functions such as LoadCSV." <<
-        "Refer documentation for more info." << std::endl;
+    mlpack::Log::Fatal << "Unknown Dataset. " << dataset <<
+        " For other datasets try loading data using" <<
+        " generic dataloader functions such as LoadCSV." <<
+        " Refer to the documentation for more info." << std::endl;
   }
 }
 
@@ -85,7 +82,7 @@ template<
   class ScalerType
 > void DataLoader<
     DatasetX, DatasetY, ScalerType
->::LoadCSV(const std::string &datasetPath,
+>::LoadCSV(const std::string& datasetPath,
            const bool loadTrainData,
            const bool shuffle,
            const double ratio,
@@ -107,7 +104,7 @@ template<
   if (loadTrainData)
   {
     arma::mat trainDataset, validDataset;
-    data::Split(dataset, trainDataset, validDataset, ratio /* Add shuffle*/);
+    data::Split(dataset, trainDataset, validDataset, ratio, shuffle);
 
     if (useScaler)
     {
@@ -116,24 +113,24 @@ template<
       scaler.Transform(validDataset, validDataset);
     }
 
-    trainX = trainDataset.rows(WrapIndex(startInputFeatures,
+    trainFeatures = trainDataset.rows(WrapIndex(startInputFeatures,
         trainDataset.n_rows), WrapIndex(endInputFeatures,
         trainDataset.n_rows));
 
-    trainY = trainDataset.rows(WrapIndex(startPredictionFeatures,
+    trainLabels = trainDataset.rows(WrapIndex(startPredictionFeatures,
         trainDataset.n_rows), WrapIndex(endPredictionFeatures,
         trainDataset.n_rows));
 
-    validX = validDataset.rows(WrapIndex(startInputFeatures,
+    validFeatures = validDataset.rows(WrapIndex(startInputFeatures,
         validDataset.n_rows), WrapIndex(endInputFeatures,
         validDataset.n_rows));
 
-    validY = trainDataset.rows(WrapIndex(startPredictionFeatures,
+    validLabels = trainDataset.rows(WrapIndex(startPredictionFeatures,
         validDataset.n_rows), WrapIndex(endPredictionFeatures,
         validDataset.n_rows));
 
-    // Add support for augmentation here.
-    std::cout << "Training Dataset Loaded." << std::endl;
+    // TODO : Add support for augmentation here.
+    mlpack::Log::Info << "Training Dataset Loaded." << std::endl;
   }
   else
   {
@@ -142,9 +139,9 @@ template<
       scaler.Transform(dataset, dataset);
     }
 
-    testX = dataset.submat(WrapIndex(startInputFeatures, dataset.n_rows),
-      0, WrapIndex(endInputFeatures, dataset.n_rows), dataset.n_cols - 1);
-    std::cout << "Testing Dataset Loaded." << std::endl;
+    testFeatures = dataset.submat(WrapIndex(startInputFeatures, dataset.n_rows),
+        0, WrapIndex(endInputFeatures, dataset.n_rows), dataset.n_cols - 1);
+    mlpack::Log::Info << "Testing Dataset Loaded." << std::endl;
   }
 }
 
