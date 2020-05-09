@@ -1,0 +1,15 @@
+trigger:
+  branches:
+    include:
+    - '*'
+pr:
+  branches:
+    include:
+    - '*'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- script: echo Hello, checkout mlpack/models!
+  displayName: 'Initial ci config.'
