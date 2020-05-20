@@ -65,8 +65,14 @@ class Utils
         std::replace(pathForExtractionTemp.begin(), pathForExtractionTemp.end(),
             '/', '\\');
 
+<<<<<<< HEAD
         command = "tar --force-local -xvzf " + pathToArchiveTemp + " -C " +
             pathForExtractionTemp;
+=======
+        command = "tar --force-local -xvzf " +
+            boost::filesystem::current_path().string() + "\\" +
+            pathToArchiveTemp;
+>>>>>>> 3353e2e... Add basic definition of models, Needs to be trained and tested
       #else
         command = command + boost::filesystem::current_path().string() + "/" +
           pathToArchive + " -C " + boost::filesystem::current_path().string() +
@@ -291,8 +297,13 @@ class Utils
     }
     else
     {
+<<<<<<< HEAD
       mlpack::Log::Warn << "The " << path << " doesn't exist." << std::endl;
+=======
+      mlpack::Log::Warn << "The " << path << "Doesn't exist." << std::endl;
+>>>>>>> 3353e2e... Add basic definition of models, Needs to be trained and tested
     }
   }
 };
+
 #endif

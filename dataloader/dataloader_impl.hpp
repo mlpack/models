@@ -104,7 +104,11 @@ template<
   if (loadTrainData)
   {
     arma::mat trainDataset, validDataset;
+<<<<<<< HEAD
     data::Split(dataset, trainDataset, validDataset, validRatio, shuffle);
+=======
+    data::Split(dataset, trainDataset, validDataset, ratio, shuffle);
+>>>>>>> 3353e2e... Add basic definition of models, Needs to be trained and tested
 
     trainFeatures = trainDataset.rows(WrapIndex(startInputFeatures,
         trainDataset.n_rows), WrapIndex(endInputFeatures,
@@ -142,6 +146,119 @@ template<
         WrapIndex(endInputFeatures, dataset.n_rows));
 
     mlpack::Log::Info << "Testing Dataset Loaded." << std::endl;
+  }
+}
+
+template<
+  typename DatasetX,
+  typename DatasetY,
+  class ScalerType
+> void DataLoader<
+    DatasetX, DatasetY, ScalerType
+>::LoadObjectDetectionDataset(const std::string& pathToAnnotations,
+                              const std::string& pathToImages,
+                              const std::vector<std::string>& classes,
+                              const bool absolutePath,
+                              const std::string& baseXMLTag,
+                              const std::string& imageNameXMLTag,
+                              const std::string& sizeXMLTag,
+                              const std::string& objectXMLTag,
+                              const std::string& bndboxXMLTag,
+                              const std::string& classNameXMLTag,
+                              const std::string& x1XMLTag,
+                              const std::string& y1XMLTag,
+                              const std::string& x2XMLTag,
+                              const std::string& y2XMLTag)
+{
+  std::vector<boost::filesystem::path> annotationsDirectory, imagesDirectory;
+
+  // Fill the directory.
+  Utils::ListDir(pathToAnnotations, annotationsDirectory, absolutePath);
+  Utils::ListDir(pathToImages, imagesDirectory, absolutePath);
+
+  // Create a map for labels and corresponding class name.
+  // This provides faster access to class labels.
+  std::unordered_map<std::string, size_t> classMap;
+  for (size_t i = 0; i < classes.size(); i++)
+  {
+    classMap.insert(std::make_pair(classes[i], i));
+  }
+
+  // Map to insert values in a column vector.
+  std::unordered_map<std::string, size_t> indexMap;
+  indexMap.insert(std::make_pair(classNameXMLTag, 0));
+  indexMap.insert(std::make_pair(x1XMLTag, 1));
+  indexMap.insert(std::make_pair(y1XMLTag, 2));
+  indexMap.insert(std::make_pair(x2XMLTag, 3));
+  indexMap.insert(std::make_pair(y2XMLTag, 4));
+
+  // Read the xml file.
+  for (boost::filesystem::path annotationFile : annotationsDirectory)
+  {
+    // Read the xml file.
+    boost::property_tree::ptree xmlFile;
+    boost::property_tree::read_xml(annotationFile.string(), xmlFile);
+
+    // Get annotation from xml file.
+    boost::property_tree::ptree annotation = xmlFile.get_child(baseXMLTag);
+
+    // Read properties inside annotation file.
+    // Get image name.
+    std::string imgName = annotation.get_child(imageNameXMLTag).data();
+
+    // If image doesn't exist then skip the current xml file.
+    if (!Utils::PathExists(pathToImages + imgName, absolutePath))
+    {
+      mlpack::Log::Warn << "Image not found! Tried finding " <<
+          pathToImages + imgName << std::endl;
+      continue;
+    }
+
+    // Get the size of image to create image info required by mlpack::data::Load function.
+    boost::property_tree::ptree sizeInformation = annotation.get_child(sizeXMLTag);
+    size_t imageWidth = std::stoi(sizeInformation.get_child("width").data());
+    size_t imageHeight = std::stoi(sizeInformation.get_child("height").data());
+    size_t imageDepth = std::stoi(sizeInformation.get_child("depth").data());
+    mlpack::data::ImageInfo imageInfo(imageWidth, imageHeight, imageDepth);
+
+    // TODO: Resize the image here.
+
+    // Load the image.
+    // The image loaded here will be in column format i.e. Output will be matrix with the
+    // following shape {1, cols * rows * slices} in column major format.
+    DatasetX image;
+    mlpack::data::Load(pathToImages + imgName, image, imageInfo);
+
+    // Iterate over all object in annotation.
+    BOOST_FOREACH(boost::property_tree::ptree::value_type const& object,
+        annotation)
+    {
+      arma::uvec predictions(5);
+      // Iterate over property of the object to get class label and
+      // bounding box coordinates.
+      if (object.first == objectXMLTag)
+      {
+        if (classMap.count(object.second.get_child(classNameXMLTag).data()))
+        {
+          predictions(indexMap[classNameXMLTag]) = classMap[
+              object.second.get_child(classNameXMLTag).data()];
+          boost::property_tree::ptree const &boundingBox =
+              object.second.get_child(bndboxXMLTag);
+
+          BOOST_FOREACH(boost::property_tree::ptree::value_type
+              const& coordinate, boundingBox)
+          {
+            if (indexMap.count(coordinate.first))
+            {
+              predictions(indexMap[coordinate.first]) =
+                  std::stoi(coordinate.second.data());
+            }
+          }
+        }
+      }
+    }
+
+    // TODO: Augment the image here.
   }
 }
 

@@ -29,7 +29,7 @@ steps:
 
 # Configure CMake Args for models.
 - script: |
-    mkdir data && mkdir build && cd build && cmake $(CMakeArgs-models) ..
+    mkdir build && cd build && cmake $(CMakeArgs-models) ..
   displayName: 'CMake for models'
 
 # Build mlpack
