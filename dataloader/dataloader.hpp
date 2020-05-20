@@ -10,10 +10,13 @@
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
 #include <mlpack/core/data/scaler_methods/min_max_scaler.hpp>
+#include <boost/property_tree/xml_parser.hpp>
 #include <mlpack/core/math/shuffle_data.hpp>
 #include <mlpack/core/data/split_data.hpp>
-#include <mlpack/prereqs.hpp>
+#include <boost/property_tree/ptree.hpp>
 #include <dataloader/datasets.hpp>
+#include <mlpack/prereqs.hpp>
+#include <boost/foreach.hpp>
 #include <mlpack/core.hpp>
 #include <utils/utils.hpp>
 
@@ -116,6 +119,28 @@ class DataLoader
                const std::vector<std::string> augmentation =
                    std::vector<std::string>(),
                const double augmentationProbability = 0.2);
+
+  /**
+   * Loads object detection dataset. It requires a single annotation file in xml format.
+   * Each XML file should correspond to a single image in images folder.
+   *
+   * XML file should containg the following :
+   * 1. Each XML file should be wrapped in annotation tag.
+   * 2. Filename of image in images folder will be depicted by filename tag.
+   * 3. Object tag depicting characteristics of bounding box.
+   * 4. Each object tag should contain name tag i.e. class of the object.
+   * 5. Each object tag should contain bndbox tag containing xmin, ymin, xmax, ymax.
+   *
+   * NOTE : Labels are assigned using lexicographically. Set verbose to 1 to print labels
+   * and their corresponding class.
+   *
+   * @param pathToAnnotations Path to the folder containg xml type annotation files.
+   * @param pathToImages Path to folder containing images corresponding to annotations.
+   * @param absolutePath Boolean to determine if absolute path is used. Defaults to false.
+   */
+  void LoadObjectDetectionDataset(const std::string& pathToAnnotations,
+                                  const std::string& pathToImages,
+                                  const bool absolutePath = false);
 
   //! Get the training dataset features.
   DatasetX TrainFeatures() const { return trainFeatures; }

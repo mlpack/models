@@ -59,6 +59,7 @@ BOOST_AUTO_TEST_CASE(CSVDataLoaderTest)
  */
 BOOST_AUTO_TEST_CASE(MNISTDataLoaderTest)
 {
+  /**
   DataLoader<> dataloader("mnist", true, 0.80);
 
   // Check for correct dimensions.
@@ -67,6 +68,7 @@ BOOST_AUTO_TEST_CASE(MNISTDataLoaderTest)
   BOOST_REQUIRE_EQUAL(dataloader.ValidFeatures().n_rows, 784);
 
   // Check for correct dimensions.
+<<<<<<< HEAD
   BOOST_REQUIRE_EQUAL(dataloader.TrainFeatures().n_cols, 8400);
   BOOST_REQUIRE_EQUAL(dataloader.ValidFeatures().n_cols, 33600);
   BOOST_REQUIRE_EQUAL(dataloader.TestFeatures().n_cols, 28000);
@@ -84,6 +86,22 @@ BOOST_AUTO_TEST_CASE(MNISTDataLoaderTest)
   Utils::RemoveFile("./../data/mnist-dataset/mnist_train.csv");
   Utils::RemoveFile("./../data/mnist-dataset/mnist_test.csv");
   Utils::RemoveFile("./../data/mnist.tar.gz");
+=======
+  BOOST_REQUIRE_EQUAL(dataloader.TrainFeatures().n_cols, 784);
+  BOOST_REQUIRE_EQUAL(dataloader.TestFeatures().n_cols, 784);
+  BOOST_REQUIRE_EQUAL(dataloader.ValidFeatures().n_cols, 784);
+  BOOST_REQUIRE_EQUAL(dataloader.TrainFeatures().n_rows, 33600);
+  */
+}
+
+/**
+ * Simple Test for object detection dataloader.
+ */
+BOOST_AUTO_TEST_CASE(ObjectDetectionDataLoader)
+{
+  DataLoader<> dataloader;
+  dataloader.LoadObjectDetectionDataset("./../data/annotations/", "./../data");
+>>>>>>> 3353e2e... Add basic definition of models, Needs to be trained and tested
 }
 
 BOOST_AUTO_TEST_SUITE_END();

@@ -104,7 +104,11 @@ template<
   if (loadTrainData)
   {
     arma::mat trainDataset, validDataset;
+<<<<<<< HEAD
     data::Split(dataset, trainDataset, validDataset, validRatio, shuffle);
+=======
+    data::Split(dataset, trainDataset, validDataset, ratio, shuffle);
+>>>>>>> 3353e2e... Add basic definition of models, Needs to be trained and tested
 
     trainFeatures = trainDataset.rows(WrapIndex(startInputFeatures,
         trainDataset.n_rows), WrapIndex(endInputFeatures,
@@ -142,6 +146,39 @@ template<
         WrapIndex(endInputFeatures, dataset.n_rows));
 
     mlpack::Log::Info << "Testing Dataset Loaded." << std::endl;
+  }
+}
+
+template<
+  typename DatasetX,
+  typename DatasetY,
+  class ScalerType
+> void DataLoader<
+    DatasetX, DatasetY, ScalerType
+>::LoadObjectDetectionDataset(const std::string& pathToAnnotations,
+                              const std::string& pathToImages,
+                              const bool absolutePath)
+{
+  std::vector<boost::filesystem::path> annotationsDirectory, imagesDirectory;
+
+  // Fill the directory.
+  Utils::ListDir(pathToAnnotations, annotationsDirectory, absolutePath);
+  Utils::ListDir(pathToImages, imagesDirectory, absolutePath);
+
+  // Read the xml file.
+  for (boost::filesystem::path annotationFile : annotationsDirectory)
+  {
+    // Read the xml file.
+    boost::property_tree::ptree annotation;
+    std::cout << annotationFile.string() << std::endl;
+    boost::property_tree::read_xml(annotationFile.string(), annotation);
+
+    // Read properties inside annotation file.
+    BOOST_FOREACH (boost::property_tree::ptree::value_type const& object,
+        annotation.get_child("annotation.object"))
+    {
+      std::cout << object.first << std::endl;
+    }
   }
 }
 
