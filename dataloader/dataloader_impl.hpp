@@ -106,13 +106,6 @@ template<
     arma::mat trainDataset, validDataset;
     data::Split(dataset, trainDataset, validDataset, ratio, shuffle);
 
-    if (useScaler)
-    {
-      scaler.Fit(trainDataset);
-      scaler.Transform(trainDataset, trainDataset);
-      scaler.Transform(validDataset, validDataset);
-    }
-
     trainFeatures = trainDataset.rows(WrapIndex(startInputFeatures,
         trainDataset.n_rows), WrapIndex(endInputFeatures,
         trainDataset.n_rows));
@@ -125,10 +118,16 @@ template<
         validDataset.n_rows), WrapIndex(endInputFeatures,
         validDataset.n_rows));
 
-    validLabels = trainDataset.rows(WrapIndex(startPredictionFeatures,
+    validLabels = validDataset.rows(WrapIndex(startPredictionFeatures,
         validDataset.n_rows), WrapIndex(endPredictionFeatures,
         validDataset.n_rows));
 
+    if (useScaler)
+    {
+      scaler.Fit(trainFeatures);
+      scaler.Transform(trainFeatures, trainFeatures);
+      scaler.Transform(validFeatures, validFeatures);
+    }
     // TODO : Add support for augmentation here.
     mlpack::Log::Info << "Training Dataset Loaded." << std::endl;
   }
