@@ -3,3 +3,6 @@ xcode*
 .DS_Store
 .idea
 cmake-build-*
+*.csv
+.travis/configs.hpp
+Testing/*

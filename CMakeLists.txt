@@ -18,7 +18,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 # Only GCC-like compilers support -Wextra, and other compilers give tons of
 # output for -Wall, so only -Wall and -Wextra on GCC.
 if(CMAKE_COMPILER_IS_GNUCC OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -Wall -Wextra -ftemplate-depth=1000")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -Wall -Wextra -ftemplate-depth=1000 -pthread")
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra")
 endif()
 
@@ -58,7 +58,7 @@ endif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 #   MLPACK_INCLUDE_DIR - include directory for mlpack
 #   MLPACK_LIBRARY - library directory for mlpack
 
-find_package(Armadillo 4.200.0 REQUIRED)
+find_package(Armadillo 8.400.0 REQUIRED)
 
 # If Armadillo was compiled without ARMA_64BIT_WORD and we are on a 64-bit
 # system (where size_t will be 64 bits), suggest to the user that they should
@@ -103,8 +103,8 @@ else()
 endif()
 
 if (WIN32)
-  find_package(LAPACK required)
-  find_package(BLAS required)
+  find_package(LAPACK REQUIRED)
+  find_package(BLAS REQUIRED)
 
   # Piggyback LAPACK and BLAS linking into Armadillo link.
   set(ARMADILLO_LIBRARIES
@@ -112,6 +112,7 @@ if (WIN32)
 endif ()
 
 find_package(MLPACK REQUIRED)
+
 find_package(Ensmallen 1.10.0)
 if (NOT ENSMALLEN_FOUND)
   if (DOWNLOAD_ENSMALLEN)
@@ -161,9 +162,11 @@ set(Boost_ADDITIONAL_VERSIONS
   "1.49.0" "1.50.0" "1.51.0" "1.52.0" "1.53.0" "1.54.0" "1.55.0")
 find_package(Boost 1.49
     COMPONENTS
+      filesystem
+      system
       program_options
-      unit_test_framework
       serialization
+      unit_test_framework
     REQUIRED
 )
 
@@ -192,6 +195,7 @@ set(MODELS_INCLUDE_DIRS ${MLPACK_INCLUDE_DIR}
                         ${ENSMALLEN_INCLUDE_DIR}
                         ${ARMADILLO_INCLUDE_DIR}
                         ${Boost_INCLUDE_DIRS})
+
 set(MODELS_LIBRARIES ${MLPACK_LIBRARY}
                      ${ARMADILLO_LIBRARIES}
                      ${Boost_LIBRARIES})
@@ -209,14 +213,9 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
 
 # Recurse into each model.
 set(DIRS
-  # Model directories.
-  Kaggle/DigitRecognizer
-  Kaggle/DigitRecognizerCNN
-  Kaggle/DigitRecognizerBatchNorm
-  vae/vae_mnist
-  vae/vae_cnn_mnist
-  LSTM/TimeSeries-Univariate
-  LSTM/TimeSeries-Multivariate
+  utils/
+  dataloader/
+  tests/
 )
 
 foreach(dir ${DIRS})

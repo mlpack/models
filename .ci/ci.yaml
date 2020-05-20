@@ -4,12 +4,55 @@ trigger:
     - '*'
 pr:
   branches:
-    include:
-    - '*'
+     include:
+     - '*'
 
-pool:
-  vmImage: 'ubuntu-latest'
+# Define machines on which the build will run.
+jobs:
+- job: macOS
+  timeoutInMinutes: 360
+  displayName: macOS-10.14
+  pool:
+    vmImage: macOS-10.14
 
-steps:
-- script: echo Hello, checkout mlpack/models!
-  displayName: 'Initial ci config.'
+  strategy:
+    matrix:
+      Plain:
+        CMakeArgs-mlpack: '-DDEBUG=ON -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF'
+        CMakeArgs-models: '-DDEBUG=ON'
+
+  steps:
+  - template: macos-steps.yaml
+
+# Linux build.
+- job: Linux
+  timeoutInMinutes: 360
+  pool:
+    vmImage: ubuntu-16.04
+
+  strategy:
+    matrix:
+      Plain:
+          CMakeArgs-mlpack: '-DDEBUG=ON -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF'
+          CMakeArgs-models: '-DDEBUG=ON'
+
+  steps:
+  - template: linux-steps.yaml
+
+# Windows build.
+- job: WindowsVS15
+  timeoutInMinutes: 360
+  displayName: Windows VS15
+  pool:
+    vmImage: vs2017-win2016
+
+  strategy:
+    matrix:
+      Plain:
+          CMakeArgs-mlpack: '-DDEBUG=ON -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF'
+          CMakeArgs-models: '-DDEBUG=ON'
+          CMakeGenerator: '-G "Visual Studio 15 2017 Win64"'
+          MSBuildVersion: '15.0'
+
+  steps:
+  - template: windows-steps.yaml
