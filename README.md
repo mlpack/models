@@ -8,9 +8,16 @@ helping with the transition from the `examples/` repository, be sure to look for
 comments like this one.  Once the transition is done, we can remove this
 comment (and the others).)_
 
-_(If we have functionality to download datasets and also to download
-pretrained model weights, we should put a comment about that here in the main
-description of the repository.)_
+We provide ability to download datasets as well as pretrained weights using our
+utility functions, by default we asume the server to be mlpack.org.
+To dowload any file from mlpack.org simple use following command.
+
+NOTE: Our dataloader and models automatically download weights if neccesary during
+runtime.
+
+```cpp
+Utils::DownloadFile(url, downloadPath);
+```
 
 _(If this repository gets set up as a submodule to the main mlpack repository
 and that is how everything in it should be compiled, then we should point that
