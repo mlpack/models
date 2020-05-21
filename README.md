@@ -21,7 +21,7 @@ out here!)_
   1. [Introduction](#1-introduction)
   2. [Dependencies](#2-dependencies)
   3. [Building-From-Source](#3-building-from-source)
-  4. [Running Models](#4-running-models)
+  5. [Running Models](#5-running-models)
   5. [Current Models](#5-current-models)
   6. [Datasets](#6-datasets)
 
@@ -72,11 +72,70 @@ building with 4 cores can be done with the following command:
 
   `make -j4`
 
-### 4. Running Models
+### 4. Using Dataloaders.
+
+This repository provides dataloaders and data preprocessing modules for mlpack library.
+It also provides utility function required required for downloading, extracting and processing
+image, text and sequential data. For more information about dataloaders and utility functions,
+Refer to our wiki page.
+
+#### 1. Dataloaders for popular datasets.
+
+Creating and processing data can be done in just a single line. Don't have the dataset downloaded,
+No worries, we will download and preprocess it for you. Kindly refer to sample code given below.
+
+```
+const string datasetName = "mnist";
+bool shuffleData = true;
+double ratioForTrainTestSplit = 0.75;
+
+// Create the DataLoader object.
+DataLoader<> dataloader(datasetName, shuffleData, ratioForTrainTestSplit);
+```
+
+To train or test your model with our dataloaders is very simple.
+```
+// Use the dataloader for training.
+ model.Train(dataloader.TrainFeatures(), dataloader.TrainLabels());
+ 
+ // Use the dataloader for prediction.
+ model.Predict(dataloader.TestFeatures(), dataloader.TestLabels());
+```
+
+Currently supported datasets are mentioned below :
+##### 1. MNIST Dataset
+
+#### 2. Loading Other Datasets.
+
+We are continously adding new datasets to this repository, However you can also
+use our dataloaders to load other datasets. Refer to our dataloaders wiki for more
+information.
+
+```
+DataLoader<> irisDataloader;
+
+const string datasetPath = "mnist";
+bool shuffleData = true;
+double ratioForTrainTestSplit = 0.75;
+bool isTrainingData = true;
+bool useFeatureScaling = true;
+bool dropHeader = false;
+
+// Starting column index for Training Features.
+size_t startInputFeatures = 0;
+// Ending column index for training Features.
+// We also support wrapped index i.e. -1 implies last column and so on.
+size_t endInputFeatures = -2;
+
+irisDataloader(datasetPath, isTrainingData, shuffleData, ratioForTrainTestSplit,
+    useFeatureScaling, dropHeader, startInputFeatures, endInputFeatures);
+```
+
+### 5. Running Models
 
 _(This section needs significant overhaul once we clean up our build system.)_
 
-### 5. Current Models
+### 6. Current Models
 
 _(This section also needs some cleanup once we know what we're keeping and what
 we're not keeping.)_
@@ -89,7 +148,7 @@ Currently model-zoo project has the following models implemented:
   - Variational Auto-Encoder on MNIST dataset.
   - Variational Convolutional Auto-Encoder on MNIST.
 
-### 6. Datasets
+### 7. Datasets
 
 _(This section will also need to be overhauled, but we should wait until we
 overhaul the sections above too.)_
