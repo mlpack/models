@@ -84,7 +84,7 @@ Refer to our wiki page.
 Creating and processing data can be done in just a single line. Don't have the dataset downloaded,
 No worries, we will download and preprocess it for you. Kindly refer to sample code given below.
 
-```
+```cpp
 const string datasetName = "mnist";
 bool shuffleData = true;
 double ratioForTrainTestSplit = 0.75;
@@ -94,12 +94,12 @@ DataLoader<> dataloader(datasetName, shuffleData, ratioForTrainTestSplit);
 ```
 
 To train or test your model with our dataloaders is very simple.
-```
+```cpp
 // Use the dataloader for training.
- model.Train(dataloader.TrainFeatures(), dataloader.TrainLabels());
+model.Train(dataloader.TrainFeatures(), dataloader.TrainLabels());
  
- // Use the dataloader for prediction.
- model.Predict(dataloader.TestFeatures(), dataloader.TestLabels());
+// Use the dataloader for prediction.
+model.Predict(dataloader.TestFeatures(), dataloader.TestLabels());
 ```
 
 Currently supported datasets are mentioned below :
@@ -112,7 +112,7 @@ We are continously adding new datasets to this repository, However you can also
 use our dataloaders to load other datasets. Refer to our dataloaders wiki for more
 information.
 
-```
+```cpp
 DataLoader<> irisDataloader;
 
 const string datasetPath = "mnist";
@@ -141,7 +141,7 @@ apply them to their datasets.
 They can simply be called as follows by calling static functions of ProProcess class i.e.
 PreProcess::SupportedDatasetName
 
-```
+```cpp
 PreProcess<>::MNIST(dataloader.TrainFeatures(), dataloader.TrainLabels(),
     dataloader.ValidFeatures(), dataloader.ValidLabels(), dataloader.TestFeatures());
 ```
