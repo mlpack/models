@@ -103,6 +103,7 @@ To train or test your model with our dataloaders is very simple.
 ```
 
 Currently supported datasets are mentioned below :
+((I think we should add a table here with various columns and details.))
 ##### 1. MNIST Dataset
 
 #### 2. Loading Other Datasets.
@@ -130,6 +131,23 @@ size_t endInputFeatures = -2;
 irisDataloader(datasetPath, isTrainingData, shuffleData, ratioForTrainTestSplit,
     useFeatureScaling, dropHeader, startInputFeatures, endInputFeatures);
 ```
+
+#### 3. Preprocessing.
+
+For all datasets that we support we provide, We preprocess them internally. We also
+provide access to preprocessor functions for standard datasets incase one needs to
+apply them to their datasets.
+
+They can simply be called as follows by calling static functions of ProProcess class i.e.
+PreProcess::SupportedDatasetName
+
+```
+PreProcess<>::MNIST(dataloader.TrainFeatures(), dataloader.TrainLabels(),
+    dataloader.ValidFeatures(), dataloader.ValidLabels(), dataloader.TestFeatures());
+```
+
+This is especially useful when preprocessing of your dataset resembles any other standard
+dataset that we support.
 
 ### 5. Running Models
 
