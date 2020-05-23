@@ -70,7 +70,7 @@ LeNet<OutputLayerType, InitializationRuleType, leNetVer>::LeNet(
   }
   else
   {
-    leNet.Add<IdentityLayer<>>();
+    leNet.Add(new IdentityLayer<>());
     ConvolutionBlock(inputChannel, 6, 5, 5, 1, 1, 2, 2);
     PoolingBlock(2, 2, 2, 2);
     ConvolutionBlock(6, 16, 5, 5, 1, 1, 2, 2);
@@ -78,24 +78,24 @@ LeNet<OutputLayerType, InitializationRuleType, leNetVer>::LeNet(
     // Add linear layer for LeNet.
     if (leNetVer == 1)
     {
-      leNet.Add<Linear<>>(16 * inputWidth * inputHeight, numClasses);
+      leNet.Add(new Linear<>(16 * inputWidth * inputHeight, numClasses));
     }
     else if (leNetVer == 4)
     {
-      leNet.Add<Linear<>>(16 * inputWidth * inputHeight, 120);
-      leNet.Add<LeakyReLU<>>();
-      leNet.Add<Linear<>>(120, numClasses);
+      leNet.Add(new Linear<>(16 * inputWidth * inputHeight, 120));
+      leNet.Add(new LeakyReLU<>());
+      leNet.Add(new Linear<>(120, numClasses));
     }
     else if (leNetVer == 5)
     {
-      leNet.Add<Linear<>>(16 * inputWidth * inputHeight, 120);
-      leNet.Add<LeakyReLU<>>();
-      leNet.Add<Linear<>>(120, 84);
-      leNet.Add<LeakyReLU<>>();
-      leNet.Add<Linear<>>(84, 10);
+      leNet.Add(new Linear<>(16 * inputWidth * inputHeight, 120));
+      leNet.Add(new LeakyReLU<>());
+      leNet.Add(new Linear<>(120, 84));
+      leNet.Add(new LeakyReLU<>());
+      leNet.Add(new Linear<>(84, 10));
     }
 
-    leNet.Add<LogSoftMax<>>();
+    leNet.Add(new LogSoftMax<>());
   }
 }
 

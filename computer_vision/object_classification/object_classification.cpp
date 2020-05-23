@@ -26,18 +26,20 @@ using namespace ens;
 
 int main()
 {
-  const int EPOCHS = 2;
+  const int EPOCHS = 3;
   const double STEP_SIZE = 5e-3;
   const int BATCH_SIZE = 32;
   const double RATIO = 0.2;
 
   DataLoader<> dataloader("mnist", true, RATIO);
 
-  LeNet<> module1(1, 28, 28, 10);
+  constexpr size_t ver = 5;
+  LeNet<mlpack::ann::NegativeLogLikelihood<>,
+      mlpack::ann::RandomInitialization, ver> module1(1, 28, 28, 10);
   cout << "Training." << endl;
 
   SGD<AdamUpdate> optimizer(STEP_SIZE, BATCH_SIZE,
-                            EPOCHS * dataloader.TrainLabels().n_cols,
+                            EPOCHS * (ver / 2) * dataloader.TrainLabels().n_cols,
                             1e-8,
                             true,
                             AdamUpdate(1e-8, 0.9, 0.999));
@@ -49,7 +51,7 @@ int main()
                            ens::ProgressBar(),
                            ens::EarlyStopAtMinLoss());
 
-  module1.SaveModel("./../weights/lenet/lenet" + to_string(1)+"_mnist.bin");
+  module1.SaveModel("./../weights/lenet/lenet" + to_string(ver)+"_mnist.bin");
 
   return 0;
 }

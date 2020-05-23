@@ -109,14 +109,36 @@ void CheckSequentialModel(mlpack::ann::Sequential<>* layer,
  */
 BOOST_AUTO_TEST_CASE(LeNetModelTest)
 {
-  LeNet<> lenetModel(1, 28, 28, 10, "mnist");
+  LeNet<> lenetModel1(1, 28, 28, 10, "mnist");
+
   // Create an optimizer object for tests.
-  ens::SGD<ens::AdamUpdate> optimizer(1e-4, 16, 1000,
+  ens::SGD<ens::AdamUpdate> optimizer(1e-4, 16, 50,
       1e-8, true, ens::AdamUpdate(1e-8, 0.9, 0.999));
 
   // Check whether FFN model performs well.
-  CheckFFNClassificationWeights<ens::SGD<ens::AdamUpdate>>(lenetModel.GetModel(),
-      "mnist", 1e-1, true, optimizer);
+  CheckFFNClassificationWeights<ens::SGD<ens::AdamUpdate>>(
+      lenetModel1.GetModel(), "mnist", 1e-1, true, optimizer);
+
+  LeNet<
+      mlpack::ann::NegativeLogLikelihood<>,
+      mlpack::ann::RandomInitialization,
+      4
+      >lenetModel4(1, 28, 28, 10, "mnist");
+
+  // Check whether FFN model performs well.
+  CheckFFNClassificationWeights<ens::SGD<ens::AdamUpdate>>(
+      lenetModel4.GetModel(), "mnist", 1e-1, true, optimizer);
+
+  std::cout << "2 Passed!";
+  LeNet<
+      mlpack::ann::NegativeLogLikelihood<>,
+      mlpack::ann::RandomInitialization,
+      5
+      >lenetModel5(1, 28, 28, 10, "mnist");
+
+  // Check whether FFN model performs well.
+  CheckFFNClassificationWeights<ens::SGD<ens::AdamUpdate>>(
+      lenetModel5.GetModel(), "mnist", 1e-1, true, optimizer);
 }
 
 BOOST_AUTO_TEST_SUITE_END();
