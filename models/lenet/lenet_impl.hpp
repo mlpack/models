@@ -61,7 +61,8 @@ LeNet<OutputLayerType, InitializationRuleType, leNetVer>::LeNet(
 
   if (weights == "mnist")
   {
-    LoadModel("./../weights/lenet/lenet_mnist.bin");
+    LoadModel("./../weights/lenet/lenet" + std::to_string(leNetVer) +
+        "_mnist.bin");
   }
   else if (weights != "none")
   {

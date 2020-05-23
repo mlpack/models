@@ -217,6 +217,7 @@ set(DIRS
   dataloader/
   tests/
   models/
+  computer_vision/
 )
 
 foreach(dir ${DIRS})

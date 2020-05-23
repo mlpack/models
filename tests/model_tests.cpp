@@ -31,20 +31,32 @@ template<
     typename InputType = arma::mat,
     typename OutputType = arma::mat
 >
-void CheckFFNWeights(mlpack::ann::FFN<OutputLayerType,
+void CheckFFNClassificationWeights(mlpack::ann::FFN<OutputLayerType,
     InitializationRuleType>& model, const std::string& datasetName,
     const double threshold, const bool takeMean,
     OptimizerType& optimizer)
 {
   DataLoader<InputType, OutputType> dataloader(datasetName, true);
+
   // Train the model. Note: Callbacks such as progress bar and loss aren't
   // used in testing. Training the model for few epochs ensures that a
   // user can use the pretrained model on any other dataset.
-  model.Train(dataloader.TrainX(), dataloader.TrainY(), optimizer);
+  model.Train(dataloader.TrainFeatures(), dataloader.TrainLabels(), optimizer);
+
   // Verify viability of model on validation datset.
   OutputType predictions;
-  model.Predict(dataloader.ValidX(), predictions);
-  double error = MetricType::Evaluate(predictions, dataloader.ValidY());
+  model.Predict(dataloader.ValidFeatures(), predictions);
+
+  // Since this checks weights for classification problem, we need to convert
+  // predictions into labels.
+  arma::Row<size_t> predLabels(predictions.n_cols);
+  for (arma::uword i = 0; i < predictions.n_cols; ++i)
+  {
+    predLabels(i) = predictions.col(i).index_max() + 1;
+  }
+
+  double error = MetricType::Evaluate(predLabels, dataloader.ValidLabels());
+
   if (takeMean)
   {
     error = error / predictions.n_elem;
@@ -86,7 +98,7 @@ void CheckSequentialModel(mlpack::ann::Sequential<>* layer,
   FFN<OutputLayerType, InitializationRuleType> model;
   model.Add<IdentityLayer<>>();
   model.Add(layer);
-  CheckFFNWeights<OptimizerType, OutputLayerType, InitializationRuleType,
+  CheckFFNClassificationWeights<OptimizerType, OutputLayerType, InitializationRuleType,
       MetricType, InputType, OutputType>(model, datasetName, threshold,
       takeMean, optimizer);
   // Using Layer in another model.
@@ -103,9 +115,8 @@ BOOST_AUTO_TEST_CASE(LeNetModelTest)
       1e-8, true, ens::AdamUpdate(1e-8, 0.9, 0.999));
 
   // Check whether FFN model performs well.
-  FFN<> model = lenetModel.GetModel();
-  CheckFFNWeights<ens::SGD<ens::AdamUpdate>>(model, "mnist", 1e-2,
-      true, optimizer);
+  CheckFFNClassificationWeights<ens::SGD<ens::AdamUpdate>>(lenetModel.GetModel(),
+      "mnist", 1e-1, true, optimizer);
 }
 
 BOOST_AUTO_TEST_SUITE_END();
