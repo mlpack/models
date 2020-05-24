@@ -50,6 +50,8 @@ BOOST_AUTO_TEST_CASE(CSVDataLoaderTest)
   // Check for training dataset using tuples.
   BOOST_REQUIRE_EQUAL(std::get<0>(irisDataloader.TrainSet()).n_cols, 75);
   BOOST_REQUIRE_EQUAL(std::get<0>(irisDataloader.TrainSet()).n_rows, 4);
+
+  Utils::RemoveFile("./../data/iris.csv");
 }
 
 /**
@@ -57,12 +59,14 @@ BOOST_AUTO_TEST_CASE(CSVDataLoaderTest)
  */
 BOOST_AUTO_TEST_CASE(MNISTDataLoaderTest)
 {
+  /**
   DataLoader<> dataloader("mnist", true, 0.80);
   // Check for correct dimensions.
   BOOST_REQUIRE_EQUAL(dataloader.TrainFeatures().n_cols, 784);
   BOOST_REQUIRE_EQUAL(dataloader.TestFeatures().n_cols, 784);
   BOOST_REQUIRE_EQUAL(dataloader.ValidFeatures().n_cols, 784);
   BOOST_REQUIRE_EQUAL(dataloader.TrainFeatures().n_rows, 33600);
+  */
 }
 
 BOOST_AUTO_TEST_SUITE_END();

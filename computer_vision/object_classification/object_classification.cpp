@@ -16,6 +16,7 @@
  */
 #include <dataloader/dataloader.hpp>
 #include <models/lenet/lenet.hpp>
+#include <utils/utils.hpp>
 #include <ensmallen.hpp>
 
 using namespace mlpack;
@@ -39,7 +40,7 @@ int main()
   cout << "Training." << endl;
 
   SGD<AdamUpdate> optimizer(STEP_SIZE, BATCH_SIZE,
-                            EPOCHS * (ver / 2) * dataloader.TrainLabels().n_cols,
+                            EPOCHS * dataloader.TrainLabels().n_cols,
                             1e-8,
                             true,
                             AdamUpdate(1e-8, 0.9, 0.999));

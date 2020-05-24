@@ -29,7 +29,7 @@ steps:
 
 # Configure CMake Args for models.
 - script: |
-    mkdir data && mkdir build && cd build && cmake $(CMakeArgs-models) ..
+    mkdir build && cd build && cmake $(CMakeArgs-models) ..
   displayName: 'CMake for models'
 
 # Build mlpack
@@ -37,7 +37,7 @@ steps:
   displayName: 'Build models'
 
 # Run CTests.
-- script: cd build/tests/ && sudo CTEST_OUTPUT_ON_FAILURE=1 ctest -R UtilsTest
+- script: cd build/tests/ && sudo CTEST_OUTPUT_ON_FAILURE=1 ctest -T Test .
   displayName: 'Run tests via ctest'
 
 # Publish test results to Azure Pipelines

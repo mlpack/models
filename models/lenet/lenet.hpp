@@ -119,10 +119,10 @@ class LeNet
                         const size_t padW = 0,
                         const size_t padH = 0)
   {
-    leNet.Add<Convolution<>>(inSize, outSize, kernelWidth,
+    leNet.Add(new Convolution<>(inSize, outSize, kernelWidth,
         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
-        inputHeight);
-    leNet.Add<LeakyReLU<>>();
+        inputHeight));
+    leNet.Add(new LeakyReLU<>());
 
     // Update inputWidth and input Height.
     inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
@@ -143,8 +143,8 @@ class LeNet
                     const size_t strideWidth = 1,
                     const size_t strideHeight = 1)
   {
-    leNet.Add<MaxPooling<>>(kernelWidth, kernelHeight,
-        strideWidth, strideHeight, true);
+    leNet.Add(new MaxPooling<>(kernelWidth, kernelHeight,
+        strideWidth, strideHeight, true));
     // Update inputWidth and inputHeight.
     inputWidth = PoolOutSize(inputWidth, kernelWidth, strideWidth);
     inputHeight = PoolOutSize(inputHeight, kernelHeight, strideHeight);

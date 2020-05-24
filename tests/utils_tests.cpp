@@ -74,4 +74,12 @@ BOOST_AUTO_TEST_CASE(RemoveFileTest)
   BOOST_REQUIRE_EQUAL(Utils::PathExists("./../data/file.txt"), 0);
 }
 
+BOOST_AUTO_TEST_CASE(ExtractFilesTest)
+{
+  Utils::DownloadFile("/datasets/mnist.tar.gz", "./../data/mnist.tar.gz", "",
+      false, true, "www.mlpack.org", true, "./../data/");
+  BOOST_REQUIRE(Utils::PathExists("./../data/mnist_all.csv"));
+  BOOST_REQUIRE(Utils::PathExists("./../data/mnist.tar.gz"));
+}
+
 BOOST_AUTO_TEST_SUITE_END();
