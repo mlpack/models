@@ -16,6 +16,7 @@
  */
 #include <dataloader/dataloader.hpp>
 #include <models/lenet/lenet.hpp>
+#include <utils/utils.hpp>
 #include <ensmallen.hpp>
 
 using namespace mlpack;

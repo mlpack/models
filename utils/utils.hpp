@@ -44,6 +44,34 @@ class Utils
   }
 
   /**
+   * Uzips any supported tar file.
+   *
+   * @param pathToArchive Path to where the tar file is stored.
+   * @param pathForExtraction Path where files will be extracted.
+   * @param absolutePath Boolean to determine if path is absolute or relative.
+   */
+  static int ExtractFiles(const std::string pathToArchive,
+                          const std::string pathForExtraction,
+                          const bool absolutePath = false)
+  {
+    std::string command = "tar -xvzf ";
+    if (!absolutePath)
+    {
+      command = command + boost::filesystem::current_path().string() + "/" +
+          pathToArchive + " -C " + boost::filesystem::current_path().string() +
+          "/" + pathForExtraction;
+    }
+    else
+    {
+      command = command + pathToArchive + " -C " + pathForExtraction;
+    }
+
+    // Run the command using system command.
+    std::system(command.c_str());
+    return 0;
+  }
+
+  /**
    * Downloads files using boost asio.
    *
    * For more information on how to download using boost asio, refer to
