@@ -71,20 +71,20 @@ double accuracy(arma::Row<size_t> predLabels, const arma::mat& realY)
 void save(const std::string filename, std::string header,
   const arma::Row<size_t>& predLabels)
 {
-	std::ofstream out(filename);
-	out << header << std::endl;
-	for (size_t j = 0; j < predLabels.n_cols; ++j)
-	{
-	  // j + 1 because Kaggle indexes start from 1
-	  // pred - 1 because 1st class is 0, 2nd class is 1 and etc.
-		out << j + 1 << "," << std::round(predLabels(j)) - 1;
+  std::ofstream out(filename);
+  out << header << std::endl;
+  for (size_t j = 0; j < predLabels.n_cols; ++j)
+  {
+    // j + 1 because Kaggle indexes start from 1
+    // pred - 1 because 1st class is 0, 2nd class is 1 and etc.
+    out << j + 1 << "," << std::round(predLabels(j)) - 1;
     // to avoid an empty line in the end of the file
-		if (j < predLabels.n_cols - 1)
-		{
-		  out << std::endl;
-		}
-	}
-	out.close();
+    if (j < predLabels.n_cols - 1)
+    {
+      out << std::endl;
+    }
+  }
+  out.close();
 }
 
 #endif

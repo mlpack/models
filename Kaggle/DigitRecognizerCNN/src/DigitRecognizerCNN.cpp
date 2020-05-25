@@ -116,8 +116,7 @@ int main()
       0,  // Padding width.
       0,  // Padding height.
       28, // Input width.
-      28  // Input height.
-      );
+      28); // Input Height
 
   // Add first ReLU.
   model.Add<LeakyReLU<> >();
@@ -128,8 +127,7 @@ int main()
       2,  // Height of field.
       2,  // Stride along width.
       2,  // Stride along height.
-      true
-      );
+      true);
 
   // Add the second convolution layer.
   model.Add<Convolution<> >(
@@ -142,8 +140,7 @@ int main()
       0,  // Padding width.
       0,  // Padding height.
       12, // Input width.
-      12  // Input height.
-      );
+      12); // Input Height
 
   // Add the second ReLU.
   model.Add<LeakyReLU<> >();
@@ -223,6 +220,6 @@ int main()
 
   // Saving results into Kaggle compatibe CSV file.
   save("Kaggle/results.csv", "ImageId,Label", testPred);
-  cout << "Results were saved to Kaggle/results.csv. This file can be uploaded to "
-      << "https://www.kaggle.com/c/digit-recognizer/submissions." << endl;
+  cout << "Results were saved to Kaggle/results.csv. This file can be uploaded "
+      << "to https://www.kaggle.com/c/digit-recognizer/submissions." << endl;
 }
