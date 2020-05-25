@@ -10,8 +10,6 @@ steps:
     git clone --depth 1 https://github.com/mlpack/jenkins-conf.git conf
     git clone --depth 1 https://github.com/mlpack/mlpack.git
 
-    mkdir data
-
     sudo add-apt-repository ppa:mhier/libboost-latest
     sudo apt-get update
 
