@@ -66,6 +66,10 @@ class Utils
       command = command + pathToArchive + " -C " + pathForExtraction;
     }
 
+    #ifdef _WIN32
+      command = command + " --force-local"
+    #endif
+
     // Run the command using system command.
     std::system(command.c_str());
     return 0;
