@@ -67,7 +67,7 @@ class Utils
     }
 
     #ifdef _WIN32
-      command = command + " --force-local"
+      command = command + " --force-local";
     #endif
 
     // Run the command using system command.
