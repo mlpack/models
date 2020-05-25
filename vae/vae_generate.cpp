@@ -109,7 +109,8 @@ int main()
       gaussianVaried.col(j)(i) = -1.5 + j * (3.0 / nofSamples);
     }
 
-    // Forward pass only through the decoder(and Sigmod layer in case of binary).
+    // Forward pass only through the decoder
+    // (and Sigmod layer in case of binary).
     vaeModel.Forward(gaussianVaried,
                      outputDists,
                      3 /* Index of the decoder */,
