@@ -96,7 +96,7 @@ void CheckSequentialModel(mlpack::ann::Sequential<>* layer,
   // 1. Can it be attached to other models.
   // 2. Used as an FFN for training / inference.
   FFN<OutputLayerType, InitializationRuleType> model;
-  model.Add<IdentityLayer<>>();
+  model.Add(new IdentityLayer<>());
   model.Add(layer);
   CheckFFNClassificationWeights<OptimizerType, OutputLayerType, InitializationRuleType,
       MetricType, InputType, OutputType>(model, datasetName, threshold,
@@ -129,7 +129,6 @@ BOOST_AUTO_TEST_CASE(LeNetModelTest)
   CheckFFNClassificationWeights<ens::SGD<ens::AdamUpdate>>(
       lenetModel4.GetModel(), "mnist", 1e-1, true, optimizer);
 
-  std::cout << "2 Passed!";
   LeNet<
       mlpack::ann::NegativeLogLikelihood<>,
       mlpack::ann::RandomInitialization,
@@ -137,8 +136,10 @@ BOOST_AUTO_TEST_CASE(LeNetModelTest)
       >lenetModel5(1, 28, 28, 10, "mnist");
 
   // Check whether FFN model performs well.
-  CheckFFNClassificationWeights<ens::SGD<ens::AdamUpdate>>(
-      lenetModel5.GetModel(), "mnist", 1e-1, true, optimizer);
+  /**
+   * CheckFFNClassificationWeights<ens::SGD<ens::AdamUpdate>>(
+   *    lenetModel5.GetModel(), "mnist", 1e-1, true, optimizer);
+   */
 }
 
 BOOST_AUTO_TEST_SUITE_END();

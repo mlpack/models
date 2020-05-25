@@ -134,7 +134,7 @@ steps:
 # Run tests via ctest.
 - bash: |
     cd build/tests
-    CTEST_OUTPUT_ON_FAILURE=1 ctest -T Test -C Release -R UtilsTest
+    CTEST_OUTPUT_ON_FAILURE=1 ctest -T Test -C Release .
   displayName: 'Run tests via ctest'
 
 # Publish test results to Azure Pipelines

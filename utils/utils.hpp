@@ -83,6 +83,8 @@ class Utils
    * @param absolutePath Boolean to determine if path is absolute or relative.
    * @param silent Boolean to display details of file being downloaded.
    * @param serverName Server to connect to, for downloading.
+   * @param zipFile Determines if dataset needs to be extracted or not.
+   * @param pathForExtraction Path where files will be extracted if zipFile is true.
    * @returns 0 to determine success.
    */
   static int DownloadFile(const std::string url,
@@ -91,7 +93,9 @@ class Utils
                           const bool absolutePath = false,
                           const bool silent = true,
                           const std::string serverName =
-                              "www.mlpack.org")
+                              "www.mlpack.org",
+                          const bool zipFile = false,
+                          const std::string pathForExtraction = "./../data/")
   {
     // IO functionality by boost core.
     boost::asio::io_service ioService;
@@ -179,6 +183,13 @@ class Utils
     }
 
     outputFile.close();
+
+    // Extract Files.
+    if (zipFile)
+    {
+      Utils::ExtractFiles(downloadPath, "./../data/");
+    }
+
     return 0;
   }
 

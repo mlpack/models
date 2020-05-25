@@ -179,11 +179,30 @@ class DataLoader
    */
   void DownloadDataset(const std::string& dataset)
   {
+    if (datasetMap[dataset].zipFile && (!Utils::PathExists(
+        datasetMap[dataset].trainPath) ||
+        !Utils::PathExists(datasetMap[dataset].testPath)))
+    {
+      Utils::DownloadFile(datasetMap[dataset].datasetURL,
+          datasetMap[dataset].datasetPath, dataset + "_training_data.",
+          false, false, datasetMap[dataset].serverName,
+          datasetMap[dataset].zipFile);
+
+      if (!Utils::CompareCRC32(datasetMap[dataset].datasetPath,
+          datasetMap[dataset].datasetHash))
+      {
+        mlpack::Log::Fatal << "Corrupted Data for " << dataset <<
+            " downloaded." << std::endl;
+      }
+
+      return;
+    }
+
     if (!Utils::PathExists(datasetMap[dataset].trainPath))
     {
-      Utils::DownloadFile(datasetMap[dataset].trainDownloadUrl,
+      Utils::DownloadFile(datasetMap[dataset].trainDownloadURL,
           datasetMap[dataset].trainPath, dataset + "_training_data.",
-          false);
+          false, false, datasetMap[dataset].serverName);
 
       if (!Utils::CompareCRC32(datasetMap[dataset].trainPath,
           datasetMap[dataset].trainHash))
@@ -192,11 +211,12 @@ class DataLoader
             dataset << " downloaded." << std::endl;
       }
     }
+
     if (!Utils::PathExists(datasetMap[dataset].testPath))
     {
-      Utils::DownloadFile(datasetMap[dataset].trainDownloadUrl,
+      Utils::DownloadFile(datasetMap[dataset].trainDownloadURL,
           datasetMap[dataset].testPath, dataset + "_testing_data.",
-          false);
+          false, false, datasetMap[dataset].serverName);
 
       if (!Utils::CompareCRC32(datasetMap[dataset].testPath,
           datasetMap[dataset].testHash))
