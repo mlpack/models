@@ -10,7 +10,7 @@ comment (and the others).)_
 
 We provide ability to download datasets as well as pretrained weights using our
 utility functions, by default we asume the server to be mlpack.org.
-To dowload any file from mlpack.org simple use following command.
+To dowload any file from mlpack.org simple use the following command.
 
 NOTE: Our dataloader and models automatically download weights if neccesary during
 runtime.
@@ -28,9 +28,10 @@ out here!)_
   1. [Introduction](#1-introduction)
   2. [Dependencies](#2-dependencies)
   3. [Building-From-Source](#3-building-from-source)
+  4. [Using Dataloaders](#4-using-dataloaders)
   5. [Running Models](#5-running-models)
-  5. [Current Models](#5-current-models)
-  6. [Datasets](#6-datasets)
+  6. [Current Models](#6-current-models)
+  7. [Datasets](#7-datasets)
 
 ###  1. Introduction
 
@@ -79,7 +80,7 @@ building with 4 cores can be done with the following command:
 
   `make -j4`
 
-### 4. Using Dataloaders.
+### 4. Using Dataloaders
 
 This repository provides dataloaders and data preprocessing modules for mlpack library.
 It also provides utility function required required for downloading, extracting and processing
