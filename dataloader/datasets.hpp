@@ -203,7 +203,6 @@ struct DatasetDetails
   {
     // Nothing to do here.
   }
-
 };
 
 /**
@@ -219,7 +218,6 @@ template<
 class Datasets
 {
  public:
-
   //! Get details of MNIST Dataset.
   const static DatasetDetails<DatasetX, DatasetY> MNIST()
   {
@@ -228,10 +226,10 @@ class Datasets
         true,
         "/datasets/mnist.tar.gz",
         "./../data/mnist.tar.gz",
-        "9fa4efe5",
+        "33470ca3",
         true,
-        "./../data/mnist_train.csv",
-        "./../data/mnist_test.csv");
+        "./../data/mnist-dataset/mnist_train.csv",
+        "./../data/mnist-dataset/mnist_test.csv");
 
     // Set the Pre-Processor Function.
     mnistDetails.PreProcess = PreProcessor<DatasetX, DatasetY>::MNIST;

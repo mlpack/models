@@ -76,10 +76,19 @@ BOOST_AUTO_TEST_CASE(RemoveFileTest)
 
 BOOST_AUTO_TEST_CASE(ExtractFilesTest)
 {
-  Utils::DownloadFile("/datasets/mnist.tar.gz", "./../data/mnist.tar.gz", "",
-      false, true, "www.mlpack.org", true, "./../data/");
-  BOOST_REQUIRE(Utils::PathExists("./../data/mnist_all.csv"));
-  BOOST_REQUIRE(Utils::PathExists("./../data/mnist.tar.gz"));
+  std::vector<boost::filesystem::path> vec;
+
+  Utils::DownloadFile("/datasets/USCensus1990.tar.gz",
+      "./../data/USCensus1990.tar.gz", "", false, true,
+      "www.mlpack.org", true, "./../data/");
+
+  BOOST_REQUIRE(Utils::PathExists("./../data/USCensus1990.csv"));
+  BOOST_REQUIRE(Utils::PathExists("./../data/USCensus1990_centroids.csv"));
+
+  // Clean up.
+  Utils::RemoveFile("./../data/USCensus1990.csv");
+  Utils::RemoveFile("./../data/USCensus1990_centroids.csv");
+  Utils::RemoveFile("./../data/USCensus1990.tar.gz");
 }
 
 BOOST_AUTO_TEST_SUITE_END();

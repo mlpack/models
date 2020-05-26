@@ -101,6 +101,7 @@ steps:
 
 - powershell: |
     mkdir build
+    mkdir data
     cp $(Agent.ToolsDirectory)\boost_libs\*.* build\
     cp $(Agent.ToolsDirectory)\OpenBLAS.0.2.14.1\lib\native\lib\x64\*.* build\
     cp $(Agent.ToolsDirectory)\OpenBLAS.0.2.14.1\lib\native\bin\x64\*.* build\

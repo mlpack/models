@@ -57,18 +57,26 @@ class Utils
     std::string command = "tar -xvzf ";
     if (!absolutePath)
     {
-      command = command + boost::filesystem::current_path().string() + "/" +
+      #ifdef _WIN32
+        std::string pathToArchiveTemp(pathToArchive);
+        std::string pathForExtractionTemp(pathForExtraction);
+        std::replace(pathToArchiveTemp.begin(), pathToArchiveTemp.end(), '/',
+            '\\');
+        std::replace(pathForExtractionTemp.begin(), pathForExtractionTemp.end(),
+            '/', '\\');
+
+        command = "tar --force-local -xvzf " + pathToArchiveTemp + " -C " +
+            pathForExtractionTemp;
+      #else
+        command = command + boost::filesystem::current_path().string() + "/" +
           pathToArchive + " -C " + boost::filesystem::current_path().string() +
           "/" + pathForExtraction;
+      #endif
     }
     else
     {
       command = command + pathToArchive + " -C " + pathForExtraction;
     }
-
-    #ifdef _WIN32
-      command = command + " --force-local";
-    #endif
 
     // Run the command using system command.
     std::system(command.c_str());
@@ -191,7 +199,7 @@ class Utils
     // Extract Files.
     if (zipFile)
     {
-      Utils::ExtractFiles(downloadPath, "./../data/");
+      Utils::ExtractFiles(downloadPath, pathForExtraction);
     }
 
     return 0;
@@ -255,6 +263,36 @@ class Utils
     }
 
     return 0;
+  }
+
+  /**
+   * Fills a vector with paths to all files in directory.
+   *
+   * @param path Path to Directory.
+   * @param pathVector A vector of type filesystem::path, which will be filled
+   *                   paths for all files / folders in given directory path.
+   * @param absolutePath Boolean to determine if path is absolute or relative.
+   */
+  static void ListDir(const std::string& path,
+                      std::vector<boost::filesystem::path>& pathVector,
+                      const bool absolutePath = false)
+  {
+    if (Utils::PathExists(path, absolutePath))
+    {
+      boost::filesystem::path directoryPath(path);
+
+      // Fill the path vector with respective paths.
+      std::copy(boost::filesystem::directory_iterator(directoryPath),
+          boost::filesystem::directory_iterator(),
+          std::back_inserter(pathVector));
+
+      // Sort the path vector.
+      std::sort(pathVector.begin(), pathVector.end());
+    }
+    else
+    {
+      mlpack::Log::Warn << "The " << path << " doesn't exist." << std::endl;
+    }
   }
 };
 #endif

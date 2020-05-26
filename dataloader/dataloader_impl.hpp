@@ -56,7 +56,7 @@ template<
               datasetMap[dataset].endTrainingPredictionFeatures,
               datasetMap[dataset].endTrainingPredictionFeatures);
 
-      LoadCSV(datasetMap[dataset].testPath, false, false, useScaler,
+      LoadCSV(datasetMap[dataset].testPath, false, false, ratio, useScaler,
               datasetMap[dataset].dropHeader,
               datasetMap[dataset].startTestingInputFeatures,
               datasetMap[dataset].endTestingInputFeatures);
@@ -138,8 +138,9 @@ template<
       scaler.Transform(dataset, dataset);
     }
 
-    testFeatures = dataset.submat(WrapIndex(startInputFeatures, dataset.n_rows),
-        0, WrapIndex(endInputFeatures, dataset.n_rows), dataset.n_cols - 1);
+    testFeatures = dataset.rows(WrapIndex(startInputFeatures, dataset.n_rows),
+        WrapIndex(endInputFeatures, dataset.n_rows));
+
     mlpack::Log::Info << "Testing Dataset Loaded." << std::endl;
   }
 }
