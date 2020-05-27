@@ -109,7 +109,8 @@ int main()
       gaussianVaried.col(j)(i) = -1.5 + j * (3.0 / nofSamples);
     }
 
-    // Forward pass only through the decoder(and Sigmod layer in case of binary).
+    // Forward pass only through the decoder
+    // (and Sigmod layer in case of binary).
     vaeModel.Forward(gaussianVaried,
                      outputDists,
                      3 /* Index of the decoder */,
@@ -117,8 +118,11 @@ int main()
 
     GetSample(outputDists, samples, isBinary);
     // Save the prior samples as csv.
-    data::Save("samples_csv_files/samples_prior_latent" + std::to_string(i) + ".csv",
-        samples, false, false);
+    data::Save(
+        "samples_csv_files/samples_prior_latent" + std::to_string(i) + ".csv",
+        samples,
+        false,
+        false);
   }
 
   /*
@@ -139,7 +143,8 @@ int main()
       gaussianVaried.col(j)(latent2) = -1.5 + j * (3.0 / nofSamples);
     }
 
-    // Forward pass only through the decoder(and Sigmod layer in case of binary).
+    // Forward pass only through the decoder
+    // (and Sigmod layer in case of binary).
     vaeModel.Forward(gaussianVaried,
                      outputDists,
                      3 /* Index of the decoder */,
@@ -164,6 +169,10 @@ int main()
 
     GetSample(outputDists, samples, isBinary);
     // Save the posterior samples as csv.
-    data::Save("samples_csv_files/samples_posterior.csv", samples, false, false);
+    data::Save(
+      "samples_csv_files/samples_posterior.csv",
+      samples,
+      false,
+      false);
   }
 }

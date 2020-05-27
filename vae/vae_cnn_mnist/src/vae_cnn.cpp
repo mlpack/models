@@ -126,16 +126,16 @@ int main()
 
     // Add the first convolution layer.
     encoder->Add<Convolution<> >(
-        1,  // Number of input activation maps
-        16, // Number of output activation maps.
-        5,  // Filter width.
-        5,  // Filter height.
-        2,  // Stride along width.
-        2,  // Stride along height.
-        2,  // Padding width.
-        2,  // Padding height.
-        28, // Input width.
-        28);// Input height.
+        1,   // Number of input activation maps
+        16,  // Number of output activation maps.
+        5,   // Filter width.
+        5,   // Filter height.
+        2,   // Stride along width.
+        2,   // Stride along height.
+        2,   // Padding width.
+        2,   // Padding height.
+        28,  // Input width.
+        28); // Input height.
 
     // Add first ReLU.
     encoder->Add<LeakyReLU<> >();
@@ -163,16 +163,16 @@ int main()
 
     // Add the first transposed convolution(deconvolution) layer.
     decoder->Add<TransposedConvolution<> >(
-        24, // Number of input activation maps.
-        16, // Number of output activation maps.
-        5,  // Filter width.
-        5,  // Filter height.
-        1,  // Stride along width.
-        1,  // Stride along height.
-        0,  // Padding width.
-        0,  // Padding height.
-        10, // Input width.
-        10);// Input height.
+        24,  // Number of input activation maps.
+        16,  // Number of output activation maps.
+        5,   // Filter width.
+        5,   // Filter height.
+        1,   // Stride along width.
+        1,   // Stride along height.
+        0,   // Padding width.
+        0,   // Padding height.
+        10,  // Input width.
+        10); // Input height.
 
     decoder->Add<LeakyReLU<> >();
     decoder->Add<TransposedConvolution<> >(16, 1, 15, 15, 1, 1, 1, 1, 14, 14);

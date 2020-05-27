@@ -3,7 +3,8 @@
  * solving Digit Recognizer problem from Kaggle website.
  *
  * The full description of a problem as well as datasets for training
- * and testing are available here https://www.kaggle.com/c/digit-recognizer using BatchNorm
+ * and testing are available here https://www.kaggle.com/c/digit-recognizer
+ * using BatchNorm
  *
  * mlpack is free software; you may redistribute it and/or modify it under the
  * terms of the 3-clause BSD license.  You should have received a copy of the
@@ -97,15 +98,15 @@ int main() {
   // data and PRelU layer. Parameters specify the number of input features
   // and number of neurons in the next layer.
   model.Add<Linear<> >(trainX.n_rows, H1);
-  // The first PReLU activation layer. parameter can be set as constructor argument.
+  // The first PReLU activation layer. parameter can be set as constructor arg.
   model.Add<PReLU<> >();
-  // BatchNorm layer applied after PReLU activation as it gives better results practically.
+  // BatchNorm layer applied after PReLU activation as it gives better results.
   model.Add<BatchNorm<> >(H1);
   // Intermediate layer between PReLU activation layers.
   model.Add<Linear<> >(H1, H2);
   // The second PReLU layer.
   model.Add<PReLU<> >();
-  //Second BatchNorm layer
+  // Second BatchNorm layer
   model.Add<BatchNorm<> >(H2);
   // Intermediate layer.
   model.Add<Linear<> >(H2, 10);
@@ -136,7 +137,6 @@ int main() {
   // Cycles for monitoring the process of a solution.
   for (int i = 0; i <= CYCLES; i++)
   {
-
     // Train neural network. If this is the first iteration, weights are
     // random, using current values as starting point otherwise.
     model.Train(trainX, trainY, optimizer);

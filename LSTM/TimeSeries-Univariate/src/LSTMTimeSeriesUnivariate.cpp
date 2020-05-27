@@ -1,5 +1,5 @@
 /**
- * An example of using Recurrent Neural Network (RNN) 
+ * An example of using Recurrent Neural Network (RNN)
  * to make forcasts on a time series of number of kilowatt-hours used in a
  * residential home over a 3.5 month period, 25 November 2011 to 17 March 2012,
  * which we aim to solve using a simple LSTM neural network. Electricity usage
@@ -16,7 +16,7 @@
  */
 
 /*
-NOTE: the data need to be sorted by date in ascending order! The RNN learns from 
+NOTE: the data need to be sorted by date in ascending order! The RNN learns from
 oldest to newest!
 
 DateTime,Consumption kWh,Off-peak,Mid-peak,On-peak
@@ -72,7 +72,7 @@ void CreateTimeSeriesData(InputDataType dataset,
                           LabelType& y,
                           const size_t rho)
 {
-  for(size_t i = 0; i < dataset.n_cols - rho; i++)
+  for (size_t i = 0; i < dataset.n_cols - rho; i++)
   {
     X.subcube(arma::span(), arma::span(i), arma::span()) =
         dataset.submat(arma::span(), arma::span(i, i + rho - 1));
@@ -98,7 +98,8 @@ void SaveResults(const string& filename,
   // The prediction result is the energy consumption for the next hour and comes
   // from the last slice of the prediction.
   flatDataAndPreds.rows(flatDataAndPreds.n_rows - 1,
-      flatDataAndPreds.n_rows - 1) = predictions.slice(predictions.n_slices - 1);
+      flatDataAndPreds.n_rows - 1) = predictions.slice(
+          predictions.n_slices - 1);
 
   scale.InverseTransform(flatDataAndPreds, flatDataAndPreds);
   // We need to remove the last column because it was not used for training
@@ -188,10 +189,10 @@ int main()
   dataset = dataset.submat(1, 1, 1, dataset.n_cols - 1);
 
   // Split the dataset into training and validation sets.
-  arma::mat trainData = dataset.submat(arma::span(),arma::span(0, (1 - RATIO) *
+  arma::mat trainData = dataset.submat(arma::span(), arma::span(0, (1 - RATIO) *
       dataset.n_cols));
-  arma::mat testData = dataset.submat(arma::span(), arma::span((1 - RATIO) * dataset.n_cols,
-      dataset.n_cols - 1));
+  arma::mat testData = dataset.submat(arma::span(),
+      arma::span((1 - RATIO) * dataset.n_cols, dataset.n_cols - 1));
 
   // Number of iterations per cycle.
   const int EPOCHS = 150;
@@ -243,15 +244,15 @@ int main()
     // Set parameters for the Stochastic Gradient Descent (SGD) optimizer.
     SGD<AdamUpdate> optimizer(
         STEP_SIZE, // Step size of the optimizer.
-        BATCH_SIZE, // Batch size. Number of data points that are used in each iteration.
+        BATCH_SIZE, // Batch size. Number of data points used per iteration.
         trainData.n_cols * EPOCHS, // Max number of iterations.
         1e-8, // Tolerance.
         true, // Shuffle.
         AdamUpdate(1e-8, 0.9, 0.999)); // Adam update policy.
 
     // Instead of terminating based on the tolerance of the objective function,
-    // we'll depend on the maximum number of iterations, and terminate early using
-    // the EarlyStopAtMinLoss callback.
+    // we'll depend on the maximum number of iterations, and terminate early
+    // using the EarlyStopAtMinLoss callback.
     optimizer.Tolerance() = -1;
 
     cout << "Training ..." << endl;
@@ -296,6 +297,6 @@ int main()
   SaveResults(predFile, predOutP, scale, testX);
 
   // Use this on Windows in order to keep the console window open.
-  //cout << "Ready!" << endl;
-  //getchar();
+  // cout << "Ready!" << endl;
+  // getchar();
 }

@@ -14,7 +14,7 @@
  */
 
 /*
-NOTE: the data need to be sorted by date in ascending order! The RNN learns from 
+NOTE: the data need to be sorted by date in ascending order! The RNN learns from
 oldest to newest!
 
 date  close  volume  open  high  low
@@ -101,7 +101,8 @@ void SaveResults(const string filename,
   // The prediction results are the (high, low) for the next day and come from
   // the last slice from the prediction.
   flatDataAndPreds.rows(flatDataAndPreds.n_rows - 2,
-      flatDataAndPreds.n_rows - 1) = predictions.slice(predictions.n_slices - 1);
+      flatDataAndPreds.n_rows - 1) = predictions.slice(
+          predictions.n_slices - 1);
 
   scale.InverseTransform(flatDataAndPreds, flatDataAndPreds);
 
@@ -193,10 +194,10 @@ int main()
   size_t inputSize = 5, outputSize = 2;
 
   // Split the dataset into training and validation sets.
-  arma::mat trainData = dataset.submat(arma::span(),arma::span(0, (1 - RATIO) *
+  arma::mat trainData = dataset.submat(arma::span(), arma::span(0, (1 - RATIO) *
       dataset.n_cols));
-  arma::mat testData = dataset.submat(arma::span(), arma::span((1 - RATIO) * dataset.n_cols,
-      dataset.n_cols - 1));
+  arma::mat testData = dataset.submat(arma::span(),
+      arma::span((1 - RATIO) * dataset.n_cols, dataset.n_cols - 1));
 
   // Number of epochs for training.
   const int EPOCHS = 150;
@@ -255,13 +256,13 @@ int main()
         BATCH_SIZE, // Batch size. Number of data points that are used in each
                     // iteration.
         trainData.n_cols * EPOCHS, // Max number of iterations.
-        1e-8,// Tolerance.
+        1e-8, // Tolerance.
         true, // Shuffle.
         AdamUpdate(1e-8, 0.9, 0.999)); // Adam update policy.
 
     // Instead of terminating based on the tolerance of the objective function,
-    // we'll depend on the maximum number of iterations, and terminate early using
-    // the EarlyStopAtMinLoss callback.
+    // we'll depend on the maximum number of iterations, and terminate early
+    // using the EarlyStopAtMinLoss callback.
     optimizer.Tolerance() = -1;
 
     cout << "Training ..." << endl;
@@ -305,6 +306,6 @@ int main()
   SaveResults(predFile, predOutP, scale, testX);
 
   // Use this on Windows in order to keep the console window open.
-  //cout << "Ready!" << endl;
-  //getchar();
+  // cout << "Ready!" << endl;
+  // getchar();
 }

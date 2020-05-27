@@ -79,7 +79,7 @@ int main()
       train.n_cols - 1) / 255.0;
   const mat validX = valid.submat(1, 0, valid.n_rows - 1,
       valid.n_cols - 1) / 255.0;
-  
+
   const int ITERATIONS_PER_CYCLE = trainX.n_cols;
   // According to NegativeLogLikelihood output layer of NN, labels should
   // specify class of a data point and be in the interval from 1 to
