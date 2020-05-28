@@ -4,5 +4,8 @@ xcode*
 .idea
 cmake-build-*
 *.csv
+*.tar
+*.zip
+*.tar.gz
 .travis/configs.hpp
 Testing/*

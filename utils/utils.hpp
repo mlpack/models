@@ -44,6 +44,38 @@ class Utils
   }
 
   /**
+   * Uzips any supported tar file.
+   *
+   * @param pathToArchive Path to where the tar file is stored.
+   * @param pathForExtraction Path where files will be extracted.
+   * @param absolutePath Boolean to determine if path is absolute or relative.
+   */
+  static int ExtractFiles(const std::string pathToArchive,
+                          const std::string pathForExtraction,
+                          const bool absolutePath = false)
+  {
+    std::string command = "tar -xvzf ";
+    if (!absolutePath)
+    {
+      command = command + boost::filesystem::current_path().string() + "/" +
+          pathToArchive + " -C " + boost::filesystem::current_path().string() +
+          "/" + pathForExtraction;
+    }
+    else
+    {
+      command = command + pathToArchive + " -C " + pathForExtraction;
+    }
+
+    #ifdef _WIN32
+      command = command + " --force-local";
+    #endif
+
+    // Run the command using system command.
+    std::system(command.c_str());
+    return 0;
+  }
+
+  /**
    * Downloads files using boost asio.
    *
    * For more information on how to download using boost asio, refer to
@@ -55,6 +87,8 @@ class Utils
    * @param absolutePath Boolean to determine if path is absolute or relative.
    * @param silent Boolean to display details of file being downloaded.
    * @param serverName Server to connect to, for downloading.
+   * @param zipFile Determines if dataset needs to be extracted or not.
+   * @param pathForExtraction Path where files will be extracted if zipFile is true.
    * @returns 0 to determine success.
    */
   static int DownloadFile(const std::string url,
@@ -63,7 +97,9 @@ class Utils
                           const bool absolutePath = false,
                           const bool silent = true,
                           const std::string serverName =
-                              "www.mlpack.org")
+                              "www.mlpack.org",
+                          const bool zipFile = false,
+                          const std::string pathForExtraction = "./../data/")
   {
     // IO functionality by boost core.
     boost::asio::io_service ioService;
@@ -151,6 +187,13 @@ class Utils
     }
 
     outputFile.close();
+
+    // Extract Files.
+    if (zipFile)
+    {
+      Utils::ExtractFiles(downloadPath, "./../data/");
+    }
+
     return 0;
   }
 
