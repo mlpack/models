@@ -131,16 +131,44 @@ class DataLoader
    * 4. Each object tag should contain name tag i.e. class of the object.
    * 5. Each object tag should contain bndbox tag containing xmin, ymin, xmax, ymax.
    *
-   * NOTE : Labels are assigned using lexicographically. Set verbose to 1 to print labels
+   * NOTE : Labels are assigned using classes vector. Set verbose to 1 to print labels
    * and their corresponding class.
    *
    * @param pathToAnnotations Path to the folder containg xml type annotation files.
    * @param pathToImages Path to folder containing images corresponding to annotations.
+   * @param classes Vector of strings containing list of classes. Labels are assigned
+   *                according to this vector.
    * @param absolutePath Boolean to determine if absolute path is used. Defaults to false.
+   * @param baseXMLTag XML tag name which wraps around the annotation file.
+   * @param imageNameXMLTag XML tag name which holds the value of image filename.
+   * @param objectXMLTag XML tag name which holds details of bounding box i.e. class and
+   *                     coordinates of bounding box.
+   * @param bndboxXMLTag XML tag name which holds coordinates of bounding box.
+   * @param classNameXMLTag XML tag name inside objectXMLTag which holds the name of the
+   *                        class of bounding box.
+   * @param x1XMLTag XML tag name inside bndboxXMLTag which hold value of lower most
+   *                 x coordinate of bounding box.
+   * @param y1XMLTag XML tag name inside bndboxXMLTag which hold value of lower most
+   *                 y coordinate of bounding box.
+   * @param x2XMLTag XML tag name inside bndboxXMLTag which hold value of upper most
+   *                 x coordinate of bounding box.
+   * @param y2XMLTag XML tag name inside bndboxXMLTag which hold value of upper most
+   *                 y coordinate of bounding box.
    */
   void LoadObjectDetectionDataset(const std::string& pathToAnnotations,
                                   const std::string& pathToImages,
-                                  const bool absolutePath = false);
+                                  const std::vector<std::string>& classes,
+                                  const bool absolutePath = false,
+                                  const std::string& baseXMLTag = "annotation",
+                                  const std::string& imageNameXMLTag =
+                                      "filename",
+                                  const std::string& objectXMLTag = "object",
+                                  const std::string& bndboxXMLTag = "bndbox",
+                                  const std::string& classNameXMLTag = "name",
+                                  const std::string& x1XMLTag = "xmin",
+                                  const std::string& y1XMLTag = "ymin",
+                                  const std::string& x2XMLTag = "xmax",
+                                  const std::string& y2XMLTag = "ymax");
 
   //! Get the training dataset features.
   DatasetX TrainFeatures() const { return trainFeatures; }

@@ -157,7 +157,17 @@ template<
     DatasetX, DatasetY, ScalerType
 >::LoadObjectDetectionDataset(const std::string& pathToAnnotations,
                               const std::string& pathToImages,
-                              const bool absolutePath)
+                              const std::vector<std::string>& classes,
+                              const bool absolutePath,
+                              const std::string& baseXMLTag,
+                              const std::string& imageNameXMLTag,
+                              const std::string& objectXMLTag,
+                              const std::string& bndboxXMLTag,
+                              const std::string& classNameXMLTag,
+                              const std::string& x1XMLTag,
+                              const std::string& y1XMLTag,
+                              const std::string& x2XMLTag,
+                              const std::string& y2XMLTag)
 {
   std::vector<boost::filesystem::path> annotationsDirectory, imagesDirectory;
 
@@ -165,19 +175,59 @@ template<
   Utils::ListDir(pathToAnnotations, annotationsDirectory, absolutePath);
   Utils::ListDir(pathToImages, imagesDirectory, absolutePath);
 
+  // Create a map for labels and corresponding class name.
+  // This provides faster access to class labels.
+  std::unordered_map<std::string, size_t> classMap;
+  for (size_t i = 0; i < classes.size(); i++)
+  {
+    classMap.insert(std::make_pair(classes[i], i));
+  }
+
   // Read the xml file.
   for (boost::filesystem::path annotationFile : annotationsDirectory)
   {
     // Read the xml file.
     boost::property_tree::ptree annotation;
-    std::cout << annotationFile.string() << std::endl;
     boost::property_tree::read_xml(annotationFile.string(), annotation);
 
+    // Map to insert values in a column vector.
+    std::unordered_map<std::string, size_t> indexMap;
+    indexMap.insert(std::make_pair(classNameXMLTag, 0));
+    indexMap.insert(std::make_pair(x1XMLTag, 1));
+    indexMap.insert(std::make_pair(y1XMLTag, 2));
+    indexMap.insert(std::make_pair(x2XMLTag, 3));
+    indexMap.insert(std::make_pair(y2XMLTag, 4));
+
     // Read properties inside annotation file.
-    BOOST_FOREACH (boost::property_tree::ptree::value_type const& object,
-        annotation.get_child("annotation.object"))
+    BOOST_FOREACH(boost::property_tree::ptree::value_type const& object,
+        annotation.get_child(baseXMLTag))
     {
-      std::cout << object.first << std::endl;
+      // Column vector to temporarily store details of bounding box.
+      if (object.first == objectXMLTag)
+      {
+        arma::uvec predictions(5);
+
+        // Iterate over property of the object to get class label and
+        // bounding box coordinates.
+        if (classMap.count(object.second.get_child(classNameXMLTag).data()))
+        {
+          predictions(indexMap[classNameXMLTag]) = classMap[
+                object.second.get_child(classNameXMLTag).data()];
+          boost::property_tree::ptree const &boundingBox =
+              object.second.get_child(bndboxXMLTag);
+
+          BOOST_FOREACH(boost::property_tree::ptree::value_type
+            const& coordinate, boundingBox)
+          {
+            if (indexMap.count(coordinate.first))
+            {
+              predictions(indexMap[coordinate.first]) =
+                  std::stoi(coordinate.second.data());
+            }
+          }
+          // predictions.print();
+        }
+      }
     }
   }
 }

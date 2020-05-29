@@ -100,8 +100,11 @@ BOOST_AUTO_TEST_CASE(MNISTDataLoaderTest)
 BOOST_AUTO_TEST_CASE(ObjectDetectionDataLoader)
 {
   DataLoader<> dataloader;
+
   dataloader.LoadObjectDetectionDataset("./../data/annotations/", "./../data");
->>>>>>> 3353e2e... Add basic definition of models, Needs to be trained and tested
+
+  dataloader.LoadObjectDetectionDataset("./../data/annotations/", "./../data",
+      {"person", "foot", "aeroplane", "head", "hand"});
 }
 
 BOOST_AUTO_TEST_SUITE_END();
