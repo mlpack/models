@@ -164,6 +164,7 @@ find_package(Boost 1.49
     COMPONENTS
       filesystem
       system
+      regex
       program_options
       serialization
       unit_test_framework
