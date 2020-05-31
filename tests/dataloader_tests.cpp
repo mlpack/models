@@ -66,11 +66,13 @@ BOOST_AUTO_TEST_CASE(MNISTDataLoaderTest)
   BOOST_REQUIRE_EQUAL(dataloader.TestFeatures().n_rows, 784);
   BOOST_REQUIRE_EQUAL(dataloader.ValidFeatures().n_rows, 784);
 
-
+  // Check for correct dimensions.
   BOOST_REQUIRE_EQUAL(dataloader.TrainFeatures().n_cols, 8400);
   BOOST_REQUIRE_EQUAL(dataloader.ValidFeatures().n_cols, 33600);
   BOOST_REQUIRE_EQUAL(dataloader.TestFeatures().n_cols, 28000);
 
+  // Check if we can access both features and labels using
+  // TrainSet tuple and ValidSet tuple.
   BOOST_REQUIRE_EQUAL(std::get<0>(dataloader.TrainSet()).n_cols, 8400);
   BOOST_REQUIRE_EQUAL(std::get<1>(dataloader.TrainSet()).n_rows, 1);
   BOOST_REQUIRE_EQUAL(std::get<0>(dataloader.ValidSet()).n_cols, 33600);
