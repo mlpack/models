@@ -36,7 +36,7 @@ template<
     DatasetX, DatasetY, ScalerType
 >::DataLoader(const std::string& dataset,
               const bool shuffle,
-              const double testRatio,
+              const double validRatio,
               const bool useScaler,
               const std::vector<std::string> augmentation,
               const double augmentationProbability)
@@ -49,14 +49,14 @@ template<
 
     if (datasetMap[dataset].loadCSV)
     {
-      LoadCSV(datasetMap[dataset].trainPath, true, shuffle, testRatio,
+      LoadCSV(datasetMap[dataset].trainPath, true, shuffle, validRatio,
               useScaler, datasetMap[dataset].dropHeader,
               datasetMap[dataset].startTrainingInputFeatures,
               datasetMap[dataset].endTrainingInputFeatures,
               datasetMap[dataset].endTrainingPredictionFeatures,
               datasetMap[dataset].endTrainingPredictionFeatures);
 
-      LoadCSV(datasetMap[dataset].testPath, false, false, testRatio, useScaler,
+      LoadCSV(datasetMap[dataset].testPath, false, false, validRatio, useScaler,
               datasetMap[dataset].dropHeader,
               datasetMap[dataset].startTestingInputFeatures,
               datasetMap[dataset].endTestingInputFeatures);
@@ -85,7 +85,7 @@ template<
 >::LoadCSV(const std::string& datasetPath,
            const bool loadTrainData,
            const bool shuffle,
-           const double testRatio,
+           const double validRatio,
            const bool useScaler,
            const bool dropHeader,
            const int startInputFeatures,
@@ -104,7 +104,7 @@ template<
   if (loadTrainData)
   {
     arma::mat trainDataset, validDataset;
-    data::Split(dataset, trainDataset, validDataset, testRatio, shuffle);
+    data::Split(dataset, trainDataset, validDataset, validRatio, shuffle);
 
     trainFeatures = trainDataset.rows(WrapIndex(startInputFeatures,
         trainDataset.n_rows), WrapIndex(endInputFeatures,
