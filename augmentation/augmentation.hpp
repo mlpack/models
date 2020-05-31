@@ -42,10 +42,6 @@ class Augmentation
    *                                the dataset.
    *                                NOTE : This doesn't apply to augmentations
    *                                such as resize.
-   * @param batches Boolean to determine if input is a single data point or
-   *                a batch. Defaults to true.
-   *                NOTE : If true, each data point must be represented as a
-   *                seperate column.
    */
   Augmentation(const std::vector<std::string>& augmentation,
                const double augmentationProbability);
@@ -126,5 +122,7 @@ class Augmentation
   //! Locally held value of augmentation probability.
   double augmentationProbability;
 };
+
+#include "augmentation_impl.hpp" // Include implementation.
 
 #endif

@@ -221,6 +221,8 @@ template<
     size_t imageDepth = std::stoi(sizeInformation.get_child("depth").data());
     mlpack::data::ImageInfo imageInfo(imageWidth, imageHeight, imageDepth);
 
+    // TODO: Resize the image here.
+
     // Load the image.
     // The image loaded here will be in column format i.e. Output will be matrix with the
     // following shape {1, cols * rows * slices} in column major format.
@@ -255,6 +257,8 @@ template<
         }
       }
     }
+
+    // TODO: Augment the image here.
   }
 }
 
