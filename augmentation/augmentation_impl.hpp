@@ -21,4 +21,19 @@ Augmentation::Augmentation() :
 {
   // Nothing to do here.
 }
+
+Augmentation::Augmentation(const std::vector<std::string>& augmentations,
+                           const double augmentationProbability) :
+                           augmentations(augmentations),
+                           augmentationProbability(augmentationProbability)
+{
+  // Sort the vector to place resize parameter to the front of the string.
+  // This prevents constant look ups for resize.
+  sort(this->augmentations.begin(), this->augmentations.end(), [](
+      std::string& str1, std::string& str2)
+          {
+            return str1.find("resize") != std::string::npos;
+          });
+}
+
 #endif

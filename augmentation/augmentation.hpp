@@ -36,14 +36,14 @@ class Augmentation
   /**
    * Constructor for augmentation class.
    *
-   * @param augmentation List of strings containing one of the supported
+   * @param augmentations List of strings containing one of the supported
    *                     augmentation.
    * @param augmentationProbability Probability of applying augmentation on
    *                                the dataset.
    *                                NOTE : This doesn't apply to augmentations
    *                                such as resize.
    */
-  Augmentation(const std::vector<std::string>& augmentation,
+  Augmentation(const std::vector<std::string>& augmentations,
                const double augmentationProbability);
 
   /**
