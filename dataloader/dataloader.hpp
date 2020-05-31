@@ -162,6 +162,7 @@ class DataLoader
                                   const std::string& baseXMLTag = "annotation",
                                   const std::string& imageNameXMLTag =
                                       "filename",
+                                  const std::string& sizeXMLTag = "size",
                                   const std::string& objectXMLTag = "object",
                                   const std::string& bndboxXMLTag = "bndbox",
                                   const std::string& classNameXMLTag = "name",
