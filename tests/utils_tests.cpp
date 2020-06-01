@@ -76,8 +76,6 @@ BOOST_AUTO_TEST_CASE(RemoveFileTest)
 
 BOOST_AUTO_TEST_CASE(ExtractFilesTest)
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
   std::vector<boost::filesystem::path> vec;
 
   Utils::DownloadFile("/datasets/USCensus1990.tar.gz",

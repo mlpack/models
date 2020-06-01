@@ -19,7 +19,8 @@ BOOST_AUTO_TEST_SUITE(AugmentationTest);
 
 BOOST_AUTO_TEST_CASE(ResizeAugmentationTest)
 {
-  Augmentation<> augmentation(std::vector<std::string>(1, "resize (5, 4)"), 0.2);
+  Augmentation<> augmentation(std::vector<std::string>(1,
+      "resize (5, 4)"), 0.2);
 
   // Test on a square matrix.
   arma::mat input;

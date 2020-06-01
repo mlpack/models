@@ -102,16 +102,33 @@ BOOST_AUTO_TEST_CASE(MNISTDataLoaderTest)
 BOOST_AUTO_TEST_CASE(ObjectDetectionDataLoader)
 {
   DataLoader<> dataloader;
+  Utils::ExtractFiles("./../data/PASCAL-VOC-Test.zip", "./../data/");
 
+  // Set paths for dataset.
+  std::string basePath = "./../data/PASCAL-VOC-Test/";
+  std::string annotaionPath = "Annotations/";
+  std::string imagesPath = "Images/";
 
-  dataloader.LoadObjectDetectionDataset("./../data/annotations/", "./../data");
+  // Classes in the dataset.
+  std::vector<std::string> classes = {"background", "aeroplane", "bicycle",
+      "bird", "boat", "bottle", "bus", "car", "cat", "chair", "cow",
+      "diningtable", "dog", "horse", "motorbike", "person", "pottedplant",
+      "sheep", "sofa", "train", "tvmonitor"};
 
-  dataloader.LoadObjectDetectionDataset("./../data/annotations/", "./../data",
-      {"person", "foot", "aeroplane", "head", "hand"});
+  // Resize the image to 64 x 64.
+  std::vector<std::string> augmentation = {"resize (64, 64)"};
+  dataloader.LoadObjectDetectionDataset(basePath + annotaionPath,
+      basePath + imagesPath, classes, augmentation);
 
-  dataloader.LoadObjectDetectionDataset("./../data/annotations/",
-      "./../data/images/", {"person", "foot", "aeroplane", "head", "hand"},
-      {"resize 64, 64"});
+  // There are total 15 objects in images.
+  BOOST_REQUIRE_EQUAL(dataloader.TrainLabels().n_cols, 15);
+  // They correspond to class name, x1, y1, x2, y2.
+  BOOST_REQUIRE_EQUAL(dataloader.TrainLabels().n_rows, 5);
+
+  // Rows will be equal to shape image depth * image width * image height.
+  BOOST_REQUIRE_EQUAL(dataloader.TrainFeatures().n_rows, 64 * 64 * 3);
+  // There are total 15 objects in the images.
+  BOOST_REQUIRE_EQUAL(dataloader.TrainFeatures().n_cols, 15);
 }
 
 BOOST_AUTO_TEST_SUITE_END();

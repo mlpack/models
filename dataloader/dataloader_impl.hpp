@@ -199,6 +199,12 @@ template<
   // Read the xml file.
   for (boost::filesystem::path annotationFile : annotationsDirectory)
   {
+    if (annotationFile.string().length() <= 3 ||
+        annotationFile.string().substr(
+            annotationFile.string().length() - 3) != "xml")
+    {
+      continue;
+    }
     // Read the xml file.
     boost::property_tree::ptree xmlFile;
     boost::property_tree::read_xml(annotationFile.string(), xmlFile);
