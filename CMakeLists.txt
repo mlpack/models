@@ -219,6 +219,9 @@ set(DIRS
   LSTM/TimeSeries-Multivariate
   vgg/
   samples/
+  utils/
+  dataloader/
+  tests/
 )
 
 foreach(dir ${DIRS})
