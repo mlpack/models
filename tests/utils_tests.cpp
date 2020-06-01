@@ -77,6 +77,7 @@ BOOST_AUTO_TEST_CASE(RemoveFileTest)
 BOOST_AUTO_TEST_CASE(ExtractFilesTest)
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
   std::vector<boost::filesystem::path> vec;
 
   Utils::DownloadFile("/datasets/USCensus1990.tar.gz",
@@ -90,17 +91,21 @@ BOOST_AUTO_TEST_CASE(ExtractFilesTest)
   Utils::RemoveFile("./../data/USCensus1990.csv");
   Utils::RemoveFile("./../data/USCensus1990_centroids.csv");
   Utils::RemoveFile("./../data/USCensus1990.tar.gz");
-=======
-  Utils::DownloadFile("/datasets/mnist.tar.gz", "./../data/mnist.tar.gz", "",
-      false, true, "www.mlpack.org", true, "./../data/");
 
-  BOOST_REQUIRE(Utils::PathExists("./../data/mnist_all.csv"));
-  BOOST_REQUIRE(Utils::PathExists("./../data/mnist.tar.gz"));
+  std::vector<boost::filesystem::path> vec;
+
+
+  Utils::DownloadFile("/datasets/USCensus1990.tar.gz",
+      "./../data/USCensus1990.tar.gz", "", false, true,
+      "www.mlpack.org", true, "./../data/");
+
+  BOOST_REQUIRE(Utils::PathExists("./../data/USCensus1990.csv"));
+  BOOST_REQUIRE(Utils::PathExists("./../data/USCensus1990_centroids.csv"));
 
   // Clean up.
-  Utils::RemoveFile("./../data/mnist_all.csv");
-  Utils::RemoveFile("./../data/mnist_all_centroids.csv");
->>>>>>> 3353e2e... Add basic definition of models, Needs to be trained and tested
+  Utils::RemoveFile("./../data/USCensus1990.csv");
+  Utils::RemoveFile("./../data/USCensus1990_centroids.csv");
+  Utils::RemoveFile("./../data/USCensus1990.tar.gz");
 }
 
 BOOST_AUTO_TEST_SUITE_END();

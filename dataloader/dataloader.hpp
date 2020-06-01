@@ -14,6 +14,7 @@
 #include <mlpack/core/math/shuffle_data.hpp>
 #include <mlpack/core/data/split_data.hpp>
 #include <boost/property_tree/ptree.hpp>
+#include <augmentation/augmentation.hpp>
 #include <dataloader/datasets.hpp>
 #include <mlpack/prereqs.hpp>
 #include <boost/foreach.hpp>
@@ -158,6 +159,9 @@ class DataLoader
   void LoadObjectDetectionDataset(const std::string& pathToAnnotations,
                                   const std::string& pathToImages,
                                   const std::vector<std::string>& classes,
+                                  const std::vector<std::string>& augmentation =
+                                      std::vector<std::string>(),
+                                  const double augmentationProbability = 0.2,
                                   const bool absolutePath = false,
                                   const std::string& baseXMLTag = "annotation",
                                   const std::string& imageNameXMLTag =

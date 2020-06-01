@@ -18,7 +18,9 @@ BOOST_AUTO_TEST_SUITE(AugmentationTest);
 
 BOOST_AUTO_TEST_CASE(REGEXTest)
 {
-  std::string s = " resize = {  19,    112 }, resize : 133,442, resize = [12 213]";
+  // Some accepted formats.
+  std::string s = " resize = {  19,    112 }, \
+      resize : 133, 442, resize = [12 213]";
   boost::regex expr{"[0-9]+"};
   boost::smatch what;
   boost::sregex_token_iterator iter(s.begin(), s.end(), expr, 0);
