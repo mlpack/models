@@ -158,6 +158,8 @@ template<
 >::LoadObjectDetectionDataset(const std::string& pathToAnnotations,
                               const std::string& pathToImages,
                               const std::vector<std::string>& classes,
+                              const std::vector<std::string>& augmentations,
+                              const double augmentationProbability,
                               const bool absolutePath,
                               const std::string& baseXMLTag,
                               const std::string& imageNameXMLTag,
@@ -170,6 +172,8 @@ template<
                               const std::string& x2XMLTag,
                               const std::string& y2XMLTag)
 {
+  Augmentation<DatasetX> augmentation(augmentations, augmentationProbability);
+
   std::vector<boost::filesystem::path> annotationsDirectory, imagesDirectory;
 
   // Fill the directory.
@@ -214,26 +218,32 @@ template<
       continue;
     }
 
-    // Get the size of image to create image info required by mlpack::data::Load function.
-    boost::property_tree::ptree sizeInformation = annotation.get_child(sizeXMLTag);
-    size_t imageWidth = std::stoi(sizeInformation.get_child("width").data());
-    size_t imageHeight = std::stoi(sizeInformation.get_child("height").data());
-    size_t imageDepth = std::stoi(sizeInformation.get_child("depth").data());
+    // Get the size of image to create image info required
+    // by mlpack::data::Load function.
+    boost::property_tree::ptree sizeInfo = annotation.get_child(sizeXMLTag);
+    size_t imageWidth = std::stoi(sizeInfo.get_child("width").data());
+    size_t imageHeight = std::stoi(sizeInfo.get_child("height").data());
+    size_t imageDepth = std::stoi(sizeInfo.get_child("depth").data());
     mlpack::data::ImageInfo imageInfo(imageWidth, imageHeight, imageDepth);
 
-    // TODO: Resize the image here.
-
     // Load the image.
-    // The image loaded here will be in column format i.e. Output will be matrix with the
-    // following shape {1, cols * rows * slices} in column major format.
+    // The image loaded here will be in column format i.e. Output will
+    // be matrix with the following shape {1, cols * rows * slices} in
+    // column major format.
     DatasetX image;
     mlpack::data::Load(pathToImages + imgName, image, imageInfo);
+
+    if (augmentation.HasResizeParam())
+    {
+      augmentation.ResizeTransform(image, imageWidth, imageHeight, imageDepth,
+          augmentation.augmentations[0]);
+    }
 
     // Iterate over all object in annotation.
     BOOST_FOREACH(boost::property_tree::ptree::value_type const& object,
         annotation)
     {
-      arma::uvec predictions(5);
+      arma::vec predictions(5);
       // Iterate over property of the object to get class label and
       // bounding box coordinates.
       if (object.first == objectXMLTag)
@@ -254,6 +264,10 @@ template<
                   std::stoi(coordinate.second.data());
             }
           }
+
+          // Add object to training set.
+          trainFeatures.insert_cols(0, image);
+          trainLabels.insert_cols(0, predictions);
         }
       }
     }

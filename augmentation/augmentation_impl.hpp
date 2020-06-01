@@ -15,17 +15,20 @@
 #ifndef MODELS_AUGMENTATION_IMPL_HPP
 #define MODELS_AUGMENTATION_IMPL_HPP
 
-Augmentation::Augmentation() :
+template<typename DatasetType>
+Augmentation<DatasetType>::Augmentation() :
     augmentations(std::vector<std::string>()),
     augmentationProbability(0.2)
 {
   // Nothing to do here.
 }
 
-Augmentation::Augmentation(const std::vector<std::string>& augmentations,
-                           const double augmentationProbability) :
-                           augmentations(augmentations),
-                           augmentationProbability(augmentationProbability)
+template<typename DatasetType>
+Augmentation<DatasetType>::Augmentation(
+    const std::vector<std::string>& augmentations,
+    const double augmentationProbability) :
+    augmentations(augmentations),
+    augmentationProbability(augmentationProbability)
 {
   // Sort the vector to place resize parameter to the front of the string.
   // This prevents constant look ups for resize.
@@ -34,6 +37,63 @@ Augmentation::Augmentation(const std::vector<std::string>& augmentations,
           {
             return str1.find("resize") != std::string::npos;
           });
+
+  // Fill augmentation map with supported augmentations other than resize.
+  InitializeAugmentationMap();
+}
+
+template<typename DatasetType>
+void Augmentation<DatasetType>::Transform(DatasetType& dataset,
+                                          const size_t datapointWidth,
+                                          const size_t datapointHeight,
+                                          const size_t datapointDepth)
+{
+  size_t i = 0;
+  if (this->HasResizeParam())
+  {
+    this->ResizeTransform(dataset);
+    i++;
+  }
+
+  for (; i < augmentations.size(); i++)
+  {
+    if (augmentationMap.count(augmentations[i]))
+    {
+      augmentationMap[augmentations[i]](dataset, datapointWidth,
+        datapointHeight, datapointDepth, augmentations[i]);
+    }
+  }
+}
+
+template<typename DatasetType>
+void Augmentation<DatasetType>::ResizeTransform(
+    DatasetType& dataset,
+    const size_t datapointWidth,
+    const size_t datapointHeight,
+    const size_t datapointDepth,
+    const std::string& augmentation)
+{
+  size_t outputWidth = 0, outputHeight = 0;
+
+  // Get output width and output height.
+  GetResizeParam(outputWidth, outputHeight);
+
+  // We will use mlpack's bilinear interpolation layer to
+  // resize the input.
+  mlpack::ann::BilinearInterpolation<DatasetType, DatasetType> resizeLayer(
+      datapointWidth, datapointHeight, outputWidth, outputHeight,
+      datapointDepth);
+
+  // Not sure how to avoid a copy here.
+  DatasetType output;
+  resizeLayer.Forward(dataset, output);
+  dataset = output;
+}
+
+template<typename DatasetType>
+void Augmentation<DatasetType>::InitializeAugmentationMap()
+{
+  // Fill the map here.
 }
 
 #endif

@@ -66,6 +66,7 @@ class Utils
             '/', '\\');
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         command = "tar --force-local -xvzf " + pathToArchiveTemp + " -C " +
             pathForExtractionTemp;
 =======
@@ -73,6 +74,10 @@ class Utils
             boost::filesystem::current_path().string() + "\\" +
             pathToArchiveTemp;
 >>>>>>> 3353e2e... Add basic definition of models, Needs to be trained and tested
+=======
+        command = "tar --force-local -xvzf " + pathToArchiveTemp + " -C " +
+            pathForExtractionTemp;
+>>>>>>> 2727851... Complete LoadObjectDetection Function
       #else
         command = command + boost::filesystem::current_path().string() + "/" +
           pathToArchive + " -C " + boost::filesystem::current_path().string() +
@@ -297,13 +302,9 @@ class Utils
     }
     else
     {
-<<<<<<< HEAD
+
       mlpack::Log::Warn << "The " << path << " doesn't exist." << std::endl;
-=======
-      mlpack::Log::Warn << "The " << path << "Doesn't exist." << std::endl;
->>>>>>> 3353e2e... Add basic definition of models, Needs to be trained and tested
     }
   }
 };
-
 #endif

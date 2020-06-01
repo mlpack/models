@@ -25,8 +25,9 @@
  * augmentation.Transform(dataloader.TrainFeatures);
  * @endcode
  * 
- * @tparam DatasetX Datatype on which augmentation will be done.
+ * @tparam DatasetType Datatype on which augmentation will be done.
  */
+template<typename DatasetType = arma::mat>
 class Augmentation
 {
  public:
@@ -47,28 +48,53 @@ class Augmentation
                const double augmentationProbability);
 
   /**
+   * Applies augmentation to the passed dataset.
+   *
+   * @param dataset Dataset on which augmentation will be applied.
+   * @param datapointWidth Width of a single data point i.e.
+   *                    Since each column represents a seperate data
+   *                    point.
+   * @param datapointHeight Height of a single data point.
+   * @param datapointDepth Depth of a single data point. For 2-dimensional
+   *                     data point, set it to 1. Defaults to 1.
    */
-  template<typename DatasetType = arma::mat>
-  void Transform(DatasetType& dataset);
+  void Transform(DatasetType& dataset,
+                 const size_t datapointWidth,
+                 const size_t datapointHeight,
+                 const size_t datapointDepth = 1);
 
-  template<typename DatasetType = arma::mat>
-  void ResizeTransform(DatasetType& dataset);
-
-  template <typename DatasetType = arma::mat>
-  void HorizontalFlipTransform(DatasetType &dataset);
-
-  template<typename DatasetType = arma::mat>
-  void VerticalFlipTransform(DatasetType& dataset);
-
+  /**
+   * Applies resize transform to the entire dataset.
+   *
+   * @param dataset Dataset on which augmentation will be applied.
+   * @param datapointWidth Width of a single data point i.e.
+   *                    Since each column represents a seperate data
+   *                    point.
+   * @param datapointHeight Height of a single data point.
+   * @param datapointDepth Depth of a single data point. For 2-dimensional
+   *                     data point, set it to 1. Defaults to 1.
+   * @param augmentation String containing the transform.
+   */
+  void ResizeTransform(DatasetType& dataset,
+                       const size_t datapointWidth,
+                       const size_t datapointHeight,
+                       const size_t datapointDepth,
+                       const std::string& augmentation);
 
  private:
+  /**
+   * Initializes augmentation map for the class.
+   */
+  void InitializeAugmentationMap();
+
   /**
    * Function to determine if augmentation has Resize function.
    */
   bool HasResizeParam()
   {
+    // Search in augmentation vector.
     return augmentations.size() <= 0 ? false :
-        augmentations[0].find("resize") != std::string::npos ;
+        augmentations[0].find("resize") != std::string::npos;
   }
 
   /**
@@ -77,15 +103,16 @@ class Augmentation
    * @param outWidth Output width of resized data point.
    * @param outHeight Output height of resized data point.
    */
-  void GetResizeParam(size_t& outWidth, size_t& outHeight)
+  void GetResizeParam(size_t& outWidth,
+                      size_t& outHeight)
   {
     if (!HasResizeParam())
     {
       return;
     }
 
-    outWidth = -1;
-    outHeight = -1;
+    outWidth = 0;
+    outHeight = 0;
 
     // Use regex to find one / two  numbers. If only one provided
     // set output width equal to output height.
@@ -121,6 +148,15 @@ class Augmentation
 
   //! Locally held value of augmentation probability.
   double augmentationProbability;
+
+  //! Locally help map for mapping functions and strings.
+  std::unordered_map<std::string, void(*)(DatasetType&,
+      size_t, size_t, size_t, std::string&)> augmentationMap;
+
+  // The dataloader class should have access to internal functions of
+  // the dataloader.
+  template<typename DatasetX, typename DatasetY, class ScalerType>
+  friend class DataLoader;
 };
 
 #include "augmentation_impl.hpp" // Include implementation.

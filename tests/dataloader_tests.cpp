@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE(CSVDataLoaderTest)
  */
 BOOST_AUTO_TEST_CASE(MNISTDataLoaderTest)
 {
-  /**
+  /*
   DataLoader<> dataloader("mnist", true, 0.80);
 
   // Check for correct dimensions.
@@ -85,11 +85,14 @@ BOOST_AUTO_TEST_CASE(MNISTDataLoaderTest)
   Utils::RemoveFile("./../data/mnist-dataset/mnist_train.csv");
   Utils::RemoveFile("./../data/mnist-dataset/mnist_test.csv");
   Utils::RemoveFile("./../data/mnist.tar.gz");
+<<<<<<< HEAD
 
   BOOST_REQUIRE_EQUAL(dataloader.TrainFeatures().n_cols, 784);
   BOOST_REQUIRE_EQUAL(dataloader.TestFeatures().n_cols, 784);
   BOOST_REQUIRE_EQUAL(dataloader.ValidFeatures().n_cols, 784);
   BOOST_REQUIRE_EQUAL(dataloader.TrainFeatures().n_rows, 33600);
+=======
+>>>>>>> 2727851... Complete LoadObjectDetection Function
   */
 }
 
@@ -107,7 +110,8 @@ BOOST_AUTO_TEST_CASE(ObjectDetectionDataLoader)
       {"person", "foot", "aeroplane", "head", "hand"});
 
   dataloader.LoadObjectDetectionDataset("./../data/annotations/",
-      "./../data/images/", {"person", "foot", "aeroplane", "head", "hand"});
+      "./../data/images/", {"person", "foot", "aeroplane", "head", "hand"},
+      {"resize 64, 64"});
 }
 
 BOOST_AUTO_TEST_SUITE_END();
