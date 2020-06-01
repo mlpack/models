@@ -89,9 +89,16 @@ class Augmentation
 
   /**
    * Function to determine if augmentation has Resize function.
+   * @param augmentation Optional argument to check if a string has
+   *                     resize substring.
    */
-  bool HasResizeParam()
+  bool HasResizeParam(const std::string& augmentation = "")
   {
+    if (augmentation.length())
+    {
+      return augmentation.find("resize") != std::string::npos;
+    }
+
     // Search in augmentation vector.
     return augmentations.size() <= 0 ? false :
         augmentations[0].find("resize") != std::string::npos;
@@ -102,9 +109,12 @@ class Augmentation
    *
    * @param outWidth Output width of resized data point.
    * @param outHeight Output height of resized data point.
+   * @param augmentation String from which output width and height
+   *                     are extracted.
    */
   void GetResizeParam(size_t& outWidth,
-                      size_t& outHeight)
+                      size_t& outHeight,
+                      const std::string& augmentation)
   {
     if (!HasResizeParam())
     {
@@ -119,15 +129,15 @@ class Augmentation
     boost::regex regex{"[0-9]+"};
 
     // Create an iterator to find matches.
-    boost::sregex_token_iterator matches(augmentations[0].begin(),
-        augmentations[0].end(), regex, 0), end;
+    boost::sregex_token_iterator matches(augmentation.begin(),
+        augmentation.end(), regex, 0), end;
 
     size_t matchesCount = std::distance(matches, end);
 
     if (matchesCount == 0)
     {
       mlpack::Log::Fatal << "Invalid size / shape in " <<
-          augmentations[0] << std::endl;
+          augmentation << std::endl;
     }
 
     if (matchesCount == 1)

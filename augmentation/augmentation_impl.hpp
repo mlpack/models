@@ -51,7 +51,8 @@ void Augmentation<DatasetType>::Transform(DatasetType& dataset,
   size_t i = 0;
   if (this->HasResizeParam())
   {
-    this->ResizeTransform(dataset);
+    this->ResizeTransform(dataset, datapointWidth, datapointHeight,
+        datapointDepth, augmentations[0]);
     i++;
   }
 
@@ -73,10 +74,15 @@ void Augmentation<DatasetType>::ResizeTransform(
     const size_t datapointDepth,
     const std::string& augmentation)
 {
+  if (!this->HasResizeParam(augmentation))
+  {
+    return;
+  }
+
   size_t outputWidth = 0, outputHeight = 0;
 
   // Get output width and output height.
-  GetResizeParam(outputWidth, outputHeight);
+  GetResizeParam(outputWidth, outputHeight, augmentation);
 
   // We will use mlpack's bilinear interpolation layer to
   // resize the input.
