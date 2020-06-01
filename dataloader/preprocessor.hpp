@@ -37,6 +37,24 @@ class PreProcessor
     trainY = trainY + 1;
     validY = validY + 1;
   }
+
+  static void PascalVOC(DatasetX& /* trainX */,
+                        DatasetY& /* trainY */,
+                        DatasetY& /* validX */,
+                        DatasetY& /* validY */,
+                        DatasetX& /* testX */)
+  {
+    // Nothing to do here. Added to match the rest of the codebase.
+  }
+
+  static void CIFAR10(DatasetX & /* trainX */,
+                      DatasetY & /* trainY */,
+                      DatasetY & /* validX */,
+                      DatasetY & /* validY */,
+                      DatasetX & /* testX */)
+  {
+    // Nothing to do here. Added to match the rest of the codebase.
+  }
 };
 
 #endif

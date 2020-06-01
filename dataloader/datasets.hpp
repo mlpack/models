@@ -42,9 +42,8 @@ struct DatasetDetails
   //! CRC-32 checksum for testing data file.
   std::string testHash;
 
-  //! Locally stored boolean to determine if dataset is of CSV or similar
-  //! format.
-  bool loadCSV;
+  //! Locally stored stored to determine type of dataset.
+  std::string datasetType;
 
   //! Locally stored path to file / directory for training data.
   std::string trainPath;
@@ -90,6 +89,29 @@ struct DatasetDetails
   //! Whether or not to drop the first row from CSV.
   bool dropHeader;
 
+  // The following data members corresponds to image classification / detection
+  // type of datasets.
+  //! Locally stored path to images.
+  std::string trainingImagesPath;
+
+  //! Locally stored path to testing images.
+  std::string testingImagesPath;
+
+  //! Locally stored path to training annotations in xml format.
+  std::string trainingAnnotationPath;
+
+  //! Locally stored classes of image classification /detection.
+  std::vector<std::string> classes;
+
+  //! Locally stored width of images.
+  size_t imageWidth;
+
+  //! Locally stored heightof images.
+  size_t imageHeight;
+
+  //! Locally stored depth of images.
+  size_t imageDepth;
+
   // Default constructor.
   DatasetDetails() :
       datasetName(""),
@@ -97,7 +119,7 @@ struct DatasetDetails
       testDownloadURL(""),
       trainHash(""),
       testHash(""),
-      loadCSV(false),
+      datasetType("none"),
       trainPath(""),
       testPath(""),
       zipFile(false),
@@ -111,7 +133,14 @@ struct DatasetDetails
       endTrainingPredictionFeatures(0),
       startTestingInputFeatures(0),
       endTestingInputFeatures(0),
-      dropHeader(false)
+      dropHeader(false),
+      trainingImagesPath(""),
+      testingImagesPath(""),
+      trainingAnnotationPath(""),
+      classes(std::vector<std::string>()),
+      imageWidth(0),
+      imageHeight(0),
+      imageDepth(0)
   {/* Nothing to do here. */}
 
   /**
@@ -124,7 +153,7 @@ struct DatasetDetails
    * @param testDownloadURL  URL for downloading testing data.
    * @param trainHash CRC-32 checksum for training data.
    * @param testHash CRC-32 checksum for testing data.
-   * @param loadCSV Determines if the format of dataset is similar to CSV.
+   * @param datasetType Determines if the format of dataset is similar to CSV.
    * @param trainPath Path for training dataset.
    * @param testPath Path for testing dataset.
    */
@@ -133,7 +162,7 @@ struct DatasetDetails
                  const std::string& testDownloadURL,
                  const std::string& trainHash,
                  const std::string& testHash,
-                 const bool loadCSV,
+                 const std::string& datasetType,
                  const std::string& trainPath,
                  const std::string& testPath) :
                  datasetName(datasetName),
@@ -141,7 +170,7 @@ struct DatasetDetails
                  testDownloadURL(testDownloadURL),
                  trainHash(trainHash),
                  testHash(testHash),
-                 loadCSV(loadCSV),
+                 datasetType(datasetType),
                  trainPath(trainPath),
                  testPath(testPath),
                  zipFile(false),
@@ -154,7 +183,14 @@ struct DatasetDetails
                  endTrainingPredictionFeatures(0),
                  startTestingInputFeatures(0),
                  endTestingInputFeatures(0),
-                 dropHeader(false)
+                 dropHeader(false),
+                 trainingImagesPath(""),
+                 testingImagesPath(""),
+                 trainingAnnotationPath(""),
+                 classes(std::vector<std::string>()),
+                 imageWidth(0),
+                 imageHeight(0),
+                 imageDepth(0)
   {
     // Nothing to do here.
   }
@@ -165,10 +201,12 @@ struct DatasetDetails
    * @param datasetName Name of dataset used for identification during
    *                    dataloader call.
    * @param zipFile Boolean to determine if dataset is stored in zip format.
+   *                NOTE: For large dataset type such as images always set to
+   *                true.
    * @param datasetURL  URL for downloading dataset.
    * @param datasetPath Path where the dataset will be downloaded.
    * @param datasetHash CRC-32 checksum for dataset.
-   * @param loadCSV Determines if the format of dataset is similar to CSV.
+   * @param datasetType Determines the format of dataset.
    * @param trainPath Path for training dataset.
    * @param testPath Path for testing dataset.
    */
@@ -177,15 +215,15 @@ struct DatasetDetails
                  const std::string& datasetURL,
                  const std::string& datasetPath,
                  const std::string& datasetHash,
-                 const bool loadCSV,
-                 const std::string& trainPath,
-                 const std::string& testPath) :
+                 const std::string& datasetType,
+                 const std::string& trainPath = "",
+                 const std::string& testPath = "") :
                  datasetName(datasetName),
                  zipFile(zipFile),
                  datasetURL(datasetURL),
                  datasetHash(datasetHash),
                  datasetPath(datasetPath),
-                 loadCSV(loadCSV),
+                 datasetType(datasetType),
                  trainPath(trainPath),
                  testPath(testPath),
                  trainDownloadURL(""),
@@ -199,7 +237,14 @@ struct DatasetDetails
                  endTrainingPredictionFeatures(0),
                  startTestingInputFeatures(0),
                  endTestingInputFeatures(0),
-                 dropHeader(false)
+                 dropHeader(false),
+                 trainingImagesPath(""),
+                 testingImagesPath(""),
+                 trainingAnnotationPath(""),
+                 classes(std::vector<std::string>()),
+                 imageWidth(0),
+                 imageHeight(0),
+                 imageDepth(0)
   {
     // Nothing to do here.
   }
@@ -223,18 +268,11 @@ class Datasets
   {
     DatasetDetails<DatasetX, DatasetY> mnistDetails(
         "mnist",
-<<<<<<< HEAD
-=======
-        true,
-        "/datasets/mnist.tar.gz",
-        "./../data/mnist.tar.gz",
-        "9fa4efe5",
->>>>>>> 3353e2e... Add basic definition of models, Needs to be trained and tested
         true,
         "/datasets/mnist.tar.gz",
         "./../data/mnist.tar.gz",
         "33470ca3",
-        true,
+        "csv",
         "./../data/mnist-dataset/mnist_train.csv",
         "./../data/mnist-dataset/mnist_test.csv");
 
@@ -250,6 +288,51 @@ class Datasets
     mnistDetails.endTrainingPredictionFeatures = 0;
     mnistDetails.dropHeader = true;
     return mnistDetails;
+  }
+
+  const static DatasetDetails<DatasetX, DatasetY> VOCDetection()
+  {
+    DatasetDetails<DatasetX, DatasetY> VOCDetectionDetail(
+        "voc-detection",
+        true,
+        "/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar",
+        "./../data/VOCtrainval_11-May-2012.tar",
+        "504b9278",
+        "image-detection");
+
+    VOCDetectionDetail.trainingImagesPath =
+        "./../data/VOCdevkit/VOC2012/JPEGImages/";
+    VOCDetectionDetail.trainingAnnotationPath =
+      "./../data/VOCdevkit/VOC2012/Annotations/";
+    VOCDetectionDetail.serverName = "http://host.robots.ox.ac.uk";
+    VOCDetectionDetail.PreProcess = PreProcessor<DatasetX, DatasetY>::PascalVOC;
+
+    // Set classes for dataset.
+    VOCDetectionDetail.classes = {"background", "aeroplane", "bicycle",
+      "bird", "boat", "bottle", "bus", "car", "cat", "chair", "cow",
+      "diningtable", "dog", "horse", "motorbike", "person", "pottedplant",
+      "sheep", "sofa", "train", "tvmonitor"};
+
+    return VOCDetectionDetail;
+  }
+
+  const static DatasetDetails<DatasetX, DatasetY> CIFAR10()
+  {
+    DatasetDetails<DatasetX, DatasetY> CIFAR10Detail(
+        "cifar10",
+        true,
+        "/datasets/cifar10.tar.gz",
+        "./../data/cifar10.tar.gz",
+        "4cd9757b",
+        "image-classification");
+
+    CIFAR10Detail.trainingImagesPath = "./../data/cifar10/train/";
+    CIFAR10Detail.testingImagesPath = "./../data/cifar10/test/";
+
+    CIFAR10Detail.serverName = "www.mlpack.org";
+    CIFAR10Detail.PreProcess = PreProcessor<DatasetX, DatasetY>::CIFAR10;
+
+    return CIFAR10Detail;
   }
 };
 

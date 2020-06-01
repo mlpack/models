@@ -9,6 +9,7 @@
  * 3-clause BSD license along with mlpack.  If not, see
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
+
 // Incase it has not been included already.
 #include "augmentation.hpp"
 
@@ -16,69 +17,43 @@
 #define MODELS_AUGMENTATION_IMPL_HPP
 
 template<typename DatasetType>
-Augmentation<DatasetType>::Augmentation() :
-    augmentations(std::vector<std::string>()),
-    augmentationProbability(0.2)
+void Augmentation::Transform(DatasetType& dataset,
+                             const size_t datapointWidth,
+                             const size_t datapointHeight,
+                             const size_t datapointDepth)
 {
-  // Nothing to do here.
-}
+  // Initialize the augmentation map.
+  std::unordered_map<std::string, void(*)(DatasetType&,
+       size_t, size_t, size_t, std::string&)> augmentationMap;
 
-template<typename DatasetType>
-Augmentation<DatasetType>::Augmentation(
-    const std::vector<std::string>& augmentations,
-    const double augmentationProbability) :
-    augmentations(augmentations),
-    augmentationProbability(augmentationProbability)
-{
-  // Sort the vector to place resize parameter to the front of the string.
-  // This prevents constant look ups for resize.
-  sort(this->augmentations.begin(), this->augmentations.end(), [](
-      std::string& str1, std::string& str2)
-          {
-            return str1.find("resize") != std::string::npos;
-          });
-
-  // Fill augmentation map with supported augmentations other than resize.
-  InitializeAugmentationMap();
-}
-
-template<typename DatasetType>
-void Augmentation<DatasetType>::Transform(DatasetType& dataset,
-                                          const size_t datapointWidth,
-                                          const size_t datapointHeight,
-                                          const size_t datapointDepth)
-{
-  size_t i = 0;
-  if (this->HasResizeParam())
-  {
-    this->ResizeTransform(dataset, datapointWidth, datapointHeight,
-        datapointDepth, augmentations[0]);
-    i++;
-  }
-
-  for (; i < augmentations.size(); i++)
+  for (size_t i = 0; i < augmentations.size(); i++)
   {
     if (augmentationMap.count(augmentations[i]))
     {
       augmentationMap[augmentations[i]](dataset, datapointWidth,
         datapointHeight, datapointDepth, augmentations[i]);
     }
+    else if (this->HasResizeParam(augmentations[i]))
+    {
+      this->ResizeTransform(dataset, datapointWidth, datapointHeight,
+        datapointDepth, augmentations[i]);
+    }
+    else
+    {
+      mlpack::Log::Warn << "Unknown augmentation : \'" <<
+          augmentations[i] << "\' not found!" << std::endl;
+    }
   }
 }
 
 template<typename DatasetType>
-void Augmentation<DatasetType>::ResizeTransform(
+void Augmentation::ResizeTransform(
     DatasetType& dataset,
     const size_t datapointWidth,
     const size_t datapointHeight,
     const size_t datapointDepth,
     const std::string& augmentation)
 {
-  if (!this->HasResizeParam(augmentation))
-  {
-    return;
-  }
-
   size_t outputWidth = 0, outputHeight = 0;
 
   // Get output width and output height.
@@ -90,16 +65,9 @@ void Augmentation<DatasetType>::ResizeTransform(
       datapointWidth, datapointHeight, outputWidth, outputHeight,
       datapointDepth);
 
-  // Not sure how to avoid a copy here.
   DatasetType output;
   resizeLayer.Forward(dataset, output);
-  dataset = output;
-}
-
-template<typename DatasetType>
-void Augmentation<DatasetType>::InitializeAugmentationMap()
-{
-  // Fill the map here.
+  dataset = std::move(output);
 }
 
 #endif

@@ -65,19 +65,8 @@ class Utils
         std::replace(pathForExtractionTemp.begin(), pathForExtractionTemp.end(),
             '/', '\\');
 
-<<<<<<< HEAD
-<<<<<<< HEAD
         command = "tar --force-local -xvzf " + pathToArchiveTemp + " -C " +
             pathForExtractionTemp;
-=======
-        command = "tar --force-local -xvzf " +
-            boost::filesystem::current_path().string() + "\\" +
-            pathToArchiveTemp;
->>>>>>> 3353e2e... Add basic definition of models, Needs to be trained and tested
-=======
-        command = "tar --force-local -xvzf " + pathToArchiveTemp + " -C " +
-            pathForExtractionTemp;
->>>>>>> 2727851... Complete LoadObjectDetection Function
       #else
         command = command + boost::filesystem::current_path().string() + "/" +
           pathToArchive + " -C " + boost::filesystem::current_path().string() +
@@ -120,6 +109,34 @@ class Utils
                           const bool zipFile = false,
                           const std::string pathForExtraction = "./../data/")
   {
+    if (serverName != "www.mlpack.org")
+    {
+      // NOTE : curl is supported for all windows after 2018.
+      // Update to new version of windows if an error occurs,
+      // Else try downloading files from mlpack server or
+      // downloading curl executable for earlier version of windows.
+      std::string command = "curl ";
+      if (!silent)
+        command += "-# ";
+
+      command += "-o ";
+      #ifdef _WIN32
+        std::string downloadPathTemp = downloadPath;
+        std::replace(downloadPathTemp.begin(), downloadPathTemp.end(), '/',
+            '\\');
+        command = command + downloadPathTemp;
+      #else
+        command = command + downloadPath;
+      #endif
+
+      command = command + " " + serverName + url;
+      std::system(command.c_str());
+      if (zipFile)
+        Utils::ExtractFiles(downloadPath, pathForExtraction);
+
+      return 0;
+    }
+
     // IO functionality by boost core.
     boost::asio::io_service ioService;
     // Use TCP protocol by boost asio to make a connection to desired server.
@@ -297,12 +314,18 @@ class Utils
           boost::filesystem::directory_iterator(),
           std::back_inserter(pathVector));
 
+      // Remove hidden files.
+      pathVector.erase(std::remove_if(pathVector.begin(), pathVector.end(),
+          [](boost::filesystem::path curPath)
+          {
+            return curPath.filename().string()[0] == '.';
+          }), pathVector.end());
+
       // Sort the path vector.
       std::sort(pathVector.begin(), pathVector.end());
     }
     else
     {
-
       mlpack::Log::Warn << "The " << path << " doesn't exist." << std::endl;
     }
   }

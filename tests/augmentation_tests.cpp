@@ -10,7 +10,6 @@
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
 #define BOOST_TEST_DYN_LINK
-#include <boost/regex.hpp>
 #include <boost/test/unit_test.hpp>
 #include <augmentation/augmentation.hpp>
 using namespace boost::unit_test;
@@ -19,7 +18,8 @@ BOOST_AUTO_TEST_SUITE(AugmentationTest);
 
 BOOST_AUTO_TEST_CASE(ResizeAugmentationTest)
 {
-  Augmentation<> augmentation(std::vector<std::string>(1, "resize (5, 4)"), 0.2);
+  Augmentation augmentation(std::vector<std::string>(1,
+      "resize (5, 4)"), 0.2);
 
   // Test on a square matrix.
   arma::mat input;
@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_CASE(ResizeAugmentationTest)
   // Rectangular input to sqaure output.
   std::vector<std::string> augmentationVector = {"horizontal-flip",
       "resize : 8"};
-  Augmentation<> augmentation2(augmentationVector, 0.2);
+  Augmentation augmentation2(augmentationVector, 0.2);
 
   // Resize function called.
   augmentation2.Transform(input, inputWidth, inputHeight, depth);
