@@ -12,19 +12,46 @@
 #define BOOST_TEST_DYN_LINK
 #include <boost/regex.hpp>
 #include <boost/test/unit_test.hpp>
+#include <augmentation/augmentation.hpp>
 using namespace boost::unit_test;
 
 BOOST_AUTO_TEST_SUITE(AugmentationTest);
 
-BOOST_AUTO_TEST_CASE(REGEXTest)
+BOOST_AUTO_TEST_CASE(ResizeAugmentationTest)
 {
-  // Some accepted formats.
-  std::string s = " resize = {  19,    112 }, \
-      resize : 133, 442, resize = [12 213]";
-  boost::regex expr{"[0-9]+"};
-  boost::smatch what;
-  boost::sregex_token_iterator iter(s.begin(), s.end(), expr, 0);
-  boost::sregex_token_iterator end;
+  Augmentation<> augmentation(std::vector<std::string>(1, "resize (5, 4)"), 0.2);
+
+  // Test on a square matrix.
+  arma::mat input;
+  size_t inputWidth = 2;
+  size_t inputHeight = 2;
+  size_t depth = 1;
+  input.zeros(inputWidth * inputHeight * depth, 2);
+
+  // Resize function called.
+  augmentation.Transform(input, inputWidth, inputHeight, depth);
+
+  // Check correctness of input.
+  BOOST_REQUIRE_EQUAL(input.n_cols, 2);
+  BOOST_REQUIRE_EQUAL(input.n_rows, 5 * 4);
+
+  // Test on rectangular matrix.
+  inputWidth = 5;
+  inputHeight = 7;
+  depth = 1;
+  input.zeros(inputWidth * inputHeight * depth, 2);
+
+  // Rectangular input to sqaure output.
+  std::vector<std::string> augmentationVector = {"horizontal-flip",
+      "resize : 8"};
+  Augmentation<> augmentation2(augmentationVector, 0.2);
+
+  // Resize function called.
+  augmentation2.Transform(input, inputWidth, inputHeight, depth);
+
+  // Check correctness of input.
+  BOOST_REQUIRE_EQUAL(input.n_cols, 2);
+  BOOST_REQUIRE_EQUAL(input.n_rows, 8 * 8);
 }
 
 BOOST_AUTO_TEST_SUITE_END();
