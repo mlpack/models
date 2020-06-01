@@ -209,7 +209,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
 
 # Recurse into each model.
 set(DIRS
-  vgg/
   utils/
   dataloader/
   tests/
