@@ -8,9 +8,16 @@ helping with the transition from the `examples/` repository, be sure to look for
 comments like this one.  Once the transition is done, we can remove this
 comment (and the others).)_
 
-_(If we have functionality to download datasets and also to download
-pretrained model weights, we should put a comment about that here in the main
-description of the repository.)_
+We provide ability to download datasets as well as pretrained weights using our
+utility functions, by default we asume the server to be mlpack.org.
+To dowload any file from mlpack.org simple use the following command.
+
+NOTE: Our dataloader and models automatically download weights if neccesary during
+runtime.
+
+```cpp
+Utils::DownloadFile(url, downloadPath);
+```
 
 _(If this repository gets set up as a submodule to the main mlpack repository
 and that is how everything in it should be compiled, then we should point that
@@ -21,9 +28,10 @@ out here!)_
   1. [Introduction](#1-introduction)
   2. [Dependencies](#2-dependencies)
   3. [Building-From-Source](#3-building-from-source)
-  4. [Running Models](#4-running-models)
-  5. [Current Models](#5-current-models)
-  6. [Datasets](#6-datasets)
+  4. [Using Dataloaders](#4-using-dataloaders)
+  5. [Running Models](#5-running-models)
+  6. [Current Models](#6-current-models)
+  7. [Datasets](#7-datasets)
 
 ###  1. Introduction
 
@@ -72,11 +80,89 @@ building with 4 cores can be done with the following command:
 
   `make -j4`
 
-### 4. Running Models
+### 4. Using Dataloaders
+
+This repository provides dataloaders and data preprocessing modules for mlpack library.
+It also provides utility function required required for downloading, extracting and processing
+image, text and sequential data. For more information about dataloaders and utility functions,
+Refer to our wiki page.
+
+#### 1. Dataloaders for popular datasets.
+
+Creating and processing data can be done in just a single line. Don't have the dataset downloaded,
+No worries, we will download and preprocess it for you. Kindly refer to sample code given below.
+
+```cpp
+const string datasetName = "mnist";
+bool shuffleData = true;
+double ratioForTrainTestSplit = 0.75;
+
+// Create the DataLoader object.
+DataLoader<> dataloader(datasetName, shuffleData, ratioForTrainTestSplit);
+```
+
+To train or test your model with our dataloaders is very simple.
+```cpp
+// Use the dataloader for training.
+model.Train(dataloader.TrainFeatures(), dataloader.TrainLabels());
+ 
+// Use the dataloader for prediction.
+model.Predict(dataloader.TestFeatures(), dataloader.TestLabels());
+```
+
+Currently supported datasets are mentioned below :
+|Dataset| Usage.                           |Details                    |
+|-------|----------------------------------|---------------------------|
+| MNIST |   Dataloader<>&nbsp;("mnist");    | MNIST dataset is the de facto “hello world” dataset of computer vision. Each image is 28 pixels in height and 28 pixels in width, for a total of 784 pixels in total. The training data set, (mnist_train.csv), has 785 columns. The first column, called "label", is the digit that was drawn by the user. The rest of the columns contain the pixel-values of the associated image. |
+
+#### 2. Loading Other Datasets.
+
+We are continously adding new datasets to this repository, However you can also
+use our dataloaders to load other datasets. Refer to our dataloaders wiki for more
+information.
+
+```cpp
+DataLoader<> irisDataloader;
+
+const string datasetPath = "mnist";
+bool shuffleData = true;
+double ratioForTrainTestSplit = 0.75;
+bool isTrainingData = true;
+bool useFeatureScaling = true;
+bool dropHeader = false;
+
+// Starting column index for Training Features.
+size_t startInputFeatures = 0;
+// Ending column index for training Features.
+// We also support wrapped index i.e. -1 implies last column and so on.
+size_t endInputFeatures = -2;
+
+irisDataloader(datasetPath, isTrainingData, shuffleData, ratioForTrainTestSplit,
+    useFeatureScaling, dropHeader, startInputFeatures, endInputFeatures);
+```
+
+#### 3. Preprocessing.
+
+For all datasets that we support we provide, We preprocess them internally. We also
+provide access to preprocessor functions for standard datasets incase one needs to
+apply them to their datasets.
+
+They can simply be called as follows by calling static functions of ProProcess class i.e.
+PreProcess::SupportedDatasetName
+
+```cpp
+PreProcess<>::MNIST(dataloader.TrainFeatures(), dataloader.TrainLabels(),
+    dataloader.ValidFeatures(), dataloader.ValidLabels(), dataloader.TestFeatures());
+```
+
+This is especially useful when preprocessing of your dataset resembles any other standard
+dataset that we support.
+
+### 5. Running Models
 
 _(This section needs significant overhaul once we clean up our build system.)_
 
-### 5. Current Models
+### 6. Current Models
 
 _(This section also needs some cleanup once we know what we're keeping and what
 we're not keeping.)_
@@ -89,7 +175,7 @@ Currently model-zoo project has the following models implemented:
   - Variational Auto-Encoder on MNIST dataset.
   - Variational Convolutional Auto-Encoder on MNIST.
 
-### 6. Datasets
+### 7. Datasets
 
 _(This section will also need to be overhauled, but we should wait until we
 overhaul the sections above too.)_
