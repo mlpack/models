@@ -63,14 +63,14 @@ class DataLoader
    * 
    * @param datasetPath Path or name of dataset.
    * @param shuffle whether or not to shuffle the data.
-   * @param ratio Ratio for train-test split.
+   * @param validRatio Ratio of dataset to be used for validation set.
    * @param useScaler Use feature scaler for pre-processing the dataset.
    * @param augmentation Adds augmentation to training data only.
    * @param augmentationProbability Probability of applying augmentation on dataset.
    */
   DataLoader(const std::string& dataset,
              const bool shuffle,
-             const double ratio = 0.75,
+             const double validRatio = 0.25,
              const bool useScaler = true,
              const std::vector<std::string> augmentation =
                  std::vector<std::string>(),
@@ -85,7 +85,7 @@ class DataLoader
    *                      Note: This option augmentation to NULL, set ratio to 1 and
    *                      scaler will be used to only transform the test data.
    * @param shuffle Boolean to determine whether or not to shuffle the data.
-   * @param ratio Ratio for train-test split.
+   * @param validRatio Ratio of dataset to be used for validation set.
    * @param useScaler Fits the scaler on training data and transforms dataset.
    * @param dropHeader Drops the first row from CSV.
    * @param startInputFeatures First Index which will be fed into the model as input.
@@ -106,7 +106,7 @@ class DataLoader
   void LoadCSV(const std::string& datasetPath,
                const bool loadTrainData = true,
                const bool shuffle = true,
-               const double ratio = 0.75,
+               const double validRatio = 0.25,
                const bool useScaler = false,
                const bool dropHeader = false,
                const int startInputFeatures = -1,
@@ -179,11 +179,30 @@ class DataLoader
    */
   void DownloadDataset(const std::string& dataset)
   {
+    if (datasetMap[dataset].zipFile && (!Utils::PathExists(
+        datasetMap[dataset].trainPath) ||
+        !Utils::PathExists(datasetMap[dataset].testPath)))
+    {
+      Utils::DownloadFile(datasetMap[dataset].datasetURL,
+          datasetMap[dataset].datasetPath, dataset + "_training_data.",
+          false, false, datasetMap[dataset].serverName,
+          datasetMap[dataset].zipFile);
+
+      if (!Utils::CompareCRC32(datasetMap[dataset].datasetPath,
+          datasetMap[dataset].datasetHash))
+      {
+        mlpack::Log::Fatal << "Corrupted Data for " << dataset <<
+            " downloaded." << std::endl;
+      }
+
+      return;
+    }
+
     if (!Utils::PathExists(datasetMap[dataset].trainPath))
     {
-      Utils::DownloadFile(datasetMap[dataset].trainDownloadUrl,
+      Utils::DownloadFile(datasetMap[dataset].trainDownloadURL,
           datasetMap[dataset].trainPath, dataset + "_training_data.",
-          false);
+          false, false, datasetMap[dataset].serverName);
 
       if (!Utils::CompareCRC32(datasetMap[dataset].trainPath,
           datasetMap[dataset].trainHash))
@@ -192,11 +211,12 @@ class DataLoader
             dataset << " downloaded." << std::endl;
       }
     }
+
     if (!Utils::PathExists(datasetMap[dataset].testPath))
     {
-      Utils::DownloadFile(datasetMap[dataset].trainDownloadUrl,
+      Utils::DownloadFile(datasetMap[dataset].trainDownloadURL,
           datasetMap[dataset].testPath, dataset + "_testing_data.",
-          false);
+          false, false, datasetMap[dataset].serverName);
 
       if (!Utils::CompareCRC32(datasetMap[dataset].testPath,
           datasetMap[dataset].testHash))

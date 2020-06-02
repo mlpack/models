@@ -44,6 +44,46 @@ class Utils
   }
 
   /**
+   * Uzips any supported tar file.
+   *
+   * @param pathToArchive Path to where the tar file is stored.
+   * @param pathForExtraction Path where files will be extracted.
+   * @param absolutePath Boolean to determine if path is absolute or relative.
+   */
+  static int ExtractFiles(const std::string pathToArchive,
+                          const std::string pathForExtraction,
+                          const bool absolutePath = false)
+  {
+    std::string command = "tar -xvzf ";
+    if (!absolutePath)
+    {
+      #ifdef _WIN32
+        std::string pathToArchiveTemp(pathToArchive);
+        std::string pathForExtractionTemp(pathForExtraction);
+        std::replace(pathToArchiveTemp.begin(), pathToArchiveTemp.end(), '/',
+            '\\');
+        std::replace(pathForExtractionTemp.begin(), pathForExtractionTemp.end(),
+            '/', '\\');
+
+        command = "tar --force-local -xvzf " + pathToArchiveTemp + " -C " +
+            pathForExtractionTemp;
+      #else
+        command = command + boost::filesystem::current_path().string() + "/" +
+          pathToArchive + " -C " + boost::filesystem::current_path().string() +
+          "/" + pathForExtraction;
+      #endif
+    }
+    else
+    {
+      command = command + pathToArchive + " -C " + pathForExtraction;
+    }
+
+    // Run the command using system command.
+    std::system(command.c_str());
+    return 0;
+  }
+
+  /**
    * Downloads files using boost asio.
    *
    * For more information on how to download using boost asio, refer to
@@ -55,6 +95,8 @@ class Utils
    * @param absolutePath Boolean to determine if path is absolute or relative.
    * @param silent Boolean to display details of file being downloaded.
    * @param serverName Server to connect to, for downloading.
+   * @param zipFile Determines if dataset needs to be extracted or not.
+   * @param pathForExtraction Path where files will be extracted if zipFile is true.
    * @returns 0 to determine success.
    */
   static int DownloadFile(const std::string url,
@@ -63,7 +105,9 @@ class Utils
                           const bool absolutePath = false,
                           const bool silent = true,
                           const std::string serverName =
-                              "www.mlpack.org")
+                              "www.mlpack.org",
+                          const bool zipFile = false,
+                          const std::string pathForExtraction = "./../data/")
   {
     // IO functionality by boost core.
     boost::asio::io_service ioService;
@@ -151,6 +195,13 @@ class Utils
     }
 
     outputFile.close();
+
+    // Extract Files.
+    if (zipFile)
+    {
+      Utils::ExtractFiles(downloadPath, pathForExtraction);
+    }
+
     return 0;
   }
 
@@ -212,6 +263,36 @@ class Utils
     }
 
     return 0;
+  }
+
+  /**
+   * Fills a vector with paths to all files in directory.
+   *
+   * @param path Path to Directory.
+   * @param pathVector A vector of type filesystem::path, which will be filled
+   *                   paths for all files / folders in given directory path.
+   * @param absolutePath Boolean to determine if path is absolute or relative.
+   */
+  static void ListDir(const std::string& path,
+                      std::vector<boost::filesystem::path>& pathVector,
+                      const bool absolutePath = false)
+  {
+    if (Utils::PathExists(path, absolutePath))
+    {
+      boost::filesystem::path directoryPath(path);
+
+      // Fill the path vector with respective paths.
+      std::copy(boost::filesystem::directory_iterator(directoryPath),
+          boost::filesystem::directory_iterator(),
+          std::back_inserter(pathVector));
+
+      // Sort the path vector.
+      std::sort(pathVector.begin(), pathVector.end());
+    }
+    else
+    {
+      mlpack::Log::Warn << "The " << path << " doesn't exist." << std::endl;
+    }
   }
 };
 #endif
