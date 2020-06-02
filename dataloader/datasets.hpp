@@ -223,13 +223,6 @@ class Datasets
   {
     DatasetDetails<DatasetX, DatasetY> mnistDetails(
         "mnist",
-<<<<<<< HEAD
-=======
-        true,
-        "/datasets/mnist.tar.gz",
-        "./../data/mnist.tar.gz",
-        "9fa4efe5",
->>>>>>> 3353e2e... Add basic definition of models, Needs to be trained and tested
         true,
         "/datasets/mnist.tar.gz",
         "./../data/mnist.tar.gz",

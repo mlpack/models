@@ -104,11 +104,7 @@ template<
   if (loadTrainData)
   {
     arma::mat trainDataset, validDataset;
-<<<<<<< HEAD
     data::Split(dataset, trainDataset, validDataset, validRatio, shuffle);
-=======
-    data::Split(dataset, trainDataset, validDataset, ratio, shuffle);
->>>>>>> 3353e2e... Add basic definition of models, Needs to be trained and tested
 
     trainFeatures = trainDataset.rows(WrapIndex(startInputFeatures,
         trainDataset.n_rows), WrapIndex(endInputFeatures,
