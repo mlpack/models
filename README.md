@@ -111,8 +111,9 @@ model.Predict(dataloader.TestFeatures(), dataloader.TestLabels());
 ```
 
 Currently supported datasets are mentioned below :
-((I think we should add a table here with various columns and details.))
-##### 1. MNIST Dataset
+|Dataset| Usage.                           |Details                    |
+|-------|----------------------------------|---------------------------|
+| MNIST |   Dataloader<>&nbsp;("mnist");    | MNIST dataset is the de facto “hello world” dataset of computer vision. Each image is 28 pixels in height and 28 pixels in width, for a total of 784 pixels in total. The training data set, (mnist_train.csv), has 785 columns. The first column, called "label", is the digit that was drawn by the user. The rest of the columns contain the pixel-values of the associated image. |
 
 #### 2. Loading Other Datasets.
 
