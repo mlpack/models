@@ -279,13 +279,13 @@ class Datasets
         true,
         "/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar",
         "./../data/VOCtrainval_11-May-2012.tar",
-        "some-crc",
-        "object-detection");
+        "504b9278",
+        "image-detection");
 
     VOCDetectionDetail.trainingImagesPath =
-        "./../data/VOCdevkit/VOC2012/JPEGImages";
+        "./../data/VOCdevkit/VOC2012/JPEGImages/";
     VOCDetectionDetail.trainingAnnotationPath =
-      "./../data/VOCdevkit/VOC2012/Annotations";
+      "./../data/VOCdevkit/VOC2012/Annotations/";
     VOCDetectionDetail.serverName = "http://host.robots.ox.ac.uk";
     VOCDetectionDetail.PreProcess = PreProcessor<DatasetX, DatasetY>::PascalVOC;
 

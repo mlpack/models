@@ -109,6 +109,35 @@ class Utils
                           const bool zipFile = false,
                           const std::string pathForExtraction = "./../data/")
   {
+    if (serverName != "www.mlpack.org")
+    {
+      // NOTE : curl is supported for all windows after 2018.
+      // Update to new version of windows if an error occurs,
+      // Else try downloading files from mlpack server or
+      // downloading curl executable for earlier version of windows.
+      std::string command = "curl ";
+      if (!silent)
+        command += "-# ";
+
+      command += "-o ";
+      #ifdef _WIN32
+        std::string downloadPathTemp = downloadPath;
+        std::replace(downloadPathTemp.begin(), downloadPathTemp.end(), '/',
+            '\\');
+        command = command + downloadPathTemp;
+      #else
+        command = command + downloadPath;
+      #endif
+
+      command = command + " " + serverName + url;
+      std::system(command.c_str());
+      if (zipFile)
+      {
+        Utils::ExtractFiles(downloadPath, pathForExtraction);
+      }
+      return 0;
+    }
+
     // IO functionality by boost core.
     boost::asio::io_service ioService;
     // Use TCP protocol by boost asio to make a connection to desired server.

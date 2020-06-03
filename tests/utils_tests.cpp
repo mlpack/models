@@ -91,4 +91,25 @@ BOOST_AUTO_TEST_CASE(ExtractFilesTest)
   Utils::RemoveFile("./../data/USCensus1990.tar.gz");
 }
 
+/**
+ * Simple test for downloading using curl.
+ */
+BOOST_AUTO_TEST_CASE(CurlDownloadTest)
+{
+  std::string serverName = "https://raw.githubusercontent.com/kartikdutt18/";
+  std::string path = 
+      "mlpack-models-weights-and-datasets/master/2007_000243.jpg";
+
+  // Download file from an https server.
+  Utils::DownloadFile(path, "./../data/test_image.jpg", "", false, true,
+      serverName);
+
+  // Check whether or not the image was downloaded. If yes, perform a checksum.
+  BOOST_REQUIRE(Utils::PathExists("./../data/test_image.jpg"));
+  BOOST_REQUIRE(Utils::CompareCRC32("./../data/test_image.jpg", "6d2473f8"));
+
+  // Clean up.
+  Utils::RemoveFile("./../data/test_image.jpg");
+}
+
 BOOST_AUTO_TEST_SUITE_END();

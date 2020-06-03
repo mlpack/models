@@ -209,6 +209,9 @@ template<
   indexMap.insert(std::make_pair(x2XMLTag, 3));
   indexMap.insert(std::make_pair(y2XMLTag, 4));
 
+  // Keep track of files loaded.
+  size_t totalFiles = annotationsDirectory.size(), loadedFiles = 0;
+
   // Read the XML file.
   for (boost::filesystem::path annotationFile : annotationsDirectory)
   {
@@ -218,6 +221,9 @@ template<
     {
       continue;
     }
+
+    loadedFiles++;
+    std:: cout << "Files Loaded : " << loadedFiles << " / " << totalFiles << std::endl;;
     // Read the XML file.
     boost::property_tree::ptree xmlFile;
     boost::property_tree::read_xml(annotationFile.string(), xmlFile);
@@ -292,6 +298,8 @@ template<
     }
     // Add augmentation and split here.
   }
+
+
 }
 
 #endif

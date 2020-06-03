@@ -3,6 +3,7 @@ xcode*
 .DS_Store
 .idea
 cmake-build-*
+data/*
 *.csv
 *.tar
 *.zip
@@ -10,5 +11,7 @@ cmake-build-*
 *.xml
 *.jpeg
 *.jpg
+*.png
+*.txt
 .travis/configs.hpp
 Testing/*
