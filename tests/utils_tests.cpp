@@ -97,7 +97,7 @@ BOOST_AUTO_TEST_CASE(ExtractFilesTest)
 BOOST_AUTO_TEST_CASE(CurlDownloadTest)
 {
   std::string serverName = "https://raw.githubusercontent.com/kartikdutt18/";
-  std::string path = 
+  std::string path =
       "mlpack-models-weights-and-datasets/master/2007_000243.jpg";
 
   // Download file from an https server.

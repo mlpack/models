@@ -223,7 +223,8 @@ template<
     }
 
     loadedFiles++;
-    std:: cout << "Files Loaded : " << loadedFiles << " / " << totalFiles << std::endl;;
+    Log::Info << "Files Loaded : " << loadedFiles << " / " << totalFiles <<
+        std::endl;
     // Read the XML file.
     boost::property_tree::ptree xmlFile;
     boost::property_tree::read_xml(annotationFile.string(), xmlFile);
@@ -298,8 +299,6 @@ template<
     }
     // Add augmentation and split here.
   }
-
-
 }
 
 #endif

@@ -92,7 +92,7 @@ BOOST_AUTO_TEST_CASE(MNISTDataLoaderTest)
 BOOST_AUTO_TEST_CASE(ObjectDetectionDataLoader)
 {
   DataLoader<> dataloader;
-  Utils::ExtractFiles("./../data/PASCAL-VOC-Test.zip", "./../data/");
+  Utils::ExtractFiles("./../data/PASCAL-VOC-Test.tar.gz", "./../data/");
 
   // Set paths for dataset.
   std::string basePath = "./../data/PASCAL-VOC-Test/";
