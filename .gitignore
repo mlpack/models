@@ -1,5 +1,6 @@
 build*
 xcode*
+.vscode/
 .DS_Store
 .idea
 cmake-build-*
