@@ -180,9 +180,8 @@ template<
   // This provides faster access to class labels.
   std::unordered_map<std::string, size_t> classMap;
   for (size_t i = 0; i < classes.size(); i++)
-  {
     classMap.insert(std::make_pair(classes[i], i));
-  }
+
 
   // Map to insert values in a column vector.
   std::unordered_map<std::string, size_t> indexMap;
@@ -192,7 +191,7 @@ template<
   indexMap.insert(std::make_pair(x2XMLTag, 3));
   indexMap.insert(std::make_pair(y2XMLTag, 4));
 
-  // Read the xml file.
+  // Read the XML file.
   for (boost::filesystem::path annotationFile : annotationsDirectory)
   {
     if (annotationFile.string().length() <= 3 ||
@@ -201,18 +200,18 @@ template<
     {
       continue;
     }
-    // Read the xml file.
+    // Read the XML file.
     boost::property_tree::ptree xmlFile;
     boost::property_tree::read_xml(annotationFile.string(), xmlFile);
 
-    // Get annotation from xml file.
+    // Get annotation from XML file.
     boost::property_tree::ptree annotation = xmlFile.get_child(baseXMLTag);
 
     // Read properties inside annotation file.
     // Get image name.
     std::string imgName = annotation.get_child(imageNameXMLTag).data();
 
-    // If image doesn't exist then skip the current xml file.
+    // If image doesn't exist then skip the current XML file.
     if (!Utils::PathExists(pathToImages + imgName, absolutePath))
     {
       mlpack::Log::Warn << "Image not found! Tried finding " <<

@@ -31,12 +31,12 @@ Augmentation<DatasetType>::Augmentation(
     augmentationProbability(augmentationProbability)
 {
   // Sort the vector to place resize parameter to the front of the string.
-  // This prevents constant look ups for resize.
+  // This prevents constant lookups for resize.
   sort(this->augmentations.begin(), this->augmentations.end(), [](
       std::string& str1, std::string& str2)
-          {
-            return str1.find("resize") != std::string::npos;
-          });
+      {
+        return str1.find("resize") != std::string::npos;
+      });
 
   // Fill augmentation map with supported augmentations other than resize.
   InitializeAugmentationMap();
@@ -75,9 +75,7 @@ void Augmentation<DatasetType>::ResizeTransform(
     const std::string& augmentation)
 {
   if (!this->HasResizeParam(augmentation))
-  {
     return;
-  }
 
   size_t outputWidth = 0, outputHeight = 0;
 
@@ -93,7 +91,7 @@ void Augmentation<DatasetType>::ResizeTransform(
   // Not sure how to avoid a copy here.
   DatasetType output;
   resizeLayer.Forward(dataset, output);
-  dataset = output;
+  dataset = std::move(output);
 }
 
 template<typename DatasetType>

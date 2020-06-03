@@ -31,14 +31,14 @@ template<typename DatasetType = arma::mat>
 class Augmentation
 {
  public:
-  //! Create the augmenation class object.
+  //! Create the augmentation class object.
   Augmentation();
 
   /**
    * Constructor for augmentation class.
    *
    * @param augmentations List of strings containing one of the supported
-   *                     augmentation.
+   *                     augmentations.
    * @param augmentationProbability Probability of applying augmentation on
    *                                the dataset.
    *                                NOTE : This doesn't apply to augmentations
@@ -95,9 +95,8 @@ class Augmentation
   bool HasResizeParam(const std::string& augmentation = "")
   {
     if (augmentation.length())
-    {
       return augmentation.find("resize") != std::string::npos;
-    }
+
 
     // Search in augmentation vector.
     return augmentations.size() <= 0 ? false :
@@ -117,9 +116,8 @@ class Augmentation
                       const std::string& augmentation)
   {
     if (!HasResizeParam())
-    {
       return;
-    }
+
 
     outWidth = 0;
     outHeight = 0;

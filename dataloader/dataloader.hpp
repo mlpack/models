@@ -122,7 +122,7 @@ class DataLoader
                const double augmentationProbability = 0.2);
 
   /**
-   * Loads object detection dataset. It requires a single annotation file in xml format.
+   * Loads object detection dataset. It requires a single annotation file in XML format.
    * Each XML file should correspond to a single image in images folder.
    *
    * XML file should containg the following :
@@ -135,7 +135,7 @@ class DataLoader
    * NOTE : Labels are assigned using classes vector. Set verbose to 1 to print labels
    * and their corresponding class.
    *
-   * @param pathToAnnotations Path to the folder containg xml type annotation files.
+   * @param pathToAnnotations Path to the folder containing XML type annotation files.
    * @param pathToImages Path to folder containing images corresponding to annotations.
    * @param classes Vector of strings containing list of classes. Labels are assigned
    *                according to this vector.
