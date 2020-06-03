@@ -64,6 +64,7 @@ template<
     else if (datasetMap[dataset].datasetType == "image-detection")
     {
       std::vector<std::string> augmentations = augmentation;
+
       // If user doesn't set size for images, set size of images to {64, 64}.
       if (augmentations.size() == 0)
       {
@@ -73,6 +74,15 @@ template<
       LoadObjectDetectionDataset(datasetMap[dataset].trainingAnnotationPath,
           datasetMap[dataset].trainingImagesPath, validRatio,
           datasetMap[dataset].classes, augmentations, augmentationProbability);
+
+      // Load testing data if any. Most object detection dataset have private evaluation
+      // servers.
+      if (datasetMap[dataset].testingImagesPath.length() > 0)
+      {
+        LoadAllImagesFromDirectory(datasetMap[dataset].testingImagesPath, testFeatures,
+            testLabels, datasetMap[dataset].imageWidth, datasetMap[dataset].imageHeight,
+            datasetMap[dataset].imageDepth);
+      }
     }
 
     // Preprocess the dataset.
@@ -188,11 +198,13 @@ template<
 {
   Augmentation<DatasetX> augmentation(augmentations, augmentationProbability);
 
-  std::vector<boost::filesystem::path> annotationsDirectory, imagesDirectory;
+  std::vector<boost::filesystem::path> annotationsDirectory;
+
+  DatasetX dataset;
+  DatasetY labels;
 
   // Fill the directory.
   Utils::ListDir(pathToAnnotations, annotationsDirectory, absolutePath);
-  Utils::ListDir(pathToImages, imagesDirectory, absolutePath);
 
   // Create a map for labels and corresponding class name.
   // This provides faster access to class labels.
@@ -216,7 +228,6 @@ template<
   for (boost::filesystem::path annotationFile : annotationsDirectory)
   {
     if (annotationFile.string().length() <= 3 ||
-        annotationFile.string()[0] == '.' ||
         annotationFile.string().substr(
             annotationFile.string().length() - 3) != "xml")
     {
@@ -224,8 +235,9 @@ template<
     }
 
     loadedFiles++;
-    Log::Info << "Files Loaded : " << loadedFiles << " / " << totalFiles <<
-        std::endl;
+    Log::Info << "Files Loaded : " << loadedFiles << " out of " <<
+        totalFiles << "\r" << std::endl;
+
     // Read the XML file.
     boost::property_tree::ptree xmlFile;
     boost::property_tree::read_xml(annotationFile.string(), xmlFile);
@@ -293,12 +305,128 @@ template<
           }
 
           // Add object to training set.
-          trainFeatures.insert_cols(0, image);
-          trainLabels.insert_cols(0, predictions);
+          dataset.insert_cols(0, image);
+          labels.insert_cols(0, predictions);
         }
       }
     }
-    // Add augmentation and split here.
+  }
+
+  // Add data split and augmentation here.
+  trainFeatures = dataset;
+  trainLabels = labels;
+}
+
+template<
+  typename DatasetX,
+  typename DatasetY,
+  class ScalerType
+> void DataLoader<
+    DatasetX, DatasetY, ScalerType
+>::LoadAllImagesFromDirectory(const std::string& imagesPath,
+                              DatasetX& dataset,
+                              DatasetY& labels,
+                              const size_t imageWidth,
+                              const size_t imageHeight,
+                              const size_t imageDepth,
+                              const size_t label)
+{
+  // Get all files in given directory.
+  std::vector<boost::filesystem::path> imagesDirectory;
+  Utils::ListDir(imagesPath, imagesDirectory);
+
+  // We use to endls here as one of them will be replaced by print
+  // command below.
+  Log::Info << "Found " << imagesDirectory.size() << " belonging to " <<
+      label << " class." << std::endl << std::endl;
+
+  size_t loadedImages = 0;
+  for (boost::filesystem::path imageName : imagesDirectory)
+  {
+    if (imageName.string().length() <= 3)
+    {
+      continue;
+    }
+
+    mlpack::data::ImageInfo imageInfo(imageWidth, imageHeight, imageDepth);
+
+    // Load the image.
+    // The image loaded here will be in column format i.e. Output will
+    // be matrix with the following shape {1, cols * rows * slices} in
+    // column major format.
+    DatasetX image;
+    mlpack::data::Load(imageName.string(), image, imageInfo);
+
+    // Add object to training set.
+    dataset.insert_cols(0, image);
+    labels.insert_cols(0, arma::vec(1).fill(label));
+
+    loadedImages++;
+    mlpack::Log::Info << "Loaded " << loadedImages << " out of " <<
+        imagesDirectory.size() << "\r" << std::endl;
+  }
+}
+
+template<
+  typename DatasetX,
+  typename DatasetY,
+  class ScalerType
+> void DataLoader<
+    DatasetX, DatasetY, ScalerType
+>::LoadImageDatasetFromDirectory(const std::string& pathToDataset,
+                                 const size_t imageHeight,
+                                 const size_t imageWidth,
+                                 const size_t imageDepth,
+                                 const bool trainData,
+                                 const double validRatio,
+                                 const bool shuffle,
+                                 const std::vector<std::string>& augmentation,
+                                 const double augmentationProbability)
+{
+  size_t totalClasses = 0;
+  std::map<std::string, size_t> classMap;
+
+  // Fill classes in the vector.
+  std::vector<boost::filesystem::path> classes;
+  Utils::ListDir(pathToDataset, classes);
+
+  DatasetX dataset;
+  DatasetY labels;
+
+  // Iterate the directory.
+  for (boost::filesystem::path className : classes)
+  {
+    if (className.string() != "./../data/cifar-test/.DS_Store")
+    {
+      LoadAllImagesFromDirectory(className.string() +
+        "/", dataset, labels, imageWidth, imageHeight, imageDepth,
+        totalClasses);
+      classMap[className.string()] = totalClasses;
+      totalClasses++;
+    }
+  }
+
+  if (!trainData)
+  {
+    testFeatures = std::move(dataset);
+    testLabels = std::move(labels);
+    return;
+  }
+
+  // Add train - test split here.
+  trainFeatures = dataset;
+  trainLabels = labels;
+
+  Augmentation<DatasetX> augmentations(augmentation, augmentationProbability);
+  augmentations.Transform(trainFeatures, imageWidth, imageHeight, imageDepth);
+
+  mlpack::Log::Info << "Found " << totalClasses << " classes." << std::endl;
+
+  // Print class-label mappings for ease.
+  for (std::pair<std::string, int> classMapping : classMap)
+  {
+    mlpack::Log::Info << classMapping.first << " : " << classMapping.second <<
+        std::endl;
   }
 }
 

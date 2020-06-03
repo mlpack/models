@@ -140,6 +140,8 @@ class DataLoader
    * @param validRatio Ratio of dataset that will be used for validation.
    * @param classes Vector of strings containing list of classes. Labels are assigned
    *                according to this vector.
+   * @param augmentation Vector strings of augmentations supported by mlpack.
+   * @param augmentationProbability Probability of applying augmentation to a particular cell.
    * @param absolutePath Boolean to determine if absolute path is used. Defaults to false.
    * @param baseXMLTag XML tag name which wraps around the annotation file.
    * @param imageNameXMLTag XML tag name which holds the value of image filename.
@@ -177,10 +179,26 @@ class DataLoader
                                   const std::string& x2XMLTag = "xmax",
                                   const std::string& y2XMLTag = "ymax");
 
+  /**
+   * Load all images from directory.
+   *
+   * @param imagesPath Path to all images.
+   * @param dataset Armadillo type where images will be loaded.
+   * @param labels Armadillo type where labels will be loaded.
+   * @param imageWidth Width of images in dataset.
+   * @param imageHeight Height of images in dataset.
+   * @param imageDepth Depth of images in dataset.
+   * @param label Label which will be assigned to image.
+   * @param augmentation Vector strings of augmentations supported by mlpack.
+   * @param augmentationProbability Probability of applying augmentation to a particular cell.
+   */
   void LoadAllImagesFromDirectory(const std::string& imagesPath,
                                   DatasetX& dataset,
                                   DatasetY& labels,
-                                  size_t label = 0);
+                                  const size_t imageWidth,
+                                  const size_t imageHeight,
+                                  const size_t imageDepth,
+                                  const size_t label = 0);
 
   void LoadXMLImageClassification(const std::string& pathToAnnotations,
                                   const std::string& pathToImages,
@@ -197,11 +215,29 @@ class DataLoader
                                   const std::string& objectXMLTag = "object",
                                   const std::string& classNameXMLTag = "name");
 
+  /**
+   * Load all images from directory.
+   *
+   * @param pathToDataset Path to all folders containing all images.
+   * @param imageWidth Width of images in dataset.
+   * @param imageHeight Height of images in dataset.
+   * @param imageDepth Depth of images in dataset.
+   * @param trainData Determines whether data is training set or test set.
+   * @param shuffle Boolean to determine whether or not to shuffle the data.
+   * @param validRatio Ratio of dataset to be used for validation set.
+   * @param augmentation Vector strings of augmentations supported by mlpack.
+   * @param augmentationProbability Probability of applying augmentation to a particular cell.
+   */
   void LoadImageDatasetFromDirectory(const std::string& pathToDataset,
-                                     const bool trainData = false,
+                                     const size_t imageHeight,
+                                     const size_t imageWidth,
+                                     const size_t imageDepth,
+                                     const bool trainData = true,
+                                     const double validRatio = 0.2,
+                                     const bool shuffle = true,
                                      const std::vector<std::string>&
                                       augmentation = std::vector<std::string>(),
-                                    const double augmentationProbability = 0.2);
+                                     const double augmentationProbability = 0.2);
 
   //! Get the training dataset features.
   DatasetX TrainFeatures() const { return trainFeatures; }

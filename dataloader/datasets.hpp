@@ -103,6 +103,15 @@ struct DatasetDetails
   //! Locally stored classes of image classification /detection.
   std::vector<std::string> classes;
 
+  //! Locally stored width of images.
+  size_t imageWidth;
+
+  //! Locally stored heightof images.
+  size_t imageHeight;
+
+  //! Locally stored depth of images.
+  size_t imageDepth;
+
   // Default constructor.
   DatasetDetails() :
       datasetName(""),
@@ -128,7 +137,10 @@ struct DatasetDetails
       trainingImagesPath(""),
       testingImagesPath(""),
       trainingAnnotationPath(""),
-      classes(std::vector<std::string>())
+      classes(std::vector<std::string>()),
+      imageWidth(0),
+      imageHeight(0),
+      imageDepth(0)
   {/* Nothing to do here. */}
 
   /**
@@ -175,7 +187,10 @@ struct DatasetDetails
                  trainingImagesPath(""),
                  testingImagesPath(""),
                  trainingAnnotationPath(""),
-                 classes(std::vector<std::string>())
+                 classes(std::vector<std::string>()),
+                 imageWidth(0),
+                 imageHeight(0),
+                 imageDepth(0)
   {
     // Nothing to do here.
   }
@@ -226,7 +241,10 @@ struct DatasetDetails
                  trainingImagesPath(""),
                  testingImagesPath(""),
                  trainingAnnotationPath(""),
-                 classes(std::vector<std::string>())
+                 classes(std::vector<std::string>()),
+                 imageWidth(0),
+                 imageHeight(0),
+                 imageDepth(0)
   {
     // Nothing to do here.
   }

@@ -122,4 +122,15 @@ BOOST_AUTO_TEST_CASE(ObjectDetectionDataLoader)
   BOOST_REQUIRE_EQUAL(dataloader.TrainFeatures().n_cols, 15);
 }
 
+BOOST_AUTO_TEST_CASE(LoadImageDatasetFromDirectoryTest)
+{
+  DataLoader<> dataloader;
+  Utils::ExtractFiles("./../data/cifar-test.tar.gz", "./../data/");
+  dataloader.LoadImageDatasetFromDirectory("./../data/cifar-test/",
+      32, 32, 3, true);
+
+  BOOST_REQUIRE_EQUAL(dataloader.TrainFeatures().n_cols, 30);
+  BOOST_REQUIRE_EQUAL(dataloader.TrainFeatures().n_rows, 32 * 32 * 3);
+}
+
 BOOST_AUTO_TEST_SUITE_END();
