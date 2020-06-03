@@ -75,13 +75,13 @@ template<
           datasetMap[dataset].trainingImagesPath, validRatio,
           datasetMap[dataset].classes, augmentations, augmentationProbability);
 
-      // Load testing data if any. Most object detection dataset have private evaluation
-      // servers.
+      // Load testing data if any. Most object detection dataset
+      // have private evaluation servers.
       if (datasetMap[dataset].testingImagesPath.length() > 0)
       {
-        LoadAllImagesFromDirectory(datasetMap[dataset].testingImagesPath, testFeatures,
-            testLabels, datasetMap[dataset].imageWidth, datasetMap[dataset].imageHeight,
-            datasetMap[dataset].imageDepth);
+        LoadAllImagesFromDirectory(datasetMap[dataset].testingImagesPath,
+            testFeatures, testLabels, datasetMap[dataset].imageWidth,
+            datasetMap[dataset].imageHeight, datasetMap[dataset].imageDepth);
       }
     }
 

@@ -237,7 +237,8 @@ class DataLoader
                                      const bool shuffle = true,
                                      const std::vector<std::string>&
                                       augmentation = std::vector<std::string>(),
-                                     const double augmentationProbability = 0.2);
+                                     const double augmentationProbability =
+                                        0.2);
 
   //! Get the training dataset features.
   DatasetX TrainFeatures() const { return trainFeatures; }
