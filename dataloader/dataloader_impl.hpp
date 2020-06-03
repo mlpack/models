@@ -216,6 +216,7 @@ template<
   for (boost::filesystem::path annotationFile : annotationsDirectory)
   {
     if (annotationFile.string().length() <= 3 ||
+        annotationFile.string()[0] == '.' ||
         annotationFile.string().substr(
             annotationFile.string().length() - 3) != "xml")
     {
