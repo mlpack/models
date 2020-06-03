@@ -199,8 +199,8 @@ class DataLoader
 
   void LoadImageDatasetFromDirectory(const std::string& pathToDataset,
                                      const bool trainData = false,
-                                    const std::vector<std::string> augmentation =
-                                        std::vector<std::string>(),
+                                     const std::vector<std::string>&
+                                      augmentation = std::vector<std::string>(),
                                     const double augmentationProbability = 0.2);
 
   //! Get the training dataset features.
