@@ -137,6 +137,7 @@ class DataLoader
    *
    * @param pathToAnnotations Path to the folder containing XML type annotation files.
    * @param pathToImages Path to folder containing images corresponding to annotations.
+   * @param validRatio Ratio of dataset that will be used for validation.
    * @param classes Vector of strings containing list of classes. Labels are assigned
    *                according to this vector.
    * @param absolutePath Boolean to determine if absolute path is used. Defaults to false.
@@ -158,6 +159,7 @@ class DataLoader
    */
   void LoadObjectDetectionDataset(const std::string& pathToAnnotations,
                                   const std::string& pathToImages,
+                                  const double validRatio,
                                   const std::vector<std::string>& classes,
                                   const std::vector<std::string>& augmentation =
                                       std::vector<std::string>(),
@@ -239,7 +241,10 @@ class DataLoader
   {
     if (datasetMap[dataset].zipFile && (!Utils::PathExists(
         datasetMap[dataset].trainPath) ||
-        !Utils::PathExists(datasetMap[dataset].testPath)))
+        !Utils::PathExists(datasetMap[dataset].testPath) ||
+        !Utils::PathExists(datasetMap[dataset].trainingImagesPath) ||
+        !Utils::PathExists(datasetMap[dataset].trainingAnnotationPath) ||
+        !Utils::PathExists(datasetMap[dataset].testingImagesPath)))
     {
       Utils::DownloadFile(datasetMap[dataset].datasetURL,
           datasetMap[dataset].datasetPath, dataset + "_training_data.",
@@ -291,6 +296,8 @@ class DataLoader
   void InitializeDatasets()
   {
     datasetMap.insert({"mnist", Datasets<DatasetX, DatasetY>::MNIST()});
+    datasetMap.insert({"voc-detection",
+        Datasets<DatasetX, DatasetY>::VOCDetection()});
   }
 
   /**

@@ -47,7 +47,7 @@ template<
     // Use utility functions to download the dataset.
     DownloadDataset(dataset);
 
-    if (datasetMap[dataset].loadCSV)
+    if (datasetMap[dataset].datasetType == "csv")
     {
       LoadCSV(datasetMap[dataset].trainPath, true, shuffle, validRatio,
               useScaler, datasetMap[dataset].dropHeader,
@@ -60,6 +60,19 @@ template<
               datasetMap[dataset].dropHeader,
               datasetMap[dataset].startTestingInputFeatures,
               datasetMap[dataset].endTestingInputFeatures);
+    }
+    else if (datasetMap[dataset].datasetType == "image-detection")
+    {
+      std::vector<std::string> augmentations = augmentation;
+      // If user doesn't set size for images, set size of images to {64, 64}.
+      if (augmentations.size() == 0)
+      {
+        augmentations.push_back("resize = {64, 64}");
+      }
+
+      LoadObjectDetectionDataset(datasetMap[dataset].trainingAnnotationPath,
+          datasetMap[dataset].trainingImagesPath, validRatio,
+          datasetMap[dataset].classes, augmentations, augmentationProbability);
     }
 
     // Preprocess the dataset.
@@ -128,7 +141,11 @@ template<
       scaler.Transform(trainFeatures, trainFeatures);
       scaler.Transform(validFeatures, validFeatures);
     }
-    // TODO : Add support for augmentation here.
+
+    Augmentation<DatasetX> augmentations(augmentation,
+        augmentationProbability);
+    augmentations.Transform(trainFeatures, 1, dataset.n_rows, 1);
+
     mlpack::Log::Info << "Training Dataset Loaded." << std::endl;
   }
   else
@@ -153,6 +170,7 @@ template<
     DatasetX, DatasetY, ScalerType
 >::LoadObjectDetectionDataset(const std::string& pathToAnnotations,
                               const std::string& pathToImages,
+                              const double validRatio,
                               const std::vector<std::string>& classes,
                               const std::vector<std::string>& augmentations,
                               const double augmentationProbability,
@@ -272,8 +290,7 @@ template<
         }
       }
     }
-
-    // TODO: Augment the image here.
+    // Add augmentation and split here.
   }
 }
 
