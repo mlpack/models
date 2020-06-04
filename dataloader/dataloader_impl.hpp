@@ -72,8 +72,8 @@ template<
       }
 
       LoadObjectDetectionDataset(datasetMap[dataset].trainingAnnotationPath,
-          datasetMap[dataset].trainingImagesPath, validRatio,
-          datasetMap[dataset].classes, augmentations, augmentationProbability);
+          datasetMap[dataset].trainingImagesPath, datasetMap[dataset].classes,
+          validRatio, shuffle,augmentations, augmentationProbability);
 
       // Load testing data if any. Most object detection dataset
       // have private evaluation servers.
@@ -180,8 +180,9 @@ template<
     DatasetX, DatasetY, ScalerType
 >::LoadObjectDetectionDataset(const std::string& pathToAnnotations,
                               const std::string& pathToImages,
-                              const double validRatio,
                               const std::vector<std::string>& classes,
+                              const double validRatio,
+                              const bool shuffle,
                               const std::vector<std::string>& augmentations,
                               const double augmentationProbability,
                               const bool absolutePath,
@@ -212,7 +213,6 @@ template<
   for (size_t i = 0; i < classes.size(); i++)
     classMap.insert(std::make_pair(classes[i], i));
 
-
   // Map to insert values in a column vector.
   std::unordered_map<std::string, size_t> indexMap;
   indexMap.insert(std::make_pair(classNameXMLTag, 0));
@@ -223,13 +223,14 @@ template<
 
   // Keep track of files loaded.
   size_t totalFiles = annotationsDirectory.size(), loadedFiles = 0;
+  size_t imageWidth = 0, imageHeight = 0, imageDepth = 0;
 
   // Read the XML file.
   for (boost::filesystem::path annotationFile : annotationsDirectory)
   {
     if (annotationFile.string().length() <= 3 ||
         annotationFile.string().substr(
-            annotationFile.string().length() - 3) != "xml")
+        annotationFile.string().length() - 3) != "xml")
     {
       continue;
     }
@@ -260,9 +261,9 @@ template<
     // Get the size of image to create image info required
     // by mlpack::data::Load function.
     boost::property_tree::ptree sizeInfo = annotation.get_child(sizeXMLTag);
-    size_t imageWidth = std::stoi(sizeInfo.get_child("width").data());
-    size_t imageHeight = std::stoi(sizeInfo.get_child("height").data());
-    size_t imageDepth = std::stoi(sizeInfo.get_child("depth").data());
+    imageWidth = std::stoi(sizeInfo.get_child("width").data());
+    imageHeight = std::stoi(sizeInfo.get_child("height").data());
+    imageDepth = std::stoi(sizeInfo.get_child("depth").data());
     mlpack::data::ImageInfo imageInfo(imageWidth, imageHeight, imageDepth);
 
     // Load the image.
@@ -275,6 +276,8 @@ template<
     if (augmentation.HasResizeParam())
     {
       augmentation.ResizeTransform(image, imageWidth, imageHeight, imageDepth,
+          augmentation.augmentations[0]);
+      augmentation.GetResizeParam(imageWidth, imageHeight,
           augmentation.augmentations[0]);
     }
 
@@ -312,9 +315,13 @@ template<
     }
   }
 
-  // Add data split and augmentation here.
-  trainFeatures = dataset;
-  trainLabels = labels;
+  // Add data split here.
+  trainFeatures = std::move(dataset);
+  trainLabels = std::move(labels);
+
+  // Augment the training data.
+  augmentation.Transform(trainFeatures, imageWidth, imageHeight,
+      imageDepth);
 }
 
 template<

@@ -99,6 +99,7 @@ BOOST_AUTO_TEST_CASE(ObjectDetectionDataLoader)
   std::string annotaionPath = "Annotations/";
   std::string imagesPath = "Images/";
   double validRatio = 0.2;
+  bool shuffle = true;
 
   // Classes in the dataset.
   std::vector<std::string> classes = {"background", "aeroplane", "bicycle",
@@ -109,7 +110,7 @@ BOOST_AUTO_TEST_CASE(ObjectDetectionDataLoader)
   // Resize the image to 64 x 64.
   std::vector<std::string> augmentation = {"resize (64, 64)"};
   dataloader.LoadObjectDetectionDataset(basePath + annotaionPath,
-      basePath + imagesPath, validRatio, classes, augmentation);
+      basePath + imagesPath, classes, validRatio, shuffle, augmentation);
 
   // There are total 15 objects in images.
   BOOST_REQUIRE_EQUAL(dataloader.TrainLabels().n_cols, 15);

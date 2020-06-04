@@ -315,6 +315,13 @@ class Utils
           boost::filesystem::directory_iterator(),
           std::back_inserter(pathVector));
 
+      // Remove hidden files.
+      pathVector.erase(std::remove_if(pathVector.begin(), pathVector.end(),
+          [](boost::filesystem::path curPath)
+          {
+            return curPath.filename().string()[0] == '.';
+          }), pathVector.end());
+
       // Sort the path vector.
       std::sort(pathVector.begin(), pathVector.end());
     }

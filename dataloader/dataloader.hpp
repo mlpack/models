@@ -137,9 +137,10 @@ class DataLoader
    *
    * @param pathToAnnotations Path to the folder containing XML type annotation files.
    * @param pathToImages Path to folder containing images corresponding to annotations.
-   * @param validRatio Ratio of dataset that will be used for validation.
    * @param classes Vector of strings containing list of classes. Labels are assigned
    *                according to this vector.
+   * @param validRatio Ratio of dataset that will be used for validation.
+   * @param shuffle Boolean to determine whether the dataset is shuffled.
    * @param augmentation Vector strings of augmentations supported by mlpack.
    * @param augmentationProbability Probability of applying augmentation to a particular cell.
    * @param absolutePath Boolean to determine if absolute path is used. Defaults to false.
@@ -161,8 +162,9 @@ class DataLoader
    */
   void LoadObjectDetectionDataset(const std::string& pathToAnnotations,
                                   const std::string& pathToImages,
-                                  const double validRatio,
                                   const std::vector<std::string>& classes,
+                                  const double validRatio = 0.2,
+                                  const bool shuffle = true,
                                   const std::vector<std::string>& augmentation =
                                       std::vector<std::string>(),
                                   const double augmentationProbability = 0.2,
