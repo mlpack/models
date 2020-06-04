@@ -335,6 +335,9 @@ template<
   std::vector<boost::filesystem::path> imagesDirectory;
   Utils::ListDir(imagesPath, imagesDirectory);
 
+  std::set<std::string> supportedExtentions = {".jpg", ".png", ".tga",
+      ".bmp", ".psd", ".gif", ".hdr", ".pic", ".pnm"};
+
   // We use to endls here as one of them will be replaced by print
   // command below.
   Log::Info << "Found " << imagesDirectory.size() << " belonging to " <<
@@ -343,7 +346,9 @@ template<
   size_t loadedImages = 0;
   for (boost::filesystem::path imageName : imagesDirectory)
   {
-    if (imageName.string().length() <= 3)
+    if (imageName.string().length() <= 3 ||
+        !boost::filesystem::is_regular_file(imageName) ||
+        !supportedExtentions.count(imageName.extension().string()))
     {
       continue;
     }
