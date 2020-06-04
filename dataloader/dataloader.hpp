@@ -229,8 +229,8 @@ class DataLoader
    * @param augmentationProbability Probability of applying augmentation to a particular cell.
    */
   void LoadImageDatasetFromDirectory(const std::string& pathToDataset,
-                                     const size_t imageHeight,
                                      const size_t imageWidth,
+                                     const size_t imageHeight,
                                      const size_t imageDepth,
                                      const bool trainData = true,
                                      const double validRatio = 0.2,

@@ -374,8 +374,8 @@ template<
 > void DataLoader<
     DatasetX, DatasetY, ScalerType
 >::LoadImageDatasetFromDirectory(const std::string& pathToDataset,
-                                 const size_t imageHeight,
                                  const size_t imageWidth,
+                                 const size_t imageHeight,
                                  const size_t imageDepth,
                                  const bool trainData,
                                  const double validRatio,
@@ -383,6 +383,7 @@ template<
                                  const std::vector<std::string>& augmentation,
                                  const double augmentationProbability)
 {
+  Augmentation<DatasetX> augmentations(augmentation, augmentationProbability);
   size_t totalClasses = 0;
   std::map<std::string, size_t> classMap;
 
@@ -396,7 +397,7 @@ template<
   // Iterate the directory.
   for (boost::filesystem::path className : classes)
   {
-    if (className.string() != "./../data/cifar-test/.DS_Store")
+    if (boost::filesystem::is_directory(className))
     {
       LoadAllImagesFromDirectory(className.string() +
         "/", dataset, labels, imageWidth, imageHeight, imageDepth,
@@ -410,14 +411,21 @@ template<
   {
     testFeatures = std::move(dataset);
     testLabels = std::move(labels);
+
+    // Only resize augmentation will be applied on test set.
+    if (augmentations.HasResizeParam())
+    {
+      augmentations.ResizeTransform(testFeatures, imageWidth, imageHeight,
+          imageDepth, augmentations.augmentations[0]);
+    }
+
     return;
   }
 
   // Add train - test split here.
-  trainFeatures = dataset;
-  trainLabels = labels;
+  trainFeatures = std::move(dataset);
+  trainLabels = std::move(labels);
 
-  Augmentation<DatasetX> augmentations(augmentation, augmentationProbability);
   augmentations.Transform(trainFeatures, imageWidth, imageHeight, imageDepth);
 
   mlpack::Log::Info << "Found " << totalClasses << " classes." << std::endl;
