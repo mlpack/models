@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_CASE(CSVDataLoaderTest)
  * Simple test for MNIST Dataloader.
  */
 BOOST_AUTO_TEST_CASE(MNISTDataLoaderTest)
-{/*
+{
   DataLoader<> dataloader("mnist", true, 0.80);
 
   // Check for correct dimensions.
@@ -83,7 +83,7 @@ BOOST_AUTO_TEST_CASE(MNISTDataLoaderTest)
   Utils::RemoveFile("./../data/mnist-dataset/mnist_all_centroids.csv");
   Utils::RemoveFile("./../data/mnist-dataset/mnist_train.csv");
   Utils::RemoveFile("./../data/mnist-dataset/mnist_test.csv");
-  Utils::RemoveFile("./../data/mnist.tar.gz");*/
+  Utils::RemoveFile("./../data/mnist.tar.gz");
 }
 
 /**
