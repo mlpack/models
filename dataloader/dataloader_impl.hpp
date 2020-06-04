@@ -73,10 +73,24 @@ template<
 
       LoadObjectDetectionDataset(datasetMap[dataset].trainingAnnotationPath,
           datasetMap[dataset].trainingImagesPath, datasetMap[dataset].classes,
-          validRatio, shuffle,augmentations, augmentationProbability);
+          validRatio, shuffle, augmentations, augmentationProbability);
 
       // Load testing data if any. Most object detection dataset
       // have private evaluation servers.
+      if (datasetMap[dataset].testingImagesPath.length() > 0)
+      {
+        LoadAllImagesFromDirectory(datasetMap[dataset].testingImagesPath,
+            testFeatures, testLabels, datasetMap[dataset].imageWidth,
+            datasetMap[dataset].imageHeight, datasetMap[dataset].imageDepth);
+      }
+    }
+    else if (datasetMap[dataset].datasetType == "image-classification")
+    {
+      LoadImageDatasetFromDirectory(datasetMap[dataset].trainingImagesPath,
+          datasetMap[dataset].imageWidth, datasetMap[dataset].imageHeight,
+          datasetMap[dataset].imageDepth, true, validRatio, shuffle,
+          augmentation, augmentationProbability);
+
       if (datasetMap[dataset].testingImagesPath.length() > 0)
       {
         LoadAllImagesFromDirectory(datasetMap[dataset].testingImagesPath,
