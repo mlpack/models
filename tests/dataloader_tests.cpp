@@ -113,14 +113,24 @@ BOOST_AUTO_TEST_CASE(ObjectDetectionDataLoader)
       basePath + imagesPath, classes, validRatio, shuffle, augmentation);
 
   // There are total 15 objects in images.
-  BOOST_REQUIRE_EQUAL(dataloader.TrainLabels().n_cols, 15);
+  BOOST_REQUIRE_EQUAL(dataloader.TrainLabels().n_cols, 12);
   // They correspond to class name, x1, y1, x2, y2.
   BOOST_REQUIRE_EQUAL(dataloader.TrainLabels().n_rows, 5);
 
   // Rows will be equal to shape image depth * image width * image height.
   BOOST_REQUIRE_EQUAL(dataloader.TrainFeatures().n_rows, 64 * 64 * 3);
   // There are total 15 objects in the images.
-  BOOST_REQUIRE_EQUAL(dataloader.TrainFeatures().n_cols, 15);
+  BOOST_REQUIRE_EQUAL(dataloader.TrainFeatures().n_cols, 12);
+
+  // There are total 15 objects in images.
+  BOOST_REQUIRE_EQUAL(dataloader.ValidLabels().n_cols, 3);
+  // They correspond to class name, x1, y1, x2, y2.
+  BOOST_REQUIRE_EQUAL(dataloader.ValidLabels().n_rows, 5);
+
+  // Rows will be equal to shape image depth * image width * image height.
+  BOOST_REQUIRE_EQUAL(dataloader.ValidFeatures().n_rows, 64 * 64 * 3);
+  // There are total 15 objects in the images.
+  BOOST_REQUIRE_EQUAL(dataloader.ValidFeatures().n_cols, 3);
 }
 
 BOOST_AUTO_TEST_CASE(LoadImageDatasetFromDirectoryTest)
@@ -130,8 +140,20 @@ BOOST_AUTO_TEST_CASE(LoadImageDatasetFromDirectoryTest)
   dataloader.LoadImageDatasetFromDirectory("./../data/cifar-test/",
       32, 32, 3, true);
 
-  BOOST_REQUIRE_EQUAL(dataloader.TrainFeatures().n_cols, 30);
+  // Check correctness of Training data.
+  BOOST_REQUIRE_EQUAL(dataloader.TrainFeatures().n_cols, 24);
   BOOST_REQUIRE_EQUAL(dataloader.TrainFeatures().n_rows, 32 * 32 * 3);
+
+  BOOST_REQUIRE_EQUAL(dataloader.TrainLabels().n_cols, 24);
+  BOOST_REQUIRE_EQUAL(dataloader.TrainLabels().n_rows, 1);
+
+  
+  // Check correctness of Validation data.
+  BOOST_REQUIRE_EQUAL(dataloader.ValidFeatures().n_cols, 6);
+  BOOST_REQUIRE_EQUAL(dataloader.ValidFeatures().n_rows, 32 * 32 * 3);
+
+  BOOST_REQUIRE_EQUAL(dataloader.ValidLabels().n_cols, 6);
+  BOOST_REQUIRE_EQUAL(dataloader.ValidLabels().n_rows, 1);
 }
 
 BOOST_AUTO_TEST_SUITE_END();

@@ -330,8 +330,20 @@ template<
   }
 
   // Add data split here.
-  trainFeatures = std::move(dataset);
-  trainLabels = std::move(labels);
+  arma::mat completeDataset = arma::join_cols(dataset, labels);
+  arma::mat trainingData, validationData;
+  mlpack::data::Split(completeDataset, trainingData, validationData,
+      validRatio, shuffle);
+
+  // Features are all rows except the last 5 rows which correspond
+  // to bounding box.
+  trainFeatures = trainingData.rows(0, trainingData.n_rows - 6);
+  trainLabels = trainingData.rows(trainingData.n_rows - 5,
+      trainingData.n_rows - 1);
+
+  validFeatures = validationData.rows(0, validationData.n_rows - 6);
+  validLabels = validationData.rows(validationData.n_rows - 5,
+      validationData.n_rows - 1);
 
   // Augment the training data.
   augmentation.Transform(trainFeatures, imageWidth, imageHeight,
@@ -448,9 +460,19 @@ template<
     return;
   }
 
-  // Add train - test split here.
-  trainFeatures = std::move(dataset);
-  trainLabels = std::move(labels);
+  // Train-validation data split.
+  arma::mat completeDataset = arma::join_cols(dataset, labels);
+  arma::mat trainingData, validationData;
+  mlpack::data::Split(completeDataset, trainingData, validationData,
+      validRatio, shuffle);
+
+  trainFeatures = trainingData.rows(0, trainingData.n_rows - 2);
+  trainLabels = trainingData.rows(trainingData.n_rows - 1,
+      trainingData.n_rows - 1);
+
+  validFeatures = validationData.rows(0, validationData.n_rows - 2);
+  validLabels = validationData.rows(validationData.n_rows - 1,
+      validationData.n_rows - 1);
 
   augmentations.Transform(trainFeatures, imageWidth, imageHeight, imageDepth);
 
