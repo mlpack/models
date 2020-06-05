@@ -147,7 +147,6 @@ BOOST_AUTO_TEST_CASE(LoadImageDatasetFromDirectoryTest)
   BOOST_REQUIRE_EQUAL(dataloader.TrainLabels().n_cols, 24);
   BOOST_REQUIRE_EQUAL(dataloader.TrainLabels().n_rows, 1);
 
-  
   // Check correctness of Validation data.
   BOOST_REQUIRE_EQUAL(dataloader.ValidFeatures().n_cols, 6);
   BOOST_REQUIRE_EQUAL(dataloader.ValidFeatures().n_rows, 32 * 32 * 3);
