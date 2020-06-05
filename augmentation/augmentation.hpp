@@ -38,7 +38,7 @@ class Augmentation
    * Constructor for augmentation class.
    *
    * @param augmentations List of strings containing one of the supported
-   *                     augmentations.
+   *                      augmentations.
    * @param augmentationProbability Probability of applying augmentation on
    *                                the dataset.
    *                                NOTE : This doesn't apply to augmentations
@@ -52,11 +52,11 @@ class Augmentation
    *
    * @param dataset Dataset on which augmentation will be applied.
    * @param datapointWidth Width of a single data point i.e.
-   *                    Since each column represents a seperate data
-   *                    point.
+   *                       Since each column represents a seperate data
+   *                       point.
    * @param datapointHeight Height of a single data point.
    * @param datapointDepth Depth of a single data point. For 2-dimensional
-   *                     data point, set it to 1. Defaults to 1.
+   *                       data point, set it to 1. Defaults to 1.
    */
   void Transform(DatasetType& dataset,
                  const size_t datapointWidth,
@@ -68,11 +68,11 @@ class Augmentation
    *
    * @param dataset Dataset on which augmentation will be applied.
    * @param datapointWidth Width of a single data point i.e.
-   *                    Since each column represents a seperate data
-   *                    point.
+   *                       Since each column represents a seperate data
+   *                       point.
    * @param datapointHeight Height of a single data point.
    * @param datapointDepth Depth of a single data point. For 2-dimensional
-   *                     data point, set it to 1. Defaults to 1.
+   *                       data point, set it to 1. Defaults to 1.
    * @param augmentation String containing the transform.
    */
   void ResizeTransform(DatasetType& dataset,
