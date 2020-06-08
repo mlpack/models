@@ -123,7 +123,7 @@ We are continously adding new datasets to this repository, However you can also
 use our dataloaders to load other datasets. Refer to our dataloaders wiki for more
 information.
 
-##### a. Loading CSV Datasets
+##### a. Loading CSV Datasets.
 Use our `LoadCSV` function to load and process CSV datasets.
 
 ```cpp
@@ -146,7 +146,7 @@ irisDataloader(datasetPath, isTrainingData, shuffleData, ratioForTrainTestSplit,
     useFeatureScaling, dropHeader, startInputFeatures, endInputFeatures);
 ```
 
-##### b. Loading Image Dataset
+##### b. Loading Image Dataset.
 
 Use our `LoadImageDatasetFromDirectory` to load image dataset in given directory. Directory should contain folders with folder name as class label and each folder should contain images corresponding to the class name.
 
@@ -157,7 +157,7 @@ dataloader.LoadImageDatasetFromDirectory("path/to/directory", imageWidth, imageH
 
 For advanced usage, refer to our wiki page.
 
-##### c. Loading Object Detection Dataset
+##### c. Loading Object Detection Dataset.
 
 We provide support to load annotations represented in XML files and their corresponding images. If your dataset contains fixed number of objects in each annotation use matrix type to load your dataset else use field type for labels / annotations. If images are not of same size pass a vector containing resize parameter. By default, each image is resized to 64 x 64.
 
