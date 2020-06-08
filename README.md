@@ -157,7 +157,7 @@ dataloader.LoadImageDatasetFromDirectory("path/to/directory", imageWidth, imageH
 
 For advanced usage, refer to our wiki page.
 
-##### b. Loading Object Detection Dataset
+##### c. Loading Object Detection Dataset
 
 We provide support to load annotations represented in XML files and their corresponding images. If your dataset contains fixed number of objects in each annotation use matrix type to load your dataset else use field type for labels / annotations. If images are not of same size pass a vector containing resize parameter. By default, each image is resized to 64 x 64.
 
