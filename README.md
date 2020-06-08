@@ -29,9 +29,10 @@ out here!)_
   2. [Dependencies](#2-dependencies)
   3. [Building-From-Source](#3-building-from-source)
   4. [Using Dataloaders](#4-using-dataloaders)
-  5. [Running Models](#5-running-models)
-  6. [Current Models](#6-current-models)
-  7. [Datasets](#7-datasets)
+  5. [Using Augmentation](#5-using-augmentation)
+  6. [Running Models](#6-running-models)
+  7. [Current Models](#7-current-models)
+  8. [Datasets](#8-datasets)
 
 ###  1. Introduction
 
@@ -111,9 +112,10 @@ model.Predict(dataloader.TestFeatures(), dataloader.TestLabels());
 ```
 
 Currently supported datasets are mentioned below :
-|Dataset| Usage.                           |Details                    |
-|-------|----------------------------------|---------------------------|
-| MNIST |   Dataloader<>&nbsp;("mnist");    | MNIST dataset is the de facto “hello world” dataset of computer vision. Each image is 28 pixels in height and 28 pixels in width, for a total of 784 pixels in total. The training data set, (mnist_train.csv), has 785 columns. The first column, called "label", is the digit that was drawn by the user. The rest of the columns contain the pixel-values of the associated image. |
+|  **Dataset** | **Usage** | **Details** |
+| --- | --- | --- |
+|  MNIST | DataLoader<>("mnist"); | MNIST dataset is the de facto “hello world” dataset of computer vision.<br/> Each image is 28 pixels in height and 28 pixels in width, for a total of 784 pixels in total. |
+|  Pascal VOC Detection | DataLoader<mat, field<vec>>("voc-detection") | The Pascal VOC challenge is a very popular dataset for building and<br/>evaluating algorithms for image classification, object detection <br/>and segmentation. VOC detection provides support for loading object detection<br/>dataset in PASCAL VOC. |
 
 #### 2. Loading Other Datasets.
 
