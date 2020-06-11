@@ -11,7 +11,6 @@
  */
 #define BOOST_TEST_DYN_LINK
 #include <utils/utils.hpp>
-#include <dataloader/datasets.hpp>
 #include <boost/test/unit_test.hpp>
 using namespace boost::unit_test;
 
@@ -89,6 +88,27 @@ BOOST_AUTO_TEST_CASE(ExtractFilesTest)
   Utils::RemoveFile("./../data/USCensus1990.csv");
   Utils::RemoveFile("./../data/USCensus1990_centroids.csv");
   Utils::RemoveFile("./../data/USCensus1990.tar.gz");
+}
+
+/**
+ * Simple test for downloading using curl.
+ */
+BOOST_AUTO_TEST_CASE(CurlDownloadTest)
+{
+  std::string serverName = "https://raw.githubusercontent.com/mlpack/";
+  std::string path =
+      "mlpack/master/src/mlpack/tests/data/test_image.png";
+
+  // Download file from an https server.
+  Utils::DownloadFile(path, "./../data/test_image.jpg", "", false, true,
+      serverName);
+
+  // Check whether or not the image was downloaded. If yes, perform a checksum.
+  BOOST_REQUIRE(Utils::PathExists("./../data/test_image.jpg"));
+  BOOST_REQUIRE(Utils::CompareCRC32("./../data/test_image.jpg", "59721bac"));
+
+  // Clean up.
+  Utils::RemoveFile("./../data/test_image.jpg");
 }
 
 BOOST_AUTO_TEST_SUITE_END();

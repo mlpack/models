@@ -10,10 +10,14 @@
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
 #include <mlpack/core/data/scaler_methods/min_max_scaler.hpp>
+#include <boost/property_tree/xml_parser.hpp>
 #include <mlpack/core/math/shuffle_data.hpp>
 #include <mlpack/core/data/split_data.hpp>
-#include <mlpack/prereqs.hpp>
+#include <boost/property_tree/ptree.hpp>
+#include <augmentation/augmentation.hpp>
 #include <dataloader/datasets.hpp>
+#include <mlpack/prereqs.hpp>
+#include <boost/foreach.hpp>
 #include <mlpack/core.hpp>
 #include <utils/utils.hpp>
 
@@ -117,6 +121,115 @@ class DataLoader
                    std::vector<std::string>(),
                const double augmentationProbability = 0.2);
 
+  /**
+   * Loads object detection dataset. It requires a single annotation file in XML format.
+   * Each XML file should correspond to a single image in images folder.
+   *
+   * XML file should containg the following :
+   * 1. Each XML file should be wrapped in annotation tag.
+   * 2. Filename of image in images folder will be depicted by filename tag.
+   * 3. Object tag depicting characteristics of bounding box.
+   * 4. Each object tag should contain name tag i.e. class of the object.
+   * 5. Each object tag should contain bndbox tag containing xmin, ymin, xmax, ymax.
+   *
+   * NOTE : Labels are assigned using classes vector. Set verbose to 1 to print labels
+   * and their corresponding class. The labels type should be field type here.
+   *
+   * @param pathToAnnotations Path to the folder containing XML type annotation files.
+   * @param pathToImages Path to folder containing images corresponding to annotations.
+   * @param classes Vector of strings containing list of classes. Labels are assigned
+   *                according to this vector.
+   * @param validRatio Ratio of dataset that will be used for validation.
+   * @param shuffle Boolean to determine whether the dataset is shuffled.
+   * @param augmentation Vector strings of augmentations supported by mlpack.
+   * @param augmentationProbability Probability of applying augmentation
+   *                                to a particular image.
+   * @param absolutePath Boolean to determine if absolute path is used. Defaults to false.
+   * @param baseXMLTag XML tag name which wraps around the annotation file.
+   * @param imageNameXMLTag XML tag name which holds the value of image filename.
+   * @param objectXMLTag XML tag name which holds details of bounding box i.e. class and
+   *                     coordinates of bounding box.
+   * @param bndboxXMLTag XML tag name which holds coordinates of bounding box.
+   * @param classNameXMLTag XML tag name inside objectXMLTag which holds the name of the
+   *                        class of bounding box.
+   * @param x1XMLTag XML tag name inside bndboxXMLTag which hold value of lower most
+   *                 x coordinate of bounding box.
+   * @param y1XMLTag XML tag name inside bndboxXMLTag which hold value of lower most
+   *                 y coordinate of bounding box.
+   * @param x2XMLTag XML tag name inside bndboxXMLTag which hold value of upper most
+   *                 x coordinate of bounding box.
+   * @param y2XMLTag XML tag name inside bndboxXMLTag which hold value of upper most
+   *                 y coordinate of bounding box.
+   */
+  void LoadObjectDetectionDataset(const std::string& pathToAnnotations,
+                                  const std::string& pathToImages,
+                                  const std::vector<std::string>& classes,
+                                  const double validRatio = 0.2,
+                                  const bool shuffle = true,
+                                  const std::vector<std::string>& augmentation =
+                                      std::vector<std::string>(),
+                                  const double augmentationProbability = 0.2,
+                                  const bool absolutePath = false,
+                                  const std::string& baseXMLTag = "annotation",
+                                  const std::string& imageNameXMLTag =
+                                      "filename",
+                                  const std::string& sizeXMLTag = "size",
+                                  const std::string& objectXMLTag = "object",
+                                  const std::string& bndboxXMLTag = "bndbox",
+                                  const std::string& classNameXMLTag = "name",
+                                  const std::string& x1XMLTag = "xmin",
+                                  const std::string& y1XMLTag = "ymin",
+                                  const std::string& x2XMLTag = "xmax",
+                                  const std::string& y2XMLTag = "ymax");
+
+  /**
+   * Load all images from directory.
+   *
+   * @param imagesPath Path to all images.
+   * @param dataset Armadillo type where images will be loaded.
+   * @param labels Armadillo type where labels will be loaded.
+   * @param imageWidth Width of images in dataset.
+   * @param imageHeight Height of images in dataset.
+   * @param imageDepth Depth of images in dataset.
+   * @param label Label which will be assigned to image.
+   * @param augmentation Vector strings of augmentations supported by mlpack.
+   * @param augmentationProbability Probability of applying augmentation
+   *                                to a particular image.
+   */
+  void LoadAllImagesFromDirectory(const std::string& imagesPath,
+                                  DatasetX& dataset,
+                                  DatasetY& labels,
+                                  const size_t imageWidth,
+                                  const size_t imageHeight,
+                                  const size_t imageDepth,
+                                  const size_t label = 0);
+
+  /**
+   * Load all images from directory.
+   *
+   * @param pathToDataset Path to all folders containing all images.
+   * @param imageWidth Width of images in dataset.
+   * @param imageHeight Height of images in dataset.
+   * @param imageDepth Depth of images in dataset.
+   * @param trainData Determines whether data is training set or test set.
+   * @param shuffle Boolean to determine whether or not to shuffle the data.
+   * @param validRatio Ratio of dataset to be used for validation set.
+   * @param augmentation Vector strings of augmentations supported by mlpack.
+   * @param augmentationProbability Probability of applying augmentation
+   *                                to a particular image.
+   */
+  void LoadImageDatasetFromDirectory(const std::string& pathToDataset,
+                                     const size_t imageWidth,
+                                     const size_t imageHeight,
+                                     const size_t imageDepth,
+                                     const bool trainData = true,
+                                     const double validRatio = 0.2,
+                                     const bool shuffle = true,
+                                     const std::vector<std::string>&
+                                      augmentation = std::vector<std::string>(),
+                                     const double augmentationProbability =
+                                        0.2);
+
   //! Get the training dataset features.
   DatasetX TrainFeatures() const { return trainFeatures; }
 
@@ -181,7 +294,10 @@ class DataLoader
   {
     if (datasetMap[dataset].zipFile && (!Utils::PathExists(
         datasetMap[dataset].trainPath) ||
-        !Utils::PathExists(datasetMap[dataset].testPath)))
+        !Utils::PathExists(datasetMap[dataset].testPath) ||
+        !Utils::PathExists(datasetMap[dataset].trainingImagesPath) ||
+        !Utils::PathExists(datasetMap[dataset].trainingAnnotationPath) ||
+        !Utils::PathExists(datasetMap[dataset].testingImagesPath)))
     {
       Utils::DownloadFile(datasetMap[dataset].datasetURL,
           datasetMap[dataset].datasetPath, dataset + "_training_data.",
@@ -233,6 +349,9 @@ class DataLoader
   void InitializeDatasets()
   {
     datasetMap.insert({"mnist", Datasets<DatasetX, DatasetY>::MNIST()});
+    datasetMap.insert({"voc-detection",
+        Datasets<DatasetX, DatasetY>::VOCDetection()});
+    datasetMap.insert({"cifar10", Datasets<DatasetX, DatasetY>::CIFAR10()});
   }
 
   /**
@@ -248,6 +367,101 @@ class DataLoader
       return length - size_t(std::abs(index));
 
     return index;
+  }
+
+  /**
+   * Performs train test split.
+   *
+   * @tparam DatasetType Type of input dataset.
+   * @tparam LabelsType Type of input labels.
+   *
+   * @param dataset Features of dataset.
+   * @param labels Labels of the dataset.
+   * @param validRatio Ratio for train-test split.
+   * @param shuffle Boolean to determine shuffling of dataset.
+   */
+  void TrainTestSplit(DatasetX& dataset,
+                      std::deque<arma::vec>& labels,
+                      DatasetX& /* trainFeatures */,
+                      arma::field<arma::vec>& /* trainLabels */,
+                      DatasetX& /* validFeatures */,
+                      arma::field<arma::vec>& /* validLabels */,
+                      const double validRatio,
+                      const bool shuffle)
+  {
+    const size_t validSize = static_cast<size_t>(dataset.n_cols * validRatio);
+    const size_t trainSize = dataset.n_cols - validSize;
+
+    arma::uvec order = arma::linspace<arma::uvec>(0, dataset.n_cols - 1,
+        dataset.n_cols);
+    if (shuffle)
+      order = arma::shuffle(order);
+
+    if (trainSize > 0)
+    {
+      trainLabels.set_size(1, trainSize);
+      trainFeatures = dataset.cols(order.subvec(0, trainSize - 1));
+
+      // Field type has fixed size so we can't use span and assignment
+      // operator.
+      for (size_t i = 0; i < trainSize; i++)
+        trainLabels(0, i) = labels[i];
+    }
+
+    if (validSize <= dataset.n_cols)
+    {
+      validFeatures = dataset.cols(order.subvec(trainSize,
+          dataset.n_cols - 1));
+      validLabels.set_size(1, validSize);
+      for (size_t i = trainSize; i < dataset.n_cols; i++)
+        validLabels(0, i - trainSize) = labels[i];
+    }
+    return;
+  }
+
+  /**
+   * Performs train/test split.
+   *
+   * @tparam DatasetType Type of input dataset.
+   * @tparam LabelsType Type of input labels.
+   *
+   * @param dataset Features of dataset.
+   * @param labels Labels of the dataset.
+   * @param validRatio Ratio for train-test split.
+   * @param shuffle Boolean to determine shuffling of dataset.
+   */
+  void TrainTestSplit(DatasetX& dataset,
+                      std::deque<arma::vec>& labels,
+                      DatasetX& /* trainFeatures */,
+                      arma::mat& /* trainLabels */,
+                      DatasetX& /* validFeatures */,
+                      arma::mat& /* validLabels */,
+                      const double validRatio,
+                      const bool shuffle)
+  {
+    // Calculate number of objects in the image.
+    size_t numberOfObjects = labels[0].n_rows;
+    DatasetY labelsTemp(numberOfObjects, labels.size());
+
+    for (size_t i = 0; i < labels.size(); i++)
+      labelsTemp.col(i) = labels[i];
+
+    DatasetX completeDataset = arma::join_cols(dataset, labelsTemp);
+    mlpack::data::Split(completeDataset, trainFeatures, validFeatures,
+        validRatio, shuffle);
+
+    // Features are all rows except the last 5 rows which correspond
+    // to bounding box.
+    trainLabels = trainFeatures.rows(trainFeatures.n_rows -
+        numberOfObjects, trainFeatures.n_rows - 1);
+    trainFeatures = trainFeatures.rows(0, trainFeatures.n_rows -
+        numberOfObjects - 1);
+
+    validLabels = validFeatures.rows(validFeatures.n_rows -
+        numberOfObjects, validFeatures.n_rows - 1);
+    validFeatures = validFeatures.rows(0, validFeatures.n_rows -
+        numberOfObjects - 1);
+    return;
   }
 
   //! Locally stored mappings for some well known datasets.

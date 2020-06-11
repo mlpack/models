@@ -86,4 +86,172 @@ BOOST_AUTO_TEST_CASE(MNISTDataLoaderTest)
   Utils::RemoveFile("./../data/mnist.tar.gz");
 }
 
+/**
+ * Simple Test for object detection dataloader.
+ */
+BOOST_AUTO_TEST_CASE(ObjectDetectionDataLoaderFieldTypeTest)
+{
+  // Download the test dataset.
+  Utils::DownloadFile("/datasets/PASCAL-VOC-Test.tar.gz",
+    "./../data/PASCAL-VOC-Test.tar.gz", "", false, true,
+    "www.mlpack.org", true);
+
+  DataLoader<arma::mat, arma::field<arma::vec>> dataloader;
+
+  // Set paths for dataset.
+  std::string basePath = "./../data/PASCAL-VOC-Test/";
+  std::string annotaionPath = "Annotations/";
+  std::string imagesPath = "Images/";
+  double validRatio = 0.2;
+  bool shuffle = true;
+
+  // Classes in the dataset.
+  std::vector<std::string> classes = {"background", "aeroplane", "bicycle",
+      "bird", "boat", "bottle", "bus", "car", "cat", "chair", "cow",
+      "diningtable", "dog", "horse", "motorbike", "person", "pottedplant",
+      "sheep", "sofa", "train", "tvmonitor"};
+
+  // Resize the image to 64 x 64.
+  std::vector<std::string> augmentation = {"resize (64, 64)"};
+  dataloader.LoadObjectDetectionDataset(basePath + annotaionPath,
+      basePath + imagesPath, classes, validRatio, shuffle, augmentation);
+
+  // There are total 136 images in the dataset corresponding to 390 objects.
+  // With 20 % data used in validation set, there should be 27 images
+  // in training set and 109 image in training dataset.
+  BOOST_REQUIRE_EQUAL(dataloader.TrainLabels().n_cols, 109);
+  // They correspond to class name, x1, y1, x2, y2.
+  BOOST_REQUIRE_EQUAL(dataloader.TrainLabels().n_rows, 1);
+
+  // Check the shape of bounding boxes.
+  size_t totalBoundingBoxes = 0;
+  for (size_t i = 0; i < dataloader.TrainLabels().n_cols; i++)
+  {
+    BOOST_REQUIRE_EQUAL(dataloader.TrainLabels()(0, i).n_elem % 5, 0);
+    totalBoundingBoxes += dataloader.TrainLabels()(0, i).n_elem / 5;
+  }
+
+  // Rows will be equal to shape image depth * image width * image height.
+  BOOST_REQUIRE_EQUAL(dataloader.TrainFeatures().n_rows, 64 * 64 * 3);
+  // There are 109 images in training set.
+  BOOST_REQUIRE_EQUAL(dataloader.TrainFeatures().n_cols, 109);
+
+  // There are 27 images in validation set.
+  BOOST_REQUIRE_EQUAL(dataloader.ValidLabels().n_cols, 27);
+  // They correspond to class name, x1, y1, x2, y2.
+  BOOST_REQUIRE_EQUAL(dataloader.ValidLabels().n_rows, 1);
+
+  // Each bounding box contains 5 elements corresponding to class label
+  // and 4 elements corresponding to bounding box coordinates.
+  for (size_t i = 0; i < dataloader.ValidLabels().n_cols; i++)
+  {
+    BOOST_REQUIRE_EQUAL(dataloader.ValidLabels()(0, i).n_elem % 5, 0);
+    totalBoundingBoxes += dataloader.ValidLabels()(0, i).n_elem / 5;
+  }
+
+  // There are total 390 objects in the dataset in 136 images.
+  BOOST_REQUIRE_EQUAL(totalBoundingBoxes, 390);
+
+  // Rows will be equal to shape image depth * image width * image height.
+  BOOST_REQUIRE_EQUAL(dataloader.ValidFeatures().n_rows, 64 * 64 * 3);
+
+  // There are 27 images in the validation set.
+  BOOST_REQUIRE_EQUAL(dataloader.ValidFeatures().n_cols, 27);
+
+  // Boundary check.
+  validRatio = 1.0;
+  dataloader.LoadObjectDetectionDataset(basePath + annotaionPath,
+      basePath + imagesPath, classes, validRatio, shuffle, augmentation);
+
+  // There are total 136 images in the set.
+  BOOST_REQUIRE_EQUAL(dataloader.ValidLabels().n_cols, 136);
+  // They correspond to class name, x1, y1, x2, y2.
+  BOOST_REQUIRE_EQUAL(dataloader.ValidLabels().n_rows, 1);
+
+  // Rows will be equal to shape image depth * image width * image height.
+  BOOST_REQUIRE_EQUAL(dataloader.ValidFeatures().n_rows, 64 * 64 * 3);
+  // There are total 136 images in the set.
+  BOOST_REQUIRE_EQUAL(dataloader.ValidFeatures().n_cols, 136);
+}
+
+/**
+ * Simple Test for object detection dataloader.
+ */
+BOOST_AUTO_TEST_CASE(ObjectDetectionDataLoaderMatTypeTest)
+{
+  // Download the test dataset.
+  Utils::DownloadFile("/datasets/PASCAL-VOC-Test.tar.gz",
+    "./../data/PASCAL-VOC-Test.tar.gz", "", false, true,
+    "www.mlpack.org", true);
+
+  DataLoader<> dataloader;
+
+  // Set paths for dataset.
+  std::string basePath = "./../data/PASCAL-VOC-Test/";
+  std::string annotaionPath = "Uniform_Annotation/";
+  std::string imagesPath = "Images/";
+  double validRatio = 0.2;
+  bool shuffle = true;
+
+  // Classes in the dataset.
+  std::vector<std::string> classes = {"background", "aeroplane", "bicycle",
+      "bird", "boat", "bottle", "bus", "car", "cat", "chair", "cow",
+      "diningtable", "dog", "horse", "motorbike", "person", "pottedplant",
+      "sheep", "sofa", "train", "tvmonitor"};
+
+  // Resize the image to 64 x 64.
+  std::vector<std::string> augmentation = {"resize (64, 64)"};
+  dataloader.LoadObjectDetectionDataset(basePath + annotaionPath,
+      basePath + imagesPath, classes, validRatio, shuffle, augmentation);
+
+  // There are total 7 images in the dataset. With 20 % data used in
+  // validation set, The training set will have 6 images and validation
+  // set will have 1 image.
+  BOOST_REQUIRE_EQUAL(dataloader.TrainLabels().n_cols, 6);
+  // They correspond to class name, x1, y1, x2, y2.
+  BOOST_REQUIRE_EQUAL(dataloader.TrainLabels().n_rows, 5);
+
+  // Rows will be equal to shape image depth * image width * image height.
+  BOOST_REQUIRE_EQUAL(dataloader.TrainFeatures().n_rows, 64 * 64 * 3);
+  // There are total 6 images in the training set.
+  BOOST_REQUIRE_EQUAL(dataloader.TrainFeatures().n_cols, 6);
+
+  // There is 1 image in the validation set.
+  BOOST_REQUIRE_EQUAL(dataloader.ValidLabels().n_cols, 1);
+  // They correspond to class name, x1, y1, x2, y2.
+  BOOST_REQUIRE_EQUAL(dataloader.ValidLabels().n_rows, 5);
+
+  // Rows will be equal to shape image depth * image width * image height.
+  BOOST_REQUIRE_EQUAL(dataloader.ValidFeatures().n_rows, 64 * 64 * 3);
+  // There is 1 image in the validation set.
+  BOOST_REQUIRE_EQUAL(dataloader.ValidFeatures().n_cols, 1);
+}
+
+BOOST_AUTO_TEST_CASE(LoadImageDatasetFromDirectoryTest)
+{
+  // Download the test dataset.
+  Utils::DownloadFile("/datasets/cifar-test.tar.gz",
+    "./../data/cifar-test.tar.gz", "", false, true,
+    "www.mlpack.org", true);
+
+  DataLoader<> dataloader;
+  Utils::ExtractFiles("./../data/cifar-test.tar.gz", "./../data/");
+  dataloader.LoadImageDatasetFromDirectory("./../data/cifar-test/",
+      32, 32, 3, true);
+
+  // Check correctness of Training data.
+  BOOST_REQUIRE_EQUAL(dataloader.TrainFeatures().n_cols, 800);
+  BOOST_REQUIRE_EQUAL(dataloader.TrainFeatures().n_rows, 32 * 32 * 3);
+
+  BOOST_REQUIRE_EQUAL(dataloader.TrainLabels().n_cols, 800);
+  BOOST_REQUIRE_EQUAL(dataloader.TrainLabels().n_rows, 1);
+
+  // Check correctness of Validation data.
+  BOOST_REQUIRE_EQUAL(dataloader.ValidFeatures().n_cols, 200);
+  BOOST_REQUIRE_EQUAL(dataloader.ValidFeatures().n_rows, 32 * 32 * 3);
+
+  BOOST_REQUIRE_EQUAL(dataloader.ValidLabels().n_cols, 200);
+  BOOST_REQUIRE_EQUAL(dataloader.ValidLabels().n_rows, 1);
+}
+
 BOOST_AUTO_TEST_SUITE_END();

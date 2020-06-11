@@ -7,6 +7,7 @@ set(MODEL_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/)
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../")
 
 add_executable(models_test
+               augmentation_tests.cpp
                dataloader_tests.cpp
                utils_tests.cpp
 )
@@ -19,6 +20,7 @@ target_link_libraries(models_test
   ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
   ${Boost_SYSTEM_LIBRARY}
   ${Boost_SERIALIZATION_LIBRARY}
+  ${Boost_REGEX_LIBRARY}
   ${MLPACK_LIBRARIES}
 )
 
