@@ -29,9 +29,10 @@ out here!)_
   2. [Dependencies](#2-dependencies)
   3. [Building-From-Source](#3-building-from-source)
   4. [Using Dataloaders](#4-using-dataloaders)
-  5. [Running Models](#5-running-models)
-  6. [Current Models](#6-current-models)
-  7. [Datasets](#7-datasets)
+  5. [Using Augmentation](#5-using-augmentation)
+  6. [Running Models](#6-running-models)
+  7. [Current Models](#7-current-models)
+  8. [Datasets](#8-datasets)
 
 ###  1. Introduction
 
@@ -111,15 +112,20 @@ model.Predict(dataloader.TestFeatures(), dataloader.TestLabels());
 ```
 
 Currently supported datasets are mentioned below :
-|Dataset| Usage.                           |Details                    |
-|-------|----------------------------------|---------------------------|
-| MNIST |   Dataloader<>&nbsp;("mnist");    | MNIST dataset is the de facto “hello world” dataset of computer vision. Each image is 28 pixels in height and 28 pixels in width, for a total of 784 pixels in total. The training data set, (mnist_train.csv), has 785 columns. The first column, called "label", is the digit that was drawn by the user. The rest of the columns contain the pixel-values of the associated image. |
+|  **Dataset** | **Usage** | **Details** |
+| --- | --- | --- |
+|  MNIST | DataLoader<>&nbsp;("mnist"); | MNIST dataset is the de facto “hello world” dataset of computer vision.<br/> Each image is 28 pixels in height and 28 pixels in width, for a total of 784 pixels in total. The first column, called "label", is the digit that was drawn by the user. The rest of the columns contain the pixel-values of the associated image.|
+|  Pascal VOC Detection | DataLoader<mat, field<vec>>&nbsp;("voc-detection") | The Pascal VOC challenge is a very popular dataset for building and evaluating algorithms for image classification, object detection and segmentation.<br/> VOC detection dataset provides support for loading object detection dataset in PASCAL VOC. Note : By default we refer to VOC - 2012 dataset as VOC dataset.|
+| CIFAR 10 | DataLoader<>&nbsp;("cifar10"); | The CIFAR-10 dataset consists of 60000 32x32 colour images in 10 classes, with 6000 images per class. There are 50000 training images and 10000 test images.|
 
 #### 2. Loading Other Datasets.
 
 We are continously adding new datasets to this repository, However you can also
 use our dataloaders to load other datasets. Refer to our dataloaders wiki for more
 information.
+
+##### a. Loading CSV Datasets.
+Use our `LoadCSV` function to load and process CSV datasets.
 
 ```cpp
 DataLoader<> irisDataloader;
@@ -141,6 +147,27 @@ irisDataloader(datasetPath, isTrainingData, shuffleData, ratioForTrainTestSplit,
     useFeatureScaling, dropHeader, startInputFeatures, endInputFeatures);
 ```
 
+##### b. Loading Image Dataset.
+
+Use our `LoadImageDatasetFromDirectory` to load image dataset in given directory. Directory should contain folders with folder name as class label and each folder should contain images corresponding to the class name.
+
+```cpp
+DataLoader<> dataloader;
+dataloader.LoadImageDatasetFromDirectory("path/to/directory", imageWidth, imageHeight, imageDepth);
+```
+
+For advanced usage, refer to our wiki page.
+
+##### c. Loading Object Detection Dataset.
+
+We provide support to load annotations represented in XML files and their corresponding images. If your dataset contains fixed number of objects in each annotation use matrix type to load your dataset else use field type for labels / annotations. If images are not of same size pass a vector containing resize parameter. By default, each image is resized to 64 x 64.
+
+ ```cpp
+ DataLoader<> dataloader;
+ vector<string> classes = {"class-name-0", "class-name-1", "class-name-2"}
+ dataloader.LoadObjectDetectionDataset("path/to/annotations/", "path/to/images/", classes);
+ ```
+
 #### 3. Preprocessing.
 
 For all datasets that we support we provide, We preprocess them internally. We also
@@ -157,12 +184,20 @@ PreProcess<>::MNIST(dataloader.TrainFeatures(), dataloader.TrainLabels(),
 
 This is especially useful when preprocessing of your dataset resembles any other standard
 dataset that we support.
+### 5. Using Augmentation
 
-### 5. Running Models
+To prevent overfitting on training data, we provide support for native augmentation. The constructor takes in a list / vector of strings which contain supported augmentation. Augmentation can be applied to the dataset by calling the `Transform` function. For more information about augmentation, take a look at our wiki page.
+
+```cpp
+Augmentation augmentation({"horizontal-flip", "resize : (64, 64)"}, 0.2);
+augmentation.Transform(dataset, imageWidth, imageHeight, imageDepth);
+```
+
+### 6. Running Models
 
 _(This section needs significant overhaul once we clean up our build system.)_
 
-### 6. Current Models
+### 7. Current Models
 
 _(This section also needs some cleanup once we know what we're keeping and what
 we're not keeping.)_
@@ -175,7 +210,7 @@ Currently model-zoo project has the following models implemented:
   - Variational Auto-Encoder on MNIST dataset.
   - Variational Convolutional Auto-Encoder on MNIST.
 
-### 7. Datasets
+### 8. Datasets
 
 _(This section will also need to be overhauled, but we should wait until we
 overhaul the sections above too.)_
