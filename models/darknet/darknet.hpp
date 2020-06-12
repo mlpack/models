@@ -142,6 +142,7 @@ class DarkNet
     bottleNeck->Add(new LeakyReLU<>());
 
     // Update inputWidth and input Height.
+    std::cout << "Conv Layer.  ";
     std::cout << "(" << inputWidth << ", " << inputHeight <<
         ", " << inSize << ") ----> ";
 
@@ -177,10 +178,14 @@ class DarkNet
       bottleNeck->Add(new MeanPooling<>(kernelWidth, kernelHeight,
         strideWidth, strideHeight, true));
     }
-
+    std::cout << "Pooling Layer.  ";
+    std::cout << "(" << inputWidth << ", " << inputHeight <<
+        ") ----> ";
     // Update inputWidth and inputHeight.
     inputWidth = PoolOutSize(inputWidth, kernelWidth, strideWidth);
     inputHeight = PoolOutSize(inputHeight, kernelHeight, strideHeight);
+    std::cout << "(" << inputWidth << ", " << inputHeight <<
+        ")" << std::endl;;
     return bottleNeck;
   }
 
@@ -231,11 +236,13 @@ class DarkNet
                                      const size_t padWidth = 1,
                                      const size_t padHeight = 1)
   {
+    std::cout << "Residual Block Begin." << std::endl;
     Residual<>* residualBlock = new Residual<>();
     residualBlock->Add(ConvolutionBlock(inputChannel, inputChannel / 2,
         1, 1, 1, 1, 0, 0, true));
     residualBlock->Add(ConvolutionBlock(inputChannel / 2, inputChannel,
         kernelWidth, kernelHeight, 1, 1, padWidth, padWidth, true));
+    std::cout << "Residual Block end." << std::endl;
     return residualBlock;
   }
 

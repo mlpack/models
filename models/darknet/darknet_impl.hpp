@@ -122,6 +122,8 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVer>::DarkNet(
       darkNet.Add(new Linear<>(1000, numClasses));
       darkNet.Add(new LogSoftMax<>());
     }
+
+    darkNet.ResetParameters();
   }
   else if (DarkNetVer == 53)
   {
@@ -152,6 +154,8 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVer>::DarkNet(
       darkNet.Add(new Linear<>(1000, numClasses));
       darkNet.Add(new LogSoftMax<>());
     }
+
+    darkNet.ResetParameters();
   }
 }
 
