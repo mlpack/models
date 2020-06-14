@@ -146,7 +146,7 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVer>::DarkNet(
     darkNet.Add<Linear<>>(inputWidth * inputHeight * curChannels, numClasses);
     if (includeTop)
     {
-      //darkNet.Add<Linear<>>(1000, numClasses);
+      // darkNet.Add<Linear<>>(1000, numClasses);
       darkNet.Add<LogSoftMax<>>();
     }
 
