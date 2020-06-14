@@ -110,7 +110,10 @@ class DarkNet
  private:
   /**
    * Adds Convolution Block.
-   * 
+   *
+   * @tparam SequentialType Layer type in which convolution block will
+   *                        be added.
+   *
    * @param inSize Number of input maps.
    * @param outSize Number of output maps.
    * @param kernelWidth Width of the filter/kernel.
@@ -119,16 +122,22 @@ class DarkNet
    * @param strideHeight Stride of filter application in the y direction.
    * @param padW Padding width of the input.
    * @param padH Padding height of the input.
+   * @param batchNorm Boolean to determine whether a batch normalization
+   *                  layer is added.
+   * @param baseLayer Layer in which Convolution block will be added, if
+   *                  NULL added to darkNet FFN.
    */
-  Sequential<>* ConvolutionBlock(const size_t inSize,
-                                 const size_t outSize,
-                                 const size_t kernelWidth,
-                                 const size_t kernelHeight,
-                                 const size_t strideWidth = 1,
-                                 const size_t strideHeight = 1,
-                                 const size_t padW = 0,
-                                 const size_t padH = 0,
-                                 const size_t batchNorm = false)
+  template<typename SequentialType = Sequential<>>
+  void ConvolutionBlock(const size_t inSize,
+                        const size_t outSize,
+                        const size_t kernelWidth,
+                        const size_t kernelHeight,
+                        const size_t strideWidth = 1,
+                        const size_t strideHeight = 1,
+                        const size_t padW = 0,
+                        const size_t padH = 0,
+                        const bool batchNorm = false,
+                        SequentialType* baseLayer = NULL)
   {
     Sequential<>* bottleNeck = new Sequential<>();
     bottleNeck->Add(new Convolution<>(inSize, outSize, kernelWidth,
@@ -150,7 +159,17 @@ class DarkNet
     inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
     std::cout << "(" << inputWidth << ", " << inputHeight <<
         ", " << outSize << ")" << std::endl;
-    return bottleNeck;
+
+    if (baseLayer)
+    {
+      baseLayer->Add(bottleNeck);
+    }
+    else
+    {
+      darkNet.Add(bottleNeck);
+    }
+
+    return;
   }
 
   /**
@@ -160,12 +179,18 @@ class DarkNet
    * @param kernelHeight Height of the filter/kernel.
    * @param strideWidth Stride of filter application in the x direction.
    * @param strideHeight Stride of filter application in the y direction.
+   * @param type One of "max" or "mean". Determines whether add mean pooling
+   *             layer or max pooling layer.
+   * @param baseLayer Layer in which Convolution block will be added, if
+   *                  NULL added to darkNet FFN.
    */
-  Sequential<>* PoolingBlock(const size_t kernelWidth,
-                             const size_t kernelHeight,
-                             const size_t strideWidth = 1,
-                             const size_t strideHeight = 1,
-                             const std::string type = "max")
+  template<typename SequentialType = Sequential<>>
+  void PoolingBlock(const size_t kernelWidth,
+                    const size_t kernelHeight,
+                    const size_t strideWidth = 1,
+                    const size_t strideHeight = 1,
+                    const std::string type = "max",
+                    SequentialType* baseLayer = NULL)
   {
     Sequential<>* bottleNeck = new Sequential<>();
     if (type == "max")
@@ -185,8 +210,18 @@ class DarkNet
     inputWidth = PoolOutSize(inputWidth, kernelWidth, strideWidth);
     inputHeight = PoolOutSize(inputHeight, kernelHeight, strideHeight);
     std::cout << "(" << inputWidth << ", " << inputHeight <<
-        ")" << std::endl;;
-    return bottleNeck;
+        ")" << std::endl;
+
+    if (baseLayer)
+    {
+      baseLayer->Add(bottleNeck);
+    }
+    else
+    {
+      darkNet.Add(bottleNeck);
+    }
+
+    return;
   }
 
   /**
@@ -205,20 +240,24 @@ class DarkNet
    * @param padWidth Padding in convolutional layer.
    * @param padHeight Padding in convolutional layer.
    */
-  Sequential<>* DarkNet19SequentialBlock(const size_t inputChannel,
-                                         const size_t kernelWidth,
-                                         const size_t kernelHeight,
-                                         const size_t padWidth,
-                                         const size_t padHeight)
+  void DarkNet19SequentialBlock(const size_t inputChannel,
+                                const size_t kernelWidth,
+                                const size_t kernelHeight,
+                                const size_t padWidth,
+                                const size_t padHeight)
   {
     Sequential<>* block = new Sequential<>();
-    block->Add(ConvolutionBlock(inputChannel, inputChannel * 2,
-         kernelWidth, kernelHeight, 1, 1, padWidth, padHeight));
-    block->Add(ConvolutionBlock(inputChannel * 2, inputChannel,
-        1, 1));
-    block->Add(ConvolutionBlock(inputChannel, inputChannel * 2,
-        kernelWidth, kernelHeight, 1, 1, padWidth, padHeight));
-    return block;
+    ConvolutionBlock(inputChannel, inputChannel * 2,
+        kernelWidth, kernelHeight, 1, 1, padWidth, padHeight, false,
+        block);
+    ConvolutionBlock(inputChannel * 2, inputChannel,
+        1, 1, 1, 1, 0, 0, false, block);
+    ConvolutionBlock(inputChannel, inputChannel * 2,
+        kernelWidth, kernelHeight, 1, 1, padWidth, padHeight, false,
+        block);
+
+    darkNet.Add(block);
+    return;
   }
 
   /**
@@ -230,20 +269,21 @@ class DarkNet
    * @param padWidth Padding in convolutional layer.
    * @param padHeight Padding in convolutional layer.
    */
-  Residual<>* DarkNet53ResidualBlock(const size_t inputChannel,
-                                     const size_t kernelWidth = 3,
-                                     const size_t kernelHeight = 3,
-                                     const size_t padWidth = 1,
-                                     const size_t padHeight = 1)
+  void DarkNet53ResidualBlock(const size_t inputChannel,
+                              const size_t kernelWidth = 3,
+                              const size_t kernelHeight = 3,
+                              const size_t padWidth = 1,
+                              const size_t padHeight = 1)
   {
     std::cout << "Residual Block Begin." << std::endl;
     Residual<>* residualBlock = new Residual<>();
-    residualBlock->Add(ConvolutionBlock(inputChannel, inputChannel / 2,
-        1, 1, 1, 1, 0, 0, true));
-    residualBlock->Add(ConvolutionBlock(inputChannel / 2, inputChannel,
-        kernelWidth, kernelHeight, 1, 1, padWidth, padWidth, true));
+    ConvolutionBlock(inputChannel, inputChannel / 2,
+        1, 1, 1, 1, 0, 0, true, residualBlock);
+    ConvolutionBlock(inputChannel / 2, inputChannel, kernelWidth,
+        kernelHeight, 1, 1, padWidth, padWidth, true, residualBlock);
+    darkNet.Add(residualBlock);
     std::cout << "Residual Block end." << std::endl;
-    return residualBlock;
+    return;
   }
 
   /**

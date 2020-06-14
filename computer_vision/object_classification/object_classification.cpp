@@ -34,7 +34,7 @@ int main()
       {"resize : 128"});
 
   std::cout << "Dataset Loaded!" << std::endl;
-
+  dataloader.TrainLabels() = dataloader.TrainLabels() + 1;
   DarkNet<> darknetModel(3, 128, 128, 10);
   std::cout << "Model Compiled" << std::endl;
 

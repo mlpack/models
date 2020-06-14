@@ -91,47 +91,41 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVer>::DarkNet(
 
   if (DarkNetVer == 19)
   {
-    darkNet.Add(new IdentityLayer<>());
+    darkNet.Add<IdentityLayer<>>();
 
     // Convolution and activation function in a block.
-    darkNet.Add(ConvolutionBlock(inputChannel, 32, 3,
-        3, 1, 1, 1, 1));
-    darkNet.Add(PoolingBlock(2, 2, 2, 2));
-    darkNet.Add(ConvolutionBlock(32, 64, 3,
-        3, 1, 1, 1, 1));
-    darkNet.Add(PoolingBlock(2, 2, 2, 2));
-    darkNet.Add(DarkNet19SequentialBlock(64, 3, 3, 1, 1));
-    darkNet.Add(PoolingBlock(2, 2, 2, 2));
-    darkNet.Add(DarkNet19SequentialBlock(128, 3, 3, 1, 1));
-    darkNet.Add(PoolingBlock(2, 2, 2, 2));
-    darkNet.Add(DarkNet19SequentialBlock(256, 3, 3, 1, 1));
-    darkNet.Add(ConvolutionBlock(512, 256, 1, 1, 1, 1));
-    darkNet.Add(ConvolutionBlock(256, 512, 3, 3, 1,
-        1, 1, 1));
-    darkNet.Add(PoolingBlock(2, 2, 2, 2));
-    darkNet.Add(DarkNet19SequentialBlock(1024, 3, 3, 1, 1));
-    darkNet.Add(ConvolutionBlock(1024, 512, 1, 1, 1, 1));
-    darkNet.Add(ConvolutionBlock(512, 1024, 3, 3, 1, 1,
-        1, 1));
-    darkNet.Add(ConvolutionBlock(1024, 1000, 1, 1, 1, 1));
-    darkNet.Add(PoolingBlock(inputWidth, inputHeight,
-        inputWidth, inputHeight, "mean"));
+    ConvolutionBlock(inputChannel, 32, 3, 3, 1, 1, 1, 1);
+    PoolingBlock(2, 2, 2, 2);
+    ConvolutionBlock(32, 64, 3, 3, 1, 1, 1, 1);
+    PoolingBlock(2, 2, 2, 2);
+    DarkNet19SequentialBlock(64, 3, 3, 1, 1);
+    PoolingBlock(2, 2, 2, 2);
+    DarkNet19SequentialBlock(128, 3, 3, 1, 1);
+    PoolingBlock(2, 2, 2, 2);
+    DarkNet19SequentialBlock(256, 3, 3, 1, 1);
+    ConvolutionBlock(512, 256, 1, 1, 1, 1);
+    ConvolutionBlock(256, 512, 3, 3, 1, 1, 1, 1);
+    PoolingBlock(2, 2, 2, 2);
+    DarkNet19SequentialBlock(512, 3, 3, 1, 1);
+    ConvolutionBlock(1024, 512, 1, 1, 1, 1);
+    ConvolutionBlock(512, 1024, 3, 3, 1, 1, 1, 1);
+    ConvolutionBlock(1024, 1000, 1, 1, 1, 1);
+    PoolingBlock(inputWidth, inputHeight, inputWidth,
+        inputHeight, "mean");
 
     if (includeTop)
     {
-      darkNet.Add(new Linear<>(1000, numClasses));
-      darkNet.Add(new LogSoftMax<>());
+      darkNet.Add<Linear<>>(1000, numClasses);
+      darkNet.Add<LogSoftMax<>>();
     }
 
     darkNet.ResetParameters();
   }
   else if (DarkNetVer == 53)
   {
-    darkNet.Add(new IdentityLayer<>());
-    darkNet.Add(ConvolutionBlock(inputChannel, 32, 3, 3, 1, 1,
-        0, 0, true));
-    darkNet.Add(ConvolutionBlock(inputChannel, 64, 3, 3, 2, 2,
-        1, 1, true));
+    darkNet.Add<IdentityLayer<>>();
+    ConvolutionBlock(inputChannel, 32, 3, 3, 1, 1, 1, 1, true);
+    ConvolutionBlock(inputChannel, 64, 3, 3, 2, 2, 1, 1, true);
     // Let's automate this a bit.
     size_t curChannels = 64;
 
@@ -141,18 +135,19 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVer>::DarkNet(
     {
       for (size_t i = 0; i < blockCount; i++)
       {
-        darkNet.Add(DarkNet53ResidualBlock(curChannels));
+        DarkNet53ResidualBlock(curChannels);
       }
 
-      darkNet.Add(ConvolutionBlock(curChannels, curChannels * 2, 3, 3,
-          2, 2, 1, 1, true));
+      ConvolutionBlock(curChannels, curChannels * 2, 3, 3,
+          2, 2, 1, 1, true);
       curChannels = curChannels * 2;
     }
 
+    darkNet.Add<Linear<>>(inputWidth * inputHeight * curChannels, numClasses);
     if (includeTop)
     {
-      darkNet.Add(new Linear<>(1000, numClasses));
-      darkNet.Add(new LogSoftMax<>());
+      //darkNet.Add<Linear<>>(1000, numClasses);
+      darkNet.Add<LogSoftMax<>>();
     }
 
     darkNet.ResetParameters();
