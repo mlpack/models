@@ -110,7 +110,7 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVer>::DarkNet(
     ConvolutionBlock(1024, 512, 1, 1, 1, 1);
     ConvolutionBlock(512, 1024, 3, 3, 1, 1, 1, 1);
     ConvolutionBlock(1024, 1000, 1, 1, 1, 1);
-    
+
     darkNet.Add(new AdaptiveMeanPooling<>(1, 1));
 
     if (includeTop)

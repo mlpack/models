@@ -183,7 +183,6 @@ class DarkNet
   void PoolingBlock(const size_t factor = 2,
                     const std::string type = "max")
   {
-
     if (type == "max")
     {
       darkNet.Add(new AdaptiveMaxPooling<>(std::ceil(inputWidth * 1.0 / factor),
@@ -191,8 +190,8 @@ class DarkNet
     }
     else
     {
-      darkNet.Add(new AdaptiveMeanPooling<>(std::ceil(inputWidth * 1.0 / factor),
-          std::ceil(inputHeight * 1.0 / factor)));
+      darkNet.Add(new AdaptiveMeanPooling<>(std::ceil(inputWidth * 1.0 /
+          factor), std::ceil(inputHeight * 1.0 / factor)));
     }
 
     std::cout << "Pooling Layer.  ";
