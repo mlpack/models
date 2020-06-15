@@ -91,39 +91,39 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVer>::DarkNet(
 
   if (DarkNetVer == 19)
   {
-    darkNet.Add<IdentityLayer<>>();
+    darkNet.Add(new IdentityLayer<>());
 
     // Convolution and activation function in a block.
     ConvolutionBlock(inputChannel, 32, 3, 3, 1, 1, 1, 1);
-    PoolingBlock(2, 2, 2, 2);
+    PoolingBlock();
     ConvolutionBlock(32, 64, 3, 3, 1, 1, 1, 1);
-    PoolingBlock(2, 2, 2, 2);
+    PoolingBlock();
     DarkNet19SequentialBlock(64, 3, 3, 1, 1);
-    PoolingBlock(2, 2, 2, 2);
+    PoolingBlock();
     DarkNet19SequentialBlock(128, 3, 3, 1, 1);
-    PoolingBlock(2, 2, 2, 2);
+    PoolingBlock();
     DarkNet19SequentialBlock(256, 3, 3, 1, 1);
     ConvolutionBlock(512, 256, 1, 1, 1, 1);
     ConvolutionBlock(256, 512, 3, 3, 1, 1, 1, 1);
-    PoolingBlock(2, 2, 2, 2);
+    PoolingBlock();
     DarkNet19SequentialBlock(512, 3, 3, 1, 1);
     ConvolutionBlock(1024, 512, 1, 1, 1, 1);
     ConvolutionBlock(512, 1024, 3, 3, 1, 1, 1, 1);
     ConvolutionBlock(1024, 1000, 1, 1, 1, 1);
-    PoolingBlock(inputWidth, inputHeight, inputWidth,
-        inputHeight, "mean");
+    
+    darkNet.Add(new AdaptiveMeanPooling<>(1, 1));
 
     if (includeTop)
     {
-      darkNet.Add<Linear<>>(1000, numClasses);
-      darkNet.Add<LogSoftMax<>>();
+      darkNet.Add(new Linear<>(1000, numClasses));
+      darkNet.Add(new LogSoftMax<>());
     }
 
     darkNet.ResetParameters();
   }
   else if (DarkNetVer == 53)
   {
-    darkNet.Add<IdentityLayer<>>();
+    darkNet.Add(new IdentityLayer<>());
     ConvolutionBlock(inputChannel, 32, 3, 3, 1, 1, 1, 1, true);
     ConvolutionBlock(inputChannel, 64, 3, 3, 2, 2, 1, 1, true);
     // Let's automate this a bit.
@@ -143,11 +143,12 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVer>::DarkNet(
       curChannels = curChannels * 2;
     }
 
-    darkNet.Add<Linear<>>(inputWidth * inputHeight * curChannels, numClasses);
+    darkNet.Add(new Linear<>(inputWidth * inputHeight * curChannels,
+        numClasses));
     if (includeTop)
     {
-      // darkNet.Add<Linear<>>(1000, numClasses);
-      darkNet.Add<LogSoftMax<>>();
+      darkNet.Add(new Linear<>(1000, numClasses));
+      darkNet.Add(new LogSoftMax<>());
     }
 
     darkNet.ResetParameters();

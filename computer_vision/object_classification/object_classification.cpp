@@ -31,17 +31,21 @@ int main()
   std::cout << "Loading Dataset!" << std::endl;
   dataloader.LoadImageDatasetFromDirectory("./../data/cifar-test",
       32, 32, 3, true, 0.2, true,
-      {"resize : 128"});
+      {"resize : 32"});
 
   std::cout << "Dataset Loaded!" << std::endl;
   dataloader.TrainLabels() = dataloader.TrainLabels() + 1;
-  DarkNet<> darknetModel(3, 128, 128, 10);
+  DarkNet<> darknetModel(3, 32, 32, 10);
   std::cout << "Model Compiled" << std::endl;
 
   constexpr double RATIO = 0.1;
   constexpr size_t EPOCHS = 3;
   constexpr double STEP_SIZE = 1.2e-3;
-  constexpr int BATCH_SIZE = 50;
+  constexpr int BATCH_SIZE = 1;
+
+  mlpack::data::MinMaxScaler scaler;
+  scaler.Fit(dataloader.TrainFeatures());
+  scaler.Transform(dataloader.TrainFeatures(), dataloader.TrainFeatures());
 
   ens::Adam optimizer(STEP_SIZE, BATCH_SIZE, 0.9, 0.998, 1e-8,
       dataloader.TrainFeatures().n_cols * EPOCHS);

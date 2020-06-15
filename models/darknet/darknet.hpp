@@ -42,6 +42,7 @@
 #include <mlpack/methods/ann/ffn.hpp>
 #include <mlpack/methods/ann/layer/layer_types.hpp>
 #include <mlpack/methods/ann/init_rules/random_init.hpp>
+#include <mlpack/methods/ann/init_rules/he_init.hpp>
 
 namespace mlpack {
 namespace ann /** Artificial Neural Network. */{
@@ -55,7 +56,7 @@ namespace ann /** Artificial Neural Network. */{
  */
 template<
   typename OutputLayerType = NegativeLogLikelihood<>,
-  typename InitializationRuleType = RandomInitialization,
+  typename InitializationRuleType = HeInitialization,
   size_t DarkNetVer = 19
 >
 class DarkNet
@@ -160,7 +161,7 @@ class DarkNet
     std::cout << "(" << inputWidth << ", " << inputHeight <<
         ", " << outSize << ")" << std::endl;
 
-    if (baseLayer)
+    if (baseLayer != NULL)
     {
       baseLayer->Add(bottleNeck);
     }
@@ -175,52 +176,33 @@ class DarkNet
   /**
    * Adds Pooling Block.
    *
-   * @param kernelWidth Width of the filter/kernel.
-   * @param kernelHeight Height of the filter/kernel.
-   * @param strideWidth Stride of filter application in the x direction.
-   * @param strideHeight Stride of filter application in the y direction.
+   * @param factor The factor by which input dimensions will be divided.
    * @param type One of "max" or "mean". Determines whether add mean pooling
    *             layer or max pooling layer.
-   * @param baseLayer Layer in which Convolution block will be added, if
-   *                  NULL added to darkNet FFN.
    */
-  template<typename SequentialType = Sequential<>>
-  void PoolingBlock(const size_t kernelWidth,
-                    const size_t kernelHeight,
-                    const size_t strideWidth = 1,
-                    const size_t strideHeight = 1,
-                    const std::string type = "max",
-                    SequentialType* baseLayer = NULL)
+  void PoolingBlock(const size_t factor = 2,
+                    const std::string type = "max")
   {
-    Sequential<>* bottleNeck = new Sequential<>();
+
     if (type == "max")
     {
-      bottleNeck->Add(new MaxPooling<>(kernelWidth, kernelHeight,
-        strideWidth, strideHeight, true));
+      darkNet.Add(new AdaptiveMaxPooling<>(std::ceil(inputWidth * 1.0 / factor),
+          std::ceil(inputHeight * 1.0 / factor)));
     }
     else
     {
-      bottleNeck->Add(new MeanPooling<>(kernelWidth, kernelHeight,
-        strideWidth, strideHeight, true));
+      darkNet.Add(new AdaptiveMeanPooling<>(std::ceil(inputWidth * 1.0 / factor),
+          std::ceil(inputHeight * 1.0 / factor)));
     }
+
     std::cout << "Pooling Layer.  ";
     std::cout << "(" << inputWidth << ", " << inputHeight <<
         ") ----> ";
     // Update inputWidth and inputHeight.
-    inputWidth = PoolOutSize(inputWidth, kernelWidth, strideWidth);
-    inputHeight = PoolOutSize(inputHeight, kernelHeight, strideHeight);
+    inputWidth = std::ceil(inputWidth * 1.0 / factor);
+    inputHeight = std::ceil(inputHeight * 1.0 / factor);
     std::cout << "(" << inputWidth << ", " << inputHeight <<
         ")" << std::endl;
-
-    if (baseLayer)
-    {
-      baseLayer->Add(bottleNeck);
-    }
-    else
-    {
-      darkNet.Add(bottleNeck);
-    }
-
     return;
   }
 
@@ -301,21 +283,6 @@ class DarkNet
                      const size_t padding)
   {
     return std::floor(size + 2 * padding - k) / s + 1;
-  }
-
-  /**
-   * Return the convolution output size.
-   *
-   * @param size The size of the input (row or column).
-   * @param k The size of the filter (width or height).
-   * @param s The stride size (x or y direction).
-   * @return The convolution output size.
-   */
-  size_t PoolOutSize(const size_t size,
-                     const size_t k,
-                     const size_t s)
-  {
-    return std::floor(size - 1) / s + 1;
   }
 
   //! Locally stored LeNet Model.
