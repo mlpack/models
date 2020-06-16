@@ -14,9 +14,11 @@
  * 3-clause BSD license along with mlpack.  If not, see
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
+#include <mlpack/core.hpp>
 #include <dataloader/dataloader.hpp>
 #include <models/darknet/darknet.hpp>
 #include <utils/utils.hpp>
+#include <utils/ensmallen_utils.hpp>
 #include <ensmallen.hpp>
 
 using namespace mlpack;
@@ -24,6 +26,16 @@ using namespace mlpack::ann;
 using namespace arma;
 using namespace std;
 using namespace ens;
+
+class Accuracy
+{
+ public:
+  template<typename InputType, typename OutputType>
+  static double Evaluate(InputType& input, OutputType& output)
+  {
+    return 3.14;
+  }
+};
 
 int main()
 {
@@ -53,7 +65,10 @@ int main()
 
   darknetModel.GetModel().Train(dataloader.TrainFeatures(),
       dataloader.TrainLabels(), optimizer, ens::PrintLoss(),
-      ens::ProgressBar(), ens::EarlyStopAtMinLoss());
+      ens::ProgressBar(), ens::EarlyStopAtMinLoss(),
+      ens::PrintMetric<FFN<NegativeLogLikelihood<>, HeInitialization>,
+          Accuracy>(darknetModel.GetModel(), dataloader.TrainFeatures(),
+          "accuracy", true));
   mlpack::data::Save("darknet19.bin", "darknet",
       darknetModel.GetModel(), false);
   return 0;

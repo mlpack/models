@@ -85,7 +85,7 @@ class DarkNet
 
   /**
    * DarkNet constructor intializes input shape and number of classes.
-   *  
+   *
    * @param inputShape A three-valued tuple indicating input shape.
    *                   First value is number of Channels (Channels-First).
    *                   Second value is input height.
