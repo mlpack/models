@@ -76,14 +76,14 @@ class PrintMetric
   // Locally held string that depicts the name of the metric.
   std::string metricName;
 
-  // Locally held boolean to determin whether evaluation is done on train data or
-  // validation data.
+  // Locally held boolean to determin whether evaluation is done on train data
+  // or validation data.
   bool trainData;
 
   // The output stream that all data is to be sent to; example: std::cout.
   std::ostream& output;
 };
 
-}
+} // namespace ens
 
 #endif
