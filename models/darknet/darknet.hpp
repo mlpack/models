@@ -57,7 +57,7 @@ namespace ann /** Artificial Neural Network. */{
 template<
   typename OutputLayerType = NegativeLogLikelihood<>,
   typename InitializationRuleType = HeInitialization,
-  size_t DarkNetVer = 19
+  size_t DarkNetVersion = 19
 >
 class DarkNet
 {
@@ -169,8 +169,6 @@ class DarkNet
     {
       darkNet.Add(bottleNeck);
     }
-
-    return;
   }
 
   /**
@@ -202,7 +200,6 @@ class DarkNet
     inputHeight = std::ceil(inputHeight * 1.0 / factor);
     std::cout << "(" << inputWidth << ", " << inputHeight <<
         ")" << std::endl;
-    return;
   }
 
   /**
@@ -238,7 +235,6 @@ class DarkNet
         block);
 
     darkNet.Add(block);
-    return;
   }
 
   /**
@@ -264,7 +260,6 @@ class DarkNet
         kernelHeight, 1, 1, padWidth, padWidth, true, residualBlock);
     darkNet.Add(residualBlock);
     std::cout << "Residual Block end." << std::endl;
-    return;
   }
 
   /**

@@ -18,7 +18,8 @@
 #include <dataloader/dataloader.hpp>
 #include <models/darknet/darknet.hpp>
 #include <utils/utils.hpp>
-#include <utils/ensmallen_utils.hpp>
+#include <ensmallen_utils/print_metric.hpp>
+#include <ensmallen_utils/periodic_save.hpp>
 #include <ensmallen.hpp>
 
 using namespace mlpack;
@@ -33,15 +34,25 @@ class Accuracy
   template<typename InputType, typename OutputType>
   static double Evaluate(InputType& input, OutputType& output)
   {
-    return 3.14;
+    arma::Row<size_t> predLabels(input.n_cols);
+    for (arma::uword i = 0; i < input.n_cols; ++i)
+    {
+      predLabels(i) = input.col(i).index_max() + 1;
+    }
+    return arma::accu(predLabels == output) / (double)output.n_elem * 100;
   }
 };
 
 int main()
 {
+  #if defined(_OPENMP)
+    std::cout << "Compiled with OpenMP!" << std::endl;
+  #endif
+
   DataLoader<> dataloader;
+
   std::cout << "Loading Dataset!" << std::endl;
-  dataloader.LoadImageDatasetFromDirectory("./../data/cifar-test",
+  dataloader.LoadImageDatasetFromDirectory("./../data/cifar10-small/",
       32, 32, 3, true, 0.2, true,
       {"resize : 32"});
 
@@ -51,24 +62,45 @@ int main()
   std::cout << "Model Compiled" << std::endl;
 
   constexpr double RATIO = 0.1;
-  constexpr size_t EPOCHS = 3;
+  constexpr size_t EPOCHS = 10;
   constexpr double STEP_SIZE = 1.2e-3;
-  constexpr int BATCH_SIZE = 1;
+  constexpr int BATCH_SIZE = 32;
 
   mlpack::data::MinMaxScaler scaler;
   scaler.Fit(dataloader.TrainFeatures());
   scaler.Transform(dataloader.TrainFeatures(), dataloader.TrainFeatures());
+  scaler.Transform(dataloader.ValidFeatures(), dataloader.ValidFeatures());
 
   ens::Adam optimizer(STEP_SIZE, BATCH_SIZE, 0.9, 0.998, 1e-8,
       dataloader.TrainFeatures().n_cols * EPOCHS);
+
   std::cout << "Optimizer Created, Starting Training!" << std::endl;
 
   darknetModel.GetModel().Train(dataloader.TrainFeatures(),
-      dataloader.TrainLabels(), optimizer, ens::PrintLoss(),
-      ens::ProgressBar(), ens::EarlyStopAtMinLoss(),
+      dataloader.TrainLabels(),
+      optimizer,
+      ens::PrintLoss(),
+      ens::ProgressBar(),
+      ens::EarlyStopAtMinLoss(),
       ens::PrintMetric<FFN<NegativeLogLikelihood<>, HeInitialization>,
-          Accuracy>(darknetModel.GetModel(), dataloader.TrainFeatures(),
-          "accuracy", true));
+          Accuracy>(
+            darknetModel.GetModel(),
+            dataloader.TrainFeatures(),
+            dataloader.TrainLabels(),
+            "accuracy",
+            true),
+      ens::PrintMetric<FFN<NegativeLogLikelihood<>, HeInitialization>,
+          Accuracy>(
+              darknetModel.GetModel(),
+              dataloader.ValidFeatures(),
+              dataloader.ValidLabels(),
+              "accuracy",
+              false),
+      ens::PeriodicSave<FFN<NegativeLogLikelihood<>, HeInitialization>>(
+          darknetModel.GetModel(),
+          "./../weights/",
+          "darknet19", 1));
+
   mlpack::data::Save("darknet19.bin", "darknet",
       darknetModel.GetModel(), false);
   return 0;

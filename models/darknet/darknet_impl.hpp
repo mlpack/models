@@ -20,9 +20,9 @@ namespace ann {
 template<
      typename OutputLayerType,
      typename InitializationRuleType,
-     size_t DarkNetVer
+     size_t DarkNetVersion
 >
-DarkNet<OutputLayerType, InitializationRuleType, DarkNetVer>::DarkNet() :
+DarkNet<OutputLayerType, InitializationRuleType, DarkNetVersion>::DarkNet() :
     inputChannel(0),
     inputWidth(0),
     inputHeight(0),
@@ -35,16 +35,16 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVer>::DarkNet() :
 template<
      typename OutputLayerType,
      typename InitializationRuleType,
-     size_t DarkNetVer
+     size_t DarkNetVersion
 >
-DarkNet<OutputLayerType, InitializationRuleType, DarkNetVer>::DarkNet(
+DarkNet<OutputLayerType, InitializationRuleType, DarkNetVersion>::DarkNet(
   const size_t inputChannel,
   const size_t inputWidth,
   const size_t inputHeight,
   const size_t numClasses,
   const std::string& weights,
   const bool includeTop) :
-  DarkNet<OutputLayerType, InitializationRuleType, DarkNetVer>(
+  DarkNet<OutputLayerType, InitializationRuleType, DarkNetVersion>(
     std::tuple<size_t, size_t, size_t>(
       inputChannel,
       inputWidth,
@@ -59,9 +59,9 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVer>::DarkNet(
 template<
      typename OutputLayerType,
      typename InitializationRuleType,
-     size_t DarkNetVer
+     size_t DarkNetVersion
 >
-DarkNet<OutputLayerType, InitializationRuleType, DarkNetVer>::DarkNet(
+DarkNet<OutputLayerType, InitializationRuleType, DarkNetVersion>::DarkNet(
     const std::tuple<size_t, size_t, size_t> inputShape,
     const size_t numClasses,
     const std::string& weights,
@@ -72,14 +72,14 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVer>::DarkNet(
     numClasses(numClasses),
     weights(weights)
 {
-  mlpack::Log::Assert(DarkNetVer == 19 || DarkNetVer == 53,
+  mlpack::Log::Assert(DarkNetVersion == 19 || DarkNetVersion == 53,
       "Incorrect DarkNet version. Possible values are 19 and 53. Trying \
-      to find version : " + std::to_string(DarkNetVer) + ".");
+      to find version : " + std::to_string(DarkNetVersion) + ".");
 
   if (weights == "cifar10")
   {
     // Download weights here.
-    LoadModel("./../weights/darknet/darknet" + std::to_string(DarkNetVer) +
+    LoadModel("./../weights/darknet/darknet" + std::to_string(DarkNetVersion) +
         "_cifar10.bin");
     return;
   }
@@ -89,7 +89,7 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVer>::DarkNet(
     return;
   }
 
-  if (DarkNetVer == 19)
+  if (DarkNetVersion == 19)
   {
     darkNet.Add(new IdentityLayer<>());
 
@@ -121,7 +121,7 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVer>::DarkNet(
 
     darkNet.ResetParameters();
   }
-  else if (DarkNetVer == 53)
+  else if (DarkNetVersion == 53)
   {
     darkNet.Add(new IdentityLayer<>());
     ConvolutionBlock(inputChannel, 32, 3, 3, 1, 1, 1, 1, true);
@@ -158,27 +158,27 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVer>::DarkNet(
 template<
      typename OutputLayerType,
      typename InitializationRuleType,
-     size_t DarkNetVer
+     size_t DarkNetVersion
 >
 void DarkNet<
-    OutputLayerType, InitializationRuleType, DarkNetVer
+    OutputLayerType, InitializationRuleType, DarkNetVersion
 >::LoadModel(const std::string& filePath)
 {
-  data::Load(filePath, "DarkNet" + std::to_string(DarkNetVer), darkNet);
+  data::Load(filePath, "DarkNet" + std::to_string(DarkNetVersion), darkNet);
   Log::Info << "Loaded model" << std::endl;
 }
 
 template<
      typename OutputLayerType,
      typename InitializationRuleType,
-     size_t DarkNetVer
+     size_t DarkNetVersion
 >
 void DarkNet<
-    OutputLayerType, InitializationRuleType, DarkNetVer
+    OutputLayerType, InitializationRuleType, DarkNetVersion
 >::SaveModel(const std::string& filePath)
 {
   Log::Info<< "Saving model." << std::endl;
-  data::Save(filePath, "DarkNet" + std::to_string(DarkNetVer), darkNet);
+  data::Save(filePath, "DarkNet" + std::to_string(DarkNetVersion), darkNet);
   Log::Info << "Model saved in " << filePath << "." << std::endl;
 }
 

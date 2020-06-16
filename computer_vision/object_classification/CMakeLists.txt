@@ -11,6 +11,12 @@ set(SOURCES
 foreach(file ${SOURCES})
   string( REPLACE ".cpp" "" name ${file})
   add_executable(${name} ${MODEL_SOURCE_DIR}/${file})
+  if (USE_OPENMP AND OPENMP_FOUND AND CMAKE_CXX_COMPILER_ID MATCHES "AppleClang")
+  if (CMAKE_CXX_COMPILER_VERSION VERSION_EQUAL "7.0" OR
+          CMAKE_CXX_COMPILER_VERSION VERSION_GREATER "7.0")
+        target_link_libraries(${name} ${OpenMP_libomp_LIBRARY})
+      endif()
+  endif()
   target_link_libraries(${name}
       ${COMPILER_SUPPORT_LIBRARIES}
       ${ARMADILLO_LIBRARIES}
