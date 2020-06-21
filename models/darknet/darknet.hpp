@@ -43,6 +43,7 @@
 #include <mlpack/methods/ann/layer/layer_types.hpp>
 #include <mlpack/methods/ann/init_rules/random_init.hpp>
 #include <mlpack/methods/ann/init_rules/he_init.hpp>
+#include <mlpack/methods/ann/init_rules/glorot_init.hpp>
 
 namespace mlpack {
 namespace ann /** Artificial Neural Network. */{
@@ -56,7 +57,7 @@ namespace ann /** Artificial Neural Network. */{
  */
 template<
   typename OutputLayerType = NegativeLogLikelihood<>,
-  typename InitializationRuleType = HeInitialization,
+  typename InitializationRuleType = RandomInitialization,
   size_t DarkNetVersion = 19
 >
 class DarkNet
@@ -144,12 +145,6 @@ class DarkNet
     bottleNeck->Add(new Convolution<>(inSize, outSize, kernelWidth,
         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
         inputHeight));
-    if (batchNorm)
-    {
-      bottleNeck->Add(new BatchNorm<>(outSize));
-    }
-
-    bottleNeck->Add(new LeakyReLU<>());
 
     // Update inputWidth and input Height.
     std::cout << "Conv Layer.  ";
@@ -160,6 +155,13 @@ class DarkNet
     inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
     std::cout << "(" << inputWidth << ", " << inputHeight <<
         ", " << outSize << ")" << std::endl;
+
+    if (batchNorm)
+    {
+      bottleNeck->Add(new BatchNorm<>(outSize * inputWidth * inputHeight));
+    }
+
+    bottleNeck->Add(new LeakyReLU<>());
 
     if (baseLayer != NULL)
     {
@@ -226,12 +228,12 @@ class DarkNet
   {
     Sequential<>* block = new Sequential<>();
     ConvolutionBlock(inputChannel, inputChannel * 2,
-        kernelWidth, kernelHeight, 1, 1, padWidth, padHeight, false,
+        kernelWidth, kernelHeight, 1, 1, padWidth, padHeight, true,
         block);
     ConvolutionBlock(inputChannel * 2, inputChannel,
         1, 1, 1, 1, 0, 0, false, block);
     ConvolutionBlock(inputChannel, inputChannel * 2,
-        kernelWidth, kernelHeight, 1, 1, padWidth, padHeight, false,
+        kernelWidth, kernelHeight, 1, 1, padWidth, padHeight, true,
         block);
 
     darkNet.Add(block);

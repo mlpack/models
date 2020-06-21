@@ -51,6 +51,9 @@ int main()
 
   DataLoader<> dataloader;
 
+  // Utils::DownloadFile("/datasets/cifar10.tar.gz",
+  //    "./../data/cifar10.tar.gz", "", false, true,
+  //    "www.mlpack.org", true);
   std::cout << "Loading Dataset!" << std::endl;
   dataloader.LoadImageDatasetFromDirectory("./../data/cifar10-small/",
       32, 32, 3, true, 0.2, true,
@@ -62,16 +65,16 @@ int main()
   std::cout << "Model Compiled" << std::endl;
 
   constexpr double RATIO = 0.1;
-  constexpr size_t EPOCHS = 10;
-  constexpr double STEP_SIZE = 1.2e-3;
-  constexpr int BATCH_SIZE = 32;
+  constexpr size_t EPOCHS = 5;
+  constexpr double STEP_SIZE = 0.001;
+  constexpr int BATCH_SIZE = 8;
 
   mlpack::data::MinMaxScaler scaler;
   scaler.Fit(dataloader.TrainFeatures());
   scaler.Transform(dataloader.TrainFeatures(), dataloader.TrainFeatures());
   scaler.Transform(dataloader.ValidFeatures(), dataloader.ValidFeatures());
 
-  ens::Adam optimizer(STEP_SIZE, BATCH_SIZE, 0.9, 0.998, 1e-8,
+  ens::Adam optimizer(STEP_SIZE, BATCH_SIZE, 0.9, 0.995, 1e-8,
       dataloader.TrainFeatures().n_cols * EPOCHS);
 
   std::cout << "Optimizer Created, Starting Training!" << std::endl;
@@ -82,21 +85,21 @@ int main()
       ens::PrintLoss(),
       ens::ProgressBar(),
       ens::EarlyStopAtMinLoss(),
-      ens::PrintMetric<FFN<NegativeLogLikelihood<>, HeInitialization>,
+      ens::PrintMetric<FFN<NegativeLogLikelihood<>, RandomInitialization>,
           Accuracy>(
             darknetModel.GetModel(),
             dataloader.TrainFeatures(),
             dataloader.TrainLabels(),
             "accuracy",
             true),
-      ens::PrintMetric<FFN<NegativeLogLikelihood<>, HeInitialization>,
+      ens::PrintMetric<FFN<NegativeLogLikelihood<>, RandomInitialization>,
           Accuracy>(
               darknetModel.GetModel(),
               dataloader.ValidFeatures(),
               dataloader.ValidLabels(),
               "accuracy",
               false),
-      ens::PeriodicSave<FFN<NegativeLogLikelihood<>, HeInitialization>>(
+      ens::PeriodicSave<FFN<NegativeLogLikelihood<>, RandomInitialization>>(
           darknetModel.GetModel(),
           "./../weights/",
           "darknet19", 1));
