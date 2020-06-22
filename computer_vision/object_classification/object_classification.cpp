@@ -56,8 +56,7 @@ int main()
   //    "www.mlpack.org", true);
   std::cout << "Loading Dataset!" << std::endl;
   dataloader.LoadImageDatasetFromDirectory("./../data/cifar10-small/",
-      32, 32, 3, true, 0.2, true,
-      {"resize : 32"});
+      32, 32, 3, true, 0.2, true);
 
   std::cout << "Dataset Loaded!" << std::endl;
   dataloader.TrainLabels() = dataloader.TrainLabels() + 1;
@@ -67,7 +66,7 @@ int main()
   constexpr double RATIO = 0.1;
   constexpr size_t EPOCHS = 5;
   constexpr double STEP_SIZE = 0.001;
-  constexpr int BATCH_SIZE = 8;
+  constexpr int BATCH_SIZE = 1;
 
   mlpack::data::MinMaxScaler scaler;
   scaler.Fit(dataloader.TrainFeatures());
