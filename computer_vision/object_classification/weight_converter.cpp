@@ -21,6 +21,7 @@
 #include <ensmallen_utils/print_metric.hpp>
 #include <ensmallen_utils/periodic_save.hpp>
 #include <ensmallen.hpp>
+#include <mlpack/methods/ann/layer_names.hpp>
 
 using namespace mlpack;
 using namespace mlpack::ann;
@@ -28,25 +29,16 @@ using namespace arma;
 using namespace std;
 using namespace ens;
 
-class Accuracy
-{
- public:
-  template<typename InputType, typename OutputType>
-  static double Evaluate(InputType& input, OutputType& output)
-  {
-    arma::Row<size_t> predLabels(input.n_cols);
-    for (arma::uword i = 0; i < input.n_cols; ++i)
-    {
-      predLabels(i) = input.col(i).index_max() + 1;
-    }
-    return arma::accu(predLabels == output) / (double)output.n_elem * 100;
-  }
-};
-
 struct output : public boost::static_visitor<>
 {
   template <class T>
-  void operator()(T t) const { std::cout<< t->Parameters().n_cols << '\n'; }
+  void operator()(T t) const
+  {
+    // We could use this as a summary.
+    LayerNameVisitor a1;
+    std::cout << a1.LayerString(&t) << std::endl;
+    return;
+  }
 };
 
 int main()
@@ -55,11 +47,14 @@ int main()
     std::cout << "Compiled with OpenMP!" << std::endl;
   #endif
 
-  DarkNet<> darknetModel(3, 32, 32, 10);
+  DarkNet<> darknetModel(3, 32, 32, 10, "none", true);
   std::cout << "Model Compiled" << std::endl;
+  for (int i = 0; i < darknetModel.GetModel().Model().size(); i++)
+  {
+    cout << i << " : ";
+    boost::apply_visitor(output{}, darknetModel.GetModel().Model()[i]);
+  }
 
-  boost::apply_visitor(output{}, darknetModel.GetModel().Model()[0]);
   //std::cout << boost::get<Sequential<> *>(darknetModel.GetModel().Model()[0])->Parameters().n_rows << std::endl;
-
   return 0;
 }
