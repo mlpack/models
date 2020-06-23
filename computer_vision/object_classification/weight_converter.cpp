@@ -36,25 +36,68 @@ struct output : public boost::static_visitor<>
   {
     // We could use this as a summary.
     LayerNameVisitor a1;
+    t.Parameters();
     std::cout << a1.LayerString(&t) << std::endl;
     return;
   }
 };
 
+/**
+ * std::cout << boost::get<Sequential<> *>(
+ *  darknetModel.GetModel().Model()[3])->Parameters().n_elem << std::endl;
+ */
 int main()
 {
   #if defined(_OPENMP)
     std::cout << "Compiled with OpenMP!" << std::endl;
   #endif
-
-  DarkNet<> darknetModel(3, 32, 32, 10, "none", true);
+  DarkNet<> darknetModel(3, 224, 224, 1000, "none", true);
   std::cout << "Model Compiled" << std::endl;
-  for (int i = 0; i < darknetModel.GetModel().Model().size(); i++)
+
+  // std::cout << darknetModel.GetModel().Parameters().n_rows << " " <<
+  //    darknetModel.GetModel().Parameters().n_cols << std::endl;
+
+  size_t outSize = 32;
+  Convolution<> *layer = new Convolution<>(3, 32, 3, 3, 1, 1, 1, 1, 224, 224);
+  // std::cout << layer->Parameters().n_elem << std::endl;
+  size_t layerElement = layer->Parameters().n_elem - outSize;
+
+  // This will be equal to output size for conv layers.
+  // In darknet model bias term is removed.
+  size_t offset = 0;
+  size_t biasOffset = outSize;
+
+  arma::mat ConvWeights;
+  mlpack::data::Load("../../PyTorch-mlpack-DarkNet-Weight-Converter/conv_1_1.csv",
+      ConvWeights);
+  // Transpose weights to match FFN Class.
+  ConvWeights = ConvWeights.t();
+  std::cout << ConvWeights.n_rows << " " << ConvWeights.n_cols << std::endl;
+
+  darknetModel.GetModel().Parameters()(arma::span(offset, offset + layerElement - 1),
+      arma::span()) = ConvWeights;
+  
+
+  bool weightsEqual = true;
+  for (size_t i = offset; i < offset + layerElement; i++)
   {
-    cout << i << " : ";
-    boost::apply_visitor(output{}, darknetModel.GetModel().Model()[i]);
+    if (darknetModel.GetModel().Parameters()(i) != ConvWeights(i - offset))
+    {
+      weightsEqual = false;
+      break;
+    }
   }
 
-  //std::cout << boost::get<Sequential<> *>(darknetModel.GetModel().Model()[0])->Parameters().n_rows << std::endl;
+  if (weightsEqual)
+  {
+    std::cout << "Yay!, Transferred weights" << std::endl;
+  }
+  else
+  {
+    std::cout << "Hmm, Looks like you missed something!" << std::endl;
+  }
+
+  offset = offset + layerElement + biasOffset;
+  biasOffset = 0;
   return 0;
 }

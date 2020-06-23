@@ -109,14 +109,12 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVersion>::DarkNet(
     DarkNet19SequentialBlock(512, 3, 3, 1, 1);
     ConvolutionBlock(1024, 512, 1, 1, 1, 1);
     ConvolutionBlock(512, 1024, 3, 3, 1, 1, 1, 1, true);
-    ConvolutionBlock(1024, 1000, 1, 1, 1, 1);
-
+    darkNet.Add(new Convolution<>(1024, numClasses, 1, 1,
+        1, 1, 0, 0, inputWidth, inputHeight));
     darkNet.Add(new AdaptiveMeanPooling<>(1, 1));
 
     if (includeTop)
     {
-      darkNet.Add(new BatchNorm<>(1000));
-      darkNet.Add(new Linear<>(1000, numClasses));
       darkNet.Add(new LogSoftMax<>());
     }
 
@@ -148,7 +146,6 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVersion>::DarkNet(
         numClasses));
     if (includeTop)
     {
-      darkNet.Add(new Linear<>(1000, numClasses));
       darkNet.Add(new LogSoftMax<>());
     }
 
