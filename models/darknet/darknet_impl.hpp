@@ -94,7 +94,7 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVersion>::DarkNet(
     darkNet.Add(new IdentityLayer<>());
 
     // Convolution and activation function in a block.
-    ConvolutionBlock(inputChannel, 32, 3, 3, 1, 1, 1, 1);
+    ConvolutionBlock(inputChannel, 32, 3, 3, 1, 1, 1, 1, true);
     PoolingBlock();
     ConvolutionBlock(32, 64, 3, 3, 1, 1, 1, 1, true);
     PoolingBlock();
@@ -109,12 +109,12 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVersion>::DarkNet(
     DarkNet19SequentialBlock(512, 3, 3, 1, 1);
     ConvolutionBlock(1024, 512, 1, 1, 1, 1);
     ConvolutionBlock(512, 1024, 3, 3, 1, 1, 1, 1, true);
-    darkNet.Add(new Convolution<>(1024, numClasses, 1, 1,
-        1, 1, 0, 0, inputWidth, inputHeight));
-    darkNet.Add(new AdaptiveMeanPooling<>(1, 1));
 
     if (includeTop)
     {
+      darkNet.Add(new Convolution<>(1024, numClasses, 1, 1,
+        1, 1, 0, 0, inputWidth, inputHeight));
+      darkNet.Add(new AdaptiveMeanPooling<>(1, 1));
       darkNet.Add(new LogSoftMax<>());
     }
 

@@ -99,5 +99,8 @@ int main()
 
   offset = offset + layerElement + biasOffset;
   biasOffset = 0;
+
+  BatchNorm<>* layer2 = new BatchNorm<>(32);
+  std::cout << layer2->Parameters().n_elem << std::endl;
   return 0;
 }

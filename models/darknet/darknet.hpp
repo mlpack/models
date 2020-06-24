@@ -158,7 +158,7 @@ class DarkNet
 
     if (batchNorm)
     {
-      bottleNeck->Add(new BatchNorm<>(outSize * inputWidth * inputHeight));
+      bottleNeck->Add(new BatchNorm<>(inputWidth));
     }
 
     bottleNeck->Add(new LeakyReLU<>());
