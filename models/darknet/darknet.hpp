@@ -138,7 +138,7 @@ class DarkNet
                         const size_t strideHeight = 1,
                         const size_t padW = 0,
                         const size_t padH = 0,
-                        const bool batchNorm = false,
+                        const bool batchNorm = true,
                         SequentialType* baseLayer = NULL)
   {
     Sequential<>* bottleNeck = new Sequential<>();
