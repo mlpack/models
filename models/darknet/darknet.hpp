@@ -231,7 +231,7 @@ class DarkNet
         kernelWidth, kernelHeight, 1, 1, padWidth, padHeight, true,
         block);
     ConvolutionBlock(inputChannel * 2, inputChannel,
-        1, 1, 1, 1, 0, 0, false, block);
+        1, 1, 1, 1, 0, 0, true, block);
     ConvolutionBlock(inputChannel, inputChannel * 2,
         kernelWidth, kernelHeight, 1, 1, padWidth, padHeight, true,
         block);

@@ -103,11 +103,11 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVersion>::DarkNet(
     DarkNet19SequentialBlock(128, 3, 3, 1, 1);
     PoolingBlock();
     DarkNet19SequentialBlock(256, 3, 3, 1, 1);
-    ConvolutionBlock(512, 256, 1, 1, 1, 1);
+    ConvolutionBlock(512, 256, 1, 1, 1, 1, 1, 1, true);
     ConvolutionBlock(256, 512, 3, 3, 1, 1, 1, 1, true);
     PoolingBlock();
     DarkNet19SequentialBlock(512, 3, 3, 1, 1);
-    ConvolutionBlock(1024, 512, 1, 1, 1, 1);
+    ConvolutionBlock(1024, 512, 1, 1, 1, 1, 1, 1, true);
     ConvolutionBlock(512, 1024, 3, 3, 1, 1, 1, 1, true);
 
     if (includeTop)
