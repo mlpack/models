@@ -98,6 +98,7 @@ void LoadWeights(mlpack::ann::FFN<OutputLayer, InitializationRule> &model,
 template<typename LayerType = mlpack::ann::FFN<>>
 LayerType LoadRunningMeanAndVariance(LayerType&& baseLayer, size_t i = 0)
 {
+  std::cout << "Recursive Call" << baseLayer.Model().size() << std::endl;
   while (i < baseLayer.Model().size() && !batchNormRunningMean.empty())
   {
     if (baseLayer.Model()[i].type() == typeid(new mlpack::ann::Sequential<>()))
