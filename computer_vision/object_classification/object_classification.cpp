@@ -56,12 +56,12 @@ int main()
   //    "www.mlpack.org", true);
   std::cout << "Loading Dataset!" << std::endl;
   dataloader.LoadImageDatasetFromDirectory("./../data/cifar10-small/",
-      32, 32, 3, true, 0.2, true, {"resize : 56"});
+      32, 32, 3, true, 0.2, true, {"resize : 32"});
 
   std::cout << "Dataset Loaded!" << std::endl;
   dataloader.TrainLabels() = dataloader.TrainLabels() + 1;
   DarkNet<mlpack::ann::NegativeLogLikelihood<>,
-      mlpack::ann::XavierInitialization, 19> darknetModel(3, 56, 56, 10);
+      mlpack::ann::XavierInitialization, 1> darknetModel(3, 32, 32, 10);
   std::cout << "Model Compiled" << std::endl;
 
   constexpr double RATIO = 0.1;
