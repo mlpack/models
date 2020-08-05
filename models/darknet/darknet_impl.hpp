@@ -72,16 +72,15 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVersion>::DarkNet(
     numClasses(numClasses),
     weights(weights)
 {
-  mlpack::Log::Assert(DarkNetVersion == 19 || DarkNetVersion == 53 ||
-      DarkNetVersion == 1, "Incorrect DarkNet version. \
-      Possible values are 19 and 53. Trying \
-      to find version : " + std::to_string(DarkNetVersion) + ".");
+  mlpack::Log::Assert(DarkNetVersion == 19 || DarkNetVersion == 53,
+      "Incorrect DarkNet version. Possible values are 19 and 53. \
+      Trying to find version : " + std::to_string(DarkNetVersion) + ".");
 
-  if (weights == "cifar10")
+  if (weights == "imagenet")
   {
     // Download weights here.
     LoadModel("./../weights/darknet/darknet" + std::to_string(DarkNetVersion) +
-        "_cifar10.bin");
+        "_imagenet.bin");
     return;
   }
   else if (weights != "none")
@@ -147,30 +146,6 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVersion>::DarkNet(
         numClasses));
     if (includeTop)
     {
-      darkNet.Add(new LogSoftMax<>());
-    }
-
-    darkNet.ResetParameters();
-  }
-  else if (DarkNetVersion == 1)
-  {
-    darkNet.Add(new IdentityLayer<>());
-    ConvolutionBlock(inputChannel, 16, 3, 3, 1, 1, 1, 1, true);
-    PoolingBlock();
-
-    size_t numBlocks = 6;
-    size_t outChannels = 16;
-    for (size_t blockId = 0; blockId < numBlocks; blockId++)
-    {
-      ConvolutionBlock(outChannels, outChannels * 2, 3, 3, 1, 1, 1, 1, true);
-      PoolingBlock(2);
-      outChannels *= 2;
-    }
-
-    if (includeTop)
-    {
-      darkNet.Add(new Linear<>(inputWidth * inputHeight * outChannels,
-        numClasses));
       darkNet.Add(new LogSoftMax<>());
     }
 
