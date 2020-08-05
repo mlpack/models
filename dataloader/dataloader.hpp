@@ -20,6 +20,7 @@
 #include <boost/foreach.hpp>
 #include <mlpack/core.hpp>
 #include <utils/utils.hpp>
+#include <set>
 
 
 #ifndef MODELS_DATALOADER_HPP
