@@ -147,13 +147,13 @@ class DarkNet
         inputHeight));
 
     // Update inputWidth and input Height.
-    std::cout << "Conv Layer.  ";
-    std::cout << "(" << inputWidth << ", " << inputHeight <<
+    mlpack::Log::Info << "Conv Layer.  ";
+    mlpack::Log::Info << "(" << inputWidth << ", " << inputHeight <<
         ", " << inSize << ") ----> ";
 
     inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
     inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
-    std::cout << "(" << inputWidth << ", " << inputHeight <<
+    mlpack::Log::Info << "(" << inputWidth << ", " << inputHeight <<
         ", " << outSize << ")" << std::endl;
 
     if (batchNorm)
@@ -194,13 +194,13 @@ class DarkNet
           factor), std::ceil(inputHeight * 1.0 / factor)));
     }
 
-    std::cout << "Pooling Layer.  ";
-    std::cout << "(" << inputWidth << ", " << inputHeight <<
+    mlpack::Log::Info << "Pooling Layer.  ";
+    mlpack::Log::Info << "(" << inputWidth << ", " << inputHeight <<
         ") ----> ";
     // Update inputWidth and inputHeight.
     inputWidth = std::ceil(inputWidth * 1.0 / factor);
     inputHeight = std::ceil(inputHeight * 1.0 / factor);
-    std::cout << "(" << inputWidth << ", " << inputHeight <<
+    mlpack::Log::Info << "(" << inputWidth << ", " << inputHeight <<
         ")" << std::endl;
   }
 
@@ -254,14 +254,14 @@ class DarkNet
                               const size_t padWidth = 1,
                               const size_t padHeight = 1)
   {
-    std::cout << "Residual Block Begin." << std::endl;
+    mlpack::Log::Info << "Residual Block Begin." << std::endl;
     Residual<>* residualBlock = new Residual<>();
     ConvolutionBlock(inputChannel, inputChannel / 2,
         1, 1, 1, 1, 0, 0, true, residualBlock);
     ConvolutionBlock(inputChannel / 2, inputChannel, kernelWidth,
         kernelHeight, 1, 1, padWidth, padWidth, true, residualBlock);
     darkNet.Add(residualBlock);
-    std::cout << "Residual Block end." << std::endl;
+    mlpack::Log::Info << "Residual Block end." << std::endl;
   }
 
   /**
