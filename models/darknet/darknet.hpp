@@ -128,6 +128,7 @@ class DarkNet
    *                  layer is added.
    * @param baseLayer Layer in which Convolution block will be added, if
    *                  NULL added to darkNet FFN.
+   * @param negativeSlope Negative slope hyper-parameter for LeakyReLU.
    */
   template<typename SequentialType = Sequential<>>
   void ConvolutionBlock(const size_t inSize,
@@ -139,7 +140,8 @@ class DarkNet
                         const size_t padW = 0,
                         const size_t padH = 0,
                         const bool batchNorm = true,
-                        SequentialType* baseLayer = NULL)
+                        SequentialType* baseLayer = NULL,
+                        const double negativeSlope = 1e-1)
   {
     Sequential<>* bottleNeck = new Sequential<>();
     bottleNeck->Add(new Convolution<>(inSize, outSize, kernelWidth,
@@ -158,10 +160,10 @@ class DarkNet
 
     if (batchNorm)
     {
-      bottleNeck->Add(new BatchNorm<>(outSize, 1e-8, false));
+      bottleNeck->Add(new BatchNorm<>(outSize, 1e-5, false));
     }
 
-    bottleNeck->Add(new LeakyReLU<>());
+    bottleNeck->Add(new LeakyReLU<>(negativeSlope));
 
     if (baseLayer != NULL)
     {
@@ -197,6 +199,7 @@ class DarkNet
     mlpack::Log::Info << "Pooling Layer.  ";
     mlpack::Log::Info << "(" << inputWidth << ", " << inputHeight <<
         ") ----> ";
+
     // Update inputWidth and inputHeight.
     inputWidth = std::ceil(inputWidth * 1.0 / factor);
     inputHeight = std::ceil(inputHeight * 1.0 / factor);
@@ -226,17 +229,26 @@ class DarkNet
                                 const size_t padWidth,
                                 const size_t padHeight)
   {
-    Sequential<>* block = new Sequential<>();
-    ConvolutionBlock(inputChannel, inputChannel * 2,
-        kernelWidth, kernelHeight, 1, 1, padWidth, padHeight, true,
-        block);
-    ConvolutionBlock(inputChannel * 2, inputChannel,
-        1, 1, 1, 1, 0, 0, true, block);
-    ConvolutionBlock(inputChannel, inputChannel * 2,
-        kernelWidth, kernelHeight, 1, 1, padWidth, padHeight, true,
-        block);
+    if (type == "max")
+    {
+      darkNet.Add(new MaxPooling<>(std::ceil(factor),
+          std::ceil(factor), factor, factor));
+    }
+    else
+    {
+      darkNet.Add(new MeanPooling<>(std::ceil(
+          factor), std::ceil(factor), factor, factor));
+    }
 
-    darkNet.Add(block);
+    mlpack::Log::Info << "Pooling Layer.  ";
+    mlpack::Log::Info << "(" << inputWidth << ", " << inputHeight <<
+        ") ----> ";
+
+    // Update inputWidth and inputHeight.
+    inputWidth = std::ceil(inputWidth * 1.0 / factor);
+    inputHeight = std::ceil(inputHeight * 1.0 / factor);
+    mlpack::Log::Info << "(" << inputWidth << ", " << inputHeight <<
+        ")" << std::endl; 
   }
 
   /**
@@ -257,9 +269,9 @@ class DarkNet
     mlpack::Log::Info << "Residual Block Begin." << std::endl;
     Residual<>* residualBlock = new Residual<>();
     ConvolutionBlock(inputChannel, inputChannel / 2,
-        1, 1, 1, 1, 0, 0, true, residualBlock);
+        1, 1, 1, 1, 0, 0, true, residualBlock, 1e-2);
     ConvolutionBlock(inputChannel / 2, inputChannel, kernelWidth,
-        kernelHeight, 1, 1, padWidth, padWidth, true, residualBlock);
+        kernelHeight, 1, 1, padWidth, padWidth, true, residualBlock, 1e-2);
     darkNet.Add(residualBlock);
     mlpack::Log::Info << "Residual Block end." << std::endl;
   }
