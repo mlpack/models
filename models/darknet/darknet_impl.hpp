@@ -137,16 +137,20 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVersion>::DarkNet(
         DarkNet53ResidualBlock(curChannels);
       }
 
-      ConvolutionBlock(curChannels, curChannels * 2, 3, 3,
-          2, 2, 1, 1, true);
-      curChannels = curChannels * 2;
+      if (blockCount != 4)
+      {
+          ConvolutionBlock(curChannels, curChannels * 2, 3, 3,
+              2, 2, 1, 1, true);
+          curChannels = curChannels * 2;
+      }
     }
 
-    darkNet.Add(new Linear<>(inputWidth * inputHeight * curChannels,
-        numClasses));
     if (includeTop)
     {
-      darkNet.Add(new LogSoftMax<>());
+      darkNet.Add(new MeanPooling<>(inputWidth, inputHeight,
+          1, 1));
+      darkNet.Add(new Linear<>(curChannels, numClasses));
+      darkNet.Add(new Softmax<>());
     }
 
     darkNet.ResetParameters();
