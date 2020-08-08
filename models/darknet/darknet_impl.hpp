@@ -150,7 +150,6 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVersion>::DarkNet(
     {
       darkNet.Add(new AdaptiveMeanPooling<>(1, 1));
       darkNet.Add(new Linear<>(curChannels, numClasses));
-      darkNet.Add(new Softmax<>());
     }
 
     darkNet.ResetParameters();
