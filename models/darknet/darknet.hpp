@@ -42,6 +42,7 @@
 #include <mlpack/methods/ann/ffn.hpp>
 #include <mlpack/methods/ann/layer/layer_types.hpp>
 #include <mlpack/methods/ann/init_rules/random_init.hpp>
+#include <mlpack/methods/ann/loss_functions/cross_entropy_error.hpp>
 #include <mlpack/methods/ann/init_rules/he_init.hpp>
 #include <mlpack/methods/ann/init_rules/glorot_init.hpp>
 
@@ -56,7 +57,7 @@ namespace ann /** Artificial Neural Network. */{
  * @tparam DaknetVer Version of DarkNet.
  */
 template<
-  typename OutputLayerType = NegativeLogLikelihood<>,
+  typename OutputLayerType = CrossEntropyError<>,
   typename InitializationRuleType = RandomInitialization,
   size_t DarkNetVersion = 19
 >
