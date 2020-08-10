@@ -79,8 +79,9 @@ class PreProcessor
       size_t currentOffset = 0;
       for (size_t i = 0; i < inputTemp.n_slices; i++)
       {
-          trainFeatures.col(idx)(arma::span(currentOffset, currentOffset + inputTemp.slice(i).n_elem - 1),
-              arma::span()) = arma::vectorise(inputTemp.slice(i).t());
+          trainFeatures.col(idx)(arma::span(currentOffset, currentOffset +
+              inputTemp.slice(i).n_elem - 1), arma::span()) =
+              arma::vectorise(inputTemp.slice(i).t());
           currentOffset += inputTemp.slice(i).n_elem;
       }
     }
