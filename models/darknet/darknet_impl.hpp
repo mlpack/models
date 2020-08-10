@@ -165,7 +165,7 @@ void DarkNet<
     OutputLayerType, InitializationRuleType, DarkNetVersion
 >::LoadModel(const std::string& filePath)
 {
-  data::Load(filePath, "DarkNet" + std::to_string(DarkNetVersion), darkNet);
+  data::Load(filePath, "DarkNet", darkNet);
   Log::Info << "Loaded model" << std::endl;
 }
 
@@ -179,7 +179,7 @@ void DarkNet<
 >::SaveModel(const std::string& filePath)
 {
   Log::Info<< "Saving model." << std::endl;
-  data::Save(filePath, "DarkNet" + std::to_string(DarkNetVersion), darkNet);
+  data::Save(filePath, "DarkNet", darkNet);
   Log::Info << "Model saved in " << filePath << "." << std::endl;
 }
 
