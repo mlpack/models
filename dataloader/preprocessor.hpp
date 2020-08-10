@@ -65,7 +65,7 @@ class PreProcessor
    * @param imageHeight Height of the image in dataset.
    * @param imageDepth Depth / Number of channels of the image in dataset.
    */
-  static void ChannelFirstImages(Dataset& trainFeatures,
+  static void ChannelFirstImages(DatasetX& trainFeatures,
                                  const size_t imageWidth,
                                  const size_t imageHeight,
                                  const size_t imageDepth,
