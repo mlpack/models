@@ -21,58 +21,25 @@ using namespace boost::unit_test;
 
 BOOST_AUTO_TEST_SUITE(FFNModelsTests);
 
-template<
-    typename OptimizerType,
-    typename OutputLayerType = mlpack::ann::CrossEntropyError<>,
-    typename InitializationRuleType = mlpack::ann::RandomInitialization,
-    class MetricType = mlpack::metric::SquaredEuclideanDistance,
-    typename InputType = arma::mat,
-    typename OutputType = arma::mat
->
-void CheckFFNClassificationWeights(mlpack::ann::FFN<OutputLayerType,
-    InitializationRuleType>& model,
-    InputType& inputFeatures,
-    OutputType& inputLabels,
-    const double threshold,
-    const bool takeMean,
-    OptimizerType& optimizer)
-{
-  DataLoader<InputType, OutputType> dataloader(datasetName, true);
-
-  // Verify viability of model on validation datset.
-  OutputType predictions;
-  model.Predict(dataloader.ValidFeatures(), predictions);
-
-  // Since this checks weights for classification problem, we need to convert
-  // predictions into labels.
-  arma::Row<size_t> predLabels(predictions.n_cols);
-  for (arma::uword i = 0; i < predictions.n_cols; ++i)
-  {
-      predLabels(i) = predictions.col(i).index_max();
-  }
-
-  double error = MetricType::Evaluate(predLabels, dataloader.ValidLabels());
-
-  if (takeMean)
-  {
-      error = error / predictions.n_elem;
-  }
-
-  BOOST_REQUIRE_LE(error, threshold);
-
-
-  // Train the model. Note: Callbacks such as progress bar and loss aren't
-  // used in testing. Training the model for few epochs ensures that a
-  // user can use the pretrained model on any other dataset as well.
-  model.Train(inputFeatures, inputLabels, optimizer);
-}
-
 /**
  * Simple test for Darknet model.
  */
 BOOST_AUTO_TEST_CASE(DarknetModelTest)
 {
-  mlpack::ann::DarkNet<> darknetModel(3, 224, 224, 1000, "imagenet");
+  mlpack::ann::DarkNet<> darknetModel(3, 224, 224, 1000);
+  arma::mat input(224 * 224 * 3, 1), output;
+  input.ones();
+
+  // Check output shape.
+  darknetModel.GetModel().Predict(input, output);
+  BOOST_REQUIRE_EQUAL(output.n_cols, 1);
+  BOOST_REQUIRE_EQUAL(output.n_rows, 1000);
+
+  // Repeat for DarkNet-53.
+  mlpack::ann::DarkNet<> darknet53(3, 224, 224, 1000);
+  darknet53.GetModel().Predict(input, output);
+  BOOST_REQUIRE_EQUAL(output.n_cols, 1);
+  BOOST_REQUIRE_EQUAL(output.n_rows, 1000);
 }
 
 BOOST_AUTO_TEST_SUITE_END();

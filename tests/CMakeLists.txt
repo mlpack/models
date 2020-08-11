@@ -8,6 +8,7 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../")
 
 add_executable(models_test
                augmentation_tests.cpp
+               ffn_model_tests.cpp
                dataloader_tests.cpp
                utils_tests.cpp
 )

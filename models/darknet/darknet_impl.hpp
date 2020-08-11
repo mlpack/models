@@ -123,8 +123,8 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVersion>::DarkNet(
   else if (DarkNetVersion == 53)
   {
     darkNet.Add(new IdentityLayer<>());
-    ConvolutionBlock(inputChannel, 32, 3, 3, 1, 1, 1, 1, true, NULL, 1e-2);
-    ConvolutionBlock(32, 64, 3, 3, 2, 2, 1, 1, true, NULL, 1e-2);
+    ConvolutionBlock(inputChannel, 32, 3, 3, 1, 1, 1, 1, true, 1e-2);
+    ConvolutionBlock(32, 64, 3, 3, 2, 2, 1, 1, true, 1e-2);
 
     // Let's automate this a bit.
     size_t curChannels = 64;
@@ -141,7 +141,7 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVersion>::DarkNet(
       if (blockCount != 4)
       {
           ConvolutionBlock(curChannels, curChannels * 2, 3, 3,
-              2, 2, 1, 1, true, NULL, 1e-2);
+              2, 2, 1, 1, true, 1e-2);
           curChannels = curChannels * 2;
       }
     }
