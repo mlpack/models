@@ -55,6 +55,44 @@ class PreProcessor
   {
     // Nothing to do here. Added to match the rest of the codebase.
   }
+
+  /**
+   * Converts image to channel first format used in PyTorch. Performs the same function
+   * as torch.transforms.ToTensor().
+   *
+   * @param trainFeatures Input features that will be converted into channel first format.
+   * @param imageWidth Width of the image in dataset.
+   * @param imageHeight Height of the image in dataset.
+   * @param imageDepth Depth / Number of channels of the image in dataset.
+   */
+  static void ChannelFirstImages(DatasetX& trainFeatures,
+      const size_t imageWidth,
+      const size_t imageHeight,
+      const size_t imageDepth,
+      bool normalize = true)
+  {
+    for (size_t idx = 0; idx < trainFeatures.n_cols; idx++)
+    {
+        // Create a copy of the current image so that the image isn't affected.
+        arma::cube inputTemp(trainFeatures.col(idx).memptr(), 3, 224, 224);
+
+        size_t currentOffset = 0;
+        for (size_t i = 0; i < inputTemp.n_slices; i++)
+        {
+          trainFeatures.col(idx)(arma::span(currentOffset, currentOffset +
+              inputTemp.slice(i).n_elem - 1), arma::span()) =
+              arma::vectorise(inputTemp.slice(i).t());
+          currentOffset += inputTemp.slice(i).n_elem;
+        }
+    }
+
+    if (normalize)
+    {
+      // Convert each element to uint8 first and then divide by 255.
+      for (size_t i = 0; i < trainFeatures.n_elem; i++)
+          trainFeatures(i) = ((uint8_t)(trainFeatures(i)) / 255.0);
+    }
+  }
 };
 
 #endif

@@ -383,7 +383,7 @@ template<
 
   // We use to endls here as one of them will be replaced by print
   // command below.
-  Log::Info << "Found " << imagesDirectory.size() << " belonging to " <<
+  mlpack::Log::Info << "Found " << imagesDirectory.size() << " belonging to " <<
       label << " class." << std::endl << std::endl;
 
   size_t loadedImages = 0;
@@ -395,7 +395,6 @@ template<
     {
       continue;
     }
-
     mlpack::data::ImageInfo imageInfo(imageWidth, imageHeight, imageDepth);
 
     // Load the image.
@@ -406,12 +405,14 @@ template<
     mlpack::data::Load(imageName.string(), image, imageInfo);
 
     // Add object to training set.
-    dataset.insert_cols(0, image);
-    labels.insert_cols(0, arma::vec(1).fill(label));
-
-    loadedImages++;
-    mlpack::Log::Info << "Loaded " << loadedImages << " out of " <<
-        imagesDirectory.size() << "\r" << std::endl;
+    if (image.n_rows == dataset.n_rows || dataset.n_elem == 0)
+    {
+      labels.insert_cols(0, arma::vec(1).fill(label));
+      dataset.insert_cols(0, image);
+      loadedImages++;
+      mlpack::Log::Info << "Loaded " << loadedImages << " out of " <<
+          imagesDirectory.size() << "\r" << std::endl;
+    }
   }
 }
 
@@ -485,6 +486,7 @@ template<
       validationData.n_rows - 1);
 
   augmentations.Transform(trainFeatures, imageWidth, imageHeight, imageDepth);
+  augmentations.Transform(validFeatures, imageWidth, imageHeight, imageDepth);
 
   mlpack::Log::Info << "Found " << totalClasses << " classes." << std::endl;
 
