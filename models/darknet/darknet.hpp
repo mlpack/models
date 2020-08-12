@@ -2,7 +2,7 @@
  * @file darknet.hpp
  * @author Kartik Dutt
  * 
- * Definition of Darknet models.
+ * Definition of DarkNet models.
  * 
  * For more information, kindly refer to the following paper.
  * 
@@ -50,7 +50,7 @@ namespace mlpack {
 namespace ann /** Artificial Neural Network. */{
 
 /**
- * Definition of a Darknet CNN.
+ * Definition of a DarkNet CNN.
  * 
  * @tparam OutputLayerType The output layer type used to evaluate the network.
  * @tparam InitializationRuleType Rule used to initialize the weight matrix.
@@ -74,8 +74,8 @@ class DarkNet
    * @param inputWidth Width of the input image.
    * @param inputHeight Height of the input image.
    * @param numClasses Optional number of classes to classify images into,
-   *                   only to be specified if includeTop is  true.
-   * @param weights One of 'none', 'cifar10'(pre-training on CIFAR10) or path to weights.
+   *     only to be specified if includeTop is  true.
+   * @param weights One of 'none', 'imagenet'(pre-training on ImageNet) or path to weights.
    * @param includeTop Must be set to true if weights are set.
    */
   DarkNet(const size_t inputChannel,
@@ -89,12 +89,11 @@ class DarkNet
    * DarkNet constructor intializes input shape and number of classes.
    *
    * @param inputShape A three-valued tuple indicating input shape.
-   *                   First value is number of Channels (Channels-First).
-   *                   Second value is input height.
-   *                   Third value is input width..
+   *     First value is number of channels (channels-first).
+   *     Second value is input height. Third value is input width.
    * @param numClasses Optional number of classes to classify images into,
-   *                   only to be specified if includeTop is  true.
-   * @param weights One of 'none', 'cifar10'(pre-training on CIFAR10) or path to weights.
+   *     only to be specified if includeTop is  true.
+   * @param weights One of 'none', 'imagenet'(pre-training on ImageNet) or path to weights.
    */
   DarkNet(const std::tuple<size_t, size_t, size_t> inputShape,
           const size_t numClasses = 1000,
@@ -115,7 +114,7 @@ class DarkNet
    * Adds Convolution Block.
    *
    * @tparam SequentialType Layer type in which convolution block will
-   *                        be added.
+   *     be added.
    *
    * @param inSize Number of input maps.
    * @param outSize Number of output maps.
@@ -126,7 +125,7 @@ class DarkNet
    * @param padW Padding width of the input.
    * @param padH Padding height of the input.
    * @param batchNorm Boolean to determine whether a batch normalization
-   *                  layer is added.
+   *     layer is added.
    * @param negativeSlope Negative slope hyper-parameter for LeakyReLU.
    * @param baseLayer Layer in which Convolution block will be added, if
    *                  NULL added to darkNet FFN.
@@ -160,20 +159,14 @@ class DarkNet
         ", " << outSize << ")" << std::endl;
 
     if (batchNorm)
-    {
       bottleNeck->Add(new BatchNorm<>(outSize, 1e-5, false));
-    }
 
     bottleNeck->Add(new LeakyReLU<>(negativeSlope));
 
     if (baseLayer != NULL)
-    {
       baseLayer->Add(bottleNeck);
-    }
     else
-    {
       darkNet.Add(bottleNeck);
-    }
   }
 
   /**
@@ -181,7 +174,7 @@ class DarkNet
    *
    * @param factor The factor by which input dimensions will be divided.
    * @param type One of "max" or "mean". Determines whether add mean pooling
-   *             layer or max pooling layer.
+   *     layer or max pooling layer.
    */
   void PoolingBlock(const size_t factor = 2,
                     const std::string type = "max")

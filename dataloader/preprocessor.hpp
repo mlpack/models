@@ -90,9 +90,7 @@ class PreProcessor
     {
       // Convert each element to uint8 first and then divide by 255.
       for (size_t i = 0; i < trainFeatures.n_elem; i++)
-      {
           trainFeatures(i) = ((uint8_t)(trainFeatures(i)) / 255.0);
-      }
     }
   }
 };

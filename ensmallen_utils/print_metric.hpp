@@ -23,7 +23,7 @@ namespace ens {
  *
  * @tparam ANNType Type of model which will be used for evaluating metric.
  * @tparam MetricType Metric class which must have static `Evaluate` function
- *                    that will be called at the end of the epoch.
+ *    that will be called at the end of the epoch.
  * @tparam InputType Arma type of dataset features.
  * @tparam OutputType Arma type of dataset labels.
  */
@@ -42,7 +42,7 @@ class PrintMetric
    * @param responses Ground truth label for the mdoel.
    * @param metricName Metric name which will be printed after each epoch.
    * @param trainData Boolean to determine whether dataset corresponds to
-   *                  training data or validation data.
+   *     training data or validation data.
    * @param output Outputstream where output will be directed.
    */
   PrintMetric(AnnType &network,

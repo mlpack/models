@@ -2,7 +2,7 @@
  * @file darknet_impl.hpp
  * @author Kartik Dutt
  *
- * Implementation of LeNet using mlpack.
+ * Implementation of DarkNet using mlpack.
  *
  * mlpack is free software; you may redistribute it and/or modify it under the
  * terms of the 3-clause BSD license.  You should have received a copy of the
@@ -113,7 +113,7 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVersion>::DarkNet(
     if (includeTop)
     {
       darkNet.Add(new Convolution<>(1024, numClasses, 1, 1,
-        1, 1, 0, 0, inputWidth, inputHeight));
+          1, 1, 0, 0, inputWidth, inputHeight));
       darkNet.Add(new AdaptiveMeanPooling<>(1, 1));
       darkNet.Add(new LogSoftMax<>());
     }
@@ -134,9 +134,7 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVersion>::DarkNet(
     for (size_t blockCount : residualBlockConfig)
     {
       for (size_t i = 0; i < blockCount; i++)
-      {
         DarkNet53ResidualBlock(curChannels);
-      }
 
       if (blockCount != 4)
       {
