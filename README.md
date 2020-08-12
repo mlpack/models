@@ -30,9 +30,8 @@ out here!)_
   3. [Building-From-Source](#3-building-from-source)
   4. [Using Dataloaders](#4-using-dataloaders)
   5. [Using Augmentation](#5-using-augmentation)
-  6. [Running Models](#6-running-models)
-  7. [Current Models](#7-current-models)
-  8. [Datasets](#8-datasets)
+  6. [Supported Models](#6-supported-models)
+  7. [Datasets](#7-datasets)
 
 ###  1. Introduction
 
@@ -193,49 +192,17 @@ Augmentation augmentation({"horizontal-flip", "resize : (64, 64)"}, 0.2);
 augmentation.Transform(dataset, imageWidth, imageHeight, imageDepth);
 ```
 
-### 6. Running Models
-
-_(This section needs significant overhaul once we clean up our build system.)_
-
-### 7. Current Models
-
-_(This section also needs some cleanup once we know what we're keeping and what
-we're not keeping.)_
+### 6. Supported Models
 
 Currently model-zoo project has the following models implemented:
+|  **Model** | **Usage** | **Available Weights** | **Paper** |
+| --- | --- | --- | --- |
+|  Darknet&nbsp;19 | DarkNet<NegativeLogLikelihood<>, HeInitialization, 19>&nbsp;darknet19({imageDepth, imageWidth, imageHeight}, numClasses)| CIFAR-10 |[YOLO9000](https://pjreddie.com/media/files/papers/YOLO9000.pdf)|
+|  Darknet&nbsp;53 | DarkNet<NegativeLogLikelihood<>, HeInitialization, 53>&nbsp;darknet19({imageDepth, imageWidth, imageHeight}, numClasses)| CIFAR-10 |[YOLOv3](https://pjreddie.com/media/files/papers/YOLOv3.pdf)|
 
-  - Simple Convolutional Neural Network on MNIST dataset.
-  - Multivariate Time Series prediction using LSTM on Google Stock Prices.
-  - Univariate Time Series prediction using LSTM on Electricity Consumption Dataset.
-  - Variational Auto-Encoder on MNIST dataset.
-  - Variational Convolutional Auto-Encoder on MNIST.
+All models can be included as shown below :
+```cpp
+#include <models/Model-ClassName/Model_ClassName.hpp>
+```
 
-### 8. Datasets
-
-_(This section will also need to be overhauled, but we should wait until we
-overhaul the sections above too.)_
-
-Model-Zoo project has the following datasets available:
-
-#### 1. MNIST
-
-[MNIST](http://yann.lecun.com/exdb/mnist/)("Modified National Institute of Standards and Technology") is the de facto “hello world” dataset of computer vision. 
-Since its release in 1999, this classic dataset of handwritten images has served as the basis for benchmarking classification 
-algorithms. As new machine learning techniques emerge, MNIST remains a reliable resource for researchers and learners alike.
-
-Each image is 28 pixels in height and 28 pixels in width, for a total of 784 pixels in total. Each pixel has a single pixel-
-value associated with it, indicating the lightness or darkness of that pixel, with higher numbers meaning darker. This pixel-
-value is an integer between 0 and 255, inclusive.
-The training data set, (train.csv), has 785 columns. The first column, called "label", is the digit that was drawn by the 
-user. The rest of the columns contain the pixel-values of the associated image. For more information refer to this [MNIST Database](http://yann.lecun.com/exdb/mnist/).
-
-#### 2. Google Stock-Prices Dataset
-
-Google Stock-Prices Dataset consists of stock prices for each day from 27th June, 2016 to 27th June, 2019. Each tuple is 
-seperated from its adjacent tuple by 1 day. It consists of following rows that indicate opening, closing, volume and high and 
-low of stocks associated with Google on that day.
-
-#### 3. Electricity Consumption Dataset
-
-Contains electricity consumption of a city for 2011 to 2012, where each tuple is seperated from its adjacent tuple by 1 day.  
-Each tuple has consumption in kWH and binary values for each Off-peak, Mid-peak, On-peak rows.
+For more information about usage, take a look at our wiki page.
