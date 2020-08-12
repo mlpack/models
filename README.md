@@ -197,8 +197,8 @@ augmentation.Transform(dataset, imageWidth, imageHeight, imageDepth);
 Currently model-zoo project has the following models implemented:
 |  **Model** | **Usage** | **Available Weights** | **Paper** |
 | --- | --- | --- | --- |
-|  Darknet&nbsp;19 | DarkNet<NegativeLogLikelihood<>, HeInitialization, 19>&nbsp;darknet19({imageDepth, imageWidth, imageHeight}, numClasses)| CIFAR-10 |[YOLO9000](https://pjreddie.com/media/files/papers/YOLO9000.pdf)|
-|  Darknet&nbsp;53 | DarkNet<NegativeLogLikelihood<>, HeInitialization, 53>&nbsp;darknet19({imageDepth, imageWidth, imageHeight}, numClasses)| CIFAR-10 |[YOLOv3](https://pjreddie.com/media/files/papers/YOLOv3.pdf)|
+|  Darknet&nbsp;19 | DarkNet<NegativeLogLikelihood<>, HeInitialization, 19>&nbsp;darknet19({imageDepth, imageWidth, imageHeight}, numClasses)| ImageNet |[YOLO9000](https://pjreddie.com/media/files/papers/YOLO9000.pdf)|
+|  Darknet&nbsp;53 | DarkNet<NegativeLogLikelihood<>, HeInitialization, 53>&nbsp;darknet19({imageDepth, imageWidth, imageHeight}, numClasses)| ImageNet |[YOLOv3](https://pjreddie.com/media/files/papers/YOLOv3.pdf)|
 
 All models can be included as shown below :
 ```cpp
