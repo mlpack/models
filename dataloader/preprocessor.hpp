@@ -162,6 +162,11 @@ class PreProcessor
             (i + 1) * 5 - 1));
       }
 
+      // For YOLOv2 or higher, each bounding box can represent a class so we don't
+      // Repeat labels as done for YOLOv1. We will use map to store last inserted
+      // bounding box.
+      unordered_map<pair<int, int>, int> boundingBoxOffset;
+
       // Normalize the coordinates.
       boundingBoxes.row(0) /= imageWidth;
       boundingBoxes.row(2) /= imageWidth;
@@ -211,7 +216,19 @@ class PreProcessor
         }
         else
         {
-          size_t bBoxOffset = (5 + numClasses) * i;
+          size_t s = 0;
+          if (boundingBoxOffset.count({gridX, gridY}))
+          {
+            s = boundingBoxOffset[{gridX, gridY}] + 1;
+            boundingBoxOffset[{gridX, gridY}]++;
+          }
+          else
+            boundingBoxOffset.insert({{gridX, gridY}, s});
+
+          if (s > numBoxes)
+            continue;
+
+          size_t bBoxOffset = (5 + numClasses) * s;
           outputTemp(arma::span(gridX), arma::span(gridY),
               arma::span(bBoxOffset, bBoxOffset + 1)) = gridCoordinates;
           outputTemp(arma::span(gridX), arma::span(gridY),
