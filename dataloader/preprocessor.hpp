@@ -165,7 +165,7 @@ class PreProcessor
       // For YOLOv2 or higher, each bounding box can represent a class so we don't
       // Repeat labels as done for YOLOv1. We will use map to store last inserted
       // bounding box.
-      unordered_map<pair<int, int>, int> boundingBoxOffset;
+      std::map<std::pair<size_t, size_t>, size_t> boundingBoxOffset;
 
       // Normalize the coordinates.
       boundingBoxes.row(0) /= imageWidth;
