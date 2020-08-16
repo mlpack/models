@@ -63,6 +63,41 @@ BOOST_AUTO_TEST_CASE(YOLOPreProcessor)
       input, output, 3, 500, 387);
   for (size_t i = 0; i < output.n_cols; i++)
     BOOST_REQUIRE_CLOSE(arma::accu(output.col(i)), desiredSum(i), 1e-3);
+
+
+  // For better unit testing, we create a very small output grid of size
+  // numBoxes * 5 + numClasses, where numBoxes = 1, numClasses = 2.
+  // The grid width and height will be 2 x 2. Hence, for
+  // single input label, target map will be of size 1 x 2 x 2 x 7.
+  input.clear();
+  input.set_size(1, 1);
+  bBox.clear();
+  bBox.set_size(5);
+  bBox << 0 << 157 << 90 << 486 << 300 << arma::endr;
+  input(0, 0) = bBox;
+
+  PreProcessor<arma::mat, arma::field<arma::vec>>::YOLOPreProcessor(
+      input, output, 1, 500, 387, 2, 2, 1, 2);
+
+  arma::mat desiredOutput(2 * 2 * 7, 1);
+  desiredOutput.zeros();
+  // To convert 4d Tensor to 1D array use tensor.numpy().ravel().
+  desiredOutput(3) = 0.2860;
+  desiredOutput(7) = 0.0078;
+  desiredOutput(11) = 0.6580;
+  desiredOutput(15) = 0.5426;
+  desiredOutput(19) = 1.0;
+  desiredOutput(23) = 1.0;
+
+  // check for each value in matrix.
+  double tolerance = 1e-1;
+  for (size_t i = 0; i < output.n_elem; i++)
+  {
+    if (std::abs(output(i)) < tolerance / 2)
+      BOOST_REQUIRE_SMALL(desiredOutput(i), tolerance / 2);
+    else
+      BOOST_REQUIRE_CLOSE(desiredOutput(i), output(i), 1e-2);
+  }
 }
 
 BOOST_AUTO_TEST_SUITE_END();
