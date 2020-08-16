@@ -57,6 +57,12 @@ BOOST_AUTO_TEST_CASE(YOLOPreProcessor)
   desiredSum << 8.3342 << 18.4093 << 7.13195 << arma::endr;
   for (size_t i = 0; i < output.n_cols; i++)
     BOOST_REQUIRE_CLOSE(arma::accu(output.col(i)), desiredSum(i), 1e-3);
+
+  desiredSum << 4.6671 << 10.70465 << 4.065975 << arma::endr;
+  PreProcessor<arma::mat, arma::field<arma::vec>>::YOLOPreProcessor(
+      input, output, 3, 500, 387);
+  for (size_t i = 0; i < output.n_cols; i++)
+    BOOST_REQUIRE_CLOSE(arma::accu(output.col(i)), desiredSum(i), 1e-3);
 }
 
 BOOST_AUTO_TEST_SUITE_END();
