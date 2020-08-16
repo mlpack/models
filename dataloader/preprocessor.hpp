@@ -162,9 +162,9 @@ class PreProcessor
             (i + 1) * 5 - 1));
       }
 
-      // For YOLOv2 or higher, each bounding box can represent a class so we don't
-      // Repeat labels as done for YOLOv1. We will use map to store last inserted
-      // bounding box.
+      // For YOLOv2 or higher, each bounding box can represent a class
+      //  so we don't repeat labels as done for YOLOv1. We will use map
+      //  to store last inserted bounding box.
       std::map<std::pair<size_t, size_t>, size_t> boundingBoxOffset;
 
       // Normalize the coordinates.
@@ -232,7 +232,8 @@ class PreProcessor
           outputTemp(arma::span(gridX), arma::span(gridY),
               arma::span(bBoxOffset, bBoxOffset + 1)) = gridCoordinates;
           outputTemp(arma::span(gridX), arma::span(gridY),
-              arma::span(bBoxOffset + 2, bBoxOffset + 3)) = widthAndHeight.col(i);
+              arma::span(bBoxOffset + 2,
+                  bBoxOffset + 3)) = widthAndHeight.col(i);
           outputTemp(gridX, gridY, bBoxOffset + 4) = 1.0;
           outputTemp(gridX, gridY, bBoxOffset + 5 + labels.col(i)(0)) = 1;
         }
