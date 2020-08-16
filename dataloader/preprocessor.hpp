@@ -108,6 +108,8 @@ class PreProcessor
    * @param gridHeight Height of output feature map of YOLO model.
    * @param numBoxes Number of bounding boxes per grid.
    * @param numClasses Number of classes in training set.
+   * @param normalize Boolean to determine whether coordinates are to
+   *    to be normalized or not. Defaults to true.
    *
    * Note : This function must be called manually before model is used.
    */
@@ -120,7 +122,8 @@ class PreProcessor
                                const size_t gridWidth = 7,
                                const size_t gridHeight = 7,
                                const size_t numBoxes = 2,
-                               const size_t numClasses = 20)
+                               const size_t numClasses = 20,
+                               const bool normalize = true)
   {
     // See if we can change this to v4 / v5.
     mlpack::Log::Assert(version >= 1 && version <= 3, "Supported YOLO versions \
@@ -187,8 +190,19 @@ class PreProcessor
       {
         // Index for representing bounding box on grid.
         arma::vec gridCoordinates = centres.col(i);
-        gridCoordinates(0) = std::ceil(gridCoordinates(0) / cellSizeWidth) - 1;
-        gridCoordinates(1) = std::ceil(gridCoordinates(1) / cellSizeHeight) - 1;
+        arma::vec centreCoordinates = centres.col(i);
+
+        if (normalize)
+        {
+          gridCoordinates(0) = std::ceil(gridCoordinates(0) / cellSizeWidth) - 1;
+          gridCoordinates(1) = std::ceil(gridCoordinates(1) / cellSizeHeight) - 1;
+        }
+        else
+        {
+          gridCoordinates(0) = std::ceil((gridCoordinates(0) / imageWidth) / cellSizeWidth) - 1;
+          gridCoordinates(1) = std::ceil((gridCoordinates(1) / imageHeight) / cellSizeHeight) - 1;
+        }
+        
 
         size_t gridX = gridCoordinates(0);
         size_t gridY = gridCoordinates(1);
@@ -200,6 +214,9 @@ class PreProcessor
         gridCoordinates(0) /= cellSizeWidth;
         gridCoordinates(1) /= cellSizeHeight;
 
+        if (normalize)
+          centreCoordinates = gridCoordinates;
+
         if (version == 1)
         {
           // Fill elements in the grid.
@@ -207,7 +224,7 @@ class PreProcessor
           {
             size_t s = 5 * k;
             outputTemp(arma::span(gridX), arma::span(gridY),
-                arma::span(s, s + 1)) = gridCoordinates;
+                arma::span(s, s + 1)) = centreCoordinates;
             outputTemp(arma::span(gridX), arma::span(gridY),
                 arma::span(s + 2, s + 3)) = widthAndHeight.col(i);
             outputTemp(gridX, gridY, s + 4) = 1.0;
@@ -230,7 +247,7 @@ class PreProcessor
 
           size_t bBoxOffset = (5 + numClasses) * s;
           outputTemp(arma::span(gridX), arma::span(gridY),
-              arma::span(bBoxOffset, bBoxOffset + 1)) = gridCoordinates;
+              arma::span(bBoxOffset, bBoxOffset + 1)) = centreCoordinates;
           outputTemp(arma::span(gridX), arma::span(gridY),
               arma::span(bBoxOffset + 2,
                   bBoxOffset + 3)) = widthAndHeight.col(i);
