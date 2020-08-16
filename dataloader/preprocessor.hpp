@@ -194,15 +194,19 @@ class PreProcessor
 
         if (normalize)
         {
-          gridCoordinates(0) = std::ceil(gridCoordinates(0) / cellSizeWidth) - 1;
-          gridCoordinates(1) = std::ceil(gridCoordinates(1) / cellSizeHeight) - 1;
+          gridCoordinates(0) = std::ceil(gridCoordinates(0) /
+              cellSizeWidth) - 1;
+          gridCoordinates(1) = std::ceil(gridCoordinates(1) /
+              cellSizeHeight) - 1;
         }
         else
         {
-          gridCoordinates(0) = std::ceil((gridCoordinates(0) / imageWidth) / cellSizeWidth) - 1;
-          gridCoordinates(1) = std::ceil((gridCoordinates(1) / imageHeight) / cellSizeHeight) - 1;
+          gridCoordinates(0) = std::ceil((gridCoordinates(0) /
+              imageWidth) / cellSizeWidth) - 1;
+          gridCoordinates(1) = std::ceil((gridCoordinates(1) /
+              imageHeight) / cellSizeHeight) - 1;
         }
-        
+
 
         size_t gridX = gridCoordinates(0);
         size_t gridY = gridCoordinates(1);
