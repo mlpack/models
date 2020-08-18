@@ -55,14 +55,18 @@ class VisualizationTools
         cv::Point upperRightPoint, lowerLeftPoint;
         if (cornerRepresentation)
         {
-          upperRightPoint = cv::Point(bBoxes(boxIdx * 4), bBoxes(boxIdx * 4 + 1));
-          lowerLeftPoint = cv::Point(bBoxes(boxIdx * 4 + 2), bBoxes(boxIdx * 4 + 3));
+          upperRightPoint = cv::Point(bBoxes(boxIdx * 4),
+              bBoxes(boxIdx * 4 + 1));
+          lowerLeftPoint = cv::Point(bBoxes(boxIdx * 4 + 2),
+              bBoxes(boxIdx * 4 + 3));
         }
         else
         {
-          upperRightPoint = cv::Point(bBoxes(boxIdx * 4), bBoxes(boxIdx * 4 + 1));
-          lowerLeftPoint = cv::Point(bBoxes(boxIdx * 4) + bBoxes(boxIdx * 4 + 2),
-              bBoxes(boxIdx * 4 + 1) + bBoxes(boxIdx * 4 + 3));
+          upperRightPoint = cv::Point(bBoxes(boxIdx * 4),
+              bBoxes(boxIdx * 4 + 1));
+          lowerLeftPoint = cv::Point(bBoxes(boxIdx * 4) +
+              bBoxes(boxIdx * 4 + 2), bBoxes(boxIdx * 4 + 1) +
+              bBoxes(boxIdx * 4 + 3));
         }
 
         cv::rectangle(img, lowerRightPoint, upperRightPoint,
