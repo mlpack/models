@@ -20,6 +20,7 @@ steps:
     nuget install boost_date_time-vc140 -o $(Agent.ToolsDirectory) -Version 1.60.0
     nuget install boost_regex-vc140 -o $(Agent.ToolsDirectory) -Version 1.60.0
     nuget install OpenBLAS -o $(Agent.ToolsDirectory)
+    nuget install OpenCV -o $(Agent.ToolsDirectory)
 
     mkdir -p $(Agent.ToolsDirectory)/boost_libs
     cp $(Agent.ToolsDirectory)/boost_program_options-vc140.1.60.0.0/lib/native/address-model-64/lib/*.* $(Agent.ToolsDirectory)/boost_libs
