@@ -74,7 +74,7 @@ class BERT
   void SaveModel(const std::string& filepath);
 
  private:
-  //!Locally-stored size of the vocabulary.
+  //! Locally-stored size of the vocabulary.
   size_t vocabSize;
 
   //! Locally-stored dimensionality of the model.
@@ -106,7 +106,6 @@ class BERT
 
   //! Locally-stored complete decoder network.
   FFN<OutputLayerType, InitType> bert;
-
 }; // class BERT
 
 } // namespace ann
