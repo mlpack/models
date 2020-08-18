@@ -1,7 +1,15 @@
 cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
 project(models)
 
-add_subdirectory(darknet)
+# Recurse into each model mlpack provides.
+set(DIRS
+  darknet
+  bert
+)
+
+foreach(dir ${DIRS})
+    add_subdirectory(${dir})
+endforeach()
 
 # Add directory name to sources.
 set(DIR_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/)
