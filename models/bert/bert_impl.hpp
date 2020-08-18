@@ -76,7 +76,7 @@ template<typename OutputLayerType, typename InitType, typename InputDataType,
 void BERT<OutputLayerType, InitType, InputDataType, OutputDataType>::LoadModel(
     const std::string& filepath)
 {
-  data::Load(filepath, "BERT", network);
+  data::Load(filepath, "BERT", bert);
   std::cout << "Loaded model" << std::endl;
 }
 
@@ -86,7 +86,7 @@ void BERT<OutputLayerType, InitType, InputDataType, OutputDataType>::SaveModel(
     const std::string& filepath)
 {
   std::cout << "Saving model" << std::endl;
-  data::Save(filepath, "BERT", network);
+  data::Save(filepath, "BERT", bert);
   std::cout << "Model saved in " << filepath << std::endl;
 }
 
