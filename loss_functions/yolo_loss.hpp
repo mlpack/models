@@ -149,4 +149,6 @@ class YOLOLoss
 } // namespace ann
 } // namespace mlpack
 
+#include "yolo_loss_impl.hpp"
+
 #endif
