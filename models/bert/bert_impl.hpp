@@ -22,13 +22,13 @@ namespace ann /** Artificial Neural Network. */ {
 template<typename OutputLayerType, typename InitType, typename InputDataType,
     typename OutputDataType>
 BERT<OutputLayerType, InitType, InputDataType, OutputDataType>::BERT() :
-    vocabSize(0),
+    srcVocabSize(0),
+    srcSeqLen(0),
+    numEncoderLayers(0),
     dModel(0),
     numHeads(0),
     dimFFN(4 * dModel),
-    numLayers(0),
-    dropout(0),
-    maxSequenceLength(5000),
+    dropout(0.0)
 {
   // Nothing to do here.
 }
@@ -36,38 +36,46 @@ BERT<OutputLayerType, InitType, InputDataType, OutputDataType>::BERT() :
 template<typename OutputLayerType, typename InitType, typename InputDataType,
     typename OutputDataType>
 BERT<OutputLayerType, InitType, InputDataType, OutputDataType>::BERT(
-    const size_t vocabSize,
+    const size_t srcVocabSize,
+    const size_t srcSeqLen,
+    const size_t numEncoderLayers,
     const size_t dModel,
     const size_t numHeads,
-    const size_t numLayers,
     const double dropout,
-    const size_t maxSequenceLength,
     const InputDataType& attentionMask,
     const InputDataType& keyPaddingMask) :
-    vocabSize(vocabSize)
+    srcVocabSize(srcVocabSize),
+    srcSeqLen(srcSeqLen),
+    numEncoderLayers(numEncoderLayers),
     dModel(dModel),
     numHeads(numHeads),
     dimFFN(4 * dModel),
-    numLayers(numLayers),
     dropout(dropout),
-    maxSequenceLength(maxSequenceLength),
     attentionMask(attentionMask),
     keyPaddingMask(keyPaddingMask)
 {
-  embedding = new AddMerge<>();
-  embedding.Add<Lookup<>>(vocabSize, dModel);
-  embedding.Add<Lookup<>>(3, dModel);
+  AddMerge<>* embedding = new AddMerge<>();
+  embedding->Add<Lookup<>>(vocabSize, dModel);
+  embedding->Add<Lookup<>>(3, dModel);
 
   bert.Add(embedding);
-  bert.Add<PositionalEncoding<>>(dModel, maxSequenceLength);
+  bert.Add<PositionalEncoding<>>(dModel, srcSeqLen);
   bert.Add<Dropout<>>(dropout);
 
   for (size_t i = 0; i < numLayers; ++i)
   {
-    TransformerEncoder<> enc(dModel, numHeads, dimFFN, dropout);
-    enc.AttentionMask() = attentionMask;
-    enc.KeyPaddingMask() = keyPaddingMask;
-    bert.Add(enc);
+    mlpack::ann::TransformerEncoder<> encoder(
+      numEncoderLayers,
+      srcSeqLen,
+      dModel,
+      numHeads,
+      dimFFN,
+      dropout,
+      attentionMask,
+      keyPaddingMask
+    );
+
+    bert.Add(encoder.Model());
   }
 }
 

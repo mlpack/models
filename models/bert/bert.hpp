@@ -30,8 +30,8 @@ namespace ann /** Artificial Neural Network. */ {
  *         arma::sp_mat or arma::cube).
  */
 template <
-  typename OutputLayerType = NegativeLogLikelihood,
-  typename InitType = XavierInitialization,
+  typename OutputLayerType = NegativeLogLikelihood<>,
+  typename InitializationRuleType = XavierInitialization,
   typename InputDataType = arma::mat,
   typename OutputDataType = arma::mat
 >
@@ -41,21 +41,23 @@ class BERT
   BERT();
 
   /**
-   * Create the TransformerDecoder object using the specified parameters.
+   * Create the BERT object using the specified parameters.
    *
-   * @param vocabSize The size of the vocabulary.
+   * @param srcVocabSize The size of the vocabulary.
+   * @param srcSeqLen The source sequence length.
+   * @param numEncoderLayers The number of Transformer Encoder layers.
    * @param dModel The dimensionality of the model.
    * @param numHeads The number of attention heads.
-   * @param numLayers The number of Transformer Encoder layers.
    * @param dropout The dropout rate.
-   * @param maxSequenceLength The maximum sequence length in the given input.
+   * @param attentionMask The attention mask used to black-out future sequences.
+   * @param keyPaddingMask Blacks out specific tokens.
    */
-  BERT(const size_t vocabSize,
+  BERT(const size_t srcVocabSize,
+       const size_t srcSeqLen,
+       const size_t numEncoderLayers = 12,
        const size_t dModel = 512,
        const size_t numHeads = 8,
-       const size_t numLayers = 12,
        const double dropout = 0.1,
-       const size_t maxSequenceLength = 5000,
        const InputDataType& attentionMask = InputDataType(),
        const InputDataType& keyPaddingMask = InputDataType());
 
@@ -75,7 +77,13 @@ class BERT
 
  private:
   //! Locally-stored size of the vocabulary.
-  size_t vocabSize;
+  size_t srcVocabSize;
+
+  //! Locally-stored source sequence length.
+  size_t srcSeqLen;
+
+  //! Locally-stored number of Transformer Encoder blocks.
+  size_t numEncoderLayers;
 
   //! Locally-stored dimensionality of the model.
   size_t dModel;
@@ -86,14 +94,8 @@ class BERT
   //! Locally-stored number of hidden units in FFN.
   size_t dimFFN;
 
-  //! Locally-stored number of Transformer Encoder blocks.
-  size_t numLayers;
-
   //! Locally-stored dropout rate.
   double dropout;
-
-  //! Locally-stored maximum sequence length.
-  size_t maxSequenceLength;
 
   //! Locally-stored attention mask.
   InputDataType attentionMask;
@@ -101,11 +103,8 @@ class BERT
   //! Locally-stored key padding mask.
   InputDataType keyPaddingMask;
 
-  //! Locally-stored BERT embedding layer.
-  LayerTypes<> embedding;
-
   //! Locally-stored complete decoder network.
-  FFN<OutputLayerType, InitType> bert;
+  FFN<OutputLayerType, InitializationRuleType> bert;
 }; // class BERT
 
 } // namespace ann

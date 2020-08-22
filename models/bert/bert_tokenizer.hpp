@@ -127,7 +127,4 @@ class BertTokenizer
 } // namespace ann
 } // namespace mlpack
 
-// Include implementation.
-#include "bert_tokenizer_impl.hpp"
-
 #endif
