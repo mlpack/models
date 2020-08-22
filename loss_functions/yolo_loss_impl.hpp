@@ -41,44 +41,62 @@ void YOLOLoss<InputDataType, OutputDataType>::Forward(
     const InputType& input,
     const TargetType& target)
 {
-  // Seperate Predictions.
-  InputDataType noObjectMatrix, classificationMatrix;
-  InputDataType coodMatrix, heightWidthMatrix;
+  InputType lossMatrix;
+  lossMatrix.zeros(arma::size(input));
 
-  // Seperate Targets.
-  InputDataType noObjectTargetMatrix, classificationTargetMatrix;
-  InputDataType coodTargetMatrix, heightWidthTargetMatrix;
-
-  noObjectMatrix.zeros(arma::size(input));
-  classificationMatrix.zeros(arma::size(input))
-  coodMatrix.zeros(arma::size(input));
-  heightWidthMatrix.zeros(arma::size(input));
-
+  size_t numPredictions = 5 * numBoxes + numClasses;
   for (size_t i = 0; i < input.n_cols; i++)
   {
-    // Fill the matrtix.
+    arma::cube inputTemp(
+        const_cast<arma::mat&>(input).memptr(),
+        gridWidth, gridHeight, numPredictions, false, false);
+    arma::cube outputTemp(
+        const_cast<arma::mat&>(target).memptr(),
+        gridWidth, gridHeight, numPredictions, false, false);
+    arma::cube LossTemp(
+        const_cast<arma::mat&>(lossMatrix).memptr(),
+        gridHeight, gridWidth, numPredictions, false, false);
+
+    for (size_t gridX = 0; gridX < gridWidth; gridX++)
+    {
+      for (size_t gridY = 0; gridY < gridHeight; gridY++)
+      {
+        for (size_t k = 0; k < numBoxes; k++)
+        {
+          size_t s = 5 * k;
+
+          // Coordinate Loss.
+          // MSE Loss on coordinates.
+          lossTemp(arma::span(gridX), arma::span(gridY),
+              arma::span(s, s + 1)) = lambdaCoordinates *
+              (arma::square(inputTemp(arma::span(gridX), arma::span(gridY),
+              arma::span(s, s + 1)) - outputTemp(arma::span(gridX),
+              arma::span(gridY), arma::span(s, s + 1))));
+
+          // MSE Loss on square root of width and height.
+          lossTemp(arma::span(gridX), arma::span(gridY),
+              arma::span(s + 2, s + 3)) = lambdaCoordinates *
+              (arma::square(arma::sqrt(
+              inputTemp(arma::span(gridX), arma::span(gridY),
+              arma::span(s + 2, s + 3))) - arma::sqrt(
+              outputTemp(arma::span(gridX),
+              arma::span(gridY), arma::span(s + 2, s + 3)))));
+      
+          // MSE loss on objectness score.
+          lossTemp(gridX, gridY, s + 4) = lambdaObjectness *
+              (std::pow(inputTemp(gridX, gridY, s + 4) -
+              outputTemp(gridX, gridY, s + 4), 2));
+        }
+
+        // Classification loss.
+        lossTemp(gridX, gridY, arma::span()) = arma::square(
+            inputTemp(gridX, gridY, arma::span()) -
+            outputTemp(gridX, gridY, arma::span()));
+      }
+    }
   }
 
-  heightWidthMatrix = arma::sqrt(heightWidthMatrix);
-  heightWidthTargetMatrix = arma::sqrt(heightWidthTargetMatrix);
-
-  double noObjLoss = lambdaObjectness * arma::accu(arma::square(
-      noObjectMatrix - noObjectTargetMatrix)) /
-      noObjectTargetMatrix.n_cols;
-
-  double classificationLoss = arma::accu(arma::square(
-      classificationMatrix - classificationTargetMatrix)) /
-      classificationTargetMatrix.n_cols;
-
-  double coodLoss = lambdaCoordinates * arma::accu(arma::square(
-      coodTargetMatrix - coodMatrix))
-      / coodTargetMatrix.n_cols;
-
-  double heightWidthLoss = lambdaCoordinates * arma::accu(arma::square(
-      heightWidthTargetMatrix - heightWidthMatrix))
-      / heightWidthTargetMatrixtMatrix.n_cols;
-
-  return heightWidthLoss + coodLoss + classificationLoss + noObjLoss;
+  return arma::accu(lossMatrix) / lossMatrix.n_cols;
 }
 
 template<typename InputType, typename TargetType>
@@ -88,30 +106,58 @@ void YOLOLoss<InputDataType, OutputDataType>::Backward(
     const TargetType& target,
     OutputType& output)
 {
-  // Seperate Predictions.
-  InputDataType noObjectMatrix, classificationMatrix;
-  InputDataType coodMatrix, heightWidthMatrix;
+  output.zeros(arma::size(input));
 
-  // Seperate Targets.
-  InputDataType noObjectTargetMatrix, classificationTargetMatrix;
-  InputDataType coodTargetMatrix, heightWidthTargetMatrix;
-
-  noObjectMatrix.zeros(arma::size(input));
-  classificationMatrix.zeros(arma::size(input))
-  coodMatrix.zeros(arma::size(input));
-  heightWidthMatrix.zeros(arma::size(input));
-
+  size_t numPredictions = 5 * numBoxes + numClasses;
   for (size_t i = 0; i < input.n_cols; i++)
   {
-    // Fill the matrtix.
+    arma::cube inputTemp(
+        const_cast<arma::mat&>(input).memptr(),
+        gridWidth, gridHeight, numPredictions, false, false);
+    arma::cube targetTemp(
+        const_cast<arma::mat&>(target).memptr(),
+        gridWidth, gridHeight, numPredictions, false, false);
+    arma::cube outputTemp(
+        const_cast<arma::mat&>(output).memptr(),
+        gridHeight, gridWidth, numPredictions, false, false);
+
+    for (size_t gridX = 0; gridX < gridWidth; gridX++)
+    {
+      for (size_t gridY = 0; gridY < gridHeight; gridY++)
+      {
+        for (size_t k = 0; k < numBoxes; k++)
+        {
+          size_t s = 5 * k;
+
+          // Coordinate Loss.
+          // MSE Loss on coordinates.
+          outputTemp(arma::span(gridX), arma::span(gridY),
+              arma::span(s, s + 1)) = -2 * lambdaCoordinates *
+              (inputTemp(arma::span(gridX), arma::span(gridY),
+              arma::span(s, s + 1)) - targetTemp(arma::span(gridX),
+              arma::span(gridY), arma::span(s, s + 1)));
+
+          // MSE Loss on square root of width and height.
+          outputTemp(arma::span(gridX), arma::span(gridY),
+              arma::span(s + 2, s + 3)) = -2 * lambdaCoordinates *
+              (arma::sqrt(inputTemp(arma::span(gridX),
+              arma::span(gridY), arma::span(s + 2, s + 3))) -
+              arma::sqrt(targetTemp(arma::span(gridX),
+              arma::span(gridY), arma::span(s + 2, s + 3))));
+      
+          // MSE loss on objectness score.
+          outputTemp(gridX, gridY, s + 4) = lambdaObjectness *
+              (std::pow(inputTemp(gridX, gridY, s + 4) -
+              targetTemp(gridX, gridY, s + 4), 2));
+        }
+
+        // Classification loss.
+        outputTemp(gridX, gridY, arma::span()) = arma::square(
+            inputTemp(gridX, gridY, arma::span()) -
+            targetTemp(gridX, gridY, arma::span()));
+      }
+    }
   }
-
-  heightWidthMatrix = arma::sqrt(heightWidthMatrix);
-  heightWidthTargetMatrix = arma::sqrt(heightWidthTargetMatrix);
-
-  output = -2 * (noObjectMatrix + classificationMatrix + coodMatrix +
-      heightWidthMatrix - noObjectTargetMatrix - classificationTargetMatrix
-      - coodTargetMatrix - heightWidthTargetMatrix) / input.n_cols;
 }
 
 template<typename InputDataType, typename OutputDataType>
