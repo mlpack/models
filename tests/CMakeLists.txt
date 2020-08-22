@@ -10,6 +10,7 @@ add_executable(models_test
                augmentation_tests.cpp
                ffn_model_tests.cpp
                dataloader_tests.cpp
+               loss_tests.cpp
                preprocessor_tests.cpp
                utils_tests.cpp
 )

@@ -78,9 +78,9 @@ class YOLOLoss
                 OutputType& output);
 
   //! Get the output parameter.
-  OutputDataType &OutputParameter() const { return outputParameter; }
+  OutputDataType& OutputParameter() const { return outputParameter; }
   //! Modify the output parameter.
-  OutputDataType &OutputParameter() { return outputParameter; }
+  OutputDataType& OutputParameter() { return outputParameter; }
 
   //! Get the version.
   size_t Version() const { return version; }
@@ -144,6 +144,9 @@ class YOLOLoss
 
   //! Multiplicative factor for loss obtained from misclassification.
   double lambdaObjectness;
+
+  //! Locally-stored output parameter object.
+  OutputDataType outputParameter;
 };
 
 } // namespace ann

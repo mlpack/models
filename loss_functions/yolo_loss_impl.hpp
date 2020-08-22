@@ -10,12 +10,15 @@
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
 
+#ifndef MODELS_LOSS_FUNCTIONS_YOLO_LOSS_IMPL_HPP
+#define MODELS_LOSS_FUNCTIONS_YOLO_LOSS_IMPL_HPP
+
 #include "yolo_loss.hpp"
 
-#ifndef MODELS_LOSS_FUNCTIONS_YOLO_LOSS_HPP
-#define MODELS_LOSS_FUNCTIONS_YOLO_LOSS_HPP
+namespace mlpack {
+namespace ann /** Artificial Neural Network. */ {
 
-template<typename InputDataType, OutputDataType>
+template<typename InputDataType, typename OutputDataType>
 YOLOLoss<InputDataType, OutputDataType>::YOLOLoss(
     const size_t version,
     const size_t gridWidth,
@@ -35,9 +38,10 @@ YOLOLoss<InputDataType, OutputDataType>::YOLOLoss(
   // Nothing to do here.
 }
 
+template<typename InputDataType, typename OutputDataType>
 template<typename InputType, typename TargetType>
-template<typename InputDataType, OutputDataType>
-void YOLOLoss<InputDataType, OutputDataType>::Forward(
+typename InputType::elem_type
+YOLOLoss<InputDataType, OutputDataType>::Forward(
     const InputType& input,
     const TargetType& target)
 {
@@ -53,7 +57,7 @@ void YOLOLoss<InputDataType, OutputDataType>::Forward(
     arma::cube outputTemp(
         const_cast<arma::mat&>(target).memptr(),
         gridWidth, gridHeight, numPredictions, false, false);
-    arma::cube LossTemp(
+    arma::cube lossTemp(
         const_cast<arma::mat&>(lossMatrix).memptr(),
         gridHeight, gridWidth, numPredictions, false, false);
 
@@ -89,9 +93,11 @@ void YOLOLoss<InputDataType, OutputDataType>::Forward(
         }
 
         // Classification loss.
-        lossTemp(gridX, gridY, arma::span()) = arma::square(
-            inputTemp(gridX, gridY, arma::span()) -
-            outputTemp(gridX, gridY, arma::span()));
+        lossTemp(arma::span(gridX), arma::span(gridY),
+            arma::span()) = arma::square(
+            inputTemp(arma::span(gridX), arma::span(gridY),
+            arma::span()) - outputTemp(arma::span(gridX),
+            arma::span(gridY), arma::span()));
       }
     }
   }
@@ -99,8 +105,8 @@ void YOLOLoss<InputDataType, OutputDataType>::Forward(
   return arma::accu(lossMatrix) / lossMatrix.n_cols;
 }
 
-template<typename InputType, typename TargetType>
-template<typename InputDataType, OutputDataType>
+template<typename InputDataType, typename OutputDataType>
+template<typename InputType, typename TargetType, typename OutputType>
 void YOLOLoss<InputDataType, OutputDataType>::Backward(
     const InputType& input,
     const TargetType& target,
@@ -152,9 +158,11 @@ void YOLOLoss<InputDataType, OutputDataType>::Backward(
         }
 
         // Classification loss.
-        outputTemp(gridX, gridY, arma::span()) = arma::square(
-            inputTemp(gridX, gridY, arma::span()) -
-            targetTemp(gridX, gridY, arma::span()));
+        outputTemp(arma::span(gridX), arma::span(gridY),
+            arma::span()) = inputTemp(arma::span(gridX),
+            arma::span(gridY), arma::span()) -
+            targetTemp(arma::span(gridX), arma::span(gridY),
+            arma::span());
       }
     }
   }
@@ -174,5 +182,8 @@ void YOLOLoss<InputDataType, OutputDataType>::serialize(
   ar& BOOST_SERIALIZATION_NVP(lambdaCoordinates);
   ar& BOOST_SERIALIZATION_NVP(lambdaObjectness);
 }
+
+} // namespace ann
+} // namespace mlpack
 
 #endif
