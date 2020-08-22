@@ -126,11 +126,11 @@ YOLO<OutputLayerType, InitializationRuleType, YOLOVersion>::YOLO(
     {
       yolo.Add(new Linear<>(inputWidth * inputHeight * outChannels, 4096));
       yolo.Add(new LeakyReLU<>());
-      yolo.Add(4096, featureWidth * featureHeight * (5 * numBoxes + numClasses));
+      yolo.Add(4096, featureWidth * featureHeight * (5 *
+          numBoxes + numClasses));
       yolo.Add(new Sigmoid<>());
-      // See if we need to reshape here.
     }
-  }
+
     yolo.ResetParameters();
   }
 }
