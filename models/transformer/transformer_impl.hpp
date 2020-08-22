@@ -65,7 +65,7 @@ OutputDataType>::Transformer(
       dimFFN,
       dropout,
       attentionMask,
-      keyPaddingMask,
+      keyPaddingMask
   ).Model();
 
   encoder->Add(encoderStack);
@@ -96,7 +96,7 @@ OutputDataType>::Transformer(
       dimFFN,
       dropout,
       attentionMask,
-      keyPaddingMask,
+      keyPaddingMask
   ).Model();
 
   decoder->Add(decoderStack);
@@ -108,7 +108,7 @@ template <typename ActivationFunction, typename RegularizerType,
 void Transformer<ActivationFunction, RegularizerType, InputDataType,
 OutputDataType>::LoadModel(const std::string& filePath)
 {
-  data::Load(filePath, "Transformer", transformer.Model());
+  data::Load(filePath, "Transformer", transformer);
   std::cout << "Loaded model" << std::endl;
 }
 
@@ -118,7 +118,7 @@ void Transformer<ActivationFunction, RegularizerType, InputDataType,
 OutputDataType>::SaveModel(const std::string& filePath)
 {
   std::cout << "Saving model" << std::endl;
-  data::Save(filePath, "Transformer", transformer.Model());
+  data::Save(filePath, "Transformer", transformer);
   std::cout << "Model saved in " << filePath << std::endl;
 }
 

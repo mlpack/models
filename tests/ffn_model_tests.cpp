@@ -22,6 +22,8 @@
 #include <boost/test/unit_test.hpp>
 
 // Use namespaces for convenience.
+using namespace mlpack;
+using namespace mlpack::ann;
 using namespace boost::unit_test;
 
 BOOST_AUTO_TEST_SUITE(FFNModelsTests);
@@ -149,12 +151,12 @@ BOOST_AUTO_TEST_CASE(TransformerTest)
   FFN<> model;
 
   model.Add(transformer.Model());
-  model.Add<Linear<>>(dModel * tgtSeqLen, vocabSize);
+  model.Add<Linear<>>(dModel * tgtSeqLen, tgtVocabSize);
   model.Add<LogSoftMax<>>();
 
   model.Predict(input, output);
 
-  BOOST_REQUIRE_EQUAL(output.n_rows, vocabSize);
+  BOOST_REQUIRE_EQUAL(output.n_rows, tgtVocabSize);
   BOOST_REQUIRE_EQUAL(output.n_cols, 1);
 }
 
