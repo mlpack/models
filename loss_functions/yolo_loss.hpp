@@ -61,7 +61,7 @@ class YOLOLoss
    * @param input Input data used for evaluating the specified function.
    * @param target The target vector.
    */
-  template <typename InputType, typename TargetType>
+  template<typename InputType, typename TargetType>
   typename InputType::elem_type Forward(const InputType &input,
                                         const TargetType &target);
 
@@ -100,7 +100,7 @@ class YOLOLoss
   //! Get the Number of boxes.
   size_t NumBoxes() const { return numBoxes; }
   //! Modify the Number of boxes.
-  size_t &NumBoxes() { return numBoxes; }
+  size_t& NumBoxes() { return numBoxes; }
 
   //! Get the Number of classes.
   size_t NumClasses() const { return numClasses; }

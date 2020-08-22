@@ -218,6 +218,7 @@ set(DIRS
   ensmallen_utils/
   dataloader/
   models/
+  loss_functions/
   tests/
 )
 
