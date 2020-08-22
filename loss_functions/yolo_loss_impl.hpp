@@ -81,7 +81,7 @@ void YOLOLoss<InputDataType, OutputDataType>::Forward(
               arma::span(s + 2, s + 3))) - arma::sqrt(
               outputTemp(arma::span(gridX),
               arma::span(gridY), arma::span(s + 2, s + 3)))));
-      
+
           // MSE loss on objectness score.
           lossTemp(gridX, gridY, s + 4) = lambdaObjectness *
               (std::pow(inputTemp(gridX, gridY, s + 4) -
@@ -144,7 +144,7 @@ void YOLOLoss<InputDataType, OutputDataType>::Backward(
               arma::span(gridY), arma::span(s + 2, s + 3))) -
               arma::sqrt(targetTemp(arma::span(gridX),
               arma::span(gridY), arma::span(s + 2, s + 3))));
-      
+
           // MSE loss on objectness score.
           outputTemp(gridX, gridY, s + 4) = lambdaObjectness *
               (std::pow(inputTemp(gridX, gridY, s + 4) -
