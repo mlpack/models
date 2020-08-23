@@ -108,7 +108,6 @@ class Transformer
   InputDataType& KeyPaddingMask() { return keyPaddingMask; }
 
  private:
-
   //! Locally-stored number of encoder and decoder layers.
   size_t numLayers;
 
@@ -124,16 +123,16 @@ class Transformer
   //! Locally-stored vocabulary size of the source.
   size_t srcVocabSize;
 
-  //! Locally-stored number of input units.
+  //! Locally-stored dimensionality of the model.
   size_t dModel;
 
-  //! Locally-stored number of output units.
+  //! Locally-stored number attention heads.
   size_t numHeads;
 
-  //! Locally-stored weight object.
+  //! Locally-stored dimensionality of the position-wise feed forward network.
   size_t dimFFN;
 
-  //! Locally-stored weight parameters.
+  //! Locally-stored dropout rate.
   double dropout;
 
   //! Locally-stored attention mask.
@@ -144,7 +143,6 @@ class Transformer
 
   //! Locally-stored transformer model.
   Sequential<InputDataType, OutputDataType>* transformer;
-
 }; // class Transformer
 
 } // namespace ann

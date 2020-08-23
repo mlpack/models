@@ -65,8 +65,7 @@ OutputDataType>::Transformer(
       dimFFN,
       dropout,
       attentionMask,
-      keyPaddingMask
-  ).Model();
+      keyPaddingMask).Model();
 
   encoder->Add(encoderStack);
 
@@ -95,8 +94,7 @@ OutputDataType>::Transformer(
       dimFFN,
       dropout,
       attentionMask,
-      keyPaddingMask
-  ).Model();
+      keyPaddingMask).Model();
 
   transformer->Add(decoderStack);
 }

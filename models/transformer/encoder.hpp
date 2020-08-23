@@ -159,16 +159,16 @@ class TransformerEncoder
   //! Locally-stored source sequence length.
   size_t srcSeqLen;
 
-  //! Locally-stored number of input units.
+  //! Locally-stored dimensionality of model.
   size_t dModel;
 
-  //! Locally-stored number of output units.
+  //! Locally-stored number of attention heads.
   size_t numHeads;
 
-  //! Locally-stored weight object.
+  //! Locally-stored dimensionality of position-wise feed forward network.
   size_t dimFFN;
 
-  //! Locally-stored weight parameters.
+  //! Locally-stored dropout rate.
   double dropout;
 
   //! Locally-stored attention mask.
@@ -179,7 +179,6 @@ class TransformerEncoder
 
   //! Locally-stored encoder block.
   Sequential<InputDataType, OutputDataType, false>* encoder;
-
 }; // class TransformerEncoder
 
 } // namespace ann

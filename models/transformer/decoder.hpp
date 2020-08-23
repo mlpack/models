@@ -132,8 +132,7 @@ class TransformerDecoder
           tgtSeqLen,
           dModel,
           numHeads,
-          attentionMask
-        );
+          attentionMask);
 
     // Residual connection.
     AddMerge<>* residualAdd1 = new AddMerge<>();
@@ -209,16 +208,16 @@ class TransformerDecoder
   //! Locally-stored source sequence length.
   size_t srcSeqLen;
 
-  //! Locally-stored number of input units.
+  //! Locally-stored dimensionality of the model.
   size_t dModel;
 
-  //! Locally-stored number of output units.
+  //! Locally-stored number of attention heads.
   size_t numHeads;
 
-  //! Locally-stored weight object.
+  //! Locally-stored dimensionality of position-wise feed forward network.
   size_t dimFFN;
 
-  //! Locally-stored weight parameters.
+  //! Locally-stored dropout rate.
   double dropout;
 
   //! Locally-stored attention mask.
@@ -229,7 +228,6 @@ class TransformerDecoder
 
   //! Locally-stored complete decoder network.
   Sequential<InputDataType, OutputDataType, false>* decoder;
-
 }; // class TransformerDecoder
 
 } // namespace ann
