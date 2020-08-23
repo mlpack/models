@@ -36,16 +36,10 @@ namespace ann /** Artificial Neural Network. */ {
  *         the position-wise feed forward neural network.
  * @tparam RegularizerType The type of regularizer to be applied to layer
  *         parameters.
- * @tparam InputDataType Type of the input data (arma::colvec, arma::mat,
- *         arma::sp_mat or arma::cube).
- * @tparam OutputDataType Type of the output data (arma::colvec, arma::mat,
- *         arma::sp_mat or arma::cube).
  */
 template <
   typename ActivationFunction = ReLULayer<>,
-  typename RegularizerType = NoRegularizer,
-  typename InputDataType = arma::mat,
-  typename OutputDataType = arma::mat
+  typename RegularizerType = NoRegularizer
 >
 class TransformerDecoder
 {
@@ -66,6 +60,7 @@ class TransformerDecoder
    * @param dropout The dropout rate.
    * @param attentionMask The attention mask used to black-out future sequences.
    * @param keyPaddingMask The padding mask used to black-out particular token.
+   * @param ownMemory Whether to delete the pointer-type decoder object.
    */
   TransformerDecoder(const size_t numLayers,
                      const size_t tgtSeqLen,
@@ -74,13 +69,39 @@ class TransformerDecoder
                      const size_t numHeads = 8,
                      const size_t dimFFN = 1024,
                      const double dropout = 0.1,
-                     const InputDataType& attentionMask = InputDataType(),
-                     const InputDataType& keyPaddingMask = InputDataType());
+                     const arma::mat& attentionMask = arma::mat(),
+                     const arma::mat& keyPaddingMask = arma::mat(),
+                     const bool ownMemory = false);
+
+  /**
+   * Destructor.
+   */
+  ~TransformerDecoder()
+  {
+    if (ownMemory)
+      delete decoder;
+  }
+
+  /**
+   * Copy constructor.
+   */
+  TransformerDecoder(const TransformerDecoder& ) = delete;
+
+  /**
+   * Move constructor.
+   */
+  TransformerDecoder(const TransformerDecoder&& ) = delete;
+
+  /**
+   * Copy assignment operator.
+   */
+  TransformerDecoder& operator = (const TransformerDecoder& ) = delete;
 
   /**
    * Get the Transformer Decoder model.
    */
   Sequential<>* Model() { return decoder; }
+
   /**
    * Load the network from a local directory.
    *
@@ -96,16 +117,16 @@ class TransformerDecoder
   void SaveModel(const std::string& filepath);
 
   //! Get the attention mask.
-  InputDataType const& AttentionMask() const { return attentionMask; }
+  arma::mat const& AttentionMask() const { return attentionMask; }
 
   //! Modify the attention mask.
-  InputDataType& AttentionMask() { return attentionMask; }
+  arma::mat& AttentionMask() { return attentionMask; }
 
   //! Get the key padding mask.
-  InputDataType const& KeyPaddingMask() const { return keyPaddingMask; }
+  arma::mat const& KeyPaddingMask() const { return keyPaddingMask; }
 
   //! Modify the key padding mask.
-  InputDataType& KeyPaddingMask() { return keyPaddingMask; }
+  arma::mat& KeyPaddingMask() { return keyPaddingMask; }
 
  private:
   /**
@@ -113,7 +134,7 @@ class TransformerDecoder
    */
   Sequential<>* AttentionBlock()
   {
-    Sequential<>* decoderBlockBottom = new Sequential<>();
+    Sequential<>* decoderBlockBottom = new Sequential<>(false);
     decoderBlockBottom->Add<Subview<>>(1, 0, dModel * tgtSeqLen - 1, 0, -1);
 
     // Broadcast the incoming input to decoder
@@ -124,10 +145,10 @@ class TransformerDecoder
     decoderInput->Add<IdentityLayer<>>();
 
     // Masked Self attention layer.
-    Sequential<>* maskedSelfAttention = new Sequential<>();
+    Sequential<>* maskedSelfAttention = new Sequential<>(false);
     maskedSelfAttention->Add(decoderInput);
     maskedSelfAttention->Add<MultiheadAttention<
-        InputDataType, OutputDataType, RegularizerType>>(
+        arma::mat, arma::mat, RegularizerType>>(
           tgtSeqLen,
           tgtSeqLen,
           dModel,
@@ -156,15 +177,15 @@ class TransformerDecoder
     encoderDecoderAttentionInput->Add(broadcastEncoderOutput);
 
     // Encoder-decoder attention.
-    Sequential<>* encoderDecoderAttention = new Sequential<>();
+    Sequential<>* encoderDecoderAttention = new Sequential<>(false);
     encoderDecoderAttention->Add(encoderDecoderAttentionInput);
     encoderDecoderAttention->Add<MultiheadAttention<
-        InputDataType, OutputDataType, RegularizerType>>(
+        arma::mat, arma::mat, RegularizerType>>(
           tgtSeqLen,
           srcSeqLen,
           dModel,
           numHeads,
-          InputDataType(), // No attention mask to encoder-decoder attention.
+          arma::mat(), // No attention mask to encoder-decoder attention.
           keyPaddingMask);
 
     // Residual connection.
@@ -172,7 +193,7 @@ class TransformerDecoder
     residualAdd2->Add(encoderDecoderAttention);
     residualAdd2->Add<IdentityLayer<>>();
 
-    Sequential<>* decoderBlock = new Sequential<>();
+    Sequential<>* decoderBlock = new Sequential<>(false);
     decoderBlock->Add(residualAdd2);
     decoderBlock->Add<LayerNorm<>>(dModel * tgtSeqLen);
     return decoderBlock;
@@ -183,7 +204,7 @@ class TransformerDecoder
    */
   Sequential<>* PositionWiseFFNBlock()
   {
-    Sequential<>* positionWiseFFN = new Sequential<>();
+    Sequential<>* positionWiseFFN = new Sequential<>(false);
     positionWiseFFN->Add<Linear3D<>>(dModel, dimFFN);
     positionWiseFFN->Add<ActivationFunction>();
     positionWiseFFN->Add<Linear3D<>>(dimFFN, dModel);
@@ -194,7 +215,7 @@ class TransformerDecoder
     residualAdd->Add(positionWiseFFN);
     residualAdd->Add<IdentityLayer<>>();
 
-    Sequential<>* decoderBlock = new Sequential<>();
+    Sequential<>* decoderBlock = new Sequential<>(false);
     decoderBlock->Add(residualAdd);
     return decoderBlock;
   }
@@ -208,7 +229,7 @@ class TransformerDecoder
   //! Locally-stored source sequence length.
   size_t srcSeqLen;
 
-  //! Locally-stored dimensionality of the model.
+  //! Locally-stored number of features in the input.
   size_t dModel;
 
   //! Locally-stored number of attention heads.
@@ -221,13 +242,16 @@ class TransformerDecoder
   double dropout;
 
   //! Locally-stored attention mask.
-  InputDataType attentionMask;
+  arma::mat attentionMask;
 
   //! Locally-stored key padding mask.
-  InputDataType keyPaddingMask;
+  arma::mat keyPaddingMask;
+
+  //! Whether to delete pointer-type decoder object.
+  bool ownMemory;
 
   //! Locally-stored complete decoder network.
-  Sequential<InputDataType, OutputDataType, false>* decoder;
+  Sequential<>* decoder;
 }; // class TransformerDecoder
 
 } // namespace ann

@@ -31,16 +31,10 @@ namespace ann /** Artificial Neural Network. */ {
  *         position-wise feed forward neural network.
  * @tparam RegularizerType The regularizer type to be applied on layer
  *         parameters.
- * @tparam InputDataType Type of the input data (arma::colvec, arma::mat,
- *         arma::sp_mat or arma::cube).
- * @tparam OutputDataType Type of the output data (arma::colvec, arma::mat,
- *         arma::sp_mat or arma::cube).
  */
 template <
   typename ActivationFunction = ReLULayer<>,
-  typename RegularizerType = NoRegularizer,
-  typename InputDataType = arma::mat,
-  typename OutputDataType = arma::mat
+  typename RegularizerType = NoRegularizer
 >
 class Transformer
 {
@@ -60,6 +54,7 @@ class Transformer
    * @param dropout The dropout rate.
    * @param attentionMask The attention mask to be applied to the sequences.
    * @param keyPaddingMask The key padding mask applied to the sequences.
+   * @param ownMemory Whether to delete pointer-type transformer object.
    */
   Transformer(const size_t numLayers,
               const size_t tgtSeqLen,
@@ -70,42 +65,53 @@ class Transformer
               const size_t numHeads = 12,
               const size_t dimFFN = 1024,
               const double dropout = 0.1,
-              const InputDataType& attentionMask = InputDataType(),
-              const InputDataType& keyPaddingMask = InputDataType());
+              const arma::mat& attentionMask = arma::mat(),
+              const arma::mat& keyPaddingMask = arma::mat(),
+              const bool ownMemory = false);
+
+  /**
+   * Destructor.
+   */
+  ~Transformer()
+  {
+    if (ownMemory)
+      delete transformer;
+  }
+
+  /**
+   * Copy constructor.
+   */
+  Transformer(const Transformer& /* transformer */) = delete;
+
+  /**
+   * Move constructor.
+   */
+  Transformer(const Transformer&& /* transformer */) = delete;
+
+  /**
+   * Copy assignment operator.
+   */
+  Transformer& operator = (const Transformer& /* transformer */) = delete;
 
   /**
    * Get the Transformer Encoder Model.
    */
-  Sequential<InputDataType, OutputDataType, false>* Model()
+  Sequential<>* Model()
   {
     return transformer;
   }
 
-  /**
-   * Load the Transformer model from a local directory.
-   *
-   * @param filepath The location of the stored model.
-   */
-  void LoadModel(const std::string& filepath);
-
-  /**
-   * Save the Transformer model locally.
-   *
-   * @param filepath The location where the model is to be saved.
-   */
-  void SaveModel(const std::string& filepath);
-
   //! Get the attention mask.
-  InputDataType const& AttentionMask() const { return attentionMask; }
+  arma::mat const& AttentionMask() const { return attentionMask; }
 
   //! Modify the attention mask.
-  InputDataType& AttentionMask() { return attentionMask; }
+  arma::mat& AttentionMask() { return attentionMask; }
 
   //! Get the key padding mask.
-  InputDataType const& KeyPaddingMask() const { return keyPaddingMask; }
+  arma::mat const& KeyPaddingMask() const { return keyPaddingMask; }
 
   //! Modify the key padding mask.
-  InputDataType& KeyPaddingMask() { return keyPaddingMask; }
+  arma::mat& KeyPaddingMask() { return keyPaddingMask; }
 
  private:
   //! Locally-stored number of encoder and decoder layers.
@@ -123,7 +129,7 @@ class Transformer
   //! Locally-stored vocabulary size of the source.
   size_t srcVocabSize;
 
-  //! Locally-stored dimensionality of the model.
+  //! Locally-stored number of features in the input.
   size_t dModel;
 
   //! Locally-stored number attention heads.
@@ -136,13 +142,16 @@ class Transformer
   double dropout;
 
   //! Locally-stored attention mask.
-  InputDataType attentionMask;
+  arma::mat attentionMask;
 
   //! Locally-stored key padding mask.
-  InputDataType keyPaddingMask;
+  arma::mat keyPaddingMask;
+
+  //! Whether to delete the pointer-type transformer object.
+  bool ownMemory;
 
   //! Locally-stored transformer model.
-  Sequential<InputDataType, OutputDataType>* transformer;
+  Sequential<>* transformer;
 }; // class Transformer
 
 } // namespace ann

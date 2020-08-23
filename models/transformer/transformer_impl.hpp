@@ -19,10 +19,8 @@
 namespace mlpack {
 namespace ann /** Artificial Neural Network. */ {
 
-template <typename ActivationFunction, typename RegularizerType,
-    typename InputDataType, typename OutputDataType>
-Transformer<ActivationFunction, RegularizerType, InputDataType,
-OutputDataType>::Transformer(
+template <typename ActivationFunction, typename RegularizerType>
+Transformer<ActivationFunction, RegularizerType>::Transformer(
     const size_t numLayers,
     const size_t tgtSeqLen,
     const size_t srcSeqLen,
@@ -32,8 +30,9 @@ OutputDataType>::Transformer(
     const size_t numHeads,
     const size_t dimFFN,
     const double dropout,
-    const InputDataType& attentionMask,
-    const InputDataType& keyPaddingMask) :
+    const arma::mat& attentionMask,
+    const arma::mat& keyPaddingMask,
+    const bool ownMemory) :
     numLayers(numLayers),
     tgtSeqLen(tgtSeqLen),
     srcSeqLen(srcSeqLen),
@@ -44,11 +43,12 @@ OutputDataType>::Transformer(
     dimFFN(dimFFN),
     dropout(dropout),
     attentionMask(attentionMask),
-    keyPaddingMask(keyPaddingMask)
+    keyPaddingMask(keyPaddingMask),
+    ownMemory(ownMemory)
 {
-  transformer = new Sequential<>();
+  transformer = new Sequential<>(false);
 
-  Sequential<>* encoder = new Sequential<>();
+  Sequential<>* encoder = new Sequential<>(false);
 
   // Pull out the sequences of source language which is stacked above in the
   // input matrix. Here 'lastCol = -1' denotes upto last batch of input matrix.
@@ -57,7 +57,7 @@ OutputDataType>::Transformer(
   encoder->Add<PositionalEncoding<>>(dModel, srcSeqLen);
 
   Sequential<>* encoderStack = mlpack::ann::TransformerEncoder<
-    ActivationFunction, RegularizerType, InputDataType, OutputDataType>(
+    ActivationFunction, RegularizerType>(
       numLayers,
       srcSeqLen,
       dModel,
@@ -69,7 +69,7 @@ OutputDataType>::Transformer(
 
   encoder->Add(encoderStack);
 
-  Sequential<>* decoderPE = new Sequential<>();
+  Sequential<>* decoderPE = new Sequential<>(false);
 
   // Pull out the sequences of target language which is stacked below in the
   // input matrix. Here 'lastRow = -1' and 'lastCol = -1' denotes upto last
@@ -85,7 +85,7 @@ OutputDataType>::Transformer(
   transformer->Add(encoderDecoderConcat);
 
   Sequential<>* decoderStack = mlpack::ann::TransformerDecoder<
-    ActivationFunction, RegularizerType, InputDataType, OutputDataType>(
+    ActivationFunction, RegularizerType>(
       numLayers,
       tgtSeqLen,
       srcSeqLen,
@@ -97,25 +97,6 @@ OutputDataType>::Transformer(
       keyPaddingMask).Model();
 
   transformer->Add(decoderStack);
-}
-
-template <typename ActivationFunction, typename RegularizerType,
-    typename InputDataType, typename OutputDataType>
-void Transformer<ActivationFunction, RegularizerType, InputDataType,
-OutputDataType>::LoadModel(const std::string& filePath)
-{
-  data::Load(filePath, "Transformer", transformer);
-  std::cout << "Loaded model" << std::endl;
-}
-
-template <typename ActivationFunction, typename RegularizerType,
-    typename InputDataType, typename OutputDataType>
-void Transformer<ActivationFunction, RegularizerType, InputDataType,
-OutputDataType>::SaveModel(const std::string& filePath)
-{
-  std::cout << "Saving model" << std::endl;
-  data::Save(filePath, "Transformer", transformer);
-  std::cout << "Model saved in " << filePath << std::endl;
 }
 
 } // namespace ann

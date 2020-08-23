@@ -19,18 +19,17 @@
 namespace mlpack {
 namespace ann /** Artificial Neural Network. */ {
 
-template <typename ActivationFunction, typename RegularizerType,
-    typename InputDataType, typename OutputDataType>
-TransformerEncoder<ActivationFunction, RegularizerType, InputDataType,
-OutputDataType>::TransformerEncoder(
+template <typename ActivationFunction, typename RegularizerType>
+TransformerEncoder<ActivationFunction, RegularizerType>::TransformerEncoder(
     const size_t numLayers,
     const size_t srcSeqLen,
     const size_t dModel,
     const size_t numHeads,
     const size_t dimFFN,
     const double dropout,
-    const InputDataType& attentionMask,
-    const InputDataType& keyPaddingMask) :
+    const arma::mat& attentionMask,
+    const arma::mat& keyPaddingMask,
+    const bool ownMemory) :
     numLayers(numLayers),
     srcSeqLen(srcSeqLen),
     dModel(dModel),
@@ -38,9 +37,10 @@ OutputDataType>::TransformerEncoder(
     dimFFN(dimFFN),
     dropout(dropout),
     attentionMask(attentionMask),
-    keyPaddingMask(keyPaddingMask)
+    keyPaddingMask(keyPaddingMask),
+    ownMemory(ownMemory)
 {
-  encoder = new Sequential<InputDataType, OutputDataType, false>();
+  encoder = new Sequential<arma::mat, arma::mat, false>(false);
 
   for (size_t n = 0; n < numLayers; ++n)
   {
@@ -49,19 +49,17 @@ OutputDataType>::TransformerEncoder(
   }
 }
 
-template <typename ActivationFunction, typename RegularizerType,
-    typename InputDataType, typename OutputDataType>
-void TransformerEncoder<ActivationFunction, RegularizerType, InputDataType,
-OutputDataType>::LoadModel(const std::string& filePath)
+template <typename ActivationFunction, typename RegularizerType>
+void TransformerEncoder<ActivationFunction, RegularizerType>::
+LoadModel(const std::string& filePath)
 {
   data::Load(filePath, "TransformerEncoder", encoder);
   std::cout << "Loaded model" << std::endl;
 }
 
-template <typename ActivationFunction, typename RegularizerType,
-    typename InputDataType, typename OutputDataType>
-void TransformerEncoder<ActivationFunction, RegularizerType, InputDataType,
-OutputDataType>::SaveModel(const std::string& filePath)
+template <typename ActivationFunction, typename RegularizerType>
+void TransformerEncoder<ActivationFunction, RegularizerType>::
+SaveModel(const std::string& filePath)
 {
   std::cout << "Saving model" << std::endl;
   data::Save(filePath, "TransformerEncoder", encoder);

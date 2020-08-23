@@ -19,24 +19,21 @@
 namespace mlpack {
 namespace ann /** Artificial Neural Network. */ {
 
-template<typename ActivationFunction, typename RegularizerType,
-    typename InputDataType, typename OutputDataType>
-TransformerDecoder<ActivationFunction, RegularizerType, InputDataType,
-OutputDataType>::TransformerDecoder() :
+template<typename ActivationFunction, typename RegularizerType>
+TransformerDecoder<ActivationFunction, RegularizerType>::TransformerDecoder() :
     tgtSeqLen(0),
     srcSeqLen(0),
     dModel(0),
     numHeads(0),
     dimFFN(0),
-    dropout(0)
+    dropout(0),
+    ownMemory(true)
 {
   // Nothing to do here.
 }
 
-template<typename ActivationFunction, typename RegularizerType,
-    typename InputDataType, typename OutputDataType>
-TransformerDecoder<ActivationFunction, RegularizerType, InputDataType,
-OutputDataType>::TransformerDecoder(
+template<typename ActivationFunction, typename RegularizerType>
+TransformerDecoder<ActivationFunction, RegularizerType>::TransformerDecoder(
     const size_t numLayers,
     const size_t tgtSeqLen,
     const size_t srcSeqLen,
@@ -44,8 +41,9 @@ OutputDataType>::TransformerDecoder(
     const size_t numHeads,
     const size_t dimFFN,
     const double dropout,
-    const InputDataType& attentionMask,
-    const InputDataType& keyPaddingMask) :
+    const arma::mat& attentionMask,
+    const arma::mat& keyPaddingMask,
+    const bool ownMemory) :
     numLayers(numLayers),
     tgtSeqLen(tgtSeqLen),
     srcSeqLen(srcSeqLen),
@@ -54,9 +52,10 @@ OutputDataType>::TransformerDecoder(
     dimFFN(dimFFN),
     dropout(dropout),
     attentionMask(attentionMask),
-    keyPaddingMask(keyPaddingMask)
+    keyPaddingMask(keyPaddingMask),
+    ownMemory(ownMemory)
 {
-  decoder = new Sequential<InputDataType, OutputDataType, false>();
+  decoder = new Sequential<>(false);
 
   for (size_t n = 0; n < numLayers; ++n)
   {
@@ -67,7 +66,7 @@ OutputDataType>::TransformerDecoder(
       break;
     }
 
-    Sequential<>* decoderBlock = new Sequential<>();
+    Sequential<>* decoderBlock = new Sequential<>(false);
     decoderBlock->Add(AttentionBlock());
     decoderBlock->Add(PositionWiseFFNBlock());
 
@@ -79,19 +78,17 @@ OutputDataType>::TransformerDecoder(
   }
 }
 
-template<typename ActivationFunction, typename RegularizerType,
-    typename InputDataType, typename OutputDataType>
-void TransformerDecoder<ActivationFunction, RegularizerType,
-InputDataType, OutputDataType>::LoadModel(const std::string& filepath)
+template<typename ActivationFunction, typename RegularizerType>
+void TransformerDecoder<ActivationFunction, RegularizerType>::
+LoadModel(const std::string& filepath)
 {
   data::Load(filepath, "TransformerDecoder", decoder);
   std::cout << "Loaded model" << std::endl;
 }
 
-template<typename ActivationFunction, typename RegularizerType,
-    typename InputDataType, typename OutputDataType>
-void TransformerDecoder<ActivationFunction, RegularizerType,
-InputDataType, OutputDataType>::SaveModel(const std::string& filepath)
+template<typename ActivationFunction, typename RegularizerType>
+void TransformerDecoder<ActivationFunction, RegularizerType>::
+SaveModel(const std::string& filepath)
 {
   std::cout << "Saving model" << std::endl;
   data::Save(filepath, "TransformerDecoder", decoder);
