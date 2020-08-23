@@ -90,7 +90,7 @@ YOLOLoss<InputDataType, OutputDataType>::Forward(
               arma::span(gridY), arma::span(s, s + 3));
           arma::vec targetBBox = outputTemp(arma::span(gridX),
               arma::span(gridY), arma::span(s, s + 3));
-          
+
           inputTemp(gridX, gridY, s + 4) = metric::IoU<false>::Evaluate(
               predBBox, targetBBox);
 
