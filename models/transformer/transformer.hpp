@@ -54,7 +54,7 @@ class Transformer
    * @param tgtVocabSize Target vocabulary size.
    * @param srcVocabSize Source vocabulary size.
    * @param dModel The number of features in the input. Also, same as the
-   *               'embedDim' in 'MultiheadAttention' layer.
+   *               `embedDim` in `MultiheadAttention` layer.
    * @param numHeads The number of attention heads.
    * @param dimFFN The dimentionality of feedforward network.
    * @param dropout The dropout rate.

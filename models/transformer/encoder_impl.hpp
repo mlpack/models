@@ -42,9 +42,7 @@ OutputDataType>::TransformerEncoder(
 {
   encoder = new Sequential<InputDataType, OutputDataType, false>();
 
-  encoder->Add(new IdentityLayer<>());
-
-  for (size_t N = 0; N < numLayers; ++N)
+  for (size_t n = 0; n < numLayers; ++n)
   {
     AttentionBlock();
     PositionWiseFFNBlock();

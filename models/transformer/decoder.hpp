@@ -60,7 +60,7 @@ class TransformerDecoder
    * @param srcSeqLen Source Sequence Length.
    * @param memoryModule The last Encoder module.
    * @param dModel The number of features in the input. Also, same as the
-   *        'embedDim' in 'MultiheadAttention' layer.
+   *        `embedDim` in `MultiheadAttention` layer.
    * @param numHeads The number of attention heads.
    * @param dimFFN The dimentionality of feedforward network.
    * @param dropout The dropout rate.
@@ -111,7 +111,7 @@ class TransformerDecoder
   /**
    * This method adds the attention block to the decoder.
    */
-  void AttentionBlock()
+  Sequential<>* AttentionBlock()
   {
     Sequential<>* decoderBlockBottom = new Sequential<>();
     decoderBlockBottom->Add<Subview<>>(1, 0, dModel * tgtSeqLen - 1, 0, -1);
@@ -173,14 +173,16 @@ class TransformerDecoder
     residualAdd2->Add(encoderDecoderAttention);
     residualAdd2->Add<IdentityLayer<>>();
 
-    decoder->Add(residualAdd2);
-    decoder->Add(new LayerNorm<>(dModel * tgtSeqLen));
+    Sequential<>* decoderBlock = new Sequential<>();
+    decoderBlock->Add(residualAdd2);
+    decoderBlock->Add<LayerNorm<>>(dModel * tgtSeqLen);
+    return decoderBlock;
   }
 
   /**
    * This method adds the position-wise feed forward network to the decoder.
    */
-  void PositionWiseFFNBlock()
+  Sequential<>* PositionWiseFFNBlock()
   {
     Sequential<>* positionWiseFFN = new Sequential<>();
     positionWiseFFN->Add<Linear3D<>>(dModel, dimFFN);
@@ -192,7 +194,10 @@ class TransformerDecoder
     AddMerge<>* residualAdd = new AddMerge<>();
     residualAdd->Add(positionWiseFFN);
     residualAdd->Add<IdentityLayer<>>();
-    decoder->Add(residualAdd);
+
+    Sequential<>* decoderBlock = new Sequential<>();
+    decoderBlock->Add(residualAdd);
+    return decoderBlock;
   }
 
   //! Locally-stored number of decoder layers.

@@ -83,8 +83,7 @@ OutputDataType>::Transformer(
   encoderDecoderConcat->Add(encoder);
   encoderDecoderConcat->Add(decoderPE);
 
-  Sequential<>* decoder = new Sequential<>();
-  decoder->Add(encoderDecoderConcat);
+  transformer->Add(encoderDecoderConcat);
 
   Sequential<>* decoderStack = mlpack::ann::TransformerDecoder<
     ActivationFunction, RegularizerType, InputDataType, OutputDataType>(
@@ -99,8 +98,7 @@ OutputDataType>::Transformer(
       keyPaddingMask
   ).Model();
 
-  decoder->Add(decoderStack);
-  transformer->Add(decoder);
+  transformer->Add(decoderStack);
 }
 
 template <typename ActivationFunction, typename RegularizerType,

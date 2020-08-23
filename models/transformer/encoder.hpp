@@ -56,7 +56,7 @@ class TransformerEncoder
    * @param numLayers The number of encoder blocks.
    * @param srcSeqLen Source Sequence Length.
    * @param dModel The number of features in the input. It is same as the
-   *               'embedDim' in 'MultiheadAttention' layer.
+   *               `embedDim` in `MultiheadAttention` layer.
    * @param numHeads The number of attention heads.
    * @param dimFFN The dimentionality of feedforward network.
    * @param dropout The dropout rate.
@@ -130,7 +130,7 @@ class TransformerEncoder
     residualAdd->Add<IdentityLayer<>>();
 
     encoder->Add(residualAdd);
-    encoder->Add(new LayerNorm<>(dModel * srcSeqLen));
+    encoder->Add<LayerNorm<>>(dModel * srcSeqLen);
   }
 
   /**
@@ -150,7 +150,7 @@ class TransformerEncoder
     residualAdd->Add<IdentityLayer<>>();
 
     encoder->Add(residualAdd);
-    encoder->Add(new LayerNorm<>(dModel * srcSeqLen));
+    encoder->Add<LayerNorm<>>(dModel * srcSeqLen);
   }
 
   //! Locally-stored number of encoder blocks.

@@ -58,10 +58,24 @@ OutputDataType>::TransformerDecoder(
 {
   decoder = new Sequential<InputDataType, OutputDataType, false>();
 
-  for (size_t N = 0; N < numLayers; ++N)
+  for (size_t n = 0; n < numLayers; ++n)
   {
-    AttentionBlock();
-    PositionWiseFFNBlock();
+    if (n + 1 == numLayers)
+    {
+      decoder->Add(AttentionBlock());
+      decoder->Add(PositionWiseFFNBlock());
+      break;
+    }
+
+    Sequential<>* decoderBlock = new Sequential<>();
+    decoderBlock->Add(AttentionBlock());
+    decoderBlock->Add(PositionWiseFFNBlock());
+
+    Concat<>* concatQueryKey = new Concat<>();
+    concatQueryKey->Add(decoderBlock);
+    concatQueryKey->Add<Subview<>>(1, dModel * tgtSeqLen, -1, 0, -1);
+
+    decoder->Add(concatQueryKey);
   }
 }
 
