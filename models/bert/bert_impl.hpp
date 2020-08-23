@@ -19,9 +19,8 @@
 namespace mlpack {
 namespace ann /** Artificial Neural Network. */ {
 
-template<typename OutputLayerType, typename InitType, typename InputDataType,
-    typename OutputDataType>
-BERT<OutputLayerType, InitType, InputDataType, OutputDataType>::BERT() :
+template<typename OutputLayerType, typename InitializationRuleType>
+BERT<OutputLayerType, InitializationRuleType>::BERT() :
     srcVocabSize(0),
     srcSeqLen(0),
     numEncoderLayers(0),
@@ -33,17 +32,16 @@ BERT<OutputLayerType, InitType, InputDataType, OutputDataType>::BERT() :
   // Nothing to do here.
 }
 
-template<typename OutputLayerType, typename InitType, typename InputDataType,
-    typename OutputDataType>
-BERT<OutputLayerType, InitType, InputDataType, OutputDataType>::BERT(
+template<typename OutputLayerType, typename InitializationRuleType>
+BERT<OutputLayerType, InitializationRuleType>::BERT(
     const size_t srcVocabSize,
     const size_t srcSeqLen,
     const size_t numEncoderLayers,
     const size_t dModel,
     const size_t numHeads,
     const double dropout,
-    const InputDataType& attentionMask,
-    const InputDataType& keyPaddingMask) :
+    const arma::mat& attentionMask,
+    const arma::mat& keyPaddingMask) :
     srcVocabSize(srcVocabSize),
     srcSeqLen(srcSeqLen),
     numEncoderLayers(numEncoderLayers),
@@ -72,25 +70,22 @@ BERT<OutputLayerType, InitType, InputDataType, OutputDataType>::BERT(
       dimFFN,
       dropout,
       attentionMask,
-      keyPaddingMask
-    );
+      keyPaddingMask);
 
     bert.Add(encoder.Model());
   }
 }
 
-template<typename OutputLayerType, typename InitType, typename InputDataType,
-    typename OutputDataType>
-void BERT<OutputLayerType, InitType, InputDataType, OutputDataType>::LoadModel(
+template<typename OutputLayerType, typename InitializationRuleType>
+void BERT<OutputLayerType, InitializationRuleType>::LoadModel(
     const std::string& filepath)
 {
   data::Load(filepath, "BERT", bert);
   std::cout << "Loaded model" << std::endl;
 }
 
-template<typename OutputLayerType, typename InitType, typename InputDataType,
-    typename OutputDataType>
-void BERT<OutputLayerType, InitType, InputDataType, OutputDataType>::SaveModel(
+template<typename OutputLayerType, typename InitializationRuleType>
+void BERT<OutputLayerType, InitializationRuleType>::SaveModel(
     const std::string& filepath)
 {
   std::cout << "Saving model" << std::endl;

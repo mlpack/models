@@ -29,7 +29,7 @@ class Utils
  public:
   /**
    * Determines whether a path exists.
-   * 
+   *
    * @param path Global or relative path.
    * @param absolutePath Boolean to determine if path is absolute or relative.
    * @return true if path exists else false. Defaults to false.
@@ -328,6 +328,29 @@ class Utils
     {
       mlpack::Log::Warn << "The " << path << " doesn't exist." << std::endl;
     }
+  }
+
+  /**
+   * Loads a vocabulary file and stores the content into a vector.
+   *
+   * @param vocabPath The path to the vocabulary file.
+   * @param vocabulary Stores the vocabulary content along with indices.
+   */
+  void LoadVocabulary(const std::string vocabPath,
+                      std::map<std::string, size_t>& vocabulary)
+  {
+    std::string token;
+    std::ifstream vocabFile(vocabPath);
+    if (vocabFile.is_open())
+    {
+      for (size_t i = 0; std::getline(vocabFile, token); ++i)
+        vocabulary[token] = i;
+
+      vocabFile.close();
+    }
+
+    else
+      std::cout << "Unable to open vocabulary file!" << std::endl;
   }
 };
 #endif

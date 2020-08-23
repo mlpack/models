@@ -23,17 +23,12 @@ namespace ann /** Artificial Neural Network. */ {
 
 /**
  * @tparam OutputLayerType Type of the last layer to be added to BERT model.
- * @tparam InitType Initilization Rule to be used to initialize parameters.
- * @tparam InputDataType Type of the input data (arma::colvec, arma::mat,
- *         arma::sp_mat or arma::cube).
- * @tparam OutputDataType Type of the output data (arma::colvec, arma::mat,
- *         arma::sp_mat or arma::cube).
+ * @tparam InitializationRuleType Initilization Rule to be used to initialize
+ *         parameters.
  */
 template <
   typename OutputLayerType = NegativeLogLikelihood<>,
-  typename InitializationRuleType = XavierInitialization,
-  typename InputDataType = arma::mat,
-  typename OutputDataType = arma::mat
+  typename InitializationRuleType = XavierInitialization
 >
 class BERT
 {
@@ -58,8 +53,8 @@ class BERT
        const size_t dModel = 512,
        const size_t numHeads = 8,
        const double dropout = 0.1,
-       const InputDataType& attentionMask = InputDataType(),
-       const InputDataType& keyPaddingMask = InputDataType());
+       const arma::mat& attentionMask = arma::mat(),
+       const arma::mat& keyPaddingMask = arma::mat());
 
   /**
    * Load the network from a local directory.
@@ -98,10 +93,10 @@ class BERT
   double dropout;
 
   //! Locally-stored attention mask.
-  InputDataType attentionMask;
+  arma::mat attentionMask;
 
   //! Locally-stored key padding mask.
-  InputDataType keyPaddingMask;
+  arma::mat keyPaddingMask;
 
   //! Locally-stored complete decoder network.
   FFN<OutputLayerType, InitializationRuleType> bert;

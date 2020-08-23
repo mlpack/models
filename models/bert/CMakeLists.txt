@@ -8,6 +8,7 @@ set(SOURCES
   bert.hpp
   bert_impl.hpp
   bert_tokenizer.hpp
+  bert_tokenizer_impl.hpp
 )
 
 foreach(file ${SOURCES})

@@ -44,6 +44,9 @@ template <
 class BertTokenizer
 {
  public:
+  /**
+   * Create a BertTokenizer object.
+   */
   BertTokenizer();
 
   /**
@@ -124,6 +127,8 @@ class BertTokenizer
   std::string maskToken;
 }; // class BertTokenizer
 
+// Include implementation.
+#include "bert_tokenizer_impl.hpp"
 } // namespace ann
 } // namespace mlpack
 
