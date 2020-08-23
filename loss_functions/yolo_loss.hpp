@@ -14,6 +14,7 @@
 #define MODELS_LOSS_FUNCTIONS_YOLO_LOSS_HPP
 
 #include <mlpack/prereqs.hpp>
+#include <mlpack/core/metrics/iou_metric.hpp>
 
 namespace mlpack {
 namespace ann /** Artificial Neural Network. */ {

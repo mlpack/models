@@ -86,6 +86,14 @@ YOLOLoss<InputDataType, OutputDataType>::Forward(
               outputTemp(arma::span(gridX),
               arma::span(gridY), arma::span(s + 2, s + 3)))));
 
+          arma::vec predBBox = inputTemp(arma::span(gridX),
+              arma::span(gridY), arma::span(s, s + 3));
+          arma::vec targetBBox = outputTemp(arma::span(gridX),
+              arma::span(gridY), arma::span(s, s + 3));
+          
+          inputTemp(gridX, gridY, s + 4) = metric::IoU<false>::Evaluate(
+              predBBox, targetBBox);
+
           // MSE loss on objectness score.
           lossTemp(gridX, gridY, s + 4) = lambdaObjectness *
               (std::pow(inputTemp(gridX, gridY, s + 4) -
