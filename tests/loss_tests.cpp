@@ -60,14 +60,13 @@ BOOST_AUTO_TEST_CASE(YOLOLossFunctionTest)
   // Include classification error.
   inputTemp(0, 0, 10) = 0.6;
   double classificationLoss = 0.16; // (1.0 - 0.6)^2.
-  BOOST_REQUIRE_CLOSE(yoloLoss.Forward(input, output), (noObjectLoss + 
-      classificationLoss) / input.n_cols, 1e-3);
+  BOOST_REQUIRE_CLOSE(yoloLoss.Forward(input, output),
+      (noObjectLoss + classificationLoss) / input.n_cols, 1e-3);
 
   // Including IoU error in total loss.
   // For simplicity, let's keep the same left coordinate.
-  // For x1 = 1, y1 = 1, h1 = 0.5, w1 = 0.5 and 
-  // x2 = 1, y2 = 1, h2 = 0.6, w2 = 0.6, The IoU is
-  // IoU = 0.5 * 0.5 / 0.6 * 0.6.
+  // For x1 = 1, y1 = 1, h1 = 0.5, w1 = 0.5 and x2 = 1, y2 = 1,
+  // h2 = 0.6, w2 = 0.6.
   inputTemp(0, 0, 2) = 0.5;
   inputTemp(0, 0, 3) = 0.5;
 
@@ -77,8 +76,9 @@ BOOST_AUTO_TEST_CASE(YOLOLossFunctionTest)
   // Loss due to bounding box and iou.
   double boundingBoxError = 5.0 * 2 * std::pow(std::sqrt(0.5) -
       std::sqrt(0.6), 2) + 0.01467;
-  BOOST_REQUIRE_CLOSE(yoloLoss.Forward(input, output), (noObjectLoss + 
-      classificationLoss + boundingBoxError) / input.n_cols, 1e-2);
+  BOOST_REQUIRE_CLOSE(yoloLoss.Forward(input, output),
+      (noObjectLoss + classificationLoss + boundingBoxError) /
+      input.n_cols, 1e-2);
 }
 
 BOOST_AUTO_TEST_SUITE_END();
