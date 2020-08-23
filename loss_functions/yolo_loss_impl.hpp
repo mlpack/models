@@ -52,13 +52,13 @@ YOLOLoss<InputDataType, OutputDataType>::Forward(
   for (size_t i = 0; i < input.n_cols; i++)
   {
     arma::cube inputTemp(
-        const_cast<arma::mat&>(input).memptr(),
+        const_cast<arma::mat&>(input).colptr(i),
         gridWidth, gridHeight, numPredictions, false, false);
     arma::cube outputTemp(
-        const_cast<arma::mat&>(target).memptr(),
+        const_cast<arma::mat&>(target).colptr(i),
         gridWidth, gridHeight, numPredictions, false, false);
     arma::cube lossTemp(
-        const_cast<arma::mat&>(lossMatrix).memptr(),
+        const_cast<arma::mat&>(lossMatrix).colptr(i),
         gridHeight, gridWidth, numPredictions, false, false);
 
     for (size_t gridX = 0; gridX < gridWidth; gridX++)
@@ -73,6 +73,7 @@ YOLOLoss<InputDataType, OutputDataType>::Forward(
           // MSE Loss on coordinates.
           lossTemp(arma::span(gridX), arma::span(gridY),
               arma::span(s, s + 1)) = lambdaCoordinates *
+              outputTemp(gridX, gridY, s + 4) *
               (arma::square(inputTemp(arma::span(gridX), arma::span(gridY),
               arma::span(s, s + 1)) - outputTemp(arma::span(gridX),
               arma::span(gridY), arma::span(s, s + 1))));
@@ -80,6 +81,7 @@ YOLOLoss<InputDataType, OutputDataType>::Forward(
           // MSE Loss on square root of width and height.
           lossTemp(arma::span(gridX), arma::span(gridY),
               arma::span(s + 2, s + 3)) = lambdaCoordinates *
+              outputTemp(gridX, gridY, s + 4) *
               (arma::square(arma::sqrt(
               inputTemp(arma::span(gridX), arma::span(gridY),
               arma::span(s + 2, s + 3))) - arma::sqrt(
@@ -91,21 +93,27 @@ YOLOLoss<InputDataType, OutputDataType>::Forward(
           arma::vec targetBBox = outputTemp(arma::span(gridX),
               arma::span(gridY), arma::span(s, s + 3));
 
-          inputTemp(gridX, gridY, s + 4) = metric::IoU<false>::Evaluate(
-              predBBox, targetBBox);
+          double iou = metric::IoU<false>::Evaluate(predBBox,
+              targetBBox);
 
           // MSE loss on objectness score.
-          lossTemp(gridX, gridY, s + 4) = lambdaObjectness *
-              (std::pow(inputTemp(gridX, gridY, s + 4) -
+          lossTemp(gridX, gridY, s + 4) = (outputTemp(gridX, gridY,
+              s + 4) * (std::pow(iou - outputTemp(gridX,
+              gridY, s + 4), 2))) + (lambdaObjectness * (1 -
+              inputTemp(gridX, gridY, s + 4)) * std::pow(
+              inputTemp(gridX, gridY, s + 4) -
               outputTemp(gridX, gridY, s + 4), 2));
         }
 
         // Classification loss.
         lossTemp(arma::span(gridX), arma::span(gridY),
-            arma::span()) = arma::square(
-            inputTemp(arma::span(gridX), arma::span(gridY),
-            arma::span()) - outputTemp(arma::span(gridX),
-            arma::span(gridY), arma::span()));
+            arma::span(numPredictions - numClasses,
+            numPredictions - 1)) = outputTemp(gridX, gridY, 4) *
+            arma::square(inputTemp(arma::span(gridX), arma::span(gridY),
+            arma::span(numPredictions - numClasses, numPredictions - 1)) -
+            outputTemp(arma::span(gridX),
+            arma::span(gridY), arma::span(numPredictions - numClasses,
+            numPredictions - 1)));
       }
     }
   }
@@ -126,13 +134,13 @@ void YOLOLoss<InputDataType, OutputDataType>::Backward(
   for (size_t i = 0; i < input.n_cols; i++)
   {
     arma::cube inputTemp(
-        const_cast<arma::mat&>(input).memptr(),
+        const_cast<arma::mat&>(input).colptr(i),
         gridWidth, gridHeight, numPredictions, false, false);
     arma::cube targetTemp(
-        const_cast<arma::mat&>(target).memptr(),
+        const_cast<arma::mat&>(target).colptr(i),
         gridWidth, gridHeight, numPredictions, false, false);
     arma::cube outputTemp(
-        const_cast<arma::mat&>(output).memptr(),
+        const_cast<arma::mat&>(output).colptr(i),
         gridHeight, gridWidth, numPredictions, false, false);
 
     for (size_t gridX = 0; gridX < gridWidth; gridX++)
