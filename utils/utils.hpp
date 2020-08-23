@@ -348,9 +348,8 @@ class Utils
 
       vocabFile.close();
     }
-
     else
-      std::cout << "Unable to open vocabulary file!" << std::endl;
+      mlpack::Log::Warn << "Unable to open vocabulary file!" << std::endl;
   }
 };
 #endif
