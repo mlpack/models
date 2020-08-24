@@ -18,8 +18,7 @@
 namespace mlpack {
 namespace ann /** Artificial Neural Network. */ {
 
-template<typename InputDataType, typename OutputDataType>
-BertTokenizer<InputDataType, OutputDataType>::BertTokenizer() :
+BertTokenizer::BertTokenizer() :
     vocabFile(""),
     lowerCase(true),
     basicTokenize(true),
@@ -32,8 +31,7 @@ BertTokenizer<InputDataType, OutputDataType>::BertTokenizer() :
   // Nothing to do here.
 }
 
-template<typename InputDataType, typename OutputDataType>
-BertTokenizer<InputDataType, OutputDataType>::BertTokenizer(
+BertTokenizer::BertTokenizer(
     const std::string vocabFile,
     const bool lowerCase,
     const bool basicTokenize,

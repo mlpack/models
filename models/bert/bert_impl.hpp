@@ -60,21 +60,19 @@ BERT<OutputLayerType, InitializationRuleType>::BERT(
   bert.Add<PositionalEncoding<>>(dModel, srcSeqLen);
   bert.Add<Dropout<>>(dropout);
 
-  for (size_t i = 0; i < numLayers; ++i)
-  {
-    mlpack::ann::TransformerEncoder<> encoder(
-      numEncoderLayers,
-      srcSeqLen,
-      dModel,
-      numHeads,
-      dimFFN,
-      dropout,
-      attentionMask,
-      keyPaddingMask);
+  mlpack::ann::TransformerEncoder<mlpack::ann::GELUFunction> encoder(
+    numEncoderLayers,
+    srcSeqLen,
+    dModel,
+    numHeads,
+    dimFFN,
+    dropout,
+    attentionMask,
+    keyPaddingMask);
 
-    bert.Add(encoder.Model());
-  }
+  bert.Add(encoder.Model());
 }
+
 
 template<typename OutputLayerType, typename InitializationRuleType>
 void BERT<OutputLayerType, InitializationRuleType>::LoadModel(

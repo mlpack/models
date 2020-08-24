@@ -331,13 +331,13 @@ class Utils
   }
 
   /**
-   * Loads a vocabulary file and stores the content into a vector.
+   * Loads a vocabulary file and stores the content into an unordered map.
    *
    * @param vocabPath The path to the vocabulary file.
    * @param vocabulary Stores the vocabulary content along with indices.
    */
-  void LoadVocabulary(const std::string vocabPath,
-                      std::map<std::string, size_t>& vocabulary)
+  static void LoadVocabulary(const std::string vocabPath,
+      std::unordered_map<std::string, size_t>& vocabulary)
   {
     std::string token;
     std::ifstream vocabFile(vocabPath);
@@ -345,11 +345,9 @@ class Utils
     {
       for (size_t i = 0; std::getline(vocabFile, token); ++i)
         vocabulary[token] = i;
-
-      vocabFile.close();
     }
     else
-      mlpack::Log::Warn << "Unable to open vocabulary file!" << std::endl;
+      mlpack::Log::Fatal << "Unable to open vocabulary file!" << std::endl;
   }
 };
 #endif
