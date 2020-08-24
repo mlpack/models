@@ -91,3 +91,12 @@ public:
 		csvxmlHelper(path, to);
 	}
 };
+
+// How To use
+/*int main() {
+	Convert foo;
+
+	foo.convert("path_to_csv_file.csv", "xml");
+	foo.convert("path_to_csv_file.csv", "json");
+
+}*/
