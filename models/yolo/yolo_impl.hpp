@@ -111,23 +111,22 @@ YOLO<OutputLayerType, InitializationRuleType, YOLOVersion>::YOLO(
 
     size_t numBlocks = 5;
     size_t outChannels = 16;
-    for (size_t blockId = 0; blockId < 4; blockId++)
+    for (size_t blockId = 0; blockId < numBlocks; blockId++)
     {
       ConvolutionBlock(outChannels, outChannels * 2, 3, 3, 1, 1, 1, 1, true);
       PoolingBlock(2);
       outChannels *= 2;
     }
 
-    numBlocks = 2;
-    for (size_t blockId = 0; blockId < numBlocks; blockId++)
-      ConvolutionBlock(outChannels, outChannels, 3, 3, 1, 1, 1, 1, true);
+    ConvolutionBlock(outChannels, outChannels * 2, 3, 3, 1, 1, 1, 1, true);
+    outChannels *= 2;
+    ConvolutionBlock(outChannels, 256, 3, 3, 1, 1, 1, 1, true);
+    outChannels 256;
 
     if (includeTop)
     {
-      yolo.Add(new Linear<>(inputWidth * inputHeight * outChannels, 4096));
-      yolo.Add(new LeakyReLU<>());
-      yolo.Add(4096, featureWidth * featureHeight * (5 *
-          numBoxes + numClasses));
+      yolo.Add(new Linear<>(inputWidth * inputHeight * outChannels,
+          featureWidth * featureHeight * (5 * numBoxes + numClasses)));
       yolo.Add(new Sigmoid<>());
     }
 
