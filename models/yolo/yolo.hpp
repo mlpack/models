@@ -31,8 +31,7 @@
 #include <mlpack/methods/ann/ffn.hpp>
 #include <mlpack/methods/ann/layer/layer_types.hpp>
 #include <mlpack/methods/ann/init_rules/random_init.hpp>
-#include <mlpack/methods/ann/init_rules/he_init.hpp>
-#include <mlpack/methods/ann/init_rules/glorot_init.hpp>
+
 
 namespace mlpack {
 namespace ann /** Artificial Neural Network. */{
@@ -46,8 +45,7 @@ namespace ann /** Artificial Neural Network. */{
  */
 template<
   typename OutputLayerType = NegativeLogLikelihood<>,
-  typename InitializationRuleType = RandomInitialization,
-  std::string YOLOVersion = "v1-tiny"
+  typename InitializationRuleType = RandomInitialization
 >
 class YOLO
 {
@@ -61,6 +59,7 @@ class YOLO
    * @param inputChannels Number of input channels of the input image.
    * @param inputWidth Width of the input image.
    * @param inputHeight Height of the input image.
+   * @param yoloVersion Version of YOLO model.
    * @param numClasses Optional number of classes to classify images into,
    *                   only to be specified if includeTop is  true.
    * @param numBoxes Number of bounding boxes per image.
@@ -72,6 +71,7 @@ class YOLO
   YOLO(const size_t inputChannel,
        const size_t inputWidth,
        const size_t inputHeight,
+       const std::string yoloVersion = "v1-tiny",
        const size_t numClasses = 20,
        const size_t numBoxes = 2,
        const size_t featureSizeWidth = 7,
@@ -85,7 +85,8 @@ class YOLO
    * @param inputShape A three-valued tuple indicating input shape.
    *                   First value is number of Channels (Channels-First).
    *                   Second value is input height.
-   *                   Third value is input width..
+   *                   Third value is input width.
+   * @param yoloVersion Version of YOLO model.
    * @param numClasses Optional number of classes to classify images into,
    *                   only to be specified if includeTop is  true.
    * @param numBoxes Number of bounding boxes per image.
@@ -94,9 +95,10 @@ class YOLO
    * @param weights One of 'none', 'cifar10'(pre-training on CIFAR10) or path to weights.
    */
   YOLO(const std::tuple<size_t, size_t, size_t> inputShape,
+       const std::string yoloVersion = "v1-tiny",
        const size_t numClasses = 1000,
        const size_t numBoxes = 2,
-       const std::tuple<size_t, size_t> featureShape,
+       const std::tuple<size_t, size_t> featureShape = {7, 7},
        const std::string& weights = "none",
        const bool includeTop = true);
 
@@ -146,16 +148,21 @@ class YOLO
         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
         inputHeight));
 
-    // Update inputWidth and input Height.
+    mlpack::Log::Info << "Conv Layer.  ";
+    mlpack::Log::Info << "(" << inputWidth << ", " << inputHeight <<
+        ", " << inSize << ") ----> ";
+
     inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
     inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
+    mlpack::Log::Info << "(" << inputWidth << ", " << inputHeight <<
+        ", " << outSize << ")" << std::endl;
 
     if (batchNorm)
     {
       bottleNeck->Add(new BatchNorm<>(outSize, 1e-8, false));
     }
 
-    bottleNeck->Add(new LeakyReLU<>());
+    bottleNeck->Add(new LeakyReLU<>(0.01));
 
     if (baseLayer != NULL)
       baseLayer->Add(bottleNeck);
@@ -184,9 +191,14 @@ class YOLO
           factor), std::ceil(inputHeight * 1.0 / factor)));
     }
 
+    mlpack::Log::Info << "Pooling Layer.  ";
+    mlpack::Log::Info << "(" << inputWidth << ", " << inputHeight <<
+        ") ----> ";
     // Update inputWidth and inputHeight.
     inputWidth = std::ceil(inputWidth * 1.0 / factor);
     inputHeight = std::ceil(inputHeight * 1.0 / factor);
+
+    mlpack::Log::Info << "(" << inputWidth << ", " << inputHeight << ")" << std::endl;
   }
 
   /**
@@ -232,6 +244,9 @@ class YOLO
 
   //! Locally stored type of pre-trained weights.
   std::string weights;
+
+  //! Locally stored version of yolo model.
+  std::string yoloVersion;
 }; // YOLO class.
 
 } // namespace ann

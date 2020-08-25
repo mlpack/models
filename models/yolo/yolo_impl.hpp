@@ -19,10 +19,9 @@ namespace ann {
 
 template<
     typename OutputLayerType,
-    typename InitializationRuleType,
-    std::string YOLOVersion = "v1-tiny"
+    typename InitializationRuleType
 >
-YOLO<OutputLayerType, InitializationRuleType, YOLOVersion>::YOLO() :
+YOLO<OutputLayerType, InitializationRuleType>::YOLO() :
     inputChannel(0),
     inputWidth(0),
     inputHeight(0),
@@ -30,31 +29,33 @@ YOLO<OutputLayerType, InitializationRuleType, YOLOVersion>::YOLO() :
     numBoxes(0),
     featureWidth(0),
     featureHeight(0),
-    weights("none")
+    weights("none"),
+    yoloVersion("none")
 {
   // Nothing to do here.
 }
 
 template<
     typename OutputLayerType,
-    typename InitializationRuleType,
-    std::string YOLOVersion = "v1-tiny"
+    typename InitializationRuleType
 >
-YOLO<OutputLayerType, InitializationRuleType, YOLOVersion>::YOLO(
+YOLO<OutputLayerType, InitializationRuleType>::YOLO(
   const size_t inputChannel,
   const size_t inputWidth,
   const size_t inputHeight,
+  const std::string yoloVersion,
   const size_t numClasses,
   const size_t numBoxes,
   const size_t featureWidth,
   const size_t featureHeight,
   const std::string& weights,
   const bool includeTop) :
-  YOLO<OutputLayerType, InitializationRuleType, YOLOVersion>(
+  YOLO<OutputLayerType, InitializationRuleType>(
     std::tuple<size_t, size_t, size_t>(
       inputChannel,
       inputWidth,
       inputHeight),
+      yoloVersion,
       numClasses,
       numBoxes,
       std::tuple<size_t, size_t>(featureWidth, featureHeight),
@@ -66,11 +67,11 @@ YOLO<OutputLayerType, InitializationRuleType, YOLOVersion>::YOLO(
 
 template<
      typename OutputLayerType,
-     typename InitializationRuleType,
-     std::string YOLOVersion
+     typename InitializationRuleType
 >
-YOLO<OutputLayerType, InitializationRuleType, YOLOVersion>::YOLO(
+YOLO<OutputLayerType, InitializationRuleType>::YOLO(
     const std::tuple<size_t, size_t, size_t> inputShape,
+    const std::string yoloVersion,
     const size_t numClasses,
     const size_t numBoxes,
     const std::tuple<size_t, size_t> featureShape,
@@ -83,16 +84,17 @@ YOLO<OutputLayerType, InitializationRuleType, YOLOVersion>::YOLO(
     numBoxes(numBoxes),
     featureWidth(std::get<0>(featureShape)),
     featureHeight(std::get<1>(featureShape)),
-    weights(weights)
+    weights(weights),
+    yoloVersion(yoloVersion)
 {
-  std::set<string> supportedVersion({"v1-tiny"});
-  mlpack::Log::Assert(supportedVersion.count(YOLOVersion),
-      "Unsupported YOLO version. Trying to find :", YOLOVersion);
+  std::set<std::string> supportedVersion({"v1-tiny"});
+  mlpack::Log::Assert(supportedVersion.count(yoloVersion),
+      "Unsupported YOLO version. Trying to find :" + yoloVersion);
 
   if (weights == "voc")
   {
     // Download weights here.
-    LoadModel("./../weights/YOLO/yolo" + YOLOVersion + "_voc.bin");
+    LoadModel("./../weights/YOLO/yolo" + yoloVersion + "_voc.bin");
     return;
   }
   else if (weights != "none")
@@ -101,7 +103,7 @@ YOLO<OutputLayerType, InitializationRuleType, YOLOVersion>::YOLO(
     return;
   }
 
-  if (YOLOVersion == "v1-tiny")
+  if (yoloVersion == "v1-tiny")
   {
     yolo.Add(new IdentityLayer<>());
 
@@ -121,13 +123,13 @@ YOLO<OutputLayerType, InitializationRuleType, YOLOVersion>::YOLO(
     ConvolutionBlock(outChannels, outChannels * 2, 3, 3, 1, 1, 1, 1, true);
     outChannels *= 2;
     ConvolutionBlock(outChannels, 256, 3, 3, 1, 1, 1, 1, true);
-    outChannels 256;
+    outChannels = 256;
 
     if (includeTop)
     {
       yolo.Add(new Linear<>(inputWidth * inputHeight * outChannels,
           featureWidth * featureHeight * (5 * numBoxes + numClasses)));
-      yolo.Add(new Sigmoid<>());
+      yolo.Add(new SigmoidLayer<>());
     }
 
     yolo.ResetParameters();
@@ -136,28 +138,26 @@ YOLO<OutputLayerType, InitializationRuleType, YOLOVersion>::YOLO(
 
 template<
     typename OutputLayerType,
-    typename InitializationRuleType,
-    std::string YOLOVersion
+    typename InitializationRuleType
 >
 void YOLO<
-    OutputLayerType, InitializationRuleType, YOLOVersion
+    OutputLayerType, InitializationRuleType
 >::LoadModel(const std::string& filePath)
 {
-  data::Load(filePath, "yolo" + YOLOVersion, yolo);
+  data::Load(filePath, "yolo" + yoloVersion, yolo);
   Log::Info << "Loaded model." << std::endl;
 }
 
 template<
      typename OutputLayerType,
-     typename InitializationRuleType,
-     std::string YOLOVersion
+     typename InitializationRuleType
 >
 void YOLO<
-    OutputLayerType, InitializationRuleType, YOLOVersion
+    OutputLayerType, InitializationRuleType
 >::SaveModel(const std::string& filePath)
 {
   Log::Info<< "Saving model." << std::endl;
-  data::Save(filePath, "yolo" + YOLOVerson, yolo);
+  data::Save(filePath, "yolo" + yoloVersion, yolo);
   Log::Info << "Model saved in " << filePath << "." << std::endl;
 }
 
