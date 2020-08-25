@@ -147,13 +147,14 @@ class TransformerDecoder
     // Masked Self attention layer.
     Sequential<>* maskedSelfAttention = new Sequential<>(false);
     maskedSelfAttention->Add(decoderInput);
-    maskedSelfAttention->Add<MultiheadAttention<
-        arma::mat, arma::mat, RegularizerType>>(
-          tgtSeqLen,
-          tgtSeqLen,
-          dModel,
-          numHeads,
-          attentionMask);
+
+    MultiheadAttention<>* mha1 = new MultiheadAttention<>(tgtSeqLen,
+                                                         tgtSeqLen,
+                                                         dModel,
+                                                         numHeads);
+    mha1->AttentionMask() = attentionMask;
+
+    maskedSelfAttention->Add(mha1);
 
     // Residual connection.
     AddMerge<>* residualAdd1 = new AddMerge<>();
@@ -179,14 +180,13 @@ class TransformerDecoder
     // Encoder-decoder attention.
     Sequential<>* encoderDecoderAttention = new Sequential<>(false);
     encoderDecoderAttention->Add(encoderDecoderAttentionInput);
-    encoderDecoderAttention->Add<MultiheadAttention<
-        arma::mat, arma::mat, RegularizerType>>(
-          tgtSeqLen,
-          srcSeqLen,
-          dModel,
-          numHeads,
-          arma::mat(), // No attention mask to encoder-decoder attention.
-          keyPaddingMask);
+
+    MultiheadAttention<>* mha2 = new MultiheadAttention<>(tgtSeqLen,
+                                                          srcSeqLen,
+                                                          dModel,
+                                                          numHeads);
+    mha2->KeyPaddingMask() = keyPaddingMask;
+    encoderDecoderAttention->Add(mha2);
 
     // Residual connection.
     AddMerge<>* residualAdd2 = new AddMerge<>();

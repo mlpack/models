@@ -40,7 +40,7 @@ TransformerEncoder<ActivationFunction, RegularizerType>::TransformerEncoder(
     keyPaddingMask(keyPaddingMask),
     ownMemory(ownMemory)
 {
-  encoder = new Sequential<arma::mat, arma::mat, false>(false);
+  encoder = new Sequential<>(false);
 
   for (size_t n = 0; n < numLayers; ++n)
   {

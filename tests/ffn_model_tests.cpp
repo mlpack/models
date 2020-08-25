@@ -68,7 +68,7 @@ BOOST_AUTO_TEST_CASE(TransformerEncoderTest)
   mlpack::ann::TransformerEncoder<> encoder(numLayers, srcSeqLen,
       dModel, numHeads, dimFFN, dropout);
 
-  FFN<> model;
+  FFN<NegativeLogLikelihood<>, XavierInitialization> model;
 
   model.Add(encoder.Model());
   model.Add<Linear<>>(dModel * srcSeqLen, vocabSize);
@@ -103,7 +103,7 @@ BOOST_AUTO_TEST_CASE(TransformerDecoderTest)
   mlpack::ann::TransformerDecoder<> decoder(numLayers, tgtSeqLen, srcSeqLen,
       dModel, numHeads, dimFFN, dropout);
 
-  FFN<> model;
+  FFN<NegativeLogLikelihood<>, XavierInitialization> model;
 
   model.Add(decoder.Model());
   model.Add<Linear<>>(dModel * tgtSeqLen, vocabSize);
@@ -148,7 +148,7 @@ BOOST_AUTO_TEST_CASE(TransformerTest)
   mlpack::ann::Transformer<> transformer(numLayers, tgtSeqLen, srcSeqLen,
       tgtVocabSize, srcVocabSize, dModel, numHeads, dimFFN, dropout);
 
-  FFN<> model;
+  FFN<NegativeLogLikelihood<>, XavierInitialization> model;
 
   model.Add(transformer.Model());
   model.Add<Linear<>>(dModel * tgtSeqLen, tgtVocabSize);

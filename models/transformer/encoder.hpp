@@ -95,7 +95,7 @@ class TransformerEncoder
   /**
    * Get the Transformer Encoder Model.
    */
-  Sequential<arma::mat, arma::mat, false>* Model()
+  Sequential<>* Model()
   {
     return encoder;
   }
@@ -140,13 +140,14 @@ class TransformerEncoder
     /* Self attention layer. */
     Sequential<>* selfAttn = new Sequential<>(false);
     selfAttn->Add(input);
-    selfAttn->Add<MultiheadAttention<arma::mat, arma::mat, RegularizerType>>(
-          srcSeqLen,
-          srcSeqLen,
-          dModel,
-          numHeads,
-          attentionMask,
-          keyPaddingMask);
+
+    MultiheadAttention<>* mha = new MultiheadAttention<>(srcSeqLen,
+                                                         srcSeqLen,
+                                                         dModel,
+                                                         numHeads);
+    mha->AttentionMask() = attentionMask;
+    mha->KeyPaddingMask() = keyPaddingMask;
+    selfAttn->Add(mha);
 
     /* This layer adds a residual connection. */
     AddMerge<>* residualAdd = new AddMerge<>();
