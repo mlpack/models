@@ -76,13 +76,17 @@ class Convert
 		tags = tokenize(line);
 		
 		if (to == "xml")
+		{
 			while (std::getline(file, line))
 				create_XML(tags, tokenize(line));
 
+		}
 		else if (to == "json")
+		{
 			while (std::getline(file, line))
 				create_JSON(tags, tokenize(line));
 		
+	
 	}
 
 public:
