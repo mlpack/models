@@ -91,7 +91,7 @@ class YOLO
    *                   only to be specified if includeTop is  true.
    * @param numBoxes Number of bounding boxes per image.
    * @param featureShape A twp-valued tuple indicating width and height of output feature
-   *                    map.
+   *                     map.
    * @param weights One of 'none', 'cifar10'(pre-training on CIFAR10) or path to weights.
    */
   YOLO(const std::tuple<size_t, size_t, size_t> inputShape,
