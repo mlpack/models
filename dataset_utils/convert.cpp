@@ -86,7 +86,7 @@ class Convert
 			while (std::getline(file, line))
 				create_JSON(tags, tokenize(line));
 		
-	
+		}
 	}
 
 public:
