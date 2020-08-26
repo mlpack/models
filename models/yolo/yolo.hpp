@@ -158,9 +158,7 @@ class YOLO
         ", " << outSize << ")" << std::endl;
 
     if (batchNorm)
-    {
       bottleNeck->Add(new BatchNorm<>(outSize, 1e-8, false));
-    }
 
     bottleNeck->Add(new LeakyReLU<>(0.01));
 
