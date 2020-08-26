@@ -55,7 +55,7 @@ TransformerDecoder<ActivationFunction, RegularizerType>::TransformerDecoder(
     keyPaddingMask(keyPaddingMask),
     ownMemory(ownMemory)
 {
-  decoder = new Sequential<>(false);
+  decoder = new Sequential<>();
 
   for (size_t n = 0; n < numLayers; ++n)
   {
@@ -66,11 +66,11 @@ TransformerDecoder<ActivationFunction, RegularizerType>::TransformerDecoder(
       break;
     }
 
-    Sequential<>* decoderBlock = new Sequential<>(false);
+    Sequential<>* decoderBlock = new Sequential<>();
     decoderBlock->Add(AttentionBlock());
     decoderBlock->Add(PositionWiseFFNBlock());
 
-    Concat<>* concatQueryKey = new Concat<>();
+    Concat<>* concatQueryKey = new Concat<>(true);
     concatQueryKey->Add(decoderBlock);
     concatQueryKey->Add<Subview<>>(1, dModel * tgtSeqLen, -1, 0, -1);
 

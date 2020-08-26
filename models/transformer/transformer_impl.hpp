@@ -46,9 +46,9 @@ Transformer<ActivationFunction, RegularizerType>::Transformer(
     keyPaddingMask(keyPaddingMask),
     ownMemory(ownMemory)
 {
-  transformer = new Sequential<>(false);
+  transformer = new Sequential<>();
 
-  Sequential<>* encoder = new Sequential<>(false);
+  Sequential<>* encoder = new Sequential<>();
 
   // Pull out the sequences of source language which is stacked above in the
   // input matrix. Here 'lastCol = -1' denotes upto last batch of input matrix.
@@ -69,7 +69,7 @@ Transformer<ActivationFunction, RegularizerType>::Transformer(
 
   encoder->Add(encoderStack);
 
-  Sequential<>* decoderPE = new Sequential<>(false);
+  Sequential<>* decoderPE = new Sequential<>();
 
   // Pull out the sequences of target language which is stacked below in the
   // input matrix. Here 'lastRow = -1' and 'lastCol = -1' denotes upto last
@@ -78,7 +78,7 @@ Transformer<ActivationFunction, RegularizerType>::Transformer(
   decoderPE->Add<Lookup<>>(tgtVocabSize, dModel);
   decoderPE->Add<PositionalEncoding<>>(dModel, tgtSeqLen);
 
-  Concat<>* encoderDecoderConcat = new Concat<>();
+  Concat<>* encoderDecoderConcat = new Concat<>(true);
   encoderDecoderConcat->Add(encoder);
   encoderDecoderConcat->Add(decoderPE);
 

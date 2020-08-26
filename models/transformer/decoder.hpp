@@ -134,18 +134,18 @@ class TransformerDecoder
    */
   Sequential<>* AttentionBlock()
   {
-    Sequential<>* decoderBlockBottom = new Sequential<>(false);
+    Sequential<>* decoderBlockBottom = new Sequential<>();
     decoderBlockBottom->Add<Subview<>>(1, 0, dModel * tgtSeqLen - 1, 0, -1);
 
     // Broadcast the incoming input to decoder
     // i.e. query into (query, key, value).
-    Concat<>* decoderInput = new Concat<>();
+    Concat<>* decoderInput = new Concat<>(true);
     decoderInput->Add<IdentityLayer<>>();
     decoderInput->Add<IdentityLayer<>>();
     decoderInput->Add<IdentityLayer<>>();
 
     // Masked Self attention layer.
-    Sequential<>* maskedSelfAttention = new Sequential<>(false);
+    Sequential<>* maskedSelfAttention = new Sequential<>();
     maskedSelfAttention->Add(decoderInput);
 
     MultiheadAttention<>* mha1 = new MultiheadAttention<>(tgtSeqLen,
@@ -157,7 +157,7 @@ class TransformerDecoder
     maskedSelfAttention->Add(mha1);
 
     // Residual connection.
-    AddMerge<>* residualAdd1 = new AddMerge<>();
+    AddMerge<>* residualAdd1 = new AddMerge<>(true);
     residualAdd1->Add(maskedSelfAttention);
     residualAdd1->Add<IdentityLayer<>>();
 
@@ -167,19 +167,19 @@ class TransformerDecoder
     decoderBlockBottom->Add<LayerNorm<>>(dModel * tgtSeqLen);
 
     // This layer broadcasts the output of encoder i.e. key into (key, value).
-    Concat<>* broadcastEncoderOutput = new Concat<>();
+    Concat<>* broadcastEncoderOutput = new Concat<>(true);
     broadcastEncoderOutput->Add<Subview<>>(1, dModel * tgtSeqLen, -1, 0, -1);
     broadcastEncoderOutput->Add<Subview<>>(1, dModel * tgtSeqLen, -1, 0, -1);
 
     // This layer concatenates the output of the bottom decoder block (query)
     // and the output of the encoder (key, value).
-    Concat<>* encoderDecoderAttentionInput = new Concat<>();
-    encoderDecoderAttentionInput->Add(decoderBlockBottom);
-    encoderDecoderAttentionInput->Add(broadcastEncoderOutput);
+    Concat<>* encDecAttnInput = new Concat<>(true);
+    encDecAttnInput->Add<Subview<>>(1, 0, dModel * tgtSeqLen - 1, 0, -1);
+    encDecAttnInput->Add(broadcastEncoderOutput);
 
     // Encoder-decoder attention.
-    Sequential<>* encoderDecoderAttention = new Sequential<>(false);
-    encoderDecoderAttention->Add(encoderDecoderAttentionInput);
+    Sequential<>* encoderDecoderAttention = new Sequential<>();
+    encoderDecoderAttention->Add(encDecAttnInput);
 
     MultiheadAttention<>* mha2 = new MultiheadAttention<>(tgtSeqLen,
                                                           srcSeqLen,
@@ -189,11 +189,11 @@ class TransformerDecoder
     encoderDecoderAttention->Add(mha2);
 
     // Residual connection.
-    AddMerge<>* residualAdd2 = new AddMerge<>();
+    AddMerge<>* residualAdd2 = new AddMerge<>(true);
     residualAdd2->Add(encoderDecoderAttention);
-    residualAdd2->Add<IdentityLayer<>>();
+    residualAdd2->Add(decoderBlockBottom);
 
-    Sequential<>* decoderBlock = new Sequential<>(false);
+    Sequential<>* decoderBlock = new Sequential<>();
     decoderBlock->Add(residualAdd2);
     decoderBlock->Add<LayerNorm<>>(dModel * tgtSeqLen);
     return decoderBlock;
@@ -204,18 +204,18 @@ class TransformerDecoder
    */
   Sequential<>* PositionWiseFFNBlock()
   {
-    Sequential<>* positionWiseFFN = new Sequential<>(false);
+    Sequential<>* positionWiseFFN = new Sequential<>();
     positionWiseFFN->Add<Linear3D<>>(dModel, dimFFN);
     positionWiseFFN->Add<ActivationFunction>();
     positionWiseFFN->Add<Linear3D<>>(dimFFN, dModel);
     positionWiseFFN->Add<Dropout<>>(dropout);
 
     /* Residual connection. */
-    AddMerge<>* residualAdd = new AddMerge<>();
+    AddMerge<>* residualAdd = new AddMerge<>(true);
     residualAdd->Add(positionWiseFFN);
     residualAdd->Add<IdentityLayer<>>();
 
-    Sequential<>* decoderBlock = new Sequential<>(false);
+    Sequential<>* decoderBlock = new Sequential<>();
     decoderBlock->Add(residualAdd);
     return decoderBlock;
   }

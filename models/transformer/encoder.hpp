@@ -132,13 +132,13 @@ class TransformerEncoder
    */
   void AttentionBlock()
   {
-    Concat<>* input = new Concat<>();
+    Concat<>* input = new Concat<>(true);
     input->Add<IdentityLayer<>>();
     input->Add<IdentityLayer<>>();
     input->Add<IdentityLayer<>>();
 
     /* Self attention layer. */
-    Sequential<>* selfAttn = new Sequential<>(false);
+    Sequential<>* selfAttn = new Sequential<>();
     selfAttn->Add(input);
 
     MultiheadAttention<>* mha = new MultiheadAttention<>(srcSeqLen,
@@ -150,7 +150,7 @@ class TransformerEncoder
     selfAttn->Add(mha);
 
     /* This layer adds a residual connection. */
-    AddMerge<>* residualAdd = new AddMerge<>();
+    AddMerge<>* residualAdd = new AddMerge<>(true);
     residualAdd->Add(selfAttn);
     residualAdd->Add<IdentityLayer<>>();
 
@@ -163,14 +163,14 @@ class TransformerEncoder
    */
   void PositionWiseFFNBlock()
   {
-    Sequential<>* positionWiseFFN = new Sequential<>(false);
+    Sequential<>* positionWiseFFN = new Sequential<>();
     positionWiseFFN->Add<Linear3D<>>(dModel, dimFFN);
     positionWiseFFN->Add<ActivationFunction>();
     positionWiseFFN->Add<Linear3D<>>(dimFFN, dModel);
     positionWiseFFN->Add<Dropout<>>(dropout);
 
     /* This layer adds a residual connection. */
-    AddMerge<>* residualAdd = new AddMerge<>();
+    AddMerge<>* residualAdd = new AddMerge<>(true);
     residualAdd->Add(positionWiseFFN);
     residualAdd->Add<IdentityLayer<>>();
 
