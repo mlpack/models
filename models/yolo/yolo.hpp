@@ -61,7 +61,7 @@ class YOLO
    * @param inputHeight Height of the input image.
    * @param yoloVersion Version of YOLO model.
    * @param numClasses Optional number of classes to classify images into,
-   *                   only to be specified if includeTop is  true.
+   *     only to be specified if includeTop is  true.
    * @param numBoxes Number of bounding boxes per image.
    * @param featureSizeWidth Width of output feature map.
    * @param featureSizeHeight Height of output feature map.
@@ -83,16 +83,15 @@ class YOLO
    * YOLO constructor intializes input shape and number of classes.
    *
    * @param inputShape A three-valued tuple indicating input shape.
-   *                   First value is number of Channels (Channels-First).
-   *                   Second value is input height.
-   *                   Third value is input width.
+   *     First value is number of Channels (Channels-First).
+   *     Second value is input height. Third value is input width.
    * @param yoloVersion Version of YOLO model.
    * @param numClasses Optional number of classes to classify images into,
-   *                   only to be specified if includeTop is  true.
+   *     only to be specified if includeTop is  true.
    * @param numBoxes Number of bounding boxes per image.
    * @param featureShape A twp-valued tuple indicating width and height of output feature
-   *                     map.
-   * @param weights One of 'none', 'cifar10'(pre-training on CIFAR10) or path to weights.
+   *     map.
+   * @param weights One of 'none', 'voc'(pre-training on VOC) or path to weights.
    */
   YOLO(const std::tuple<size_t, size_t, size_t> inputShape,
        const std::string yoloVersion = "v1-tiny",
@@ -116,7 +115,7 @@ class YOLO
    * Adds Convolution Block.
    *
    * @tparam SequentialType Layer type in which convolution block will
-   *                        be added.
+   *     be added.
    *
    * @param inSize Number of input maps.
    * @param outSize Number of output maps.
@@ -127,9 +126,9 @@ class YOLO
    * @param padW Padding width of the input.
    * @param padH Padding height of the input.
    * @param batchNorm Boolean to determine whether a batch normalization
-   *                  layer is added.
+   *     layer is added.
    * @param baseLayer Layer in which Convolution block will be added, if
-   *                  NULL added to YOLO FFN.
+   *     NULL added to YOLO FFN.
    */
   template<typename SequentialType = Sequential<>>
   void ConvolutionBlock(const size_t inSize,
@@ -173,7 +172,7 @@ class YOLO
    *
    * @param factor The factor by which input dimensions will be divided.
    * @param type One of "max" or "mean". Determines whether add mean pooling
-   *             layer or max pooling layer.
+   *     layer or max pooling layer.
    */
   void PoolingBlock(const size_t factor = 2,
                     const std::string type = "max")

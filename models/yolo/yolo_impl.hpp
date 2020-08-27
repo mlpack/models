@@ -66,8 +66,8 @@ YOLO<OutputLayerType, InitializationRuleType>::YOLO(
 }
 
 template<
-     typename OutputLayerType,
-     typename InitializationRuleType
+    typename OutputLayerType,
+    typename InitializationRuleType
 >
 YOLO<OutputLayerType, InitializationRuleType>::YOLO(
     const std::tuple<size_t, size_t, size_t> inputShape,
@@ -149,8 +149,8 @@ void YOLO<
 }
 
 template<
-     typename OutputLayerType,
-     typename InitializationRuleType
+    typename OutputLayerType,
+    typename InitializationRuleType
 >
 void YOLO<
     OutputLayerType, InitializationRuleType
