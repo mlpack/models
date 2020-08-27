@@ -100,7 +100,7 @@ class PreProcessor
    * the size : gridWidth * gridHeight * (5 * numBoxes + classes).
    *
    * @param annotations Field object created using model's dataloader containing
-   *                    annotation for images.
+   *     annotation for images.
    * @param output Output matrix where output will be stored.
    * @param imageWidth Width of image used for training YOLO model.
    * @param imageHeight Height of image used for training YOLO model.
@@ -152,7 +152,7 @@ class PreProcessor
     for (size_t boxIdx = 0; boxIdx < batchSize; boxIdx++)
     {
       arma::cube outputTemp(const_cast<arma::Mat<eT> &>(output).memptr() +
-        offset, gridHeight, gridWidth, numPredictions, false, false);
+          offset, gridHeight, gridWidth, numPredictions, false, false);
       offset += gridWidth * gridHeight * numPredictions;
 
       // Get the bounding box and labels corresponding to current image.
@@ -166,8 +166,8 @@ class PreProcessor
       }
 
       // For YOLOv2 or higher, each bounding box can represent a class
-      //  so we don't repeat labels as done for YOLOv1. We will use map
-      //  to store last inserted bounding box.
+      // so we don't repeat labels as done for YOLOv1. We will use map
+      // to store last inserted bounding box.
       std::map<std::pair<size_t, size_t>, size_t> boundingBoxOffset;
 
       // Normalize the coordinates.
@@ -206,7 +206,6 @@ class PreProcessor
           gridCoordinates(1) = std::ceil((gridCoordinates(1) /
               imageHeight) / cellSizeHeight) - 1;
         }
-
 
         size_t gridX = gridCoordinates(0);
         size_t gridY = gridCoordinates(1);
