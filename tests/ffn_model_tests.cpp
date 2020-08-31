@@ -14,6 +14,7 @@
 #include <ensmallen.hpp>
 #include <dataloader/dataloader.hpp>
 #include <models/darknet/darknet.hpp>
+#include <models/yolo/yolo.hpp>
 #include <boost/test/unit_test.hpp>
 
 // Use namespaces for convenience.
@@ -40,6 +41,21 @@ BOOST_AUTO_TEST_CASE(DarknetModelTest)
   darknet53.GetModel().Predict(input, output);
   BOOST_REQUIRE_EQUAL(output.n_cols, 1);
   BOOST_REQUIRE_EQUAL(output.n_rows, 1000);
+}
+
+/**
+ * Simple test for YOLOv1 model.
+ */
+BOOST_AUTO_TEST_CASE(YOLOV1ModelTest)
+{
+  mlpack::ann::YOLO<> yolo(3, 448, 448);
+  arma::mat input(448 * 448 * 3, 1), output;
+  input.ones();
+
+  // Check output shape.
+  yolo.GetModel().Predict(input, output);
+  BOOST_REQUIRE_EQUAL(output.n_cols, 1);
+  BOOST_REQUIRE_EQUAL(output.n_rows, 7 * 7 * (5 * 2 + 20));
 }
 
 BOOST_AUTO_TEST_SUITE_END();
