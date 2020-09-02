@@ -71,6 +71,7 @@ class Convert
 		std::ifstream file(path);
 		std::string line;
 		std::vector<std::string> col_names;
+		
 		std::getline(file, line);
 		tags = tokenize(line);
 
