@@ -16,16 +16,14 @@ using namespace boost;
 
 class Convert
 {
-	auto tokenize(std::string& line)
-	{
-		std::vector<std::string> col_names;
-
-		tokenizer<escaped_list_separator<char> > tk(line, escaped_list_separator<char>());
-		for (tokenizer<escaped_list_separator<char> >::iterator i(tk.begin()); i != tk.end(); ++i)
-			col_names.push_back(*i);
-
-		return col_names;
-	}
+  auto tokenize(std::string& line)
+  {
+    std::vector<std::string> col_names;
+    tokenizer<escaped_list_separator<char> > tk(line, escaped_list_separator<char>());
+    for (tokenizer<escaped_list_separator<char> >::iterator i(tk.begin()); i != tk.end(); ++i)
+      col_names.push_back(*i);
+    return col_names;
+  }
 
 	auto create_XML(std::vector<std::string>& tags, std::vector<std::string> rows)
 	{
