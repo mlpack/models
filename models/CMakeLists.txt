@@ -5,6 +5,7 @@ project(models)
 set(DIRS
   darknet
   transformer
+  yolo
 )
 
 foreach(dir ${DIRS})
