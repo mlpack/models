@@ -349,5 +349,31 @@ class Utils
     else
       mlpack::Log::Fatal << "Unable to open vocabulary file!" << std::endl;
   }
+
+  /**
+   * Remove whitespaces.
+   *
+   * @param input The sequence from which white spaces has to be removed.
+   * @param output The vector of tokens after removing whitespaces.
+   */
+  static void RemoveWhitespace(const std::string& input,
+                               std::vector<std::string>& output)
+  {
+    std::string token = "";
+
+    for (size_t i = 0; i < input.size(); ++i)
+    {
+      if (input[i] == ' ')
+      {
+        output.push_back(token);
+        token = "";
+      }
+      else
+      {
+        token += input[i];
+      }
+    }
+    output.push_back(token);
+  }
 };
 #endif
