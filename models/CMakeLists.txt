@@ -5,6 +5,7 @@ project(models)
 set(DIRS
   darknet
   bert
+  yolo
 )
 
 foreach(dir ${DIRS})
