@@ -199,6 +199,7 @@ Currently model-zoo project has the following models implemented:
 | --- | --- | --- | --- |
 |  Darknet&nbsp;19 | DarkNet<NegativeLogLikelihood<>, HeInitialization, 19>&nbsp;darknet19({imageDepth, imageWidth, imageHeight}, numClasses)| ImageNet |[YOLO9000](https://pjreddie.com/media/files/papers/YOLO9000.pdf)|
 |  Darknet&nbsp;53 | DarkNet<NegativeLogLikelihood<>, HeInitialization, 53>&nbsp;darknet19({imageDepth, imageWidth, imageHeight}, numClasses)| ImageNet |[YOLOv3](https://pjreddie.com/media/files/papers/YOLOv3.pdf)|
+| YOLOv1 | YOLO<>&nbsp;yolov1({imageDepth, imageWidth, imageHeight}, numClasses)| VOC |[YOLO](https://arxiv.org/pdf/1506.02640.pdf)|
 
 All models can be included as shown below :
 ```cpp
