@@ -54,6 +54,7 @@ main mlpack repository.)_
              spirit) >= 1.58
       CMake          >= 3.3.2
       ensmallen      >= 2.10.0
+      opencv         >= 2.x
 
 To install mlpack refer to the [installation
 guide](https://www.mlpack.org/docs.html) that's available in the mlpack
@@ -173,7 +174,7 @@ For all datasets that we support we provide, We preprocess them internally. We a
 provide access to preprocessor functions for standard datasets incase one needs to
 apply them to their datasets.
 
-They can simply be called as follows by calling static functions of ProProcess class i.e.
+They can simply be called as follows by calling static functions of PreProcess class i.e.
 PreProcess::SupportedDatasetName
 
 ```cpp
@@ -205,5 +206,13 @@ All models can be included as shown below :
 ```cpp
 #include <models/Model-ClassName/Model_ClassName.hpp>
 ```
+
+### 7. Visualization Tools
+
+We use open cv to visulize plots such as bounding boxes. The visualization functions are static functions that are a part of `VisualizationTools` class.
+
+`VisualizationTools::FunctionName(paramters);`
+
+For more details, take a look at our wiki page.
 
 For more information about usage, take a look at our wiki page.
