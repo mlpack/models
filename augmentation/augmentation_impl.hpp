@@ -38,6 +38,16 @@ void Augmentation::Transform(DatasetType& dataset,
       this->ResizeTransform(dataset, datapointWidth, datapointHeight,
         datapointDepth, augmentations[i]);
     }
+    else if(this->HasHorizontalFlipParam(augmentations[i]))
+    {
+      this->HorizontalFlipTransform(dataset, datapointWidth, datapointHeight,
+        datapointDepth, augmentations[i]);
+    }
+    else if(this->HasVerticalFlipParam(augmentations[i]))
+    {
+      this->VerticalFlipTransform(dataset, datapointWidth, datapointHeight,
+        datapointDepth, augmentations[i]);
+    }
     else
     {
       mlpack::Log::Warn << "Unknown augmentation : \'" <<
@@ -68,6 +78,50 @@ void Augmentation::ResizeTransform(
   DatasetType output;
   resizeLayer.Forward(dataset, output);
   dataset = std::move(output);
+}
+
+template<typename DatasetType>
+void Augmentation::HorizontalFlipTransform(
+    DatasetType& dataset,
+    const size_t datapointWidth,
+    const size_t datapointHeight,
+    const size_t datapointDepth,
+    const std::string& augmentation)
+{
+  bool ishortiflip = false;
+  // Get ishortiflip.
+  GetHorizontalFlipParam(ishortiflip, augmentation);
+ // if(!ishortiflip) return ;
+
+  // We will use mlpack's split to split the dataset.
+  auto splitResult = mlpack::data::Split(dataset, augmentationProbability);
+  // We will use arma's fliplr to flip the columns.
+  std::get<1>(splitResult) = (arma::fliplr(std::get<1>(splitResult)));
+  dataset = arma::join_rows( std::get<0>(splitResult), std::get<1>(splitResult) );
+  dataset = std::move(dataset);
+
+}
+
+template<typename DatasetType>
+void Augmentation::VerticalFlipTransform(
+    DatasetType& dataset,
+    const size_t datapointWidth,
+    const size_t datapointHeight,
+    const size_t datapointDepth,
+    const std::string& augmentation)
+{
+  bool isvertiflip = false;
+  // Get isvertiflip.
+  GetVerticalFlipParam(isvertiflip, augmentation);
+  if(!isvertiflip) return ;
+
+  // We will use mlpack's split to split the dataset.
+  auto splitResult = mlpack::data::Split(dataset, augmentationProbability);
+  // We will use arma's flipud to flip the rows.
+  std::get<1>(splitResult) = (arma::flipud(std::get<1>(splitResult)));
+  dataset = arma::join_rows( std::get<0>(splitResult), std::get<1>(splitResult) );
+  dataset = std::move(dataset);
+
 }
 
 #endif

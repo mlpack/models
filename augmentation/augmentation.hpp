@@ -12,6 +12,7 @@
 
 #include <mlpack/methods/ann/layer/bilinear_interpolation.hpp>
 #include <mlpack/core/util/to_lower.hpp>
+#include <mlpack/core/data/split_data.hpp>
 #include <boost/regex.hpp>
 
 #ifndef MODELS_AUGMENTATION_HPP
@@ -105,7 +106,49 @@ class Augmentation
                        const size_t datapointDepth,
                        const std::string& augmentation);
 
- private:
+  /**
+   * Applies horizontal flip transform to the splited dataset.
+   *
+   * @tparam DatasetType Datatype on which augmentation will be done.
+   *
+   * @param dataset Dataset on which augmentation will be applied.
+   * @param datapointWidth Width of a single data point i.e.
+   *                       Since each column represents a seperate data
+   *                       point.
+   * @param datapointHeight Height of a single data point.
+   * @param datapointDepth Depth of a single data point. For one 2-dimensional
+   *                       data point, set it to 1. Defaults to 1.
+   * @param augmentation String containing the transform.
+   */
+  template<typename DatasetType>
+  void HorizontalFlipTransform(DatasetType& dataset,
+                       const size_t datapointWidth,
+                       const size_t datapointHeight,
+                       const size_t datapointDepth,
+                       const std::string& augmentation);
+
+    /**
+   * Applies verticle flip transform to the splited dataset.
+   *
+   * @tparam DatasetType Datatype on which augmentation will be done.
+   *
+   * @param dataset Dataset on which augmentation will be applied.
+   * @param datapointWidth Width of a single data point i.e.
+   *                       Since each column represents a seperate data
+   *                       point.
+   * @param datapointHeight Height of a single data point.
+   * @param datapointDepth Depth of a single data point. For one 2-dimensional
+   *                       data point, set it to 1. Defaults to 1.
+   * @param augmentation String containing the transform.
+   */
+  template<typename DatasetType>
+  void VerticalFlipTransform(DatasetType& dataset,
+                       const size_t datapointWidth,
+                       const size_t datapointHeight,
+                       const size_t datapointDepth,
+                       const std::string& augmentation);
+
+private:
   /**
    * Function to determine if augmentation has Resize function.
    *
@@ -170,7 +213,119 @@ class Augmentation
     }
   }
 
-  //! Locally held augmentations and transforms that need to be applied.
+/**
+   * Function to determine if augmentation has horizontal-flip function.
+   *
+   * @param augmentation Optional argument to check if a string has
+   *                     horizontal-flip substring.
+   */
+  bool HasHorizontalFlipParam(const std::string& augmentation = "")
+  {
+    if (augmentation.length())
+      return augmentation.find("horizontal-flip") != std::string::npos;
+
+
+    // Search in augmentation vector.
+    for(size_t i=0; i<augmentations.size(); i++)
+    {
+      if(augmentations[i].find("horizontal-flip") != std::string::npos)
+          return true;
+    }
+    return false;
+
+  }
+
+  /**
+   * Function to determine if augmentation has vertical-flip function.
+   *
+   * @param augmentation Optional argument to check if a string has
+   *                     vertical-flip substring.
+   */
+  bool HasVerticalFlipParam(const std::string& augmentation = "")
+  {
+    if (augmentation.length())
+      return augmentation.find("vertical-flip") != std::string::npos;
+
+
+    // Search in augmentation vector.
+    for(size_t i=0; i<augmentations.size(); i++)
+    {
+      if(augmentations[i].find("vertical-flip") != std::string::npos)
+          return true;
+    }
+    return false;
+
+  }
+
+  /**
+   * find if new data should horizontal flipped.
+   *
+   * @param ishortiflip Output is horizontal flipped or not.
+   * @param augmentation String from boolean value is extracted.
+   */
+  void GetHorizontalFlipParam(bool& ishortiflip,
+                      const std::string& augmentation)
+  {
+    if (!HasHorizontalFlipParam())
+      return;
+
+    ishortiflip = false;
+
+    // Use regex to find true or false.
+    boost::regex regex{"(?:true|false)"};
+
+    // Create an iterator to find matches.
+    boost::sregex_token_iterator matches(augmentation.begin(),
+        augmentation.end(), regex, 0), end;
+
+    size_t matchesCount = std::distance(matches, end);
+
+    if (matchesCount == 1)
+    {
+      ishortiflip = (*matches) == "true" ? true:false;
+    }
+    else
+    {
+        mlpack::Log::Fatal << "Invalid boolean value in " <<
+          augmentation << std::endl;
+    }
+  }
+
+    /**
+   * find if new data should vertical flipped.
+   *
+   * @param isvertiflip Output is verticalr flipped or not.
+   * @param augmentation String from boolean value is extracted.
+   */
+  void GetVerticalFlipParam(bool& isvertiflip,
+                      const std::string& augmentation)
+  {
+    if (!HasVerticalFlipParam())
+      return;
+
+    isvertiflip = false;
+
+    // Use regex to find true or false.
+    boost::regex regex{"^(?i)(true|false)$"};
+
+    // Create an iterator to find matches.
+    boost::sregex_token_iterator matches(augmentation.begin(),
+        augmentation.end(), regex, 0), end;
+
+    size_t matchesCount = std::distance(matches, end);
+
+    if (matchesCount == 1)
+    {
+      isvertiflip = (*matches) == "true" ? true:false;
+    }
+    else
+    {
+        mlpack::Log::Fatal << "Invalid boolean value in " <<
+          augmentation << std::endl;
+    }
+  }
+
+//! Locally held augmentations and transforms that need to be applied.
   std::vector<std::string> augmentations;
 
   //! Locally held value of augmentation probability.
