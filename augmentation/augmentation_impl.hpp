@@ -1,6 +1,6 @@
 /**
  * @file augmentation_impl.hpp
- * @author Kartik Dutt
+ * @author Kartik Dutt, Ritu Raj Singh
  * 
  * Implementation of Augmentation class for augmenting data.
  *
@@ -36,16 +36,6 @@ void Augmentation::Transform(DatasetType& dataset,
     else if (this->HasResizeParam(augmentations[i]))
     {
       this->ResizeTransform(dataset, datapointWidth, datapointHeight,
-        datapointDepth, augmentations[i]);
-    }
-    else if(this->HasHorizontalFlipParam(augmentations[i]))
-    {
-      this->HorizontalFlipTransform(dataset, datapointWidth, datapointHeight,
-        datapointDepth, augmentations[i]);
-    }
-    else if(this->HasVerticalFlipParam(augmentations[i]))
-    {
-      this->VerticalFlipTransform(dataset, datapointWidth, datapointHeight,
         datapointDepth, augmentations[i]);
     }
     else
@@ -88,11 +78,6 @@ void Augmentation::HorizontalFlipTransform(
     const size_t datapointDepth,
     const std::string& augmentation)
 {
-  bool ishortiflip = false;
-  // Get ishortiflip.
-  GetHorizontalFlipParam(ishortiflip, augmentation);
- // if(!ishortiflip) return ;
-
   // We will use mlpack's split to split the dataset.
   auto splitResult = mlpack::data::Split(dataset, augmentationProbability);
   // We will use arma's fliplr to flip the columns.
@@ -110,11 +95,6 @@ void Augmentation::VerticalFlipTransform(
     const size_t datapointDepth,
     const std::string& augmentation)
 {
-  bool isvertiflip = false;
-  // Get isvertiflip.
-  GetVerticalFlipParam(isvertiflip, augmentation);
-  if(!isvertiflip) return ;
-
   // We will use mlpack's split to split the dataset.
   auto splitResult = mlpack::data::Split(dataset, augmentationProbability);
   // We will use arma's flipud to flip the rows.
