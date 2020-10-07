@@ -213,7 +213,7 @@ private:
     }
   }
 
-//! Locally held augmentations and transforms that need to be applied.
+  //! Locally held augmentations and transforms that need to be applied.
   std::vector<std::string> augmentations;
 
   //! Locally held value of augmentation probability.

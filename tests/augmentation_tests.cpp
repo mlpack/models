@@ -42,8 +42,8 @@ BOOST_AUTO_TEST_CASE(ResizeAugmentationTest)
   input.zeros(inputWidth * inputHeight * depth, 2);
 
   // Rectangular input to sqaure output.
-  std::vector<std::string> augmentationVector = {"horizontal-flip : true",
-      "resize : 8", "resize : 8"};
+  std::vector<std::string> augmentationVector = {"horizontal-flip",
+      "resize : 8"};
   Augmentation augmentation2(augmentationVector, 0.2);
 
   // Resize function called.
