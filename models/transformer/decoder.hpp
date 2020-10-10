@@ -52,7 +52,6 @@ class TransformerDecoder
    * @param numLayers The number of decoder blocks.
    * @param tgtSeqLen Target Sequence Length.
    * @param srcSeqLen Source Sequence Length.
-   * @param memoryModule The last Encoder module.
    * @param dModel The number of features in the input. Also, same as the
    *        `embedDim` in `MultiheadAttention` layer.
    * @param numHeads The number of attention heads.
@@ -90,12 +89,17 @@ class TransformerDecoder
   /**
    * Move constructor.
    */
-  TransformerDecoder(const TransformerDecoder&& ) = delete;
+  TransformerDecoder(TransformerDecoder&& ) = delete;
 
   /**
    * Copy assignment operator.
    */
   TransformerDecoder& operator = (const TransformerDecoder& ) = delete;
+
+  /**
+   * Move assignment operator.
+   */
+  TransformerDecoder& operator = (TransformerDecoder&& ) = delete;
 
   /**
    * Get the Transformer Decoder model.
@@ -149,9 +153,9 @@ class TransformerDecoder
     maskedSelfAttention->Add(decoderInput);
 
     MultiheadAttention<>* mha1 = new MultiheadAttention<>(tgtSeqLen,
-                                                         tgtSeqLen,
-                                                         dModel,
-                                                         numHeads);
+                                                          tgtSeqLen,
+                                                          dModel,
+                                                          numHeads);
     mha1->AttentionMask() = attentionMask;
 
     maskedSelfAttention->Add(mha1);
