@@ -1,6 +1,6 @@
-/**
+/**Adding support for more data types to mlpack, it would be preferable to add the support upstream to Armadillo instead, so that may be a better direction to go first. Then very little code modification for mlpack will be necessary./**
  * @file augmentation_impl.hpp
- * @author Kartik Dutt
+ * @author Kartik Dutt, Sirish
  * 
  * Implementation of Augmentation class for augmenting data.
  *
@@ -38,7 +38,12 @@ void Augmentation::Transform(DatasetType& dataset,
       this->ResizeTransform(dataset, datapointWidth, datapointHeight,
         datapointDepth, augmentations[i]);
     }
-    else
+    else if(this->HasBlurring(augmentations[i]))
+    {
+      this->GaussianBlurTransform(dataset, datapointWidth, datapointHeight,
+        datapointDepth, augmentations[i]);
+    }
+    else 
     {
       mlpack::Log::Warn << "Unknown augmentation : \'" <<
           augmentations[i] << "\' not found!" << std::endl;
@@ -68,6 +73,51 @@ void Augmentation::ResizeTransform(
   DatasetType output;
   resizeLayer.Forward(dataset, output);
   dataset = std::move(output);
+}
+
+template<typename DatasetType>
+void Augmentation::GaussianBlurTransform(
+    DatasetType& dataset,
+    const size_t datapointWidth,
+    const size_t datapointHeight,
+    const size_t datapointDepth,
+    const std::string& augmentation)
+{
+  //Implementing using http://blog.ivank.net/fastest-gaussian-blur.html
+  size_t sigma = 0;
+  GetBlurParam(sigma,augmentation);
+
+  DatasetType bImage(datapointHeight, datapointWidth, datapointDepth);
+  dataset = arma::resize(dataset,datapointHeight,datapointWidth,datapointDepth);
+
+  //Significant radius
+  sradius = arma::ceil(sigma * 2.57);
+
+  for (size_t k = 0; k < datapointDepth; k++)
+  {
+    for (size_t i = 0; i < datapointHeight; i++)
+    {
+      for (size_t j = 0; j < datapointWidth; j++)
+      {
+        size_t val = 0;
+        size_t wsum = 0;
+        for (size_t iy = i - rs; iy <= i + rs; iy++)
+        {
+          for (size_t ix = j - rs; ix <= j + rs; ix++)
+          {
+            size_t x,y;
+            x = arma::min(datapointWidth - 1, arma::max(0, ix))
+            y = arma::min(datapointHeight - 1, arma::max(0, iy))
+            dsq = (ix - j) * (ix - j) + (iy - i) * (iy - i)
+            weight = arma::exp(-dsq / (2 * r * r)) / (datum::pi * 2 * r * r)
+            val += dataset(y,x,k)* weight
+            wsum += weight 
+        }
+      }
+      bImage(i,j,k) = arma::round(val / wsum)
+    }
+  }
+  dataset = std::move(bImage);
 }
 
 #endif
