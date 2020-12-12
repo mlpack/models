@@ -125,15 +125,16 @@ void Augmentation::GaussianBlurTransform(
             // Summing all weighted contributions
             val += dataset(y,x,k)* weight
             wsum += weight 
+          }
         }
-      }
       // Blurred image
       bImage(i,j,k) = arma::round(val / wsum)
+      }
     }
   }
+
   //Restoring the blurred image to original dimensions as that of input
   bImage = arma::resize(bImage,rows,cols,depth);
   dataset = std::move(bImage);
 }
-
 #endif
