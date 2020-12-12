@@ -237,7 +237,7 @@ class Augmentation
 
     if (matchesCount != 1)
     {
-      mlpack::Log::Fatal << "Invalid sigma for gaussian blurring" <<
+      mlpack::Log::Fatal << "Invalid sigma/ radius for gaussian blurring" <<
           augmentation << std::endl;
     }
     else
