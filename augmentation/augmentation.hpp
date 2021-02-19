@@ -176,8 +176,8 @@ class Augmentation
   //! Locally held value of augmentation probability.
   double augmentationProbability;
 
-  // The augmentation class should have access to internal functions of
-  // the dataloader.
+  // The dataloader class should have access to internal functions of
+  // the augmentation class.
   template<typename DatasetX, typename DatasetY, class ScalerType>
   friend class DataLoader;
 };
