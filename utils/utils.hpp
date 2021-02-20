@@ -29,7 +29,7 @@ class Utils
  public:
   /**
    * Determines whether a path exists.
-   * 
+   *
    * @param path Global or relative path.
    * @param absolutePath Boolean to determine if path is absolute or relative.
    * @return true if path exists else false. Defaults to false.
@@ -328,6 +328,52 @@ class Utils
     {
       mlpack::Log::Warn << "The " << path << " doesn't exist." << std::endl;
     }
+  }
+
+  /**
+   * Loads a vocabulary file and stores the content into an unordered map.
+   *
+   * @param vocabPath The path to the vocabulary file.
+   * @param vocabulary Stores the vocabulary content along with indices.
+   */
+  static void LoadVocabulary(const std::string vocabPath,
+      std::unordered_map<std::string, size_t>& vocabulary)
+  {
+    std::string token;
+    std::ifstream vocabFile(vocabPath);
+    if (vocabFile.is_open())
+    {
+      for (size_t i = 0; std::getline(vocabFile, token); ++i)
+        vocabulary[token] = i;
+    }
+    else
+      mlpack::Log::Fatal << "Unable to open vocabulary file!" << std::endl;
+  }
+
+  /**
+   * Remove whitespaces.
+   *
+   * @param input The sequence from which white spaces has to be removed.
+   * @param output The vector of tokens after removing whitespaces.
+   */
+  static void RemoveWhitespace(const std::string& input,
+                               std::vector<std::string>& output)
+  {
+    std::string token = "";
+
+    for (size_t i = 0; i < input.size(); ++i)
+    {
+      if (input[i] == ' ')
+      {
+        output.push_back(token);
+        token = "";
+      }
+      else
+      {
+        token += input[i];
+      }
+    }
+    output.push_back(token);
   }
 };
 #endif

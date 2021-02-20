@@ -16,3 +16,4 @@ data/*
 *.bin
 .travis/configs.hpp
 Testing/*
+.vscode/*
