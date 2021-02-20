@@ -1,6 +1,6 @@
 /**
  * @file augmentation_impl.hpp
- * @author Kartik Dutt
+ * @author Kartik Dutt, Ritu Raj Singh
  * 
  * Implementation of Augmentation class for augmenting data.
  *
@@ -68,6 +68,40 @@ void Augmentation::ResizeTransform(
   DatasetType output;
   resizeLayer.Forward(dataset, output);
   dataset = std::move(output);
+}
+
+template<typename DatasetType>
+void Augmentation::HorizontalFlipTransform(
+    DatasetType& dataset,
+    const size_t datapointWidth,
+    const size_t datapointHeight,
+    const size_t datapointDepth,
+    const std::string& augmentation)
+{
+  // We will use mlpack's split to split the dataset.
+  auto splitResult = mlpack::data::Split(dataset, augmentationProbability);
+  // We will use arma's fliplr to flip the columns.
+  std::get<1>(splitResult) = (arma::fliplr(std::get<1>(splitResult)));
+  dataset = arma::join_rows( std::get<0>(splitResult), std::get<1>(splitResult) );
+  dataset = std::move(dataset);
+
+}
+
+template<typename DatasetType>
+void Augmentation::VerticalFlipTransform(
+    DatasetType& dataset,
+    const size_t datapointWidth,
+    const size_t datapointHeight,
+    const size_t datapointDepth,
+    const std::string& augmentation)
+{
+  // We will use mlpack's split to split the dataset.
+  auto splitResult = mlpack::data::Split(dataset, augmentationProbability);
+  // We will use arma's flipud to flip the rows.
+  std::get<1>(splitResult) = (arma::flipud(std::get<1>(splitResult)));
+  dataset = arma::join_rows( std::get<0>(splitResult), std::get<1>(splitResult) );
+  dataset = std::move(dataset);
+
 }
 
 #endif

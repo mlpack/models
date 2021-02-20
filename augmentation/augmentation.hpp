@@ -12,6 +12,7 @@
 
 #include <mlpack/methods/ann/layer/bilinear_interpolation.hpp>
 #include <mlpack/core/util/to_lower.hpp>
+#include <mlpack/core/data/split_data.hpp>
 #include <boost/regex.hpp>
 
 #ifndef MODELS_AUGMENTATION_HPP
@@ -105,7 +106,49 @@ class Augmentation
                        const size_t datapointDepth,
                        const std::string& augmentation);
 
- private:
+  /**
+   * Applies horizontal flip transform to the splited dataset.
+   *
+   * @tparam DatasetType Datatype on which augmentation will be done.
+   *
+   * @param dataset Dataset on which augmentation will be applied.
+   * @param datapointWidth Width of a single data point i.e.
+   *                       Since each column represents a seperate data
+   *                       point.
+   * @param datapointHeight Height of a single data point.
+   * @param datapointDepth Depth of a single data point. For one 2-dimensional
+   *                       data point, set it to 1. Defaults to 1.
+   * @param augmentation String containing the transform.
+   */
+  template<typename DatasetType>
+  void HorizontalFlipTransform(DatasetType& dataset,
+                       const size_t datapointWidth,
+                       const size_t datapointHeight,
+                       const size_t datapointDepth,
+                       const std::string& augmentation);
+
+    /**
+   * Applies verticle flip transform to the splited dataset.
+   *
+   * @tparam DatasetType Datatype on which augmentation will be done.
+   *
+   * @param dataset Dataset on which augmentation will be applied.
+   * @param datapointWidth Width of a single data point i.e.
+   *                       Since each column represents a seperate data
+   *                       point.
+   * @param datapointHeight Height of a single data point.
+   * @param datapointDepth Depth of a single data point. For one 2-dimensional
+   *                       data point, set it to 1. Defaults to 1.
+   * @param augmentation String containing the transform.
+   */
+  template<typename DatasetType>
+  void VerticalFlipTransform(DatasetType& dataset,
+                       const size_t datapointWidth,
+                       const size_t datapointHeight,
+                       const size_t datapointDepth,
+                       const std::string& augmentation);
+
+private:
   /**
    * Function to determine if augmentation has Resize function.
    *
