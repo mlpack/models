@@ -156,6 +156,8 @@ if (NOT ENSMALLEN_FOUND)
   endif ()
 endif ()
 
+#find_package(OpenCV REQUIRED)
+
 # Unfortunately this configuration variable is necessary and will need to be
 # updated as time goes on and new versions are released.
 set(Boost_ADDITIONAL_VERSIONS
@@ -196,10 +198,12 @@ set(MODELS_INCLUDE_DIRS ${MLPACK_INCLUDE_DIR}
                         ${ENSMALLEN_INCLUDE_DIR}
                         ${ARMADILLO_INCLUDE_DIR}
                         ${Boost_INCLUDE_DIRS})
+#                        ${OpenCV_INCLUDE_DIRS})
 
 set(MODELS_LIBRARIES ${MLPACK_LIBRARY}
                      ${ARMADILLO_LIBRARIES}
                      ${Boost_LIBRARIES})
+#                     ${OpenCV_LIBS})
 
 include_directories(${MODELS_INCLUDE_DIRS})
 
@@ -219,6 +223,7 @@ set(DIRS
   dataloader/
   models/
   tests/
+#  visualization_tools/
 )
 
 foreach(dir ${DIRS})
