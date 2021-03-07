@@ -3,6 +3,7 @@ project(models)
 
 add_subdirectory(darknet)
 add_subdirectory(yolo)
+add_subdirectory(vgg16)
 
 # Add directory name to sources.
 set(DIR_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/)
