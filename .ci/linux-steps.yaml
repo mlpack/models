@@ -7,6 +7,10 @@ steps:
 # Install Build Dependencies.
 # Install mlpack from master to get new functionalities instantly.
 - script: |
+    # Install cereal.
+    wget https://github.com/USCiLab/cereal/archive/v1.3.0.tar.gz
+    tar -xvzpf v1.3.0.tar.gz # Unpack into cereal-1.3.0/.
+
     git clone --depth 1 https://github.com/mlpack/jenkins-conf.git conf
     git clone --depth 1 https://github.com/mlpack/mlpack.git
 
