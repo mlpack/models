@@ -170,7 +170,7 @@ We provide support to load annotations represented in XML files and their corres
 #### 3. Preprocessing.
 
 For all datasets that we support we provide, We preprocess them internally. We also
-provide access to preprocessor functions for standard datasets in-case one needs to
+provide access to preprocessor functions for standard datasets in case one needs to
 apply them to their datasets.
 
 They can simply be called as follows by calling static functions of ProProcess class i.e.
