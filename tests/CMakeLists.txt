@@ -6,7 +6,7 @@ enable_testing()
 set(MODEL_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/)
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../")
 
-add_executable(models_test
+add_executable(models_catch_test
                augmentation_tests.cpp
                ffn_model_tests.cpp
                dataloader_tests.cpp
@@ -15,11 +15,10 @@ add_executable(models_test
 )
 
 # Link dependencies of test executable.
-target_link_libraries(models_test
+target_link_libraries(models_catch_test
   ${COMPILER_SUPPORT_LIBRARIES}
   ${ARMADILLO_LIBRARIES}
   ${Boost_FILESYSTEM_LIBRARY}
-  ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
   ${Boost_SYSTEM_LIBRARY}
   ${Boost_SERIALIZATION_LIBRARY}
   ${Boost_REGEX_LIBRARY}
@@ -28,7 +27,7 @@ target_link_libraries(models_test
 
 # Add tests to the testing framework.
 # Get the list of sources from the test target.
-get_target_property(test_sources models_test SOURCES)
+get_target_property(test_sources models_catch_test SOURCES)
 
 # Go through the list of test sources and parse the test suite name.
 foreach(test_file ${test_sources})

@@ -9,17 +9,11 @@
  * 3-clause BSD license along with mlpack.  If not, see
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
-
-#define BOOST_TEST_DYN_LINK
 #include <dataloader/preprocessor.hpp>
 #include <dataloader/dataloader.hpp>
-#include <boost/test/unit_test.hpp>
+#include "catch.hpp"
 
-using namespace boost::unit_test;
-
-BOOST_AUTO_TEST_SUITE(PreProcessorsTest);
-
-BOOST_AUTO_TEST_CASE(YOLOPreProcessor)
+TEST_CASE("YOLOPreProcessor", "[PreProcessorsTest]")
 {
   arma::field<arma::vec> input;
   input.set_size(1, 1);
@@ -32,7 +26,7 @@ BOOST_AUTO_TEST_CASE(YOLOPreProcessor)
   // Single input check.
   PreProcessor<arma::mat, arma::field<arma::vec>>::YOLOPreProcessor(
       input, output, 1, 500, 387);
-  BOOST_REQUIRE_CLOSE(arma::accu(output), 8.3342, 1e-3);
+  REQUIRE(arma::accu(output) == Approx(8.3342).epsilon(1e-5));
 
   input.clear();
   input.set_size(1, 3);
@@ -56,13 +50,13 @@ BOOST_AUTO_TEST_CASE(YOLOPreProcessor)
   arma::vec desiredSum(3);
   desiredSum << 8.3342 << 18.4093 << 7.13195 << arma::endr;
   for (size_t i = 0; i < output.n_cols; i++)
-    BOOST_REQUIRE_CLOSE(arma::accu(output.col(i)), desiredSum(i), 1e-3);
+    REQUIRE(arma::accu(output.col(i)) == Approx(desiredSum(i)).epsilon(1e-5));
 
   desiredSum << 4.6671 << 10.70465 << 4.065975 << arma::endr;
   PreProcessor<arma::mat, arma::field<arma::vec>>::YOLOPreProcessor(
       input, output, 3, 500, 387);
   for (size_t i = 0; i < output.n_cols; i++)
-    BOOST_REQUIRE_CLOSE(arma::accu(output.col(i)), desiredSum(i), 1e-3);
+    REQUIRE(arma::accu(output.col(i)) == Approx(desiredSum(i)).epsilon(1e-5));
 
 
   // For better unit testing, we create a very small output grid of size
@@ -94,10 +88,8 @@ BOOST_AUTO_TEST_CASE(YOLOPreProcessor)
   for (size_t i = 0; i < output.n_elem; i++)
   {
     if (std::abs(output(i)) < tolerance / 2)
-      BOOST_REQUIRE_SMALL(desiredOutput(i), tolerance / 2);
+      BOOST_REQUIRE_SMALL(desiredOutput(i) == Approx(0.0).margin(tolerance / 2));
     else
-      BOOST_REQUIRE_CLOSE(desiredOutput(i), output(i), 1e-2);
+      REQUIRE(desiredOutput(i) == Approx(output(i)).epsilon(1e-2));
   }
 }
-
-BOOST_AUTO_TEST_SUITE_END();

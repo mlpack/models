@@ -9,26 +9,23 @@
  * 3-clause BSD license along with mlpack.  If not, see
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
-#define BOOST_TEST_DYN_LINK
-#include <utils/utils.hpp>
-#include <boost/test/unit_test.hpp>
-using namespace boost::unit_test;
 
-BOOST_AUTO_TEST_SUITE(UtilsTest);
+#include <utils/utils.hpp>
+#include "catch.hpp"
 
 /**
  * Simple test for Data Downloader.
  */
-BOOST_AUTO_TEST_CASE(DownloadFileTest)
+TEST_CASE("DownloadFileTest", "[UtilsTest]")
 {
   // To check downloader, perform the following :
   // 1. Download the file.
   // 2. Check for it's existence.
   // 3. Match checksum for given file.
   Utils::DownloadFile("/datasets/iris.csv", "./../data/iris.csv");
-  BOOST_REQUIRE(Utils::PathExists("./../data/iris.csv"));
-  BOOST_REQUIRE(Utils::CompareCRC32("./../data/iris.csv",
-      "7c30e225"));
+  REQUIRE(Utils::PathExists("./../data/iris.csv") == true);
+  REQUIRE(Utils::CompareCRC32("./../data/iris.csv",
+      "7c30e225") == true);
   // Clean up.
   Utils::RemoveFile("./../data/iris.csv");
 }
@@ -36,12 +33,12 @@ BOOST_AUTO_TEST_CASE(DownloadFileTest)
 /**
  * Simple test for CompareCRC32.
  */
-BOOST_AUTO_TEST_CASE(CheckSumTest)
+TEST_CASE("CheckSumTest", "[UtilsTest]")
 {
   // Download the file and verify it's checksum.
   Utils::DownloadFile("/datasets/iris_test.csv", "./../data/iris_test.csv");
-  BOOST_REQUIRE(Utils::CompareCRC32("./../data/iris_test.csv",
-      "3be1f79e"));
+  REQUIRE(Utils::CompareCRC32("./../data/iris_test.csv",
+      "3be1f79e") == true);
 
   // Clean up.
   Utils::RemoveFile("./../data/iris_test.csv");
@@ -50,17 +47,17 @@ BOOST_AUTO_TEST_CASE(CheckSumTest)
 /**
  * Simple test for PathExists.
  */
-BOOST_AUTO_TEST_CASE(PathExistsTest)
+TEST_CASE("PathExistsTest", "[UtilsTest]")
 {
   // Check for files that exist.
-  BOOST_REQUIRE(Utils::PathExists("./../tests/CMakeLists.txt"));
-  BOOST_REQUIRE(Utils::PathExists("./../CMakeLists.txt"));
+  REQUIRE(Utils::PathExists("./../tests/CMakeLists.txt") == true);
+  REQUIRE(Utils::PathExists("./../CMakeLists.txt") == true);
 }
 
 /**
  * Simple test for RemoveFile.
  */
-BOOST_AUTO_TEST_CASE(RemoveFileTest)
+TEST_CASE("RemoveFileTest", "[UtilsTest]")
 {
   // Check for files that exist.
   bool file = static_cast<bool>(std::ofstream("./../data/file.txt").put('!'));
@@ -70,10 +67,10 @@ BOOST_AUTO_TEST_CASE(RemoveFileTest)
   }
 
   Utils::RemoveFile("./../data/file.txt");
-  BOOST_REQUIRE_EQUAL(Utils::PathExists("./../data/file.txt"), 0);
+  REQUIRE(Utils::PathExists("./../data/file.txt") == 0);
 }
 
-BOOST_AUTO_TEST_CASE(ExtractFilesTest)
+TEST_CASE("ExtractFilesTest", "[UtilsTest]")
 {
   std::vector<boost::filesystem::path> vec;
 
@@ -81,8 +78,8 @@ BOOST_AUTO_TEST_CASE(ExtractFilesTest)
       "./../data/USCensus1990.tar.gz", "", false, true,
       "www.mlpack.org", true, "./../data/");
 
-  BOOST_REQUIRE(Utils::PathExists("./../data/USCensus1990.csv"));
-  BOOST_REQUIRE(Utils::PathExists("./../data/USCensus1990_centroids.csv"));
+  REQUIRE(Utils::PathExists("./../data/USCensus1990.csv") == true);
+  REQUIRE(Utils::PathExists("./../data/USCensus1990_centroids.csv") == true);
 
   // Clean up.
   Utils::RemoveFile("./../data/USCensus1990.csv");
@@ -93,7 +90,7 @@ BOOST_AUTO_TEST_CASE(ExtractFilesTest)
 /**
  * Simple test for downloading using curl.
  */
-BOOST_AUTO_TEST_CASE(CurlDownloadTest)
+TEST_CASE("CurlDownloadTest", "[UtilsTest]")
 {
   std::string serverName = "https://raw.githubusercontent.com/mlpack/";
   std::string path =
@@ -104,11 +101,9 @@ BOOST_AUTO_TEST_CASE(CurlDownloadTest)
       serverName);
 
   // Check whether or not the image was downloaded. If yes, perform a checksum.
-  BOOST_REQUIRE(Utils::PathExists("./../data/test_image.jpg"));
-  BOOST_REQUIRE(Utils::CompareCRC32("./../data/test_image.jpg", "59721bac"));
+  REQUIRE(Utils::PathExists("./../data/test_image.jpg") == true);
+  REQUIRE(Utils::CompareCRC32("./../data/test_image.jpg", "59721bac") == true);
 
   // Clean up.
   Utils::RemoveFile("./../data/test_image.jpg");
 }
-
-BOOST_AUTO_TEST_SUITE_END();
