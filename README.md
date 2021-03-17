@@ -9,10 +9,10 @@ comments like this one.  Once the transition is done, we can remove this
 comment (and the others).)_
 
 We provide ability to download datasets as well as pretrained weights using our
-utility functions, by default we asume the server to be mlpack.org.
-To dowload any file from mlpack.org simple use the following command.
+utility functions, by default we assume the server to be mlpack.org.
+To download any file from mlpack.org simple use the following command.
 
-NOTE: Our dataloader and models automatically download weights if neccesary during
+NOTE: Our dataloader and models automatically download weights if necessary during
 runtime.
 
 ```cpp
@@ -119,7 +119,7 @@ Currently supported datasets are mentioned below :
 
 #### 2. Loading Other Datasets.
 
-We are continously adding new datasets to this repository, However you can also
+We are continuously adding new datasets to this repository, However you can also
 use our dataloaders to load other datasets. Refer to our dataloaders wiki for more
 information.
 
@@ -170,7 +170,7 @@ We provide support to load annotations represented in XML files and their corres
 #### 3. Preprocessing.
 
 For all datasets that we support we provide, We preprocess them internally. We also
-provide access to preprocessor functions for standard datasets incase one needs to
+provide access to preprocessor functions for standard datasets in case one needs to
 apply them to their datasets.
 
 They can simply be called as follows by calling static functions of ProProcess class i.e.
