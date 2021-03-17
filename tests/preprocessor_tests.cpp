@@ -88,7 +88,7 @@ TEST_CASE("YOLOPreProcessor", "[PreProcessorsTest]")
   for (size_t i = 0; i < output.n_elem; i++)
   {
     if (std::abs(output(i)) < tolerance / 2)
-      BOOST_REQUIRE_SMALL(desiredOutput(i) == Approx(0.0).margin(tolerance / 2));
+      REQUIRE(desiredOutput(i) == Approx(0.0).margin(tolerance / 2));
     else
       REQUIRE(desiredOutput(i) == Approx(output(i)).epsilon(1e-2));
   }

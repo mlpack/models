@@ -9,6 +9,12 @@
  * 3-clause BSD license along with mlpack.  If not, see
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
+
+/**
+ * CATCH_CONFIG_MAIN tells Catch to provide a main() don't include
+ * this in other test files.
+ */
+#define CATCH_CONFIG_MAIN
 #include <dataloader/dataloader.hpp>
 #include "catch.hpp"
 
@@ -139,7 +145,7 @@ TEST_CASE("ObjectDetectionDataLoaderFieldTypeTest", "[DataLoadersTest]")
   // and 4 elements corresponding to bounding box coordinates.
   for (size_t i = 0; i < dataloader.ValidLabels().n_cols; i++)
   {
-    REQUIRE(dataloader.ValidLabels()(0, i).n_elem % 5, 0);
+    REQUIRE(dataloader.ValidLabels()(0, i).n_elem % 5 == 0);
     totalBoundingBoxes += dataloader.ValidLabels()(0, i).n_elem / 5;
   }
 
