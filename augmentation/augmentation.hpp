@@ -54,7 +54,7 @@ class Augmentation
   {
     // Convert strings to lower case.
     for (size_t i = 0; i < augmentations.size(); i++)
-      mlpack::util::ToLower(augmentations[i], this->augmentations[i]);
+      this->augmentations[i] = mlpack::util::ToLower(augmentations[i]);
 
     // Sort the vector to place resize parameter to the front of the string.
     // This prevents constant lookups for resize.
