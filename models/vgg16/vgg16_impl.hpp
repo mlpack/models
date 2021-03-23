@@ -50,8 +50,23 @@ VGG16<OutputLayerType, InitializationRuleType>::VGG16(
   mlpack::Log::Assert(!(weights == "imagenet" && includeTop && numClasses != 1000),
           "If using `weights` as `imagenet` with `includeTop` as true, `numClasses` should be `1000`");
 
-  // TODO : Add loading weights
-  
+
+  if (weights == "imagenet" && includeTop)
+  { 
+    std::cout << "Loading weights\n";
+    LoadModel("./../weights/vgg16/vgg16_top.bin");
+    return;
+  }
+  else if (weights == "imagenet" && (!includeTop))
+  {
+    LoadModel("./../weights/vgg16/vgg16_notop.bin");
+    return;
+  }
+  else if (weights != "none")
+  {
+    LoadModel(weights);
+    return;
+  }  
 
   // Block 1
   vgg16Network.Add(new Convolution<>(inputChannel, 64, 3, 3, 1, 1, 1, 1, inputWidth, inputHeight, "same"));
@@ -180,6 +195,26 @@ VGG16<OutputLayerType, InitializationRuleType>::VGG16(
   
 }
 
+template<
+      typename OutputLayerType, 
+      typename InitializationRuleType
+>
+void VGG16<OutputLayerType, InitializationRuleType>::LoadModel(const std::string& filePath)
+{
+  data::Load(filePath, "VGG16", vgg16Network);
+  Log::Info << "Loaded model" << std::endl;
+}
+
+template<
+      typename OutputLayerType, 
+      typename InitializationRuleType
+>
+void VGG16<OutputLayerType, InitializationRuleType>::SaveModel(const std::string& filePath)
+{
+  Log::Info << "Saving model" << std::endl;
+  data::Save(filePath, "VGG16", vgg16Network);
+  Log::Info << "Model saved in " << filePath << std::endl;
+}
 
 } // namespace ann
 } // namespace MLPACK

@@ -4,7 +4,7 @@
  * 
  * Definition of VGG16 model.
  * 
- * For more information, kinldy refer to the following paper.
+ * For more information, kindly refer to the following paper.
  * 
  * [Very Deep Convolutional Networks for Large-Scale Image Recognition]
  * (https://arxiv.org/abs/1409.1556) (ICLR 2015)
