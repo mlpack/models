@@ -20,6 +20,7 @@ steps:
     nuget install boost_date_time-vc140 -o $(Agent.ToolsDirectory) -Version 1.60.0
     nuget install boost_regex-vc140 -o $(Agent.ToolsDirectory) -Version 1.60.0
     nuget install OpenBLAS -o $(Agent.ToolsDirectory)
+    nuget install unofficial-flayan-cereal -o $(Agent.ToolsDirectory)
 
     mkdir -p $(Agent.ToolsDirectory)/boost_libs
     cp $(Agent.ToolsDirectory)/boost_program_options-vc140.1.60.0.0/lib/native/address-model-64/lib/*.* $(Agent.ToolsDirectory)/boost_libs
@@ -76,6 +77,7 @@ steps:
     -DBOOST_INCLUDEDIR=$(Agent.ToolsDirectory)\boost.1.60.0.0\lib\native\include `
     -DBOOST_LIBRARYDIR=$(Agent.ToolsDirectory)\boost_libs `
     -DBUILD_JULIA_BINDINGS=OFF `
+    -DCEREAL_INCLUDE_DIR=$(Agent.ToolsDirectory)\unofficial-flayan-cereal.1.2.2\build\native\include `
     -DBUILD_R_BINDINGS=OFF `
     -DCMAKE_BUILD_TYPE=Release ..
   displayName: 'Configure mlpack'
@@ -113,6 +115,7 @@ steps:
     -DLAPACK_LIBRARIES:FILEPATH=$(Agent.ToolsDirectory)\OpenBLAS.0.2.14.1\lib\native\lib\x64\libopenblas.dll.a `
     -DARMADILLO_INCLUDE_DIR="..\armadillo-8.400.0\include" `
     -DARMADILLO_LIBRARY="..\armadillo-8.400.0\Release\armadillo.lib" `
+    -DCEREAL_INCLUDE_DIR=$(Agent.ToolsDirectory)\unofficial-flayan-cereal.1.2.2\build\native\include `
     -DMLPACK_INCLUDE_DIR="..\mlpack\build\include" `
     -DMLPACK_LIBRARY="..\mlpack\build\Release\mlpack.lib" `
     -DBOOST_INCLUDEDIR=$(Agent.ToolsDirectory)\boost.1.60.0.0\lib\native\include `

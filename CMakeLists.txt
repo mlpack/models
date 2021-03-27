@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
 project(models C CXX)
 
+set(CEREAL_VERSION "1.1.2")
+
 # First, define all the compilation options.
 # We default to debugging mode for developers.
 option(DOWNLOAD_ENSMALLEN "If ensmallen is not found, download it." ON)
@@ -59,6 +61,7 @@ endif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 #   MLPACK_LIBRARY - library directory for mlpack
 
 find_package(Armadillo 8.400.0 REQUIRED)
+find_package(cereal "${CEREAL_VERSION}" REQUIRED)
 
 # If Armadillo was compiled without ARMA_64BIT_WORD and we are on a 64-bit
 # system (where size_t will be 64 bits), suggest to the user that they should
@@ -195,7 +198,8 @@ link_directories(${Boost_LIBRARY_DIRS})
 set(MODELS_INCLUDE_DIRS ${MLPACK_INCLUDE_DIR}
                         ${ENSMALLEN_INCLUDE_DIR}
                         ${ARMADILLO_INCLUDE_DIR}
-                        ${Boost_INCLUDE_DIRS})
+                        ${Boost_INCLUDE_DIRS}
+                        ${CEREAL_INCLUDE_DIR})
 
 set(MODELS_LIBRARIES ${MLPACK_LIBRARY}
                      ${ARMADILLO_LIBRARIES}
