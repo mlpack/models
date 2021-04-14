@@ -31,4 +31,4 @@ get_target_property(test_sources models_test SOURCES)
 
 #set(DIRS ${DIRS} ${DIR_SRCS} PARENT_SCOPE)
 
-add_test(NAME "test" COMMAND models_test WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+add_test(NAME "test" COMMAND models_test)
