@@ -57,11 +57,11 @@ struct DatasetDetails
   //! Locally stored URL for downloading dataset.
   std::string datasetURL;
 
-  //! Locally stored CRC-32 checksum for the dataset.
-  std::string datasetHash;
-
   //! Locally stored path for saving the archived / zip dataset.
   std::string datasetPath;
+
+  //! Locally stored CRC-32 checksum for the dataset.
+  std::string datasetHash;
 
   //! Locally stored server name for download file.
   std::string serverName;
@@ -219,17 +219,17 @@ struct DatasetDetails
                  const std::string& trainPath = "",
                  const std::string& testPath = "") :
                  datasetName(datasetName),
-                 zipFile(zipFile),
-                 datasetURL(datasetURL),
-                 datasetHash(datasetHash),
-                 datasetPath(datasetPath),
-                 datasetType(datasetType),
-                 trainPath(trainPath),
-                 testPath(testPath),
                  trainDownloadURL(""),
                  testDownloadURL(""),
                  trainHash(""),
                  testHash(""),
+                 datasetType(datasetType),
+                 trainPath(trainPath),
+                 testPath(testPath),
+                 zipFile(zipFile),
+                 datasetURL(datasetURL),
+                 datasetPath(datasetPath),
+                 datasetHash(datasetHash),
                  serverName("www.mlpack.org"),
                  startTrainingInputFeatures(0),
                  endTrainingInputFeatures(0),
