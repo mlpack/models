@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
 project(models_test)
 
+include(CTest)
 enable_testing()
 
 set(MODEL_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/)
