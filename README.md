@@ -1,5 +1,5 @@
 The mlpack **models** repository provides **ready-to-use** implementations of popular
-and cutting-edge machine learning models---mostly deep learning models.  The
+and cutting-edge machine learning models--mostly deep learning models.  The
 implementations in this repository are intended to be compiled into command-line
 programs and bindings to Python and other languages.
 
