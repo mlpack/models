@@ -170,7 +170,6 @@ find_package(Boost 1.49
       regex
       program_options
       serialization
-      unit_test_framework
     REQUIRED
 )
 
