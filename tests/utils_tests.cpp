@@ -50,7 +50,7 @@ TEST_CASE("CheckSumTest", "[UtilsTest]")
 TEST_CASE("PathExistsTest", "[UtilsTest]")
 {
   // Check for files that exist.
-  REQUIRE(Utils::PathExists("./../../tests/CMakeLists.txt") == true);
+  REQUIRE(Utils::PathExists("./../tests/CMakeLists.txt") == true);
   REQUIRE(Utils::PathExists("./../CMakeLists.txt") == true);
 }
 
