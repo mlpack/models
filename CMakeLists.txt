@@ -195,13 +195,11 @@ if (WIN32)
   # runtime path right always, so this is the best I know how to do for now.
   foreach(dir ${DLL_COPY_DIRS})
     file(GLOB dir_dll_list "${dir}/*.dll")
-    file(COPY ${dir_dll_list} DESTINATION ${CMAKE_BINARY_DIR}/Release/)
-    file(COPY ${dir_dll_list} DESTINATION ${CMAKE_BINARY_DIR}/Debug/)
+    file(COPY ${dir_dll_list} DESTINATION ${CMAKE_BINARY_DIR}/bin/)
   endforeach ()
 
   foreach(file ${DLL_COPY_LIBS})
-    file(COPY ${file} DESTINATION ${CMAKE_BINARY_DIR}/Release/)
-    file(COPY ${file} DESTINATION ${CMAKE_BINARY_DIR}/Debug/)
+    file(COPY ${file} DESTINATION ${CMAKE_BINARY_DIR}/bin/)
   endforeach()
 else ()
   # If not on Windows, put them under more standard UNIX-like places.  This is
