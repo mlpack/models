@@ -88,7 +88,6 @@ steps:
     msbuildVersion: $(MSBuildVersion)
     configuration: 'Release'
     msbuildArchitecture: 'x64'
-    msbuildArguments: /m /p:BuildInParallel=true
     maximumCpuCount: false
     clean: false
   displayName: 'Build mlpack'
@@ -128,7 +127,6 @@ steps:
     msbuildVersion: $(MSBuildVersion)
     configuration: 'Release'
     msbuildArchitecture: 'x64'
-    msbuildArguments: /m /p:BuildInParallel=true
     maximumCpuCount: false
     clean: false
   displayName: 'Build models'
