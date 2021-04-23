@@ -9,13 +9,12 @@
  * 3-clause BSD license along with mlpack.  If not, see
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
+#ifndef MODELS_AUGMENTATION_AUGMENTATION_HPP
+#define MODELS_AUGMENTATION_AUGMENTATION_HPP
 
 #include <mlpack/methods/ann/layer/bilinear_interpolation.hpp>
 #include <mlpack/core/util/to_lower.hpp>
 #include <boost/regex.hpp>
-
-#ifndef MODELS_AUGMENTATION_HPP
-#define MODELS_AUGMENTATION_HPP
 
 /**
  * Augmentation class used to perform augmentations by transforming the data.

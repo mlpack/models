@@ -10,8 +10,8 @@
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
 
-#ifndef MODELS_DATALOADER_IMPL_HPP
-#define MODELS_DATALOADER_IMPL_HPP
+#ifndef MODELS_DATALOADER_DATALOADER_IMPL_HPP
+#define MODELS_DATALOADER_DATALOADER_IMPL_HPP
 
 #include "dataloader.hpp"
 

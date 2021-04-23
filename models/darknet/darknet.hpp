@@ -34,8 +34,8 @@
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
 
-#ifndef MODELS_DARKNET_HPP
-#define MODELS_DARKNET_HPP
+#ifndef MODELS_MODELS_DARKNET_DARKNET_HPP
+#define MODELS_MODELS_DARKNET_DARKNET_HPP
 
 #include <mlpack/core.hpp>
 #include <mlpack/methods/ann/layer/layer.hpp>

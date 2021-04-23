@@ -9,12 +9,11 @@
  * 3-clause BSD license along with mlpack.  If not, see
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
+#ifndef MODELS_AUGMENTATION_AUGMENTATION_IMPL_HPP
+#define MODELS_AUGMENTATION_AUGMENTATION_IMPL_HPP
 
 // Incase it has not been included already.
 #include "augmentation.hpp"
-
-#ifndef MODELS_AUGMENTATION_IMPL_HPP
-#define MODELS_AUGMENTATION_IMPL_HPP
 
 template<typename DatasetType>
 void Augmentation::Transform(DatasetType& dataset,
