@@ -109,6 +109,20 @@ class Utils
                           const bool zipFile = false,
                           const std::string pathForExtraction = "./../data/")
   {
+    size_t last = downloadPath.find_last_of("/");
+    std::string downloadFolder = downloadPath.substr(0, last);
+
+    // Checks if the given download folder exists or not
+    // and creates one if it does not exist. 
+    if (PathExists(downloadFolder) != 1)
+    {
+      mlpack::Log::Info << "Given download path: " << downloadFolder
+          << " does not exist." << std::endl;
+      mlpack::Log::Info << "Path " << downloadFolder
+          << "created." << std::endl; 
+      boost::filesystem::create_directory(downloadFolder);
+    }
+
     if (serverName != "www.mlpack.org")
     {
       // NOTE : curl is supported for all windows after 2018.

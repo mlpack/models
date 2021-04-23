@@ -23,9 +23,9 @@ template<
      size_t DarkNetVersion
 >
 DarkNet<OutputLayerType, InitializationRuleType, DarkNetVersion>::DarkNet() :
-    inputChannel(0),
     inputWidth(0),
     inputHeight(0),
+    inputChannel(0),
     numClasses(0),
     weights("none")
 {
@@ -66,9 +66,9 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVersion>::DarkNet(
     const size_t numClasses,
     const std::string& weights,
     const bool includeTop) :
-    inputChannel(std::get<0>(inputShape)),
     inputWidth(std::get<1>(inputShape)),
     inputHeight(std::get<2>(inputShape)),
+    inputChannel(std::get<0>(inputShape)),
     numClasses(numClasses),
     weights(weights)
 {

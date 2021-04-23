@@ -251,7 +251,7 @@ class DarkNet
     ConvolutionBlock(inputChannel, inputChannel / 2,
         1, 1, 1, 1, 0, 0, true, 1e-2, residualBlock);
     ConvolutionBlock(inputChannel / 2, inputChannel, kernelWidth,
-        kernelHeight, 1, 1, padWidth, padWidth, true, 1e-2, residualBlock);
+        kernelHeight, 1, 1, padWidth, padHeight, true, 1e-2, residualBlock);
     darkNet.Add(residualBlock);
     mlpack::Log::Info << "Residual Block end." << std::endl;
   }

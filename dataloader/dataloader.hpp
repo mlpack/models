@@ -91,7 +91,6 @@ class DataLoader
    * @param shuffle Boolean to determine whether or not to shuffle the data.
    * @param validRatio Ratio of dataset to be used for validation set.
    * @param useScaler Fits the scaler on training data and transforms dataset.
-   * @param dropHeader Drops the first row from CSV.
    * @param startInputFeatures First Index which will be fed into the model as input.
    *                           Note: Indicies are wrapped and -1 implies last
    *                           column.
@@ -112,7 +111,6 @@ class DataLoader
                const bool shuffle = true,
                const double validRatio = 0.25,
                const bool useScaler = false,
-               const bool dropHeader = false,
                const int startInputFeatures = -1,
                const int endInputFeatures = -1,
                const int startPredictionFeatures = -1,

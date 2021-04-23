@@ -50,14 +50,12 @@ template<
     if (datasetMap[dataset].datasetType == "csv")
     {
       LoadCSV(datasetMap[dataset].trainPath, true, shuffle, validRatio,
-              useScaler, datasetMap[dataset].dropHeader,
-              datasetMap[dataset].startTrainingInputFeatures,
+              useScaler, datasetMap[dataset].startTrainingInputFeatures,
               datasetMap[dataset].endTrainingInputFeatures,
               datasetMap[dataset].endTrainingPredictionFeatures,
               datasetMap[dataset].endTrainingPredictionFeatures);
 
       LoadCSV(datasetMap[dataset].testPath, false, false, validRatio, useScaler,
-              datasetMap[dataset].dropHeader,
               datasetMap[dataset].startTestingInputFeatures,
               datasetMap[dataset].endTestingInputFeatures);
     }
@@ -129,7 +127,6 @@ template<
            const bool shuffle,
            const double validRatio,
            const bool useScaler,
-           const bool dropHeader,
            const int startInputFeatures,
            const int endInputFeatures,
            const int startPredictionFeatures,
@@ -139,9 +136,6 @@ template<
 {
   arma::mat dataset;
   data::Load(datasetPath, dataset, true);
-
-  dataset = dataset.submat(0, size_t(dropHeader), dataset.n_rows - 1,
-      dataset.n_cols - 1);
 
   if (loadTrainData)
   {
