@@ -21,6 +21,9 @@
 #include <mlpack/core.hpp>
 #include <boost/filesystem.hpp>
 
+namespace mlpack {
+namespace models {
+
 /**
  * Utils class to provide utility functions.
  */
@@ -344,4 +347,8 @@ class Utils
     }
   }
 };
+
+} // namespace models
+} // namespace mlpack
+
 #endif

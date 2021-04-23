@@ -15,7 +15,8 @@
 #include "darknet.hpp"
 
 namespace mlpack {
-namespace ann {
+namespace ann /* Artificial neural networks */{
+namespace models {
 
 template<
      typename OutputLayerType,
@@ -181,6 +182,7 @@ void DarkNet<
   Log::Info << "Model saved in " << filePath << "." << std::endl;
 }
 
+} // namespace models
 } // namespace ann
 } // namespace mlpack
 

@@ -16,6 +16,9 @@
 #include <mlpack/core/util/to_lower.hpp>
 #include <boost/regex.hpp>
 
+namespace mlpack {
+namespace models {
+
 /**
  * Augmentation class used to perform augmentations by transforming the data.
  * For the list of supported augmentation, take a look at our wiki page.
@@ -180,6 +183,9 @@ class Augmentation
   template<typename DatasetX, typename DatasetY, class ScalerType>
   friend class DataLoader;
 };
+
+} // namespace models
+} // namespace mlpack
 
 #include "augmentation_impl.hpp" // Include implementation.
 

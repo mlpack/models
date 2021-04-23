@@ -16,12 +16,14 @@
 #include <models/yolo/yolo.hpp>
 #include "catch.hpp"
 
+using namespace mlpack::ann::models;
+
 /**
  * Simple test for Darknet model.
  */
 TEST_CASE("DarknetModelTest", "[FFNModelsTests]")
 {
-  mlpack::ann::DarkNet<> darknetModel(3, 224, 224, 1000);
+  DarkNet<> darknetModel(3, 224, 224, 1000);
   arma::mat input(224 * 224 * 3, 1), output;
   input.ones();
 
@@ -31,7 +33,7 @@ TEST_CASE("DarknetModelTest", "[FFNModelsTests]")
   REQUIRE(output.n_rows == 1000);
 
   // Repeat for DarkNet-53.
-  mlpack::ann::DarkNet<> darknet53(3, 224, 224, 1000);
+  DarkNet<> darknet53(3, 224, 224, 1000);
   darknet53.GetModel().Predict(input, output);
   REQUIRE(output.n_cols == 1);
   REQUIRE(output.n_rows == 1000);
@@ -42,7 +44,7 @@ TEST_CASE("DarknetModelTest", "[FFNModelsTests]")
  */
 TEST_CASE("YOLOV1ModelTest", "[FFNModelsTests]")
 {
-  mlpack::ann::YOLO<> yolo(3, 448, 448);
+  YOLO<> yolo(3, 448, 448);
   arma::mat input(448 * 448 * 3, 1), output;
   input.ones();
 

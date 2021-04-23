@@ -15,6 +15,9 @@
 
 #include <mlpack/prereqs.hpp>
 
+namespace mlpack {
+namespace models {
+
 /**
  * Contains standatd pre-process functions for popular datasets.
  *
@@ -261,5 +264,8 @@ class PreProcessor
     }
   }
 };
+
+} // namespace models
+} // namespace mlpack
 
 #endif

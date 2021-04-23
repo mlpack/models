@@ -17,6 +17,9 @@
 
 using namespace mlpack;
 
+namespace mlpack {
+namespace models {
+
 template<
   typename DatasetX,
   typename DatasetY,
@@ -491,5 +494,8 @@ template<
         std::endl;
   }
 }
+
+} // namespace models
+} // namespace mlpack
 
 #endif

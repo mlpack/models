@@ -13,6 +13,8 @@
 #include <utils/utils.hpp>
 #include "catch.hpp"
 
+using namespace mlpack::models;
+
 /**
  * Simple test for Data Downloader.
  */

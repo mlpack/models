@@ -34,7 +34,8 @@
 
 
 namespace mlpack {
-namespace ann /** Artificial Neural Network. */{
+namespace ann /* Artificial neural networks */{
+namespace models {
 
 /**
  * Definition of a YOLO object detection models.
@@ -246,6 +247,7 @@ class YOLO
   std::string yoloVersion;
 }; // YOLO class.
 
+} // namespace models
 } // namespace ann
 } // namespace mlpack
 

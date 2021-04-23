@@ -47,7 +47,8 @@
 #include <mlpack/methods/ann/init_rules/glorot_init.hpp>
 
 namespace mlpack {
-namespace ann /** Artificial Neural Network. */{
+namespace ann /* Artificial neural networks */{
+namespace models {
 
 /**
  * Definition of a DarkNet CNN.
@@ -292,6 +293,7 @@ class DarkNet
   std::string weights;
 }; // DarkNet class.
 
+} // namespace models
 } // namespace ann
 } // namespace mlpack
 

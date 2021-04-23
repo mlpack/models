@@ -25,6 +25,9 @@
 #include <utils/utils.hpp>
 #include <set>
 
+namespace mlpack {
+namespace models {
+
 /**
  * Dataloader class to load popular datasets.
  *
@@ -498,6 +501,9 @@ class DataLoader
   //! Locally stored augmentation probability.
   double augmentationProbability;
 };
+
+} // namespace models
+} // namespace mlpack
 
 #include "dataloader_impl.hpp" // Include implementation.
 

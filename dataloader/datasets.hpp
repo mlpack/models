@@ -14,6 +14,9 @@
 
 #include <dataloader/preprocessor.hpp>
 
+namespace mlpack {
+namespace models {
+
 /**
  * Structure used to provide details about the dataset.
  *
@@ -335,5 +338,8 @@ class Datasets
     return CIFAR10Detail;
   }
 };
+
+} // namespace models
+} // namespace mlpack
 
 #endif

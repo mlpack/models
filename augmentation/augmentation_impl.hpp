@@ -15,6 +15,9 @@
 // Incase it has not been included already.
 #include "augmentation.hpp"
 
+namespace mlpack {
+namespace models {
+
 template<typename DatasetType>
 void Augmentation::Transform(DatasetType& dataset,
                              const size_t datapointWidth,
@@ -68,5 +71,8 @@ void Augmentation::ResizeTransform(
   resizeLayer.Forward(dataset, output);
   dataset = std::move(output);
 }
+
+} // namespace models
+} // namespace mlpack
 
 #endif

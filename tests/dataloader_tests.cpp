@@ -18,6 +18,8 @@
 #include <dataloader/dataloader.hpp>
 #include "catch.hpp"
 
+using namespace mlpack::models;
+
 /**
  * Simple test for Dataloader.
  */
