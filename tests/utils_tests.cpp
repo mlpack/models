@@ -13,6 +13,8 @@
 #include <utils/utils.hpp>
 #include "catch.hpp"
 
+using namespace mlpack::models;
+
 /**
  * Simple test for Data Downloader.
  */
@@ -50,8 +52,8 @@ TEST_CASE("CheckSumTest", "[UtilsTest]")
 TEST_CASE("PathExistsTest", "[UtilsTest]")
 {
   // Check for files that exist.
-  REQUIRE(Utils::PathExists("./../tests/CMakeLists.txt") == true);
-  REQUIRE(Utils::PathExists("./../CMakeLists.txt") == true);
+  REQUIRE(Utils::PathExists("./../../tests/CMakeLists.txt") == true);
+  REQUIRE(Utils::PathExists("./../../CMakeLists.txt") == true);
 }
 
 /**
