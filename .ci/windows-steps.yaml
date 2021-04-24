@@ -133,6 +133,7 @@ steps:
 
 # Run tests via ctest.
 - bash: |
+    dir
     cd build/tests
     dir
     CTEST_OUTPUT_ON_FAILURE=1 ctest -T Test -C Release .
