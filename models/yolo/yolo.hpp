@@ -23,8 +23,8 @@
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
 
-#ifndef MODELS_YOLO_HPP
-#define MODELS_YOLO_HPP
+#ifndef MODELS_MODELS_YOLO_YOLO_HPP
+#define MODELS_MODELS_YOLO_YOLO_HPP
 
 #include <mlpack/core.hpp>
 #include <mlpack/methods/ann/layer/layer.hpp>
@@ -34,7 +34,8 @@
 
 
 namespace mlpack {
-namespace ann /** Artificial Neural Network. */{
+namespace ann /* Artificial neural networks */{
+namespace models {
 
 /**
  * Definition of a YOLO object detection models.
@@ -246,6 +247,7 @@ class YOLO
   std::string yoloVersion;
 }; // YOLO class.
 
+} // namespace models
 } // namespace ann
 } // namespace mlpack
 

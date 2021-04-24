@@ -9,13 +9,14 @@
  * 3-clause BSD license along with mlpack.  If not, see
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
-#ifndef MODELS_DARKNET_IMPL_HPP
-#define MODELS_DARKNET_IMPL_HPP
+#ifndef MODELS_MODELS_DARKNET_DARKNET_IMPL_HPP
+#define MODELS_MODELS_DARKNET_DARKNET_IMPL_HPP
 
 #include "darknet.hpp"
 
 namespace mlpack {
-namespace ann {
+namespace ann /* Artificial neural networks */{
+namespace models {
 
 template<
      typename OutputLayerType,
@@ -181,6 +182,7 @@ void DarkNet<
   Log::Info << "Model saved in " << filePath << "." << std::endl;
 }
 
+} // namespace models
 } // namespace ann
 } // namespace mlpack
 

@@ -9,10 +9,13 @@
  * 3-clause BSD license along with mlpack.  If not, see
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
-#ifndef MODELS_DATASETS_HPP
-#define MODELS_DATASETS_HPP
+#ifndef MODELS_DATALOADER_DATASETS_HPP
+#define MODELS_DATALOADER_DATASETS_HPP
 
 #include <dataloader/preprocessor.hpp>
+
+namespace mlpack {
+namespace models {
 
 /**
  * Structure used to provide details about the dataset.
@@ -335,5 +338,8 @@ class Datasets
     return CIFAR10Detail;
   }
 };
+
+} // namespace models
+} // namespace mlpack
 
 #endif

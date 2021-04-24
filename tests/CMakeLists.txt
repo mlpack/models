@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
 project(models_test)
 
+include(CTest)
 enable_testing()
 
 set(MODEL_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/)
@@ -29,6 +30,7 @@ target_link_libraries(models_test
 # Get the list of sources from the test target.
 get_target_property(test_sources models_test SOURCES)
 
-#set(DIRS ${DIRS} ${DIR_SRCS} PARENT_SCOPE)
+# So the dll is placed in the same dir as the tests.
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 add_test(NAME "test" COMMAND models_test)

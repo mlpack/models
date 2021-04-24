@@ -34,8 +34,8 @@
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
 
-#ifndef MODELS_DARKNET_HPP
-#define MODELS_DARKNET_HPP
+#ifndef MODELS_MODELS_DARKNET_DARKNET_HPP
+#define MODELS_MODELS_DARKNET_DARKNET_HPP
 
 #include <mlpack/core.hpp>
 #include <mlpack/methods/ann/layer/layer.hpp>
@@ -47,7 +47,8 @@
 #include <mlpack/methods/ann/init_rules/glorot_init.hpp>
 
 namespace mlpack {
-namespace ann /** Artificial Neural Network. */{
+namespace ann /* Artificial neural networks */{
+namespace models {
 
 /**
  * Definition of a DarkNet CNN.
@@ -292,6 +293,7 @@ class DarkNet
   std::string weights;
 }; // DarkNet class.
 
+} // namespace models
 } // namespace ann
 } // namespace mlpack
 

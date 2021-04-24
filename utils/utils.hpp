@@ -10,8 +10,8 @@
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
 
-#ifndef MODELS_UTILS_HPP
-#define MODELS_UTILS_HPP
+#ifndef MODELS_UTILS_UTILS_HPP
+#define MODELS_UTILS_UTILS_HPP
 
 #include <iostream>
 #include <boost/asio.hpp>
@@ -20,6 +20,9 @@
 #include <boost/crc.hpp>
 #include <mlpack/core.hpp>
 #include <boost/filesystem.hpp>
+
+namespace mlpack {
+namespace models {
 
 /**
  * Utils class to provide utility functions.
@@ -344,4 +347,8 @@ class Utils
     }
   }
 };
+
+} // namespace models
+} // namespace mlpack
+
 #endif

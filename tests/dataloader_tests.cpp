@@ -18,6 +18,8 @@
 #include <dataloader/dataloader.hpp>
 #include "catch.hpp"
 
+using namespace mlpack::models;
+
 /**
  * Simple test for Dataloader.
  */
@@ -33,8 +35,8 @@ TEST_CASE("CSVDataLoaderTest", "[DataLoadersTest]")
   REQUIRE(Utils::PathExists("./../data/iris.csv") == true);
 
   DataLoader<> irisDataloader;
-  irisDataloader.LoadCSV("./../data/iris.csv", true, true, 0.5, false, false,
-      0, -1, 1, -1);
+  irisDataloader.LoadCSV("./../data/iris.csv", true, true, 0.5, false, 0, -1,
+      1, -1);
 
   // Check for length and columns of training dataset.
   REQUIRE(irisDataloader.TrainLabels().n_cols == 75);
