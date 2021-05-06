@@ -28,7 +28,7 @@ TEST_CASE("CSVDataLoaderTest", "[DataLoadersTest]")
 
   // Check Load CSV Function for Dataloader.
   Utils::DownloadFile("/datasets/iris.csv", "./../data/iris.csv");
-  
+
   // Check the file has been downloaded.
   REQUIRE(Utils::PathExists("./../data/iris.csv") == true);
 
