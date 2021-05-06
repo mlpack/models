@@ -195,7 +195,8 @@ class YOLO
     inputWidth = std::ceil(inputWidth * 1.0 / factor);
     inputHeight = std::ceil(inputHeight * 1.0 / factor);
 
-    mlpack::Log::Info << "(" << inputWidth << ", " << inputHeight << ")" << std::endl;
+    mlpack::Log::Info << "(" << inputWidth << ", " << inputHeight <<
+        ")" << std::endl;
   }
 
   /**
