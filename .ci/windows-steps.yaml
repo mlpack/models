@@ -131,10 +131,16 @@ steps:
     clean: false
   displayName: 'Build models'
 
+- powershell: |
+    cp build\*.dll build\bin
+    cp build\*.lib build\bin
+  displayName: 'Copy lib and dll files to build/bin'
+
 # Run tests via ctest.
 - bash: |
     dir
     dir build
+    dir build/tests
     cd build/tests
     dir
     CTEST_OUTPUT_ON_FAILURE=1 ctest -T Test -C Release .
