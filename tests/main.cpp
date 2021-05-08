@@ -15,7 +15,7 @@
  * this in other test files.
  */
 
-//#define CATCH_CONFIG_MAIN // Allow catch to define main()
+//#define CATCH_CONFIG_MAIN // Allow Catch to define main()
 #define CATCH_CONFIG_RUNNER // Define main() yourself
 #include "catch.hpp"
 #include <armadillo>
