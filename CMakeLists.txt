@@ -168,8 +168,6 @@ find_package(Boost 1.49
       filesystem
       system
       regex
-      program_options
-      serialization
     REQUIRED
 )
 
