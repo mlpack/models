@@ -10,7 +10,6 @@ steps:
 - powershell: |
     nuget install OpenBLAS -o $(Agent.ToolsDirectory)
     nuget install boost -o $(Agent.ToolsDirectory) -Version 1.60.0
-    nuget install boost_unit_test_framework-vc140 -o $(Agent.ToolsDirectory) -Version 1.60.0
     nuget install boost_program_options-vc140 -o $(Agent.ToolsDirectory) -Version 1.60.0
     nuget install boost_random-vc140 -o $(Agent.ToolsDirectory) -Version 1.60.0
     nuget install boost_serialization-vc140 -o $(Agent.ToolsDirectory) -Version 1.60.0
@@ -27,7 +26,6 @@ steps:
     cp $(Agent.ToolsDirectory)/boost_math_c99-vc140.1.60.0.0/lib/native/address-model-64/lib/*.* $(Agent.ToolsDirectory)/boost_libs
     cp $(Agent.ToolsDirectory)/boost_random-vc140.1.60.0.0/lib/native/address-model-64/lib/*.* $(Agent.ToolsDirectory)/boost_libs
     cp $(Agent.ToolsDirectory)/boost_serialization-vc140.1.60.0.0/lib/native/address-model-64/lib/*.* $(Agent.ToolsDirectory)/boost_libs
-    cp $(Agent.ToolsDirectory)/boost_unit_test_framework-vc140.1.60.0.0/lib/native/address-model-64/lib/*.* $(Agent.ToolsDirectory)/boost_libs
     cp $(Agent.ToolsDirectory)/boost_filesystem-vc140.1.60.0.0/lib/native/address-model-64/lib/*.* $(Agent.ToolsDirectory)/boost_libs
     cp $(Agent.ToolsDirectory)/boost_system-vc140.1.60.0.0/lib/native/address-model-64/lib/*.* $(Agent.ToolsDirectory)/boost_libs
     cp $(Agent.ToolsDirectory)/boost_date_time-vc140.1.60.0.0/lib/native/address-model-64/lib/*.* $(Agent.ToolsDirectory)/boost_libs
@@ -90,7 +88,6 @@ steps:
     msbuildVersion: $(MSBuildVersion)
     configuration: 'Release'
     msbuildArchitecture: 'x64'
-    msbuildArguments: /m /p:BuildInParallel=true
     maximumCpuCount: false
     clean: false
   displayName: 'Build mlpack'
@@ -130,10 +127,14 @@ steps:
     msbuildVersion: $(MSBuildVersion)
     configuration: 'Release'
     msbuildArchitecture: 'x64'
-    msbuildArguments: /m /p:BuildInParallel=true
     maximumCpuCount: false
     clean: false
   displayName: 'Build models'
+
+- powershell: |
+    cp build\*.dll build\tests
+    cp build\*.lib build\tests
+  displayName: 'Copy lib and dll files to build/bin'
 
 # Run tests via ctest.
 - bash: |
