@@ -181,34 +181,6 @@ if (OPENMP_FOUND)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 endif ()
 
-# On Windows, things end up under Debug/ or Release/.
-if (WIN32)
-  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-
-  # Copy all necessary DLLs for runtime to the build directory.
-  # This is a little hackish, but I can't figure out clear ways to make CMake
-  # consistently link everything 100% statically across platforms or set the
-  # runtime path right always, so this is the best I know how to do for now.
-  foreach(dir ${DLL_COPY_DIRS})
-    file(GLOB dir_dll_list "${dir}/*.dll")
-    file(COPY ${dir_dll_list} DESTINATION ${CMAKE_BINARY_DIR}/bin/)
-  endforeach ()
-
-  foreach(file ${DLL_COPY_LIBS})
-    file(COPY ${file} DESTINATION ${CMAKE_BINARY_DIR}/bin/)
-  endforeach()
-else ()
-  # If not on Windows, put them under more standard UNIX-like places.  This is
-  # necessary, otherwise they would all end up in
-  # ${CMAKE_BINARY_DIR}/src/mlpack/methods/... or somewhere else random like
-  # that.
-  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/)
-  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
-  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/)
-endif ()
-
 # In Visual Studio, automatic linking is performed, so we don't need to worry
 # about it.  Clear the list of libraries to link against and let Visual Studio
 # handle it.
