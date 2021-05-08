@@ -15,7 +15,7 @@
  * this in other test files.
  */
 
-//#define CATCH_CONFIG_MAIN // Allow catch to define main()
+// #define CATCH_CONFIG_MAIN // Allow catch to define main()
 #define CATCH_CONFIG_RUNNER // Define main() yourself
 #include "catch.hpp"
 #include <armadillo>
@@ -27,11 +27,12 @@ int main(int argc, char *argv[])
    * each run.  This is good for ensuring that a test's tolerance is sufficient
    * across many different runs.
    */
-  //size_t seed = std::time(NULL);
-  //srand((unsigned int) seed);
-  //arma::arma_rng::set_seed(seed);
+  // size_t seed = std::time(NULL);
+  // srand((unsigned int) seed);
+  // arma::arma_rng::set_seed(seed);
 
-  std::cout << "armadillo version: " << arma::arma_version::as_string() << std::endl;
+  std::cout << "armadillo version: " << arma::arma_version::as_string() <<
+      std::endl;
 
   return Catch::Session().run(argc, argv);
 }
