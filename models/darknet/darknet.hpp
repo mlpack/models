@@ -101,7 +101,7 @@ class DarkNet
           const bool includeTop = true);
 
   //! Get Layers of the model.
-  ann::FFN<OutputLayerType, InitializationRuleType>& GetModel() 
+  ann::FFN<OutputLayerType, InitializationRuleType>& GetModel()
   {
     return darkNet;
   }
