@@ -179,7 +179,8 @@ class YOLO
   {
     if (type == "max")
     {
-      yolo.Add(new ann::AdaptiveMaxPooling<>(std::ceil(inputWidth * 1.0 / factor),
+      yolo.Add(new ann::AdaptiveMaxPooling<>(
+          std::ceil(inputWidth * 1.0 / factor),
           std::ceil(inputHeight * 1.0 / factor)));
     }
     else

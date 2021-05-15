@@ -101,7 +101,10 @@ class DarkNet
           const bool includeTop = true);
 
   //! Get Layers of the model.
-  ann::FFN<OutputLayerType, InitializationRuleType>& GetModel() { return darkNet; }
+  ann::FFN<OutputLayerType, InitializationRuleType>& GetModel() 
+  {
+    return darkNet;
+  }
 
   //! Load weights into the model.
   void LoadModel(const std::string& filePath);
@@ -181,7 +184,8 @@ class DarkNet
   {
     if (type == "max")
     {
-      darkNet.Add(new ann::AdaptiveMaxPooling<>(std::ceil(inputWidth * 1.0 / factor),
+      darkNet.Add(new ann::AdaptiveMaxPooling<>(
+          std::ceil(inputWidth * 1.0 / factor),
           std::ceil(inputHeight * 1.0 / factor)));
     }
     else
