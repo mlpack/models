@@ -34,7 +34,6 @@
 
 
 namespace mlpack {
-namespace ann /* Artificial neural networks */{
 namespace models {
 
 /**
@@ -45,8 +44,8 @@ namespace models {
  * @tparam YOLOVersion Version of YOLO model.
  */
 template<
-  typename OutputLayerType = NegativeLogLikelihood<>,
-  typename InitializationRuleType = RandomInitialization
+  typename OutputLayerType = ann::NegativeLogLikelihood<>,
+  typename InitializationRuleType = ann::RandomInitialization
 >
 class YOLO
 {
@@ -103,7 +102,7 @@ class YOLO
        const bool includeTop = true);
 
   //! Get Layers of the model.
-  FFN<OutputLayerType, InitializationRuleType>& GetModel() { return yolo; }
+  ann::FFN<OutputLayerType, InitializationRuleType>& GetModel() { return yolo; }
 
   //! Load weights into the model.
   void LoadModel(const std::string& filePath);
@@ -131,7 +130,7 @@ class YOLO
    * @param baseLayer Layer in which Convolution block will be added, if
    *     NULL added to YOLO FFN.
    */
-  template<typename SequentialType = Sequential<>>
+  template<typename SequentialType = ann::Sequential<>>
   void ConvolutionBlock(const size_t inSize,
                         const size_t outSize,
                         const size_t kernelWidth,
@@ -143,8 +142,8 @@ class YOLO
                         const bool batchNorm = false,
                         SequentialType* baseLayer = NULL)
   {
-    Sequential<>* bottleNeck = new Sequential<>();
-    bottleNeck->Add(new Convolution<>(inSize, outSize, kernelWidth,
+    ann::Sequential<>* bottleNeck = new ann::Sequential<>();
+    bottleNeck->Add(new ann::Convolution<>(inSize, outSize, kernelWidth,
         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
         inputHeight));
 
@@ -158,9 +157,9 @@ class YOLO
         ", " << outSize << ")" << std::endl;
 
     if (batchNorm)
-      bottleNeck->Add(new BatchNorm<>(outSize, 1e-8, false));
+      bottleNeck->Add(new ann::BatchNorm<>(outSize, 1e-8, false));
 
-    bottleNeck->Add(new LeakyReLU<>(0.01));
+    bottleNeck->Add(new ann::LeakyReLU<>(0.01));
 
     if (baseLayer != NULL)
       baseLayer->Add(bottleNeck);
@@ -180,12 +179,12 @@ class YOLO
   {
     if (type == "max")
     {
-      yolo.Add(new AdaptiveMaxPooling<>(std::ceil(inputWidth * 1.0 / factor),
+      yolo.Add(new ann::AdaptiveMaxPooling<>(std::ceil(inputWidth * 1.0 / factor),
           std::ceil(inputHeight * 1.0 / factor)));
     }
     else
     {
-      yolo.Add(new AdaptiveMeanPooling<>(std::ceil(inputWidth * 1.0 /
+      yolo.Add(new ann::AdaptiveMeanPooling<>(std::ceil(inputWidth * 1.0 /
           factor), std::ceil(inputHeight * 1.0 / factor)));
     }
 
@@ -218,7 +217,7 @@ class YOLO
   }
 
   //! Locally stored YOLO Model.
-  FFN<OutputLayerType, InitializationRuleType> yolo;
+  ann::FFN<OutputLayerType, InitializationRuleType> yolo;
 
   //! Locally stored number of channels in the image.
   size_t inputChannel;
@@ -249,7 +248,6 @@ class YOLO
 }; // YOLO class.
 
 } // namespace models
-} // namespace ann
 } // namespace mlpack
 
 # include "yolo_impl.hpp"
