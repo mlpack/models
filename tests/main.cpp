@@ -31,8 +31,5 @@ int main(int argc, char *argv[])
   // srand((unsigned int) seed);
   // arma::arma_rng::set_seed(seed);
 
-  std::cout << "armadillo version: " << arma::arma_version::as_string() <<
-      std::endl;
-
   return Catch::Session().run(argc, argv);
 }

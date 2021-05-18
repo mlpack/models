@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
 project(models C CXX)
 
+# Enables testing for the project.
+enable_testing()
+
 set(CEREAL_VERSION "1.1.2")
 
 # First, define all the compilation options.
