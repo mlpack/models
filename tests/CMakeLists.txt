@@ -3,6 +3,7 @@ project(models_test)
 
 include(CTest)
 enable_testing()
+include(${CMAKE_SOURCE_DIR}/CMake/Catch.cmake)
 
 set(MODEL_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/)
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../")
@@ -30,7 +31,4 @@ target_link_libraries(models_test
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 add_test(NAME "test" COMMAND models_test)
-
-include(${CMAKE_SOURCE_DIR}/CMake/Catch.cmake)
-
 catch_discover_tests(models_test)
