@@ -30,5 +30,4 @@ target_link_libraries(models_test
 # So the dll is placed in the same dir as the tests.
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-add_test(NAME "test" COMMAND models_test)
 catch_discover_tests(models_test)
