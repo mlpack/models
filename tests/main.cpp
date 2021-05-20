@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
   // srand((unsigned int) seed);
   // arma::arma_rng::set_seed(seed);
 
-  int result = Catch::Session().run( argc, argv );
+  int result = Catch::Session().run(argc, argv);
 
   return 0;
 }
