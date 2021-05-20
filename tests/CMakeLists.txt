@@ -7,8 +7,6 @@ enable_testing()
 set(MODEL_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/)
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../")
 
-find_package(Catch2 REQUIRED)
-
 add_executable(models_test
                main.cpp
                augmentation_tests.cpp
@@ -20,7 +18,6 @@ add_executable(models_test
 
 # Link dependencies of test executable.
 target_link_libraries(models_test
-  PRIVATE Catch2::Catch2
   ${COMPILER_SUPPORT_LIBRARIES}
   ${ARMADILLO_LIBRARIES}
   ${Boost_FILESYSTEM_LIBRARY}
@@ -29,11 +26,11 @@ target_link_libraries(models_test
   ${MLPACK_LIBRARIES}
 )  
 
-include(Catch)
-
 # So the dll is placed in the same dir as the tests.
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 add_test(NAME "test" COMMAND models_test)
+
+include(${CMAKE_SOURCE_DIR}/CMake/Catch.cmake)
 
 catch_discover_tests(models_test)
