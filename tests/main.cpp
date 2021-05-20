@@ -30,6 +30,8 @@ int main(int argc, char *argv[])
   // size_t seed = std::time(NULL);
   // srand((unsigned int) seed);
   // arma::arma_rng::set_seed(seed);
-  
-  return 0; 
+
+  int result = Catch::Session().run( argc, argv );
+
+  return 0;
 }
