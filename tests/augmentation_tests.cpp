@@ -9,14 +9,10 @@
  * 3-clause BSD license along with mlpack.  If not, see
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
-#define BOOST_TEST_DYN_LINK
-#include <boost/test/unit_test.hpp>
 #include <augmentation/augmentation.hpp>
-using namespace boost::unit_test;
+#include "catch.hpp"
 
-BOOST_AUTO_TEST_SUITE(AugmentationTest);
-
-BOOST_AUTO_TEST_CASE(ResizeAugmentationTest)
+TEST_CASE("ResizeAugmentationTest", "[AugmentationTest]")
 {
   Augmentation augmentation(std::vector<std::string>(1,
       "resize (5, 4)"), 0.2);
@@ -32,8 +28,8 @@ BOOST_AUTO_TEST_CASE(ResizeAugmentationTest)
   augmentation.Transform(input, inputWidth, inputHeight, depth);
 
   // Check correctness of input.
-  BOOST_REQUIRE_EQUAL(input.n_cols, 2);
-  BOOST_REQUIRE_EQUAL(input.n_rows, 5 * 4);
+  REQUIRE(input.n_cols == 2);
+  REQUIRE(input.n_rows == 5 * 4);
 
   // Test on rectangular matrix.
   inputWidth = 5;
@@ -50,8 +46,6 @@ BOOST_AUTO_TEST_CASE(ResizeAugmentationTest)
   augmentation2.Transform(input, inputWidth, inputHeight, depth);
 
   // Check correctness of input.
-  BOOST_REQUIRE_EQUAL(input.n_cols, 2);
-  BOOST_REQUIRE_EQUAL(input.n_rows, 8 * 8);
+  REQUIRE(input.n_cols == 2);
+  REQUIRE(input.n_rows == 8 * 8);
 }
-
-BOOST_AUTO_TEST_SUITE_END();

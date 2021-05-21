@@ -6,7 +6,7 @@ set(CEREAL_VERSION "1.1.2")
 # First, define all the compilation options.
 # We default to debugging mode for developers.
 option(DOWNLOAD_ENSMALLEN "If ensmallen is not found, download it." ON)
-option(USE_OPENMP "If available, use OpenMP for parallelization." OFF)
+option(USE_OPENMP "If available, use OpenMP for parallelization." ON)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -170,7 +170,6 @@ find_package(Boost 1.49
       regex
       program_options
       serialization
-      unit_test_framework
     REQUIRED
 )
 
@@ -216,7 +215,7 @@ endif ()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
 
-# Recurse into each model.
+# Recurse into each directory.
 set(DIRS
   utils/
   ensmallen_utils/

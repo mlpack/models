@@ -195,7 +195,8 @@ class YOLO
     inputWidth = std::ceil(inputWidth * 1.0 / factor);
     inputHeight = std::ceil(inputHeight * 1.0 / factor);
 
-    mlpack::Log::Info << "(" << inputWidth << ", " << inputHeight << ")" << std::endl;
+    mlpack::Log::Info << "(" << inputWidth << ", " << inputHeight <<
+        ")" << std::endl;
   }
 
   /**
@@ -218,14 +219,14 @@ class YOLO
   //! Locally stored YOLO Model.
   FFN<OutputLayerType, InitializationRuleType> yolo;
 
+  //! Locally stored number of channels in the image.
+  size_t inputChannel;
+
   //! Locally stored width of the image.
   size_t inputWidth;
 
   //! Locally stored height of the image.
   size_t inputHeight;
-
-  //! Locally stored number of channels in the image.
-  size_t inputChannel;
 
   //! Locally stored number of output classes.
   size_t numClasses;
