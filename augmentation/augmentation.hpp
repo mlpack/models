@@ -1,6 +1,6 @@
 /**
  * @file augmentation.hpp
- * @author Kartik Dutt
+ * @author Kartik Dutt, Sirish
  * 
  * Definition of Augmentation class for augmenting data.
  *
@@ -105,6 +105,29 @@ class Augmentation
                        const size_t datapointDepth,
                        const std::string& augmentation);
 
+
+  /**
+   * Applies gaussian blurring to the entire dataset.
+   *
+   * @tparam DatasetType Datatype on which augmentation will be done.
+   * 
+   * @param dataset Dataset on which augmentation will be applied.
+   * @param datapointWidth Width of a single data point i.e.
+   *                       Since each column represents a seperate data
+   *                       point.
+   * @param datapointHeight Height of a single data point.
+   * @param datapointDepth Depth of a single data point. For one 2-dimensional
+   *                       data point, set it to 1. Defaults to 1.
+   * @param augmentation String containing the transform.
+   */
+
+  template<typename DatasetType>
+  void GaussianBlurTransform(DatasetType& dataset,
+    const size_t datapointWidth,
+    const size_t datapointHeight,
+    const size_t datapointDepth,
+    const std::string& augmentation);
+
  private:
   /**
    * Function to determine if augmentation has Resize function.
@@ -119,9 +142,30 @@ class Augmentation
 
 
     // Search in augmentation vector.
-    return augmentations.size() <= 0 ? false :
-        augmentations[0].find("resize") != std::string::npos;
+    for(size_t i = 0; i < argumentation.size(); i++)
+    {
+      if (argumentation[i].find("resize") != std::string::npos)
+        return true
+    }
+    return false
   }
+  /*
+  * Function to determine whether blurring is needed or not
+    Will check if the string has blurring.
+  */
+  bool HasBlurring(const std::string& augmentation = "")
+  {
+    if (augmentation.length())
+      return augmentation.find("gaussian-blur") != std::string::npos;
+
+    for(size_t i = 0; i < argumentation.size(); i++)
+    {
+      if(argumentation[i].find("gaussian-blur") != std::string::npos)
+        return true
+    }
+    return false
+  }
+
 
   /**
    * Sets size of output width and output height of the new data.
@@ -167,6 +211,38 @@ class Augmentation
       outWidth = std::stoi(*matches);
       matches++;
       outHeight = std::stoi(*matches);
+    }
+  }
+  /**
+   * Sets size of radius/ sigma of the gaussian kernel.
+   *
+   * @param sigma is the radius of the gaussian kernel specified by user.
+   */
+  void GetBlurParam(size_t& sigma, const std::string& augmentation)
+  {
+    if (!HasBlurring(augmentation))
+      return;
+
+    sigma = 0;
+
+    // Use regex to find one number.
+    // Input should be of form sigma.
+    boost::regex regex{"[0-9]+"};
+
+    // Create an iterator to find matches.
+    boost::sregex_token_iterator matches(augmentation.begin(),
+        augmentation.end(), regex, 0), end;
+
+    size_t matchesCount = std::distance(matches, end);
+
+    if (matchesCount != 1)
+    {
+      mlpack::Log::Fatal << "Invalid sigma/ radius for gaussian blurring" <<
+          augmentation << std::endl;
+    }
+    else
+    {
+      sigma = std::stoi(*matches);
     }
   }
 
