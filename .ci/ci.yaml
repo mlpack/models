@@ -18,7 +18,7 @@ jobs:
   strategy:
     matrix:
       Plain:
-        CMakeArgs-mlpack: '-DDEBUG=ON -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF'
+        CMakeArgs-mlpack: '-DDEBUG=OFF -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF'
         CMakeArgs-models: '-DDEBUG=ON'
 
   steps:
@@ -33,7 +33,7 @@ jobs:
   strategy:
     matrix:
       Plain:
-          CMakeArgs-mlpack: '-DDEBUG=ON -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF -DCEREAL_INCLUDE_DIR=../../cereal-1.3.0/include/'
+          CMakeArgs-mlpack: '-DDEBUG=OFF -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF -DCEREAL_INCLUDE_DIR=../../cereal-1.3.0/include/'
           CMakeArgs-models: '-DDEBUG=ON -DCEREAL_INCLUDE_DIR=../cereal-1.3.0/include/'
 
   steps:
@@ -49,7 +49,7 @@ jobs:
   strategy:
     matrix:
       Plain:
-          CMakeArgs-mlpack: '-DDEBUG=ON -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF'
+          CMakeArgs-mlpack: '-DDEBUG=OFF -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF'
           CMakeArgs-models: '-DDEBUG=ON'
           CMakeGenerator: '-G "Visual Studio 15 2017 Win64"'
           MSBuildVersion: '15.0'
