@@ -113,7 +113,7 @@ steps:
     -DMLPACK_LIBRARY="..\mlpack\build\Release\mlpack.lib" `
     -DBOOST_INCLUDEDIR=$(Agent.ToolsDirectory)\boost.1.60.0.0\lib\native\include `
     -DBOOST_LIBRARYDIR=$(Agent.ToolsDirectory)\boost_libs `
-    -DCMAKE_INSTALL_PREFIX=$(Agent.ToolsDirectory)\ ..
+    -DCMAKE_INSTALL_PREFIX=$(Agent.ToolsDirectory)\models\build ..
   displayName: 'Configure models'
 
 # Build models
