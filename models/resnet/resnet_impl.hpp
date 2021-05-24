@@ -15,11 +15,9 @@
 #include "resnet.hpp"
 
 namespace mlpack {
-namespace ann /* Artificial neural networks */{
 namespace models {
 
 } // namespace models
-} // namespace ann
 } // namespace mlpack
 
 

@@ -34,12 +34,11 @@
 #include <mlpack/methods/ann/init_rules/he_init.hpp>
 
 namespace mlpack {
-namespace ann /* Artificial neural networks */{
 namespace models {
 
 template<
-  typename OutputLayerType = CrossEntropyError<>
-  typename InitializationRuleType = RandomInitialization,
+  typename OutputLayerType = ann::CrossEntropyError<>
+  typename InitializationRuleType = ann::RandomInitialization,
   size_t ResNetVersion = 18
 >
 class ResNet{
@@ -51,22 +50,22 @@ class ResNet{
          const size_t inputWidth,
          const size_t inputHeight,
          const size_t numClasses = 1000,
-         const std::string& weights = "none",
+         const bool preTrained = true,
          const bool includeTop = true);
 
   ResNet(std::tuple<size_t, size_t, size_t> inputShape,
          const size_t numClasses = 1000,
-         const std::string& weights = "none",
+         const bool preTrained = true,
          const bool includeTop = true);
 
-  FFN<OutputLayerType, InitializationRuleType> GetModel() { return resNet; }
+  ann::FFN<OutputLayerType, InitializationRuleType> GetModel() { return resNet; }
 
   void LoadModel(const std::string& filePath);
 
   void SaveModel(const std::string& filepath);
 
  private:
-  FFN<OutputLayerType, InitializationRuleType> resNet;
+  ann::FFN<OutputLayerType, InitializationRuleType> resNet;
   size_t inputChannel;
   size_t inputWidth;
   size_t inputHeight;
@@ -75,7 +74,6 @@ class ResNet{
 }; // ResNet class
 
 } // namespace models
-} // namespace ann
 } // namespace mlpack
 
 #include "resnet_impl.hpp"
