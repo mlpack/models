@@ -16,7 +16,7 @@
 #include <models/yolo/yolo.hpp>
 #include "catch.hpp"
 
-using namespace mlpack::ann::models;
+using namespace mlpack::models;
 
 /**
  * Simple test for Darknet model.
