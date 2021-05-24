@@ -131,6 +131,11 @@ steps:
     clean: false
   displayName: 'Build models'
 
+- powershell: |
+    cp build\*.dll build\tests
+    cp build\*.lib build\tests
+  displayName: 'Copy lib and dll files to build/bin'
+
 # Run tests via ctest.
 - bash: |
     cd build/tests
