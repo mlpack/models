@@ -3,7 +3,10 @@ project(models_test)
 
 include(CTest)
 enable_testing()
-include(${CMAKE_SOURCE_DIR}/CMake/Catch.cmake)
+
+if(NOT WIN32)
+  include(${CMAKE_SOURCE_DIR}/CMake/Catch.cmake)
+endif()
 
 set(MODEL_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/)
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../")
@@ -30,4 +33,8 @@ target_link_libraries(models_test
 # So the dll is placed in the same dir as the tests.
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-catch_discover_tests(models_test)
+if(NOT WIN32)
+  catch_discover_tests(models_test)
+else()
+  add_test(NAME "test" COMMAND models_test)
+endif()
