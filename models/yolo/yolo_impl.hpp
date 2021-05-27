@@ -9,13 +9,13 @@
  * 3-clause BSD license along with mlpack.  If not, see
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
-#ifndef MODELS_YOLO_IMPL_HPP
-#define MODELS_YOLO_IMPL_HPP
+#ifndef MODELS_MODELS_YOLO_YOLO_IMPL_HPP
+#define MODELS_MODELS_YOLO_YOLO_IMPL_HPP
 
 #include "yolo.hpp"
 
 namespace mlpack {
-namespace ann {
+namespace models {
 
 template<
     typename OutputLayerType,
@@ -105,7 +105,7 @@ YOLO<OutputLayerType, InitializationRuleType>::YOLO(
 
   if (yoloVersion == "v1-tiny")
   {
-    yolo.Add(new IdentityLayer<>());
+    yolo.Add(new ann::IdentityLayer<>());
 
     // Convolution and activation function in a block.
     ConvolutionBlock(inputChannel, 16, 3, 3, 1, 1, 1, 1, true);
@@ -127,9 +127,9 @@ YOLO<OutputLayerType, InitializationRuleType>::YOLO(
 
     if (includeTop)
     {
-      yolo.Add(new Linear<>(inputWidth * inputHeight * outChannels,
+      yolo.Add(new ann::Linear<>(inputWidth * inputHeight * outChannels,
           featureWidth * featureHeight * (5 * numBoxes + numClasses)));
-      yolo.Add(new SigmoidLayer<>());
+      yolo.Add(new ann::SigmoidLayer<>());
     }
 
     yolo.ResetParameters();
@@ -161,7 +161,7 @@ void YOLO<
   Log::Info << "Model saved in " << filePath << "." << std::endl;
 }
 
-} // namespace ann
+} // namespace models
 } // namespace mlpack
 
 #endif

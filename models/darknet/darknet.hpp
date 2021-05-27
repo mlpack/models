@@ -34,8 +34,8 @@
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
 
-#ifndef MODELS_DARKNET_HPP
-#define MODELS_DARKNET_HPP
+#ifndef MODELS_MODELS_DARKNET_DARKNET_HPP
+#define MODELS_MODELS_DARKNET_DARKNET_HPP
 
 #include <mlpack/core.hpp>
 #include <mlpack/methods/ann/layer/layer.hpp>
@@ -47,7 +47,7 @@
 #include <mlpack/methods/ann/init_rules/glorot_init.hpp>
 
 namespace mlpack {
-namespace ann /** Artificial Neural Network. */{
+namespace models {
 
 /**
  * Definition of a DarkNet CNN.
@@ -57,8 +57,8 @@ namespace ann /** Artificial Neural Network. */{
  * @tparam DaknetVer Version of DarkNet.
  */
 template<
-  typename OutputLayerType = CrossEntropyError<>,
-  typename InitializationRuleType = RandomInitialization,
+  typename OutputLayerType = ann::CrossEntropyError<>,
+  typename InitializationRuleType = ann::RandomInitialization,
   size_t DarkNetVersion = 19
 >
 class DarkNet
@@ -101,7 +101,10 @@ class DarkNet
           const bool includeTop = true);
 
   //! Get Layers of the model.
-  FFN<OutputLayerType, InitializationRuleType>& GetModel() { return darkNet; }
+  ann::FFN<OutputLayerType, InitializationRuleType>& GetModel()
+  {
+    return darkNet;
+  }
 
   //! Load weights into the model.
   void LoadModel(const std::string& filePath);
@@ -130,7 +133,7 @@ class DarkNet
    * @param baseLayer Layer in which Convolution block will be added, if
    *                  NULL added to darkNet FFN.
    */
-  template<typename SequentialType = Sequential<>>
+  template<typename SequentialType = ann::Sequential<>>
   void ConvolutionBlock(const size_t inSize,
                         const size_t outSize,
                         const size_t kernelWidth,
@@ -143,8 +146,8 @@ class DarkNet
                         const double negativeSlope = 1e-1,
                         SequentialType* baseLayer = NULL)
   {
-    Sequential<>* bottleNeck = new Sequential<>();
-    bottleNeck->Add(new Convolution<>(inSize, outSize, kernelWidth,
+    ann::Sequential<>* bottleNeck = new mlpack::ann::Sequential<>();
+    bottleNeck->Add(new ann::Convolution<>(inSize, outSize, kernelWidth,
         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
         inputHeight));
 
@@ -159,9 +162,9 @@ class DarkNet
         ", " << outSize << ")" << std::endl;
 
     if (batchNorm)
-      bottleNeck->Add(new BatchNorm<>(outSize, 1e-5, false));
+      bottleNeck->Add(new ann::BatchNorm<>(outSize, 1e-5, false));
 
-    bottleNeck->Add(new LeakyReLU<>(negativeSlope));
+    bottleNeck->Add(new ann::LeakyReLU<>(negativeSlope));
 
     if (baseLayer != NULL)
       baseLayer->Add(bottleNeck);
@@ -181,12 +184,13 @@ class DarkNet
   {
     if (type == "max")
     {
-      darkNet.Add(new AdaptiveMaxPooling<>(std::ceil(inputWidth * 1.0 / factor),
+      darkNet.Add(new ann::AdaptiveMaxPooling<>(
+          std::ceil(inputWidth * 1.0 / factor),
           std::ceil(inputHeight * 1.0 / factor)));
     }
     else
     {
-      darkNet.Add(new AdaptiveMeanPooling<>(std::ceil(inputWidth * 1.0 /
+      darkNet.Add(new ann::AdaptiveMeanPooling<>(std::ceil(inputWidth * 1.0 /
           factor), std::ceil(inputHeight * 1.0 / factor)));
     }
 
@@ -247,7 +251,7 @@ class DarkNet
                               const size_t padHeight = 1)
   {
     mlpack::Log::Info << "Residual Block Begin." << std::endl;
-    Residual<>* residualBlock = new Residual<>();
+    ann::Residual<>* residualBlock = new ann::Residual<>();
     ConvolutionBlock(inputChannel, inputChannel / 2,
         1, 1, 1, 1, 0, 0, true, 1e-2, residualBlock);
     ConvolutionBlock(inputChannel / 2, inputChannel, kernelWidth,
@@ -274,7 +278,7 @@ class DarkNet
   }
 
   //! Locally stored DarkNet Model.
-  FFN<OutputLayerType, InitializationRuleType> darkNet;
+  ann::FFN<OutputLayerType, InitializationRuleType> darkNet;
 
   //! Locally stored width of the image.
   size_t inputWidth;
@@ -292,7 +296,7 @@ class DarkNet
   std::string weights;
 }; // DarkNet class.
 
-} // namespace ann
+} // namespace models
 } // namespace mlpack
 
 # include "darknet_impl.hpp"

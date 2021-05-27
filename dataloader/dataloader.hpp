@@ -9,6 +9,9 @@
  * 3-clause BSD license along with mlpack.  If not, see
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
+#ifndef MODELS_DATALOADER_DATALOADER_HPP
+#define MODELS_DATALOADER_DATALOADER_HPP
+
 #include <mlpack/core/data/scaler_methods/min_max_scaler.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <mlpack/core/math/shuffle_data.hpp>
@@ -22,9 +25,8 @@
 #include <utils/utils.hpp>
 #include <set>
 
-
-#ifndef MODELS_DATALOADER_HPP
-#define MODELS_DATALOADER_HPP
+namespace mlpack {
+namespace models {
 
 /**
  * Dataloader class to load popular datasets.
@@ -499,6 +501,9 @@ class DataLoader
   //! Locally stored augmentation probability.
   double augmentationProbability;
 };
+
+} // namespace models
+} // namespace mlpack
 
 #include "dataloader_impl.hpp" // Include implementation.
 

@@ -12,6 +12,8 @@
 #include <augmentation/augmentation.hpp>
 #include "catch.hpp"
 
+using namespace mlpack::models;
+
 TEST_CASE("ResizeAugmentationTest", "[AugmentationTest]")
 {
   Augmentation augmentation(std::vector<std::string>(1,

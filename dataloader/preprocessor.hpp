@@ -10,10 +10,13 @@
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
 
-#ifndef MODELS_PREPROCESSOR_HPP
-#define MODELS_PREPROCESSOR_HPP
+#ifndef MODELS_DATALOADER_PREPROCESSOR_HPP
+#define MODELS_DATALOADER_PREPROCESSOR_HPP
 
 #include <mlpack/prereqs.hpp>
+
+namespace mlpack {
+namespace models {
 
 /**
  * Contains standatd pre-process functions for popular datasets.
@@ -261,5 +264,8 @@ class PreProcessor
     }
   }
 };
+
+} // namespace models
+} // namespace mlpack
 
 #endif

@@ -9,13 +9,13 @@
  * 3-clause BSD license along with mlpack.  If not, see
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
-#ifndef MODELS_DARKNET_IMPL_HPP
-#define MODELS_DARKNET_IMPL_HPP
+#ifndef MODELS_MODELS_DARKNET_DARKNET_IMPL_HPP
+#define MODELS_MODELS_DARKNET_DARKNET_IMPL_HPP
 
 #include "darknet.hpp"
 
 namespace mlpack {
-namespace ann {
+namespace models {
 
 template<
      typename OutputLayerType,
@@ -91,7 +91,7 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVersion>::DarkNet(
 
   if (DarkNetVersion == 19)
   {
-    darkNet.Add(new IdentityLayer<>());
+    darkNet.Add(new ann::IdentityLayer<>());
 
     // Convolution and activation function in a block.
     ConvolutionBlock(inputChannel, 32, 3, 3, 1, 1, 1, 1, true);
@@ -112,17 +112,17 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVersion>::DarkNet(
 
     if (includeTop)
     {
-      darkNet.Add(new Convolution<>(1024, numClasses, 1, 1,
+      darkNet.Add(new ann::Convolution<>(1024, numClasses, 1, 1,
           1, 1, 0, 0, inputWidth, inputHeight));
-      darkNet.Add(new AdaptiveMeanPooling<>(1, 1));
-      darkNet.Add(new LogSoftMax<>());
+      darkNet.Add(new ann::AdaptiveMeanPooling<>(1, 1));
+      darkNet.Add(new ann::LogSoftMax<>());
     }
 
     darkNet.ResetParameters();
   }
   else if (DarkNetVersion == 53)
   {
-    darkNet.Add(new IdentityLayer<>());
+    darkNet.Add(new ann::IdentityLayer<>());
     ConvolutionBlock(inputChannel, 32, 3, 3, 1, 1, 1, 1, true, 1e-2);
     ConvolutionBlock(32, 64, 3, 3, 2, 2, 1, 1, true, 1e-2);
 
@@ -146,8 +146,8 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVersion>::DarkNet(
 
     if (includeTop)
     {
-      darkNet.Add(new AdaptiveMeanPooling<>(1, 1));
-      darkNet.Add(new Linear<>(curChannels, numClasses));
+      darkNet.Add(new ann::AdaptiveMeanPooling<>(1, 1));
+      darkNet.Add(new ann::Linear<>(curChannels, numClasses));
     }
 
     darkNet.ResetParameters();
@@ -181,7 +181,7 @@ void DarkNet<
   Log::Info << "Model saved in " << filePath << "." << std::endl;
 }
 
-} // namespace ann
+} // namespace models
 } // namespace mlpack
 
 #endif
