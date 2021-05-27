@@ -10,6 +10,11 @@ if(NOT WIN32)
   include(${CMAKE_SOURCE_DIR}/CMake/Catch.cmake)
 endif()
 
+# The Catch CMake tools do not seem to work correctly on windows.
+if(NOT WIN32)
+  include(${CMAKE_SOURCE_DIR}/CMake/Catch.cmake)
+endif()
+
 set(MODEL_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/)
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../")
 
