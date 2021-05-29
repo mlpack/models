@@ -3,12 +3,6 @@ project(models_test)
 
 include(CTest)
 enable_testing()
-include(${CMAKE_SOURCE_DIR}/CMake/Catch.cmake)
-
-# The Catch CMake tools do not seem to work correctly on windows.
-if(NOT WIN32)
-  include(${CMAKE_SOURCE_DIR}/CMake/Catch.cmake)
-endif()
 
 # The Catch CMake tools do not seem to work correctly on windows.
 if(NOT WIN32)
