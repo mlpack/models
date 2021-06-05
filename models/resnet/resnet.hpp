@@ -58,13 +58,57 @@ class ResNet{
          const bool preTrained = true,
          const bool includeTop = true);
 
-  ann::FFN<OutputLayerType, InitializationRuleType> GetModel() { return resNet; }
+  ann::FFN<OutputLayerType, InitializationRuleType> GetModel()
+      { return resNet; }
 
   void LoadModel(const std::string& filePath);
 
   void SaveModel(const std::string& filepath);
 
  private:
+
+  void DownSample(const size_t inSize,
+                  const size_t outSize,
+                  const size_t kernelWidth,
+                  const size_t kernelHeight,
+                  const size_t strideWidth = 1,
+                  const size_t strideHeight = 1,
+                  const size_t padW = 0,
+                  const size_t padH = 0)
+  {
+     ann::Sequential<>* downSample = new ann::Sequential<>();
+     downSample->Add(new ann::Convolution<>(inSize, outSize, kernelWidth,
+         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
+         inputHeight))
+
+     // Updating input dimesntions.
+     inputwidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW)
+     inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH)
+
+     downSample->Add(BatchNorm<>(outSize))
+  }
+  
+  void ConvolutionBlock3x3()
+  {
+     
+  }
+
+  void BasicBlock()
+  {
+  }
+
+  void BottleNeck()
+  {
+  }
+
+  size_t ConvOutSize(const size_t size,
+                     const size_t k,
+                     const size_t s,
+                     const size_t padding)
+  {
+    return std::floor(size + 2 * padding - k) / s + 1;
+  }
+
   ann::FFN<OutputLayerType, InitializationRuleType> resNet;
   size_t inputChannel;
   size_t inputWidth;
