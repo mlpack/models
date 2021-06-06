@@ -79,13 +79,13 @@ class ResNet{
                            const size_t padH = 0,
                            const std::string& paddingType = "Same")
   {
-     baseLayer->Add(ann::Convolution<>(inSize, outSize, kernelWidth,
+    baseLayer->Add(ann::Convolution<>(inSize, outSize, kernelWidth,
         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
-        inputHeight, paddingType))
+        inputHeight, paddingType));
 
      // Updating input dimesntions.
-     inputwidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW)
-     inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH)
+    inputwidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
+    inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
   }
 
   template<typename SequentialType = ann::Sequential<>>
@@ -100,26 +100,42 @@ class ResNet{
                            const size_t padH = 0,
                            const std::string& paddingType = "None")
   {
-     baseLayer->Add(ann::Convolution<>(inSize, outSize, kernelWidth,
+    baseLayer->Add(ann::Convolution<>(inSize, outSize, kernelWidth,
         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
-        inputHeight, paddingType))
+        inputHeight, paddingType));
 
      // Updating input dimesntions.
-     inputwidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW)
-     inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH)
+    inputwidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
+    inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
   }
 
-  void DownSample(const size_t inSize,
-                  const size_t outSize)
+  template <typename SequentialType = ann::Sequential<>>
+  void DownSample(SequentialType* downSample,
+                  const size_t inSize,
+                  const size_t outSize,
+                  const size_t kernelWidth = 1,
+                  const size_t kernelHeight = 1,
+                  const size_t strideWidth = 1,
+                  const size_t strideHeight = 1,
+                  const size_t padW = 0,
+                  const size_t padH = 0,
+                  const std::string& paddingType = "None")
   {
-     ann::Sequential<>* downSample = new ann::Sequential<>();
-     ConvolutionBlock1x1(downSample, inSize, outSize)
-
-     downSample->Add(BatchNorm<>(outSize))
+    ConvolutionBlock1x1(downSample, inSize, outSize, kernelWidth, kernelHeight,
+        strideWidth, strideHeight, padW, padH, inputWidth, inputHeight,
+        paddingType);
+    downSample->Add(BatchNorm<>(outSize));
   }
 
   void BasicBlock()
   {
+    ann::Residual<>* residualBlock = new ann::Residual<>();
+    ConvolutionBlock3x3(residualBlock, inSize, outSize, kernelWidth,
+        kernelHeight);
+    residualBlock->Add(BatchNorm<>(outSize));
+    residualBlock->Add(ReLULayer<>);
+    ConvolutionBlock3x3(residualBlock, outSize, outSize);
+    residualBlock->Add(BatchNorm<>(outSize));
   }
 
   void BottleNeck()
