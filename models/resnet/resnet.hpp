@@ -67,30 +67,55 @@ class ResNet{
 
  private:
 
-  void DownSample(const size_t inSize,
-                  const size_t outSize,
-                  const size_t kernelWidth,
-                  const size_t kernelHeight,
-                  const size_t strideWidth = 1,
-                  const size_t strideHeight = 1,
-                  const size_t padW = 0,
-                  const size_t padH = 0)
+  template<typename SequentialType = ann::Sequential<>>
+  void ConvolutionBlock3x3(SequentialType* baseLayer,
+                           const size_t inSize,
+                           const size_t outSize,
+                           const size_t kernelWidth = 3,
+                           const size_t kernelHeight = 3,
+                           const size_t strideWidth = 1,
+                           const size_t strideHeight = 1,
+                           const size_t padW = 0,
+                           const size_t padH = 0,
+                           const std::string& paddingType = "Same")
   {
-     ann::Sequential<>* downSample = new ann::Sequential<>();
-     downSample->Add(new ann::Convolution<>(inSize, outSize, kernelWidth,
-         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
-         inputHeight))
+     baseLayer->Add(ann::Convolution<>(inSize, outSize, kernelWidth,
+        kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
+        inputHeight, paddingType))
 
      // Updating input dimesntions.
      inputwidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW)
      inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH)
+  }
+
+  template<typename SequentialType = ann::Sequential<>>
+  void ConvolutionBlock1x1(SequentialType* baseLayer,
+                           const size_t inSize,
+                           const size_t outSize,
+                           const size_t kernelWidth = 1,
+                           const size_t kernelHeight = 1,
+                           const size_t strideWidth = 1,
+                           const size_t strideHeight = 1,
+                           const size_t padW = 0,
+                           const size_t padH = 0,
+                           const std::string& paddingType = "None")
+  {
+     baseLayer->Add(ann::Convolution<>(inSize, outSize, kernelWidth,
+        kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
+        inputHeight, paddingType))
+
+     // Updating input dimesntions.
+     inputwidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW)
+     inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH)
+  }
+
+  void DownSample(const size_t inSize,
+                  const size_t outSize)
+  {
+     ann::Sequential<>* downSample = new ann::Sequential<>();
+     ConvolutionBlock1x1(downSample, inSize, outSize)
 
      downSample->Add(BatchNorm<>(outSize))
-  }
-  
-  void ConvolutionBlock3x3()
-  {
-     
   }
 
   void BasicBlock()
