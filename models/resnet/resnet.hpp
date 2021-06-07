@@ -109,8 +109,8 @@ class ResNet{
     inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
   }
 
-  template <typename SequentialType = ann::Sequential<>>
-  void DownSample(SequentialType* downSample,
+  template <typename AddmergeType = ann::AddMerge<>>
+  void DownSample(AddmergeType* downSample,
                   const size_t inSize,
                   const size_t outSize,
                   const size_t kernelWidth = 1,
@@ -129,13 +129,28 @@ class ResNet{
 
   void BasicBlock()
   {
-    ann::Residual<>* residualBlock = new ann::Residual<>();
-    ConvolutionBlock3x3(residualBlock, inSize, outSize, kernelWidth,
+    ann::Sequential<>* basicBlock = new Sequential<>;
+    // Should the addMerge block be left to it's default settings which is
+    // model = false, run = true ? 
+    ann::AddMerge<>* resBlock = new ann::AddMerge<>();
+    ann::Sequential<>* sequentialBlock = new ann::Sequential<>();
+    ConvolutionBlock3x3(seqentialBlock, inSize, outSize, kernelWidth,
         kernelHeight);
-    residualBlock->Add(BatchNorm<>(outSize));
-    residualBlock->Add(ReLULayer<>);
-    ConvolutionBlock3x3(residualBlock, outSize, outSize);
-    residualBlock->Add(BatchNorm<>(outSize));
+    seqentialBlock->Add(BatchNorm<>(outSize));
+    seqentialBlock->Add(ReLULayer<>);
+    ConvolutionBlock3x3(seqentialBlock, outSize, outSize);
+    seqentialBlock->Add(BatchNorm<>(outSize));
+
+    resBlock->Add(seqentialBlock);
+
+    if (downSample == true)
+      DownSample(resBlock, inSize, outSize);
+    else
+      resBlock->Add(IdentityLayer<>)
+
+    basicBlock->Add(resBlock);
+    basicBlock->Add(ReLULayer<>);
+    resNet.Add(basicBlock);
   }
 
   void BottleNeck()
