@@ -46,17 +46,17 @@ class ResNet{
 
   ResNet();
 
-  ResNet(const size_t inputChannel,
+  ResNet(const bool includeTop = true,
+         const bool preTrained = false,
+         const size_t inputChannel,
          const size_t inputWidth,
          const size_t inputHeight,
-         const size_t numClasses = 1000,
-         const bool preTrained = true,
-         const bool includeTop = true);
+         const size_t numClasses = 1000);
 
-  ResNet(std::tuple<size_t, size_t, size_t> inputShape,
-         const size_t numClasses = 1000,
-         const bool preTrained = true,
-         const bool includeTop = true);
+  ResNet(const bool includeTop = true,
+         const bool preTrained = false,
+         std::tuple<size_t, size_t, size_t> inputShape,
+         const size_t numClasses = 1000);
 
   ann::FFN<OutputLayerType, InitializationRuleType> GetModel()
       { return resNet; }
@@ -137,7 +137,7 @@ class ResNet{
     ConvolutionBlock3x3(seqentialBlock, inSize, outSize, kernelWidth,
         kernelHeight);
     seqentialBlock->Add(BatchNorm<>(outSize));
-    seqentialBlock->Add(ReLULayer<>);
+    seqentialBlock->Add(ann::ReLULayer<>);
     ConvolutionBlock3x3(seqentialBlock, outSize, outSize);
     seqentialBlock->Add(BatchNorm<>(outSize));
 
@@ -149,7 +149,7 @@ class ResNet{
       resBlock->Add(IdentityLayer<>)
 
     basicBlock->Add(resBlock);
-    basicBlock->Add(ReLULayer<>);
+    basicBlock->Add(ann::ReLULayer<>);
     resNet.Add(basicBlock);
   }
 
@@ -170,7 +170,6 @@ class ResNet{
   size_t inputWidth;
   size_t inputHeight;
   size_t numClasses;
-  std::string weights;
 }; // ResNet class
 
 } // namespace models
