@@ -64,15 +64,35 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
 {
 
   resNet.Add(ann::Convolution<>(3, 64, 7, 7, 2, 2, 3, 3, inputWidth, inputHeight));
+  
+  // Updating input dimesntions.
+  inputwidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
+  inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
+  
   resNet.Add(ann::batchNorm<>(64));
   resNet.Add(ann::ReLULayer<>);
-  // how to add a padding of 1 for the maxpool operation ? 
+  
+  resNet.Add(ann::Padding<>(1, 1, 1, 1)) 
   resNet.Add(ann::MaxPooling<>(3, 3, 2, 2));
 
   if (ResNetVersion == 18)
   {
-
+    size_t numBlockArray = [2 ,2, 2, 2]  
   }
+
+  MakeLayer("basicblock", 64, numBlockArray[0]);
+  MakeLayer("basicblock", 128, numBlockArray[1]);
+  MakeLayer("basicblock", 256, numBlockArray[2]);
+  MakeLayer("basicblock", 512, numBlockArray[3]);
+
+  // What would be the Pytroch equivalent of nn.AdaptiveAvgPool2d((1, 1))
+  // reference: https://pytorch.org/docs/stable/generated/torch.nn.AdaptiveAvgPool2d.html 
+  resNet.Add(ann::AdaptiveMeanPooling<>())
+
+  if (ResNetVersion == 18 || ResNetVersion == 34)
+    resNet.Add(ann::Linear<>(512 * basicBlockExpansion, numClasses))
+  else
+    resNet.Add(ann::Linear<>(512 * bottleNeckExpansion, numClasses))
 }
 
 

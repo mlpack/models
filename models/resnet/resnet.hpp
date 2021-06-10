@@ -37,7 +37,7 @@ namespace mlpack {
 namespace models {
 
 template<
-  typename OutputLayerType = ann::CrossEntropyError<>
+  typename OutputLayerType = ann::CrossEntropyError<>,
   typename InitializationRuleType = ann::RandomInitialization,
   size_t ResNetVersion = 18
 >
@@ -75,15 +75,14 @@ class ResNet{
                            const size_t kernelHeight = 3,
                            const size_t strideWidth = 1,
                            const size_t strideHeight = 1,
-                           const size_t padW = 0,
-                           const size_t padH = 0,
-                           const std::string& paddingType = "Same")
+                           const size_t padW = 1,
+                           const size_t padH = 1)
   {
     baseLayer->Add(ann::Convolution<>(inSize, outSize, kernelWidth,
         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
-        inputHeight, paddingType));
+        inputHeight));
 
-     // Updating input dimesntions.
+    // Updating input dimesntions.
     inputwidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
     inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
   }
@@ -97,14 +96,13 @@ class ResNet{
                            const size_t strideWidth = 1,
                            const size_t strideHeight = 1,
                            const size_t padW = 0,
-                           const size_t padH = 0,
-                           const std::string& paddingType = "None")
+                           const size_t padH = 0)
   {
     baseLayer->Add(ann::Convolution<>(inSize, outSize, kernelWidth,
         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
-        inputHeight, paddingType));
+        inputHeight));
 
-     // Updating input dimesntions.
+    // Updating input dimesntions.
     inputwidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
     inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
   }
@@ -118,24 +116,24 @@ class ResNet{
                   const size_t strideWidth = 1,
                   const size_t strideHeight = 1,
                   const size_t padW = 0,
-                  const size_t padH = 0,
-                  const std::string& paddingType = "None")
+                  const size_t padH = 0)
   {
     ConvolutionBlock1x1(downSample, inSize, outSize, kernelWidth, kernelHeight,
-        strideWidth, strideHeight, padW, padH, inputWidth, inputHeight,
-        paddingType);
+        strideWidth, strideHeight, padW, padH, inputWidth, inputHeight);
     downSample->Add(BatchNorm<>(outSize));
   }
 
-  void BasicBlock()
-  {
-    ann::Sequential<>* basicBlock = new Sequential<>;
-    // Should the addMerge block be left to it's default settings which is
-    // model = false, run = true ? 
-    ann::AddMerge<>* resBlock = new ann::AddMerge<>();
+  void BasicBlock(const size_t inSize,
+                  const size_t outSize,
+                  const bool downSample = false;
+                  const size_t kernelWidth = 1,
+                  const size_t kernelHeight = 1)
+  {  
+    ann::Sequential<>* basicBlock = new Sequential<>();
+    ann::AddMerge<>* resBlock = new ann::AddMerge<>(true, true);
     ann::Sequential<>* sequentialBlock = new ann::Sequential<>();
     ConvolutionBlock3x3(seqentialBlock, inSize, outSize, kernelWidth,
-        kernelHeight);
+        kernelHeight)
     seqentialBlock->Add(BatchNorm<>(outSize));
     seqentialBlock->Add(ann::ReLULayer<>);
     ConvolutionBlock3x3(seqentialBlock, outSize, outSize);
@@ -157,6 +155,34 @@ class ResNet{
   {
   }
 
+  void MakeLayer(const std::string& block,
+                 const size_t outSize,
+                 const size_t numBlocks,
+                 const size_t stride = 1)
+  {
+    size_t inSize = 64;
+    bool downSample = false;
+
+    if (block == "basicblock")
+    {
+      if (stride != 1 || inSize != inSize * basicBlockExpansion)
+        downSample = true;
+      basicBlock(inSize, outSize, downSample);
+      inSize = inSize * basicBlockExpansion;
+      for (size_t i = 1; i != numBlocks; ++i)
+        basicBlock(inSize, outSize)
+    }
+
+    else if (block == "bottleneck")
+    {
+      if (stride != 1 || inSize != inSize * bottleNeckExpansion)
+        downSample = true;
+      bottleneck(inSize, outSize, downSample);
+      inSize = inSize * bottleNeckExpansion;
+      for (size_t i = 1; i != numBlocks; ++i)
+        bottleneck(inSize, outSize)
+    }
+  }
   size_t ConvOutSize(const size_t size,
                      const size_t k,
                      const size_t s,
@@ -170,6 +196,8 @@ class ResNet{
   size_t inputWidth;
   size_t inputHeight;
   size_t numClasses;
+  size_t basicBlockExpansion = 1;
+  size_t bottleNeckExpansion = 4;
 }; // ResNet class
 
 } // namespace models

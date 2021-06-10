@@ -14,6 +14,7 @@
 #include <dataloader/dataloader.hpp>
 #include <models/darknet/darknet.hpp>
 #include <models/yolo/yolo.hpp>
+#include <models/resnet/resnet.hpp>
 #include "catch.hpp"
 
 using namespace mlpack::models;
@@ -52,4 +53,9 @@ TEST_CASE("YOLOV1ModelTest", "[FFNModelsTests]")
   yolo.GetModel().Predict(input, output);
   REQUIRE(output.n_cols == 1);
   REQUIRE(output.n_rows == (7 * 7 * (5 * 2 + 20)));
+}
+
+TEST_CASE("ResNetModelTest", "[FFNModelsTests]")
+{
+  ResNet<> resnet(true, false, 3, 224, 224, 1000);
 }
