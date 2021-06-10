@@ -23,7 +23,7 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet() :
     inputChannel(0),
     inputWidth(0),
     inputHeight(0),
-    numClasses(0),
+    numClasses(0)
 {
   // Nothing to do here.
 }
@@ -31,19 +31,19 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet() :
 template<typename OutputLayerType, typename InitializationRuleType,
     size_t ResNetVersion>
 ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
-    const bool includeTop,
-    const bool preTrained,
     const size_t inputChannel,
     const size_t inputWidth,
     const size_t inputHeight,
+    const bool includeTop,
+    const bool preTrained,
     const size_t numClasses) :
-    ReNet<OutputLayerType, InitializationRule,  ResNetVersion>(
-        includeTop,
-        preTrained,
+    ResNet<OutputLayerType, InitializationRuleType,  ResNetVersion>(
         std::tuple<size_t, size_t, size_t>(
         inputChannel,
         inputWidth,
         inputHeight),
+        includeTop,
+        preTrained,
         numClasses)
 {
   // Nothing to do here.
@@ -52,32 +52,31 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
 template<typename OutputLayerType, typename InitializationRuleType,
     size_t ResNetVersion>
 ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
+    std::tuple<size_t, size_t, size_t> inputShape,
     const bool includeTop,
     const bool preTrained,
-    std::tuple<size_t, size_t, size_t> inputShape,
-    const size_t numClasses,
-    ) :
+    const size_t numClasses) :
     inputChannel(std::get<0>(inputShape)),
     inputWidth(std::get<1>(inputShape)),
     inputHeight(std::get<2>(inputShape)),
     numClasses(numClasses)
 {
 
-  resNet.Add(ann::Convolution<>(3, 64, 7, 7, 2, 2, 3, 3, inputWidth, inputHeight));
+  resNet.Add(new ann::Convolution<>(3, 64, 7, 7, 2, 2, 3, 3, inputWidth, inputHeight));
   
   // Updating input dimesntions.
-  inputwidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
-  inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
+  inputWidth = ConvOutSize(inputWidth, 7, 2, 3);
+  inputHeight = ConvOutSize(inputHeight, 7, 2, 3);
   
-  resNet.Add(ann::batchNorm<>(64));
-  resNet.Add(ann::ReLULayer<>);
+  resNet.Add(new ann::BatchNorm<>(64));
+  resNet.Add(new ann::ReLULayer<>);
   
-  resNet.Add(ann::Padding<>(1, 1, 1, 1)) 
-  resNet.Add(ann::MaxPooling<>(3, 3, 2, 2));
+  resNet.Add(new ann::Padding<>(1, 1, 1, 1));
+  resNet.Add(new ann::MaxPooling<>(3, 3, 2, 2));
 
   if (ResNetVersion == 18)
   {
-    size_t numBlockArray = [2 ,2, 2, 2]  
+    numBlockArray = {2 ,2, 2, 2};
   }
 
   MakeLayer("basicblock", 64, numBlockArray[0]);
@@ -87,12 +86,12 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
 
   // What would be the Pytroch equivalent of nn.AdaptiveAvgPool2d((1, 1))
   // reference: https://pytorch.org/docs/stable/generated/torch.nn.AdaptiveAvgPool2d.html 
-  resNet.Add(ann::AdaptiveMeanPooling<>())
+  resNet.Add(ann::AdaptiveMeanPooling<>());
 
   if (ResNetVersion == 18 || ResNetVersion == 34)
-    resNet.Add(ann::Linear<>(512 * basicBlockExpansion, numClasses))
+    resNet.Add(new ann::Linear<>(512 * basicBlockExpansion, numClasses));
   else
-    resNet.Add(ann::Linear<>(512 * bottleNeckExpansion, numClasses))
+    resNet.Add(new ann::Linear<>(512 * bottleNeckExpansion, numClasses));
 }
 
 

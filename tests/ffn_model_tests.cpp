@@ -57,5 +57,5 @@ TEST_CASE("YOLOV1ModelTest", "[FFNModelsTests]")
 
 TEST_CASE("ResNetModelTest", "[FFNModelsTests]")
 {
-  ResNet<> resnet(true, false, 3, 224, 224, 1000);
+  ResNet<> resnet(3, 224, 224);
 }
