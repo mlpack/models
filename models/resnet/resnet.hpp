@@ -119,7 +119,7 @@ class ResNet{
                   const size_t padH = 0)
   {
     ConvolutionBlock1x1(downSample, inSize, outSize, kernelWidth, kernelHeight,
-        strideWidth, strideHeight, padW, padH, inputWidth, inputHeight);
+        strideWidth, strideHeight, padW, padH);
     downSample->Add(new ann::BatchNorm<>(outSize));
   }
 
@@ -151,7 +151,11 @@ class ResNet{
     resNet.Add(basicBlock);
   }
 
-  void BottleNeck()
+  void BottleNeck(const size_t inSize,
+                  const size_t outSize,
+                  const bool downSample = false,
+                  const size_t kernelWidth = 1,
+                  const size_t kernelHeight = 1)
   {
   }
 

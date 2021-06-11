@@ -58,4 +58,10 @@ TEST_CASE("YOLOV1ModelTest", "[FFNModelsTests]")
 TEST_CASE("ResNetModelTest", "[FFNModelsTests]")
 {
   ResNet<> resnet(3, 224, 224);
+  arma::mat input(224 * 224 * 3, 1), output;
+  input.ones();
+
+  resnet.GetModel().Predict(input, output);
+  std::cout<<"Rows: "<<output.n_rows;
+  std::cout<<"Cols"<<output.n_cols;
 }

@@ -84,14 +84,18 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
   MakeLayer("basicblock", 256, numBlockArray[2]);
   MakeLayer("basicblock", 512, numBlockArray[3]);
 
-  // What would be the Pytroch equivalent of nn.AdaptiveAvgPool2d((1, 1))
-  // reference: https://pytorch.org/docs/stable/generated/torch.nn.AdaptiveAvgPool2d.html 
-  resNet.Add(ann::AdaptiveMeanPooling<>());
+  if (includeTop)
+  {
+    // What would be the Pytroch equivalent of nn.AdaptiveAvgPool2d((1, 1))
+    // reference: https://pytorch.org/docs/stable/generated/torch.nn.AdaptiveAvgPool2d.html 
+    resNet.Add(new ann::AdaptiveMeanPooling<>(1, 1));
 
-  if (ResNetVersion == 18 || ResNetVersion == 34)
-    resNet.Add(new ann::Linear<>(512 * basicBlockExpansion, numClasses));
-  else
-    resNet.Add(new ann::Linear<>(512 * bottleNeckExpansion, numClasses));
+    if (ResNetVersion == 18 || ResNetVersion == 34)
+      resNet.Add(new ann::Linear<>(512 * basicBlockExpansion, numClasses));
+    else
+      resNet.Add(new ann::Linear<>(512 * bottleNeckExpansion, numClasses));
+  }
+
 }
 
 
