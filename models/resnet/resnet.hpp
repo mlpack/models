@@ -171,7 +171,7 @@ class ResNet{
     {
       if (stride != 1 || inSize != outSize * basicBlockExpansion)
         downSample = true;
-      BasicBlock(inSize, outSize, downSample);
+      BasicBlock(inSize, outSize * basicBlockExpansion, downSample);
       inSize = outSize * basicBlockExpansion;
       for (size_t i = 1; i != numBlocks; ++i)
         BasicBlock(inSize, outSize);
@@ -181,7 +181,7 @@ class ResNet{
     {
       if (stride != 1 || inSize != outSize * bottleNeckExpansion)
         downSample = true;
-      BottleNeck(inSize, outSize, downSample);
+      BottleNeck(inSize, outSize * bottleNeckExpansion, downSample);
       inSize = outSize * bottleNeckExpansion;
       for (size_t i = 1; i != numBlocks; ++i)
         BottleNeck(inSize, outSize);
