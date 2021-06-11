@@ -63,16 +63,25 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
 {
 
   resNet.Add(new ann::Convolution<>(3, 64, 7, 7, 2, 2, 3, 3, inputWidth, inputHeight));
+  std::cout<<"Convolution: "<<3<<" "<<64<<std::endl;
   
   // Updating input dimesntions.
   inputWidth = ConvOutSize(inputWidth, 7, 2, 3);
   inputHeight = ConvOutSize(inputHeight, 7, 2, 3);
   
   resNet.Add(new ann::BatchNorm<>(64));
+  std::cout<<"BatchNorm: "<<64<<std::endl;
+
   resNet.Add(new ann::ReLULayer<>);
+  std::cout<<"Relu"<<std::endl;
+
   
   resNet.Add(new ann::Padding<>(1, 1, 1, 1));
+  std::cout<<"Padding: "<<"1,1,1,1"<<std::endl;
+
   resNet.Add(new ann::MaxPooling<>(3, 3, 2, 2));
+  std::cout<<"MaxPool: "<<"3,3,2,2"<<std::endl;
+
 
   if (ResNetVersion == 18)
   {
@@ -89,11 +98,19 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
     // What would be the Pytroch equivalent of nn.AdaptiveAvgPool2d((1, 1))
     // reference: https://pytorch.org/docs/stable/generated/torch.nn.AdaptiveAvgPool2d.html 
     resNet.Add(new ann::AdaptiveMeanPooling<>(1, 1));
+    std::cout<<"AdaptiveMeanPooling: "<<"1,1"<<std::endl;
+
 
     if (ResNetVersion == 18 || ResNetVersion == 34)
+    {
       resNet.Add(new ann::Linear<>(512 * basicBlockExpansion, numClasses));
+      std::cout<<"Linear: "<<512 * basicBlockExpansion<<" "<<numClasses<<std::endl;
+    }
     else
+    { 
       resNet.Add(new ann::Linear<>(512 * bottleNeckExpansion, numClasses));
+      std::cout<<"Linear: "<<512 * bottleNeckExpansion<<" "<<numClasses<<std::endl;
+    } 
   }
 
 }

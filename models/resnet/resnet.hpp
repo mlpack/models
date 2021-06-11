@@ -82,6 +82,7 @@ class ResNet{
         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
         inputHeight));
 
+    std::cout<<"Convolution: "<<inSize<<" "<<outSize<<std::endl;
     // Updating input dimesntions.
     inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
     inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
@@ -102,6 +103,8 @@ class ResNet{
         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
         inputHeight));
 
+    std::cout<<"Convolution: "<<inSize<<" "<<outSize<<std::endl;
+
     // Updating input dimesntions.
     inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
     inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
@@ -120,7 +123,9 @@ class ResNet{
   {
     ConvolutionBlock1x1(downSample, inSize, outSize, kernelWidth, kernelHeight,
         strideWidth, strideHeight, padW, padH);
+
     downSample->Add(new ann::BatchNorm<>(outSize));
+    std::cout<<"BatchNorm: "<<outSize<<std::endl;
   }
 
   void BasicBlock(const size_t inSize,
@@ -135,19 +140,29 @@ class ResNet{
     ConvolutionBlock3x3(sequentialBlock, inSize, outSize, kernelWidth,
         kernelHeight);
     sequentialBlock->Add(new ann::BatchNorm<>(outSize));
+    std::cout<<"BatchNorm: "<<outSize<<std::endl;
     sequentialBlock->Add(new ann::ReLULayer<>);
+    std::cout<<"Relu"<<std::endl;
     ConvolutionBlock3x3(sequentialBlock, outSize, outSize);
     sequentialBlock->Add(new ann::BatchNorm<>(outSize));
+    std::cout<<"BatchNorm: "<<outSize<<std::endl;
 
     resBlock->Add(sequentialBlock);
 
     if (downSample == true)
+    {  
+      std::cout<<"DownSample below"<<std::endl;
       DownSample(resBlock, inSize, outSize);
+    }
     else
+    {
       resBlock->Add(new ann::IdentityLayer<>);
+      std::cout<<"IdentityLayer"<<std::endl;
+    }
 
     basicBlock->Add(resBlock);
     basicBlock->Add(new ann::ReLULayer<>);
+    std::cout<<"Relu"<<std::endl;
     resNet.Add(basicBlock);
   }
 
@@ -164,27 +179,26 @@ class ResNet{
                  const size_t numBlocks,
                  const size_t stride = 1)
   {
-    size_t inSize = 64;
     bool downSample = false;
 
     if (block == "basicblock")
     {
-      if (stride != 1 || inSize != outSize * basicBlockExpansion)
+      if (stride != 1 || downSampleInSize != outSize * basicBlockExpansion)
         downSample = true;
-      BasicBlock(inSize, outSize * basicBlockExpansion, downSample);
-      inSize = outSize * basicBlockExpansion;
+      BasicBlock(downSampleInSize, outSize * basicBlockExpansion, downSample);
+      downSampleInSize = outSize * basicBlockExpansion;
       for (size_t i = 1; i != numBlocks; ++i)
-        BasicBlock(inSize, outSize);
+        BasicBlock(downSampleInSize, outSize);
     }
 
     else if (block == "bottleneck")
     {
-      if (stride != 1 || inSize != outSize * bottleNeckExpansion)
+      if (stride != 1 || downSampleInSize != outSize * bottleNeckExpansion)
         downSample = true;
-      BottleNeck(inSize, outSize * bottleNeckExpansion, downSample);
-      inSize = outSize * bottleNeckExpansion;
+      BottleNeck(downSampleInSize, outSize * bottleNeckExpansion, downSample);
+      downSampleInSize = outSize * bottleNeckExpansion;
       for (size_t i = 1; i != numBlocks; ++i)
-        BottleNeck(inSize, outSize);
+        BottleNeck(downSampleInSize, outSize);
     }
   }
   size_t ConvOutSize(const size_t size,
@@ -202,6 +216,9 @@ class ResNet{
   size_t numClasses;
   size_t basicBlockExpansion = 1;
   size_t bottleNeckExpansion = 4;
+
+  // I honestly need better variable names. 
+  size_t downSampleInSize = 64;
   std::vector<size_t> numBlockArray;
 }; // ResNet class
 
