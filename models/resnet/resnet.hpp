@@ -89,6 +89,8 @@ class ResNet{
     // Updating input dimesntions.
     inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
     inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
+    std::cout<<inputWidth<<" "<<inputHeight<<std::endl;
+
   }
 
   template<typename SequentialType = ann::Sequential<>>
@@ -113,6 +115,7 @@ class ResNet{
     // Updating input dimesntions.
     inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
     inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
+    std::cout<<inputWidth<<" "<<inputHeight<<std::endl;
   }
 
   template <typename AddmergeType = ann::AddMerge<>>
@@ -135,15 +138,12 @@ class ResNet{
 
   void BasicBlock(const size_t inSize,
                   const size_t outSize,
-                  const bool downSample = false,
-                  const size_t kernelWidth = 1,
-                  const size_t kernelHeight = 1)
+                  const bool downSample = false)
   {  
     ann::Sequential<>* basicBlock = new ann::Sequential<>();
     ann::AddMerge<>* resBlock = new ann::AddMerge<>(true, true);
     ann::Sequential<>* sequentialBlock = new ann::Sequential<>();
-    ConvolutionBlock3x3(sequentialBlock, inSize, outSize, kernelWidth,
-        kernelHeight);
+    ConvolutionBlock3x3(sequentialBlock, inSize, outSize);
     sequentialBlock->Add(new ann::BatchNorm<>(outSize));
     std::cout<<"BatchNorm: "<<outSize<<std::endl;
     sequentialBlock->Add(new ann::ReLULayer<>);
@@ -206,6 +206,7 @@ class ResNet{
         BottleNeck(downSampleInSize, outSize);
     }
   }
+  
   size_t ConvOutSize(const size_t size,
                      const size_t k,
                      const size_t s,
