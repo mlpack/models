@@ -58,11 +58,14 @@ class ResNet{
          const bool preTrained = false,
          const size_t numClasses = 1000);
 
+  //! Get Layers of the model.
   ann::FFN<OutputLayerType, InitializationRuleType> GetModel()
       { return resNet; }
 
+  //! Load weights into the model.
   void LoadModel(const std::string& filePath);
 
+  //! Save weights for the model.
   void SaveModel(const std::string& filepath);
 
  private:
@@ -209,6 +212,15 @@ class ResNet{
     }
   }
   
+  /**
+   * Return the convolution output size.
+   *
+   * @param size The size of the input (row or column).
+   * @param k The size of the filter (width or height).
+   * @param s The stride size (x or y direction).
+   * @param padding The size of the padding (width or height) on one side.
+   * @return The convolution output size.
+   */
   size_t ConvOutSize(const size_t size,
                      const size_t k,
                      const size_t s,
@@ -217,16 +229,31 @@ class ResNet{
     return std::floor((size - k + 2 * padding) / s) + 1;
   }
 
+  //! Locally stored DarkNet Model.
   ann::FFN<OutputLayerType, InitializationRuleType> resNet;
+  
+  //! Locally stored number of channels in the image.
   size_t inputChannel;
+  
+  //! Locally stored width of the image.
   size_t inputWidth;
+  
+  //! Locally stored height of the image.
   size_t inputHeight;
+  
+  //! Locally stored number of output classes.
   size_t numClasses;
+  
+  //! Locally stored expansion for BasicBlock.
   size_t basicBlockExpansion = 1;
+  
+  //! Locally stored expansion for BottleNeck.
   size_t bottleNeckExpansion = 4;
 
-  // I honestly need better variable names. 
+  //! InSize for ResNet block creation.
   size_t downSampleInSize = 64;
+
+  //! Locally stored vector to constructor different ResNet versions.
   std::vector<size_t> numBlockArray;
 }; // ResNet class
 
