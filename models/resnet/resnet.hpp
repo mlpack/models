@@ -71,10 +71,10 @@ class ResNet{
   void ConvolutionBlock3x3(SequentialType* baseLayer,
                            const size_t inSize,
                            const size_t outSize,
-                           const size_t kernelWidth = 3,
-                           const size_t kernelHeight = 3,
                            const size_t strideWidth = 1,
                            const size_t strideHeight = 1,
+                           const size_t kernelWidth = 3,
+                           const size_t kernelHeight = 3,
                            const size_t padW = 1,
                            const size_t padH = 1)
   {
@@ -89,18 +89,16 @@ class ResNet{
     // Updating input dimesntions.
     inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
     inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
-    std::cout<<inputWidth<<" "<<inputHeight<<std::endl;
-
   }
 
   template<typename SequentialType = ann::Sequential<>>
   void ConvolutionBlock1x1(SequentialType* baseLayer,
                            const size_t inSize,
                            const size_t outSize,
-                           const size_t kernelWidth = 1,
-                           const size_t kernelHeight = 1,
                            const size_t strideWidth = 1,
                            const size_t strideHeight = 1,
+                           const size_t kernelWidth = 1,
+                           const size_t kernelHeight = 1,
                            const size_t padW = 0,
                            const size_t padH = 0)
   {
@@ -115,7 +113,6 @@ class ResNet{
     // Updating input dimesntions.
     inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
     inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
-    std::cout<<inputWidth<<" "<<inputHeight<<std::endl;
   }
 
   template <typename AddmergeType = ann::AddMerge<>>
@@ -124,13 +121,13 @@ class ResNet{
                   const size_t outSize,
                   const size_t kernelWidth = 1,
                   const size_t kernelHeight = 1,
-                  const size_t strideWidth = 1,
-                  const size_t strideHeight = 1,
+                  const size_t strideWidth = 2,
+                  const size_t strideHeight = 2,
                   const size_t padW = 0,
                   const size_t padH = 0)
   {
-    ConvolutionBlock1x1(downSample, inSize, outSize, kernelWidth, kernelHeight,
-        strideWidth, strideHeight, padW, padH);
+    ConvolutionBlock1x1(downSample, inSize, outSize, strideWidth, strideHeight,
+        kernelWidth, kernelHeight, padW, padH);
 
     downSample->Add(new ann::BatchNorm<>(outSize));
     std::cout<<"BatchNorm: "<<outSize<<std::endl;
@@ -138,12 +135,15 @@ class ResNet{
 
   void BasicBlock(const size_t inSize,
                   const size_t outSize,
+                  const size_t strideWidth = 1,
+                  const size_t strideHeight = 1,
                   const bool downSample = false)
   {  
     ann::Sequential<>* basicBlock = new ann::Sequential<>();
     ann::AddMerge<>* resBlock = new ann::AddMerge<>(true, true);
     ann::Sequential<>* sequentialBlock = new ann::Sequential<>();
-    ConvolutionBlock3x3(sequentialBlock, inSize, outSize);
+    ConvolutionBlock3x3(sequentialBlock, inSize, outSize, strideWidth,
+        strideHeight);
     sequentialBlock->Add(new ann::BatchNorm<>(outSize));
     std::cout<<"BatchNorm: "<<outSize<<std::endl;
     sequentialBlock->Add(new ann::ReLULayer<>);
@@ -190,7 +190,8 @@ class ResNet{
     {
       if (stride != 1 || downSampleInSize != outSize * basicBlockExpansion)
         downSample = true;
-      BasicBlock(downSampleInSize, outSize * basicBlockExpansion, downSample);
+      BasicBlock(downSampleInSize, outSize * basicBlockExpansion, stride,
+          stride, downSample);
       downSampleInSize = outSize * basicBlockExpansion;
       for (size_t i = 1; i != numBlocks; ++i)
         BasicBlock(downSampleInSize, outSize);
@@ -200,7 +201,8 @@ class ResNet{
     {
       if (stride != 1 || downSampleInSize != outSize * bottleNeckExpansion)
         downSample = true;
-      BottleNeck(downSampleInSize, outSize * bottleNeckExpansion, downSample);
+      BottleNeck(downSampleInSize, outSize * bottleNeckExpansion, stride,
+        stride, downSample);
       downSampleInSize = outSize * bottleNeckExpansion;
       for (size_t i = 1; i != numBlocks; ++i)
         BottleNeck(downSampleInSize, outSize);
@@ -212,7 +214,7 @@ class ResNet{
                      const size_t s,
                      const size_t padding)
   {
-    return std::floor(size + 2 * padding - k) / s + 1;
+    return std::floor((size - k + 2 * padding) / s) + 1;
   }
 
   ann::FFN<OutputLayerType, InitializationRuleType> resNet;

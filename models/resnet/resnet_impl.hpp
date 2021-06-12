@@ -100,9 +100,9 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
   }
 
   MakeLayer("basicblock", 64, numBlockArray[0]);
-  MakeLayer("basicblock", 128, numBlockArray[1]);
-  MakeLayer("basicblock", 256, numBlockArray[2]);
-  MakeLayer("basicblock", 512, numBlockArray[3]);
+  MakeLayer("basicblock", 128, numBlockArray[1], 2);
+  MakeLayer("basicblock", 256, numBlockArray[2], 2);
+  MakeLayer("basicblock", 512, numBlockArray[3], 2);
 
   if (includeTop)
   {
