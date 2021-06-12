@@ -62,7 +62,39 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
     numClasses(numClasses)
 {
 
-  resNet.Add(new ann::Convolution<>(3, 64, 7, 7, 2, 2, 3, 3, inputWidth, inputHeight));
+  if (ResNetVersion == 18)
+  {
+    numBlockArray = {2 ,2, 2, 2};
+    builderBlock = "basicblock";
+  }
+  else if (ResNetVersion == 34)
+  {
+    numBlockArray = {3, 4, 6, 3};
+    builderBlock = "basicblock";
+  }
+  else if (ResNetVersion == 50)
+  {
+    numBlockArray = {3, 4, 6, 3};
+    builderBlock = "bottleneck";
+  }
+  else if (ResNetVersion == 101)
+  {
+    numBlockArray = {3, 4, 23, 3};
+    builderBlock = "bottleneck";
+  }
+  else if (ResNetVersion == 152)
+  {
+    numBlockArray = {3, 8, 36, 3};
+    builderBlock = "bottleneck";
+  }
+  else
+  {
+    mlpack::Log::Warn << "Incorrect ResNet version. Possible Values are: 18, "
+        "34, 50, 101 and 152" << std::endl;
+  }
+
+  resNet.Add(new ann::Convolution<>(3, 64, 7, 7, 2, 2, 3, 3, inputWidth,
+      inputHeight));
   std::cout<<"Convolution: "<<3<<" "<<64<<" "<<7<<" "<<7<<" "
         <<2<<" "<<2<<" "<<3<<" "<<3<<" "
         <<inputWidth<<" "<<inputHeight<<std::endl;
@@ -94,15 +126,10 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
 
   std::cout<<inputWidth<<" "<<inputHeight<<std::endl;
 
-  if (ResNetVersion == 18)
-  {
-    numBlockArray = {2 ,2, 2, 2};
-  }
-
-  MakeLayer("basicblock", 64, numBlockArray[0]);
-  MakeLayer("basicblock", 128, numBlockArray[1], 2);
-  MakeLayer("basicblock", 256, numBlockArray[2], 2);
-  MakeLayer("basicblock", 512, numBlockArray[3], 2);
+  MakeLayer(builderBlock, 64, numBlockArray[0]);
+  MakeLayer(builderBlock, 128, numBlockArray[1], 2);
+  MakeLayer(builderBlock, 256, numBlockArray[2], 2);
+  MakeLayer(builderBlock, 512, numBlockArray[3], 2);
 
   if (includeTop)
   {
@@ -117,7 +144,8 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
       resNet.Add(new ann::Linear<>(512 * basicBlockExpansion, numClasses));
       std::cout<<"Linear: "<<512 * basicBlockExpansion<<" "<<numClasses<<std::endl;
     }
-    else
+    else if (ResNetVersion == 50 || ResNetVersion == 101 ||
+        ResNetVersion == 152)
     { 
       resNet.Add(new ann::Linear<>(512 * bottleNeckExpansion, numClasses));
       std::cout<<"Linear: "<<512 * bottleNeckExpansion<<" "<<numClasses<<std::endl;

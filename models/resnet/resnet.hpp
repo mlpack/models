@@ -255,7 +255,22 @@ class ResNet{
 
   //! Locally stored vector to constructor different ResNet versions.
   std::vector<size_t> numBlockArray;
+
+  //! Locally stored block string from which to build the model.
+  std::string builderBlock;
 }; // ResNet class
+
+// convenience typedefs for different ResNet models.
+typedef ResNet<ann::CrossEntropyError<>, ann::RandomInitialization, 18>
+    ResNet18;
+typedef ResNet<ann::CrossEntropyError<>, ann::RandomInitialization, 34>
+    ResNet34;
+typedef ResNet<ann::CrossEntropyError<>, ann::RandomInitialization, 50>
+    ResNet50;
+typedef ResNet<ann::CrossEntropyError<>, ann::RandomInitialization, 101>
+    ResNet101;
+typedef ResNet<ann::CrossEntropyError<>, ann::RandomInitialization, 152>
+    ResNet152; 
 
 } // namespace models
 } // namespace mlpack
