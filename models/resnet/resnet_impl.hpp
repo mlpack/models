@@ -63,7 +63,9 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
 {
 
   resNet.Add(new ann::Convolution<>(3, 64, 7, 7, 2, 2, 3, 3, inputWidth, inputHeight));
-  std::cout<<"Convolution: "<<3<<" "<<64<<std::endl;
+  std::cout<<"Convolution: "<<3<<" "<<64<<" "<<7<<" "<<7<<" "
+        <<2<<" "<<2<<" "<<3<<" "<<3<<" "
+        <<inputWidth<<" "<<inputHeight<<std::endl;
   
   // Updating input dimesntions.
   inputWidth = ConvOutSize(inputWidth, 7, 2, 3);
@@ -77,11 +79,20 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
 
   
   resNet.Add(new ann::Padding<>(1, 1, 1, 1));
-  std::cout<<"Padding: "<<"1,1,1,1"<<std::endl;
+  std::cout<<"Padding: "<<"1,1,1,1"<<" ";
+
+  inputWidth += 2;
+  inputHeight += 2; 
+
+  std::cout<<inputWidth<<" "<<inputHeight<<std::endl;
 
   resNet.Add(new ann::MaxPooling<>(3, 3, 2, 2));
-  std::cout<<"MaxPool: "<<"3,3,2,2"<<std::endl;
+  std::cout<<"MaxPool: "<<"3,3,2,2"<<" ";
 
+  inputWidth = ConvOutSize(inputWidth, 3, 2, 0);
+  inputHeight = ConvOutSize(inputHeight, 3, 2, 0);
+
+  std::cout<<inputWidth<<" "<<inputHeight<<std::endl;
 
   if (ResNetVersion == 18)
   {

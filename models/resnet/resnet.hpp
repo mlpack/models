@@ -82,7 +82,10 @@ class ResNet{
         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
         inputHeight));
 
-    std::cout<<"Convolution: "<<inSize<<" "<<outSize<<std::endl;
+    std::cout<<"Convolution: "<<inSize<<" "<<outSize<<" "<<kernelWidth<<" "<<kernelHeight<<" "
+        <<strideWidth<<" "<<strideHeight<<" "<<padW<<" "<<padH<<" "
+        <<inputWidth<<" "<<inputHeight<<std::endl;
+
     // Updating input dimesntions.
     inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
     inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
@@ -103,7 +106,9 @@ class ResNet{
         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
         inputHeight));
 
-    std::cout<<"Convolution: "<<inSize<<" "<<outSize<<std::endl;
+    std::cout<<"Convolution: "<<inSize<<" "<<outSize<<" "<<kernelWidth<<" "<<kernelHeight<<" "
+        <<strideWidth<<" "<<strideHeight<<" "<<padW<<" "<<padH<<" "
+        <<inputWidth<<" "<<inputHeight<<std::endl;
 
     // Updating input dimesntions.
     inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
