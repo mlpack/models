@@ -89,7 +89,7 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
   }
   else
   {
-    mlpack::Log::Warn << "Incorrect ResNet version. Possible Values are: 18, "
+    mlpack::Log::Fatal << "Incorrect ResNet version. Possible Values are: 18, "
         "34, 50, 101 and 152" << std::endl;
   }
 
@@ -109,7 +109,6 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
   resNet.Add(new ann::ReLULayer<>);
   std::cout<<"Relu"<<std::endl;
 
-  
   resNet.Add(new ann::Padding<>(1, 1, 1, 1));
   std::cout<<"Padding: "<<"1,1,1,1"<<" ";
 
@@ -126,31 +125,37 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
 
   std::cout<<inputWidth<<" "<<inputHeight<<std::endl;
 
-  MakeLayer(builderBlock, 64, numBlockArray[0]);
-  MakeLayer(builderBlock, 128, numBlockArray[1], 2);
-  MakeLayer(builderBlock, 256, numBlockArray[2], 2);
-  MakeLayer(builderBlock, 512, numBlockArray[3], 2);
+  ann::Sequential<>* sequentialBlock = new ann::Sequential<>();
+  sequentialBlock->Add(new ann::Convolution<>(64, 64, 3, 3, 1, 1, 1, 1, inputWidth, inputHeight));
+  sequentialBlock->Add(new ann::Convolution<>(64, 64, 3, 3, 1, 1, 1, 1, inputWidth, inputHeight));
+  resNet.Add(sequentialBlock);
+  resNet.Add(new ann::IdentityLayer<>);
 
-  if (includeTop)
-  {
-    // What would be the Pytroch equivalent of nn.AdaptiveAvgPool2d((1, 1))
-    // reference: https://pytorch.org/docs/stable/generated/torch.nn.AdaptiveAvgPool2d.html 
-    resNet.Add(new ann::AdaptiveMeanPooling<>(1, 1));
-    std::cout<<"AdaptiveMeanPooling: "<<"1,1"<<std::endl;
+  // MakeLayer(builderBlock, 64, numBlockArray[0]);
+  // MakeLayer(builderBlock, 128, numBlockArray[1], 2);
+  // MakeLayer(builderBlock, 256, numBlockArray[2], 2);
+  // MakeLayer(builderBlock, 512, numBlockArray[3], 2);
+
+  // if (includeTop)
+  // {
+  //   // What would be the Pytroch equivalent of nn.AdaptiveAvgPool2d((1, 1))
+  //   // reference: https://pytorch.org/docs/stable/generated/torch.nn.AdaptiveAvgPool2d.html 
+  //   resNet.Add(new ann::AdaptiveMeanPooling<>(1, 1));
+  //   std::cout<<"AdaptiveMeanPooling: "<<"1,1"<<std::endl;
 
 
-    if (ResNetVersion == 18 || ResNetVersion == 34)
-    {
-      resNet.Add(new ann::Linear<>(512 * basicBlockExpansion, numClasses));
-      std::cout<<"Linear: "<<512 * basicBlockExpansion<<" "<<numClasses<<std::endl;
-    }
-    else if (ResNetVersion == 50 || ResNetVersion == 101 ||
-        ResNetVersion == 152)
-    { 
-      resNet.Add(new ann::Linear<>(512 * bottleNeckExpansion, numClasses));
-      std::cout<<"Linear: "<<512 * bottleNeckExpansion<<" "<<numClasses<<std::endl;
-    } 
-  }
+  //   if (ResNetVersion == 18 || ResNetVersion == 34)
+  //   {
+  //     resNet.Add(new ann::Linear<>(512 * basicBlockExpansion, numClasses));
+  //     std::cout<<"Linear: "<<512 * basicBlockExpansion<<" "<<numClasses<<std::endl;
+  //   }
+  //   else if (ResNetVersion == 50 || ResNetVersion == 101 ||
+  //       ResNetVersion == 152)
+  //   { 
+  //     resNet.Add(new ann::Linear<>(512 * bottleNeckExpansion, numClasses));
+  //     std::cout<<"Linear: "<<512 * bottleNeckExpansion<<" "<<numClasses<<std::endl;
+  //   } 
+  // }
 
 }
 
