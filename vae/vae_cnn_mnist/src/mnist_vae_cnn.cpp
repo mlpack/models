@@ -71,7 +71,7 @@ int main()
   fullData /= 255.0;
 
   // Get rid of the labels
-  fullData = 
+  fullData =
       fullData.submat(1, 0, fullData.n_rows - 1, fullData.n_cols -1);
 
   if (isBinary)
@@ -86,7 +86,7 @@ int main()
 
   arma::mat train, validation;
   data::Split(fullData, validation, train, trainRatio);
-  
+
   // Loss is calculated on train_test data after each cycle.
   arma::mat train_test, dump;
   data::Split(train, dump, train_test, 0.045);
@@ -209,10 +209,10 @@ int main()
       iterPerCycle, // Max number of iterations.
       1e-8,         // Tolerance.
       true);
-      
+     
   const clock_t begin_time = clock();
   clock_t cycle_time = begin_time;
-  
+
 
   // Cycles for monitoring the progress.
   for (int i = 0; i < cycles; i++)
@@ -220,11 +220,11 @@ int main()
     // Train neural network. If this is the first iteration, weights are
     // random, using current values as starting point otherwise.
     vaeModel.Train(train,
-     		   train,
-     		   optimizer,
-     		   ens::PrintLoss(),
-     		   ens::ProgressBar());
-     		   
+     		           train,
+     		           optimizer,
+     		           ens::PrintLoss(),
+     		           ens::ProgressBar());
+
     // Don't reset optimizer's parameters between cycles.
     optimizer.ResetPolicy() = false;
 
