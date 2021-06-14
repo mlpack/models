@@ -11,6 +11,7 @@
  */
 #include <mlpack/core.hpp>
 #include <mlpack/core/data/split_data.hpp>
+#include <mlpack/core/data/save.hpp>
 
 #include <mlpack/methods/ann/ffn.hpp>
 #include <mlpack/methods/ann/layer/layer.hpp>
@@ -39,14 +40,20 @@ int main()
   // Whether modelled on binary data.
   constexpr bool isBinary = false;
   // the latent size of the VAE model.
-  constexpr size_t latentSize = 10;
+  constexpr size_t latentSize = 20;
 
   arma::mat fullData, train, validation;
 
   if (loadData)
   {
-    data::Load("mnist_full.csv", fullData, true, false);
+    data::Load("../data/mnist_train.csv", fullData, true, false);
+    // Get rid of the header
+    fullData = 
+        fullData.submat(0, 1, fullData.n_rows - 1, fullData.n_cols -1);
     fullData /= 255.0;
+    // Get rid of the labels
+    fullData =
+        fullData.submat(1, 0, fullData.n_rows - 1, fullData.n_cols - 1);
 
     if (isBinary)
     {
@@ -68,12 +75,12 @@ int main()
   // Load the trained model.
   if (isBinary)
   {
-    data::Load("saved_models/vaeBinaryMS.xml", "vaeBinaryMS", vaeModel);
+    data::Load("./saved_models/vaeBinaryMS.xml", "vaeBinaryMS", vaeModel);
     vaeModel.Add<SigmoidLayer<> >();
   }
   else
   {
-    data::Load("saved_models/vaeMS.bin", "vaeMS", vaeModel);
+    data::Load("./saved_models/vaeCNN.bin", "vaeMS", vaeModel);
   }
 
   arma::mat gaussianSamples, outputDists, samples;
@@ -91,20 +98,20 @@ int main()
 
   GetSample(outputDists, samples, isBinary);
   // Save the prior samples as csv.
-  data::Save("samples_csv_files/samples_prior.csv", samples, false, false);
+  data::Save("./samples_csv_files/samples_prior.csv", samples, false, false);
 
   /*
    * Sampling from the prior by varying all latent variables.
    */
   arma::mat gaussianVaried;
 
-  for (int i = 0; i < latentSize; i++)
+  for (size_t i = 0; i < latentSize; i++)
   {
     gaussianSamples = arma::randn<arma::mat>(latentSize, 1);
     gaussianVaried = arma::zeros(latentSize, nofSamples);
     gaussianVaried.each_col() = gaussianSamples;
 
-    for (int j = 0; j < nofSamples; j++)
+    for (size_t j = 0; j < nofSamples; j++)
     {
       gaussianVaried.col(j)(i) = -1.5 + j * (3.0 / nofSamples);
     }
@@ -119,7 +126,7 @@ int main()
     GetSample(outputDists, samples, isBinary);
     // Save the prior samples as csv.
     data::Save(
-        "samples_csv_files/samples_prior_latent" + std::to_string(i) + ".csv",
+        "./samples_csv_files/samples_prior_latent" + std::to_string(i) + ".csv",
         samples,
         false,
         false);
@@ -131,11 +138,11 @@ int main()
   size_t latent1 = 3; // Latent variable to be varied vertically.
   size_t latent2 = 4; // Latent variable to be varied horizontally.
 
-  for (int i = 0; i < nofSamples; i++)
+  for (size_t i = 0; i < nofSamples; i++)
   {
     gaussianVaried = arma::zeros(latentSize, nofSamples);
 
-    for (int j = 0; j < nofSamples; j++)
+    for (size_t j = 0; j < nofSamples; j++)
     {
       // Set the vertical variable to a constant value for the outer loop.
       gaussianVaried.col(j)(latent1) = 1.5 - i * (3.0 / nofSamples);
@@ -152,7 +159,7 @@ int main()
 
     GetSample(outputDists, samples, isBinary);
     // Save the prior samples as csv.
-    data::Save("samples_csv_files/samples_prior_latent_2d" + std::to_string(i)
+    data::Save("./samples_csv_files/samples_prior_latent_2d" + std::to_string(i)
         + ".csv", samples, false, false);
   }
 
@@ -170,7 +177,7 @@ int main()
     GetSample(outputDists, samples, isBinary);
     // Save the posterior samples as csv.
     data::Save(
-      "samples_csv_files/samples_posterior.csv",
+      "./samples_csv_files/samples_posterior.csv",
       samples,
       false,
       false);
