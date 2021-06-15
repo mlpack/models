@@ -27,7 +27,7 @@ double MeanTestLoss(NetworkType& model, DataType& testSet, size_t batchSize)
   size_t nofPoints = testSet.n_cols;
   size_t i;
 
-  for (i = 0; i < ( size_t )nofPoints / batchSize; i++)
+  for (i = 0; i < (size_t) nofPoints / batchSize; ++i)
   {
     loss +=
         model.Evaluate(testSet.cols(batchSize * i, batchSize * (i + 1) - 1),
