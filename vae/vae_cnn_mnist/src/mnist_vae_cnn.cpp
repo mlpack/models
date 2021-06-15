@@ -209,7 +209,7 @@ int main()
       iterPerCycle, // Max number of iterations.
       1e-8,         // Tolerance.
       true);
-     
+
   const clock_t beginTime = clock();
   clock_t cycleTime = beginTime;
 
@@ -220,10 +220,10 @@ int main()
     // Train neural network. If this is the first iteration, weights are
     // random, using current values as starting point otherwise.
     vaeModel.Train(train,
-     		     train,
-     		     optimizer,
-     		     ens::PrintLoss(),
-     		     ens::ProgressBar());
+     		           train,
+     		           optimizer,
+     		           ens::PrintLoss(),
+     		           ens::ProgressBar());
 
     // Don't reset optimizer's parameters between cycles.
     optimizer.ResetPolicy() = false;
