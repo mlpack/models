@@ -59,7 +59,7 @@ class ResNet{
          const size_t numClasses = 1000);
 
   //! Get Layers of the model.
-  ann::FFN<OutputLayerType, InitializationRuleType> GetModel()
+  ann::FFN<OutputLayerType, InitializationRuleType>& GetModel()
       { return resNet; }
 
   //! Load weights into the model.
@@ -85,9 +85,9 @@ class ResNet{
         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
         inputHeight));
 
-    std::cout<<"Convolution: "<<inSize<<" "<<outSize<<" "<<kernelWidth<<" "<<kernelHeight<<" "
-        <<strideWidth<<" "<<strideHeight<<" "<<padW<<" "<<padH<<" "
-        <<inputWidth<<" "<<inputHeight<<std::endl;
+    std::cout<<"Convolution: "<<inSize<<" "<<outSize<<" "<<kernelWidth<<" "<<
+        kernelHeight<<" "<<strideWidth<<" "<<strideHeight<<" "<<padW<<" "<<
+        padH<<" "<<inputWidth<<" "<<inputHeight<<std::endl;
 
     // Updating input dimesntions.
     inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
@@ -109,9 +109,9 @@ class ResNet{
         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
         inputHeight));
 
-    std::cout<<"Convolution: "<<inSize<<" "<<outSize<<" "<<kernelWidth<<" "<<kernelHeight<<" "
-        <<strideWidth<<" "<<strideHeight<<" "<<padW<<" "<<padH<<" "
-        <<inputWidth<<" "<<inputHeight<<std::endl;
+    std::cout<<"Convolution: "<<inSize<<" "<<outSize<<" "<<kernelWidth<<" "<<
+        kernelHeight<<" "<<strideWidth<<" "<<strideHeight<<" "<<padW<<" "<<
+        padH<<" "<<inputWidth<<" "<<inputHeight<<std::endl;
 
     // Updating input dimesntions.
     inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);

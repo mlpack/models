@@ -95,9 +95,8 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
 
   resNet.Add(new ann::Convolution<>(3, 64, 7, 7, 2, 2, 3, 3, inputWidth,
       inputHeight));
-  std::cout<<"Convolution: "<<3<<" "<<64<<" "<<7<<" "<<7<<" "
-        <<2<<" "<<2<<" "<<3<<" "<<3<<" "
-        <<inputWidth<<" "<<inputHeight<<std::endl;
+  std::cout<<"Convolution: "<<3<<" "<<64<<" "<<7<<" "<<7<<" "<<2<<" "<<2<<" "
+      <<3<<" "<<3<<" "<<inputWidth<<" "<<inputHeight<<std::endl;
   
   // Updating input dimesntions.
   inputWidth = ConvOutSize(inputWidth, 7, 2, 3);
@@ -125,43 +124,36 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
 
   std::cout<<inputWidth<<" "<<inputHeight<<std::endl;
 
-  ann::Sequential<>* sequentialBlock = new ann::Sequential<>();
-  sequentialBlock->Add(new ann::Convolution<>(64, 64, 3, 3, 1, 1, 1, 1, inputWidth, inputHeight));
-  sequentialBlock->Add(new ann::Convolution<>(64, 64, 3, 3, 1, 1, 1, 1, inputWidth, inputHeight));
-  resNet.Add(sequentialBlock);
-  resNet.Add(new ann::IdentityLayer<>);
+  MakeLayer(builderBlock, 64, numBlockArray[0]);
+  MakeLayer(builderBlock, 128, numBlockArray[1], 2);
+  MakeLayer(builderBlock, 256, numBlockArray[2], 2);
+  MakeLayer(builderBlock, 512, numBlockArray[3], 2);
 
-  // MakeLayer(builderBlock, 64, numBlockArray[0]);
-  // MakeLayer(builderBlock, 128, numBlockArray[1], 2);
-  // MakeLayer(builderBlock, 256, numBlockArray[2], 2);
-  // MakeLayer(builderBlock, 512, numBlockArray[3], 2);
-
-  // if (includeTop)
-  // {
-  //   // What would be the Pytroch equivalent of nn.AdaptiveAvgPool2d((1, 1))
-  //   // reference: https://pytorch.org/docs/stable/generated/torch.nn.AdaptiveAvgPool2d.html 
-  //   resNet.Add(new ann::AdaptiveMeanPooling<>(1, 1));
-  //   std::cout<<"AdaptiveMeanPooling: "<<"1,1"<<std::endl;
+  if (includeTop)
+  {
+    resNet.Add(new ann::AdaptiveMeanPooling<>(1, 1));
+    std::cout<<"AdaptiveMeanPooling: "<<"1,1"<<std::endl;
 
 
-  //   if (ResNetVersion == 18 || ResNetVersion == 34)
-  //   {
-  //     resNet.Add(new ann::Linear<>(512 * basicBlockExpansion, numClasses));
-  //     std::cout<<"Linear: "<<512 * basicBlockExpansion<<" "<<numClasses<<std::endl;
-  //   }
-  //   else if (ResNetVersion == 50 || ResNetVersion == 101 ||
-  //       ResNetVersion == 152)
-  //   { 
-  //     resNet.Add(new ann::Linear<>(512 * bottleNeckExpansion, numClasses));
-  //     std::cout<<"Linear: "<<512 * bottleNeckExpansion<<" "<<numClasses<<std::endl;
-  //   } 
-  // }
+    if (ResNetVersion == 18 || ResNetVersion == 34)
+    {
+      resNet.Add(new ann::Linear<>(512 * basicBlockExpansion, numClasses));
+      std::cout<<"Linear: "<<512 * basicBlockExpansion<<" "<<
+          numClasses<<std::endl;
+    }
+    else if (ResNetVersion == 50 || ResNetVersion == 101 ||
+        ResNetVersion == 152)
+    { 
+      resNet.Add(new ann::Linear<>(512 * bottleNeckExpansion, numClasses));
+      std::cout<<"Linear: "<<512 * bottleNeckExpansion<<" "<<
+          numClasses<<std::endl;
+    } 
+  }
 
+  resNet.ResetParameters();
 }
-
 
 } // namespace models
 } // namespace mlpack
-
 
 #endif
