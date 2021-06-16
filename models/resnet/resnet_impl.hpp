@@ -108,7 +108,7 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
   resNet.Add(new ann::ReLULayer<>);
   std::cout<<"Relu"<<std::endl;
 
-  resNet.Add(new ann::Padding<>(1, 1, 1, 1));
+  resNet.Add(new ann::Padding<>(1, 1, 1, 1, inputWidth, inputHeight));
   std::cout<<"Padding: "<<"1,1,1,1"<<" ";
 
   inputWidth += 2;
@@ -116,16 +116,16 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
 
   std::cout<<inputWidth<<" "<<inputHeight<<std::endl;
 
-  // resNet.Add(new ann::MaxPooling<>(3, 3, 2, 2));
-  // std::cout<<"MaxPool: "<<"3,3,2,2"<<" ";
+  resNet.Add(new ann::MaxPooling<>(3, 3, 2, 2));
+  std::cout<<"MaxPool: "<<"3,3,2,2"<<" ";
 
-  // inputWidth = ConvOutSize(inputWidth, 3, 2, 0);
-  // inputHeight = ConvOutSize(inputHeight, 3, 2, 0);
+  inputWidth = ConvOutSize(inputWidth, 3, 2, 0);
+  inputHeight = ConvOutSize(inputHeight, 3, 2, 0);
 
-  // std::cout<<inputWidth<<" "<<inputHeight<<std::endl;
+  std::cout<<inputWidth<<" "<<inputHeight<<std::endl;
 
-  // MakeLayer(builderBlock, 64, numBlockArray[0]);
-  // MakeLayer(builderBlock, 128, numBlockArray[1], 2);
+  MakeLayer(builderBlock, 64, numBlockArray[0]);
+  MakeLayer(builderBlock, 128, numBlockArray[1], 2);
   // MakeLayer(builderBlock, 256, numBlockArray[2], 2);
   // MakeLayer(builderBlock, 512, numBlockArray[3], 2);
 

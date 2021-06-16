@@ -103,7 +103,8 @@ class ResNet{
                            const size_t kernelWidth = 1,
                            const size_t kernelHeight = 1,
                            const size_t padW = 0,
-                           const size_t padH = 0)
+                           const size_t padH = 0,
+                           const bool downSample = false)
   {
     baseLayer->Add(new ann::Convolution<>(inSize, outSize, kernelWidth,
         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
@@ -113,9 +114,13 @@ class ResNet{
         kernelHeight<<" "<<strideWidth<<" "<<strideHeight<<" "<<padW<<" "<<
         padH<<" "<<inputWidth<<" "<<inputHeight<<std::endl;
 
-    // Updating input dimesntions.
-    inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
-    inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
+    if (!downSample)
+    {    
+      // Updating input dimesntions.
+      inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
+      inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
+    }
+
   }
 
   template <typename AddmergeType = ann::AddMerge<>>
@@ -130,58 +135,20 @@ class ResNet{
                   const size_t padH = 0)
   {
     ConvolutionBlock1x1(downSample, inSize, outSize, strideWidth, strideHeight,
-        kernelWidth, kernelHeight, padW, padH);
+        kernelWidth, kernelHeight, padW, padH, true);
 
     downSample->Add(new ann::BatchNorm<>(outSize));
     std::cout<<"BatchNorm: "<<outSize<<std::endl;
   }
 
-  // void BasicBlock(const size_t inSize,
-  //                 const size_t outSize,
-  //                 const size_t strideWidth = 1,
-  //                 const size_t strideHeight = 1,
-  //                 const bool downSample = false)
-  // {  
-  //   ann::Sequential<>* basicBlock = new ann::Sequential<>();
-  //   ann::AddMerge<>* resBlock = new ann::AddMerge<>(true, true);
-  //   ann::Sequential<>* sequentialBlock = new ann::Sequential<>();
-  //   ConvolutionBlock3x3(sequentialBlock, inSize, outSize, strideWidth,
-  //       strideHeight);
-  //   sequentialBlock->Add(new ann::BatchNorm<>(outSize));
-  //   std::cout<<"BatchNorm: "<<outSize<<std::endl;
-  //   sequentialBlock->Add(new ann::ReLULayer<>);
-  //   std::cout<<"Relu"<<std::endl;
-  //   ConvolutionBlock3x3(sequentialBlock, outSize, outSize);
-  //   sequentialBlock->Add(new ann::BatchNorm<>(outSize));
-  //   std::cout<<"BatchNorm: "<<outSize<<std::endl;
-
-  //   resBlock->Add(sequentialBlock);
-
-  //   if (downSample == true)
-  //   {  
-  //     std::cout<<"DownSample below"<<std::endl;
-  //     DownSample(resBlock, inSize, outSize);
-  //   }
-  //   else
-  //   {
-  //     resBlock->Add(new ann::IdentityLayer<>);
-  //     std::cout<<"IdentityLayer"<<std::endl;
-  //   }
-
-  //   basicBlock->Add(resBlock);
-  //   basicBlock->Add(new ann::ReLULayer<>);
-  //   std::cout<<"Relu"<<std::endl;
-  //   resNet.Add(basicBlock);
-  // }
-
-    void BasicBlock(const size_t inSize,
+  void BasicBlock(const size_t inSize,
                   const size_t outSize,
                   const size_t strideWidth = 1,
                   const size_t strideHeight = 1,
                   const bool downSample = false)
   {  
     ann::Sequential<>* basicBlock = new ann::Sequential<>();
-    // ann::AddMerge<>* resBlock = new ann::AddMerge<>(true, true);
+    ann::AddMerge<>* resBlock = new ann::AddMerge<>(true, true);
     ann::Sequential<>* sequentialBlock = new ann::Sequential<>();
     ConvolutionBlock3x3(sequentialBlock, inSize, outSize, strideWidth,
         strideHeight);
@@ -193,20 +160,20 @@ class ResNet{
     sequentialBlock->Add(new ann::BatchNorm<>(outSize));
     std::cout<<"BatchNorm: "<<outSize<<std::endl;
 
-    // resBlock->Add(sequentialBlock);
+    resBlock->Add(sequentialBlock);
 
-    // if (downSample == true)
-    // {  
-    //   std::cout<<"DownSample below"<<std::endl;
-    //   DownSample(resBlock, inSize, outSize);
-    // }
-    // else
-    // {
-    //   resBlock->Add(new ann::IdentityLayer<>);
-    //   std::cout<<"IdentityLayer"<<std::endl;
-    // }
+    if (downSample == true)
+    {  
+      std::cout<<"DownSample below"<<std::endl;
+      DownSample(resBlock, inSize, outSize);
+    }
+    else
+    {
+      resBlock->Add(new ann::IdentityLayer<>);
+      std::cout<<"IdentityLayer"<<std::endl;
+    }
 
-    basicBlock->Add(sequentialBlock);
+    basicBlock->Add(resBlock);
     basicBlock->Add(new ann::ReLULayer<>);
     std::cout<<"Relu"<<std::endl;
     resNet.Add(basicBlock);
