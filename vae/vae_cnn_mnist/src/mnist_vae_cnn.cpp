@@ -72,7 +72,7 @@ int main()
 
   // Get rid of the labels
   fullData =
-      fullData.submat(1, 0, fullData.n_rows - 1, fullData.n_cols -1);
+      fullData.submat(1, 0, fullData.n_rows - 1, fullData.n_cols - 1);
 
   if (isBinary)
   {
