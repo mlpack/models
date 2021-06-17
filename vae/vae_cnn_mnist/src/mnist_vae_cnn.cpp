@@ -48,7 +48,7 @@ int main()
   constexpr double stepSize = 0.001;
   // Number of epochs / cycles.
   constexpr int epochs = 1;
-  // Number of cycles
+  // Number of cycles.
   constexpr int cycles = 10;
   // Whether to load a model to train.
   constexpr bool loadModel = false;
