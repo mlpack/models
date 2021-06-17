@@ -67,7 +67,7 @@ int main()
   // Originally on Kaggle dataset CSV file has header, so it's necessary to
   // get rid of this row, in Armadillo representation it's the first column.
   fullData =
-      fullData.submat(0, 1, fullData.n_rows -1, fullData.n_cols -1);
+      fullData.submat(0, 1, fullData.n_rows - 1, fullData.n_cols - 1);
   fullData /= 255.0;
 
   // Get rid of the labels
