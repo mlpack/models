@@ -46,7 +46,7 @@ int main()
   constexpr int batchSize = 64;
   // The step size of the optimizer.
   constexpr double stepSize = 0.001;
-  // Number of epochs/ cycle
+  // Number of epochs / cycles.
   constexpr int epochs = 1;
   // Number of cycles
   constexpr int cycles = 10;
