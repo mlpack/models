@@ -64,7 +64,7 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
 
   if (ResNetVersion == 18)
   {
-    numBlockArray = {2 ,2, 2, 2};
+    numBlockArray = {2 ,1, 2, 2};
     builderBlock = "basicblock";
   }
   else if (ResNetVersion == 34)
@@ -128,10 +128,10 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
   MakeLayer(builderBlock, 64, numBlockArray[0]);
   std::cout<<"new layer"<<std::endl;
   MakeLayer(builderBlock, 128, numBlockArray[1], 2);
-  std::cout<<"new layer"<<std::endl;
-  MakeLayer(builderBlock, 256, numBlockArray[2], 2);
-  std::cout<<"new layer"<<std::endl;
-  MakeLayer(builderBlock, 512, numBlockArray[3], 2);
+  // std::cout<<"new layer"<<std::endl;
+  // MakeLayer(builderBlock, 256, numBlockArray[2], 2);
+  // std::cout<<"new layer"<<std::endl;
+  // MakeLayer(builderBlock, 512, numBlockArray[3], 2);
 
   // if (includeTop)
   // {

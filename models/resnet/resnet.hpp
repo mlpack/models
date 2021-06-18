@@ -98,6 +98,8 @@ class ResNet{
   void ConvolutionBlock1x1(SequentialType* baseLayer,
                            const size_t inSize,
                            const size_t outSize,
+                           const size_t downSampleInputWidth = 0,
+                           const size_t downSampleInputHeight = 0,
                            const size_t strideWidth = 1,
                            const size_t strideHeight = 1,
                            const size_t kernelWidth = 1,
@@ -106,26 +108,38 @@ class ResNet{
                            const size_t padH = 0,
                            const bool downSample = false)
   {
-    baseLayer->Add(new ann::Convolution<>(inSize, outSize, kernelWidth,
-        kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
-        inputHeight));
+    if (downSample)
+    {
+      baseLayer->Add(new ann::Convolution<>(inSize, outSize, kernelWidth,
+          kernelHeight, strideWidth, strideHeight, padW, padH,
+          downSampleInputWidth, downSampleInputHeight));
 
-    if (!downSample)
-    {    
+      std::cout<<"Convolution: "<<inSize<<" "<<outSize<<" "<<kernelWidth<<" "<<
+          kernelHeight<<" "<<strideWidth<<" "<<strideHeight<<" "<<padW<<" "<<
+         padH<<" "<<downSampleInputWidth<<" "<<downSampleInputHeight<<std::endl;
+    }
+    else
+    {
+      baseLayer->Add(new ann::Convolution<>(inSize, outSize, kernelWidth,
+          kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
+          inputHeight));
+
       // Updating input dimesntions.
       inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
       inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
+      
+      std::cout<<"Convolution: "<<inSize<<" "<<outSize<<" "<<kernelWidth<<" "<<
+          kernelHeight<<" "<<strideWidth<<" "<<strideHeight<<" "<<padW<<" "<<
+          padH<<" "<<inputWidth<<" "<<inputHeight<<std::endl;
     }
-
-    std::cout<<"Convolution: "<<inSize<<" "<<outSize<<" "<<kernelWidth<<" "<<
-        kernelHeight<<" "<<strideWidth<<" "<<strideHeight<<" "<<padW<<" "<<
-        padH<<" "<<inputWidth<<" "<<inputHeight<<std::endl;
   }
 
   template <typename AddmergeType = ann::AddMerge<>>
   void DownSample(AddmergeType* downSample,
                   const size_t inSize,
                   const size_t outSize,
+                  const size_t downSampleInputWidth,
+                  const size_t downSampleInputHeight,
                   const size_t kernelWidth = 1,
                   const size_t kernelHeight = 1,
                   const size_t strideWidth = 2,
@@ -133,8 +147,9 @@ class ResNet{
                   const size_t padW = 0,
                   const size_t padH = 0)
   {
-    ConvolutionBlock1x1(downSample, inSize, outSize, strideWidth, strideHeight,
-        kernelWidth, kernelHeight, padW, padH, true);
+    ConvolutionBlock1x1(downSample, inSize, outSize, downSampleInputWidth,
+        downSampleInputHeight, strideWidth, strideHeight, kernelWidth,
+        kernelHeight, padW, padH, true);
 
     downSample->Add(new ann::BatchNorm<>(outSize));
     std::cout<<"BatchNorm: "<<outSize<<std::endl;
@@ -146,6 +161,10 @@ class ResNet{
                   const size_t strideHeight = 1,
                   const bool downSample = false)
   {  
+
+    downSampleInputWidth = inputWidth;
+    downSampleInputHeight = inputHeight;
+
     ann::Sequential<>* basicBlock = new ann::Sequential<>();
     ann::AddMerge<>* resBlock = new ann::AddMerge<>(true, true);
     ann::Sequential<>* sequentialBlock = new ann::Sequential<>();
@@ -164,7 +183,8 @@ class ResNet{
     if (downSample == true)
     {  
       std::cout<<"DownSample below"<<std::endl;
-      DownSample(resBlock, inSize, outSize);
+      DownSample(resBlock, inSize, outSize, downSampleInputWidth,
+          downSampleInputHeight);
     }
     else
     {
@@ -248,6 +268,12 @@ class ResNet{
   //! Locally stored number of output classes.
   size_t numClasses;
   
+  //! Locally stored width of image for downSample block.
+  size_t downSampleInputWidth;
+
+  //! Locally stored height of image for downSample block.
+  size_t downSampleInputHeight;
+
   //! Locally stored expansion for BasicBlock.
   size_t basicBlockExpansion = 1;
   
