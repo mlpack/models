@@ -128,31 +128,31 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
   MakeLayer(builderBlock, 64, numBlockArray[0]);
   std::cout<<"new layer"<<std::endl;
   MakeLayer(builderBlock, 128, numBlockArray[1], 2);
-  // std::cout<<"new layer"<<std::endl;
-  // MakeLayer(builderBlock, 256, numBlockArray[2], 2);
-  // std::cout<<"new layer"<<std::endl;
-  // MakeLayer(builderBlock, 512, numBlockArray[3], 2);
+  std::cout<<"new layer"<<std::endl;
+  MakeLayer(builderBlock, 256, numBlockArray[2], 2);
+  std::cout<<"new layer"<<std::endl;
+  MakeLayer(builderBlock, 512, numBlockArray[3], 2);
 
-  // if (includeTop)
-  // {
-  //   resNet.Add(new ann::AdaptiveMeanPooling<>(1, 1));
-  //   std::cout<<"AdaptiveMeanPooling: "<<"1,1"<<std::endl;
+  if (includeTop)
+  {
+    resNet.Add(new ann::AdaptiveMeanPooling<>(1, 1));
+    std::cout<<"AdaptiveMeanPooling: "<<"1,1"<<std::endl;
 
 
-  //   if (ResNetVersion == 18 || ResNetVersion == 34)
-  //   {
-  //     resNet.Add(new ann::Linear<>(512 * basicBlockExpansion, numClasses));
-  //     std::cout<<"Linear: "<<512 * basicBlockExpansion<<" "<<
-  //         numClasses<<std::endl;
-  //   }
-  //   else if (ResNetVersion == 50 || ResNetVersion == 101 ||
-  //       ResNetVersion == 152)
-  //   { 
-  //     resNet.Add(new ann::Linear<>(512 * bottleNeckExpansion, numClasses));
-  //     std::cout<<"Linear: "<<512 * bottleNeckExpansion<<" "<<
-  //         numClasses<<std::endl;
-  //   } 
-  // }
+    if (ResNetVersion == 18 || ResNetVersion == 34)
+    {
+      resNet.Add(new ann::Linear<>(512 * basicBlockExpansion, numClasses));
+      std::cout<<"Linear: "<<512 * basicBlockExpansion<<" "<<
+          numClasses<<std::endl;
+    }
+    else if (ResNetVersion == 50 || ResNetVersion == 101 ||
+        ResNetVersion == 152)
+    { 
+      resNet.Add(new ann::Linear<>(512 * bottleNeckExpansion, numClasses));
+      std::cout<<"Linear: "<<512 * bottleNeckExpansion<<" "<<
+          numClasses<<std::endl;
+    } 
+  }
 
   resNet.ResetParameters();
 }
