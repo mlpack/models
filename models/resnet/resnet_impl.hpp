@@ -95,12 +95,13 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
 
   resNet.Add(new ann::Convolution<>(3, 64, 7, 7, 2, 2, 3, 3, inputWidth,
       inputHeight));
-  std::cout<<"Convolution: "<<3<<" "<<64<<" "<<7<<" "<<7<<" "<<2<<" "<<2<<" "
-      <<3<<" "<<3<<" "<<inputWidth<<" "<<inputHeight<<std::endl;
-  
+ 
   // Updating input dimesntions.
   inputWidth = ConvOutSize(inputWidth, 7, 2, 3);
   inputHeight = ConvOutSize(inputHeight, 7, 2, 3);
+  
+  std::cout<<"Convolution: "<<3<<" "<<64<<" "<<7<<" "<<7<<" "<<2<<" "<<2<<" "
+      <<3<<" "<<3<<" "<<inputWidth<<" "<<inputHeight<<std::endl;
   
   resNet.Add(new ann::BatchNorm<>(64));
   std::cout<<"BatchNorm: "<<64<<std::endl;
@@ -125,9 +126,12 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
   std::cout<<inputWidth<<" "<<inputHeight<<std::endl;
 
   MakeLayer(builderBlock, 64, numBlockArray[0]);
+  std::cout<<"new layer"<<std::endl;
   MakeLayer(builderBlock, 128, numBlockArray[1], 2);
-  // MakeLayer(builderBlock, 256, numBlockArray[2], 2);
-  // MakeLayer(builderBlock, 512, numBlockArray[3], 2);
+  std::cout<<"new layer"<<std::endl;
+  MakeLayer(builderBlock, 256, numBlockArray[2], 2);
+  std::cout<<"new layer"<<std::endl;
+  MakeLayer(builderBlock, 512, numBlockArray[3], 2);
 
   // if (includeTop)
   // {

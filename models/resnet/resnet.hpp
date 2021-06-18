@@ -84,14 +84,14 @@ class ResNet{
     baseLayer->Add(new ann::Convolution<>(inSize, outSize, kernelWidth,
         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
         inputHeight));
+    
+    // Updating input dimesntions.
+    inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
+    inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
 
     std::cout<<"Convolution: "<<inSize<<" "<<outSize<<" "<<kernelWidth<<" "<<
         kernelHeight<<" "<<strideWidth<<" "<<strideHeight<<" "<<padW<<" "<<
         padH<<" "<<inputWidth<<" "<<inputHeight<<std::endl;
-
-    // Updating input dimesntions.
-    inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
-    inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
   }
 
   template<typename SequentialType = ann::Sequential<>>
@@ -110,10 +110,6 @@ class ResNet{
         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
         inputHeight));
 
-    std::cout<<"Convolution: "<<inSize<<" "<<outSize<<" "<<kernelWidth<<" "<<
-        kernelHeight<<" "<<strideWidth<<" "<<strideHeight<<" "<<padW<<" "<<
-        padH<<" "<<inputWidth<<" "<<inputHeight<<std::endl;
-
     if (!downSample)
     {    
       // Updating input dimesntions.
@@ -121,6 +117,9 @@ class ResNet{
       inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
     }
 
+    std::cout<<"Convolution: "<<inSize<<" "<<outSize<<" "<<kernelWidth<<" "<<
+        kernelHeight<<" "<<strideWidth<<" "<<strideHeight<<" "<<padW<<" "<<
+        padH<<" "<<inputWidth<<" "<<inputHeight<<std::endl;
   }
 
   template <typename AddmergeType = ann::AddMerge<>>
