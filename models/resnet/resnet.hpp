@@ -121,8 +121,8 @@ class ResNet{
     else
     {
       baseLayer->Add(new ann::Convolution<>(inSize, outSize, kernelWidth,
-          kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
-          inputHeight));
+          kernelHeight, strideWidth, strideHeight, padW, padH,
+          downSampleInputWidth, downSampleInputHeight));
 
       // Updating input dimesntions.
       inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
@@ -135,7 +135,7 @@ class ResNet{
   }
 
   template <typename AddmergeType = ann::AddMerge<>>
-  void DownSample(AddmergeType* downSample,
+  void DownSample(AddmergeType* resBlock,
                   const size_t inSize,
                   const size_t outSize,
                   const size_t downSampleInputWidth,
@@ -147,12 +147,14 @@ class ResNet{
                   const size_t padW = 0,
                   const size_t padH = 0)
   {
-    ConvolutionBlock1x1(downSample, inSize, outSize, downSampleInputWidth,
+    ann::Sequential<>* downSampleBlock = new ann::Sequential<>();
+    ConvolutionBlock1x1(downSampleBlock, inSize, outSize, downSampleInputWidth,
         downSampleInputHeight, strideWidth, strideHeight, kernelWidth,
         kernelHeight, padW, padH, true);
 
-    downSample->Add(new ann::BatchNorm<>(outSize));
+    downSampleBlock->Add(new ann::BatchNorm<>(outSize));
     std::cout<<"BatchNorm: "<<outSize<<std::endl;
+    resBlock->Add(downSampleBlock);
   }
 
   void BasicBlock(const size_t inSize,
