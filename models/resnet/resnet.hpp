@@ -122,7 +122,7 @@ class ResNet{
     {
       baseLayer->Add(new ann::Convolution<>(inSize, outSize, kernelWidth,
           kernelHeight, strideWidth, strideHeight, padW, padH,
-          downSampleInputWidth, downSampleInputHeight));
+          inputWidth, inputHeight));
 
       // Updating input dimesntions.
       inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
@@ -202,10 +202,53 @@ class ResNet{
 
   void BottleNeck(const size_t inSize,
                   const size_t outSize,
+                  const size_t strideWidth = 1,
+                  const size_t strideHeight = 1,
                   const bool downSample = false,
-                  const size_t kernelWidth = 1,
-                  const size_t kernelHeight = 1)
+                  const size_t baseWidth = 64,
+                  const size_t groups = 1)
   {
+    downSampleInputWidth = inputWidth;
+    downSampleInputHeight = inputHeight;
+
+    size_t width = int((baseWidth / 64.0) * outSize) * groups;
+    ann::Sequential<>* basicBlock = new ann::Sequential<>();
+    ann::AddMerge<>* resBlock = new ann::AddMerge<>(true, true);
+    ann::Sequential<>* sequentialBlock = new ann::Sequential<>();
+    ConvolutionBlock1x1(sequentialBlock, inSize, width);
+    sequentialBlock->Add(new ann::BatchNorm<>(width));
+    std::cout<<"BatchNorm: "<<width<<std::endl;
+    sequentialBlock->Add(new ann::ReLULayer<>);
+    std::cout<<"Relu"<<std::endl;
+    ConvolutionBlock3x3(sequentialBlock, width, width, strideWidth,
+        strideHeight);
+    sequentialBlock->Add(new ann::BatchNorm<>(width));
+    std::cout<<"BatchNorm: "<<outSize<<std::endl;
+    sequentialBlock->Add(new ann::ReLULayer<>);
+    std::cout<<"Relu"<<std::endl;
+    ConvolutionBlock1x1(sequentialBlock, width, outSize * bottleNeckExpansion);
+    sequentialBlock->Add(new ann::BatchNorm<>(outSize * bottleNeckExpansion));
+    std::cout<<"BatchNorm: "<<outSize * bottleNeckExpansion<<std::endl;
+
+    resBlock->Add(sequentialBlock);
+
+    if (downSample == true)
+    {  
+      std::cout<<"DownSample below"<<std::endl;
+      DownSample(resBlock, inSize, outSize * bottleNeckExpansion,
+          downSampleInputWidth, downSampleInputHeight, 1, 1, strideWidth,
+          strideHeight);
+    }
+    else
+    {
+      resBlock->Add(new ann::IdentityLayer<>);
+      std::cout<<"IdentityLayer"<<std::endl;
+    }
+
+    basicBlock->Add(resBlock);
+    basicBlock->Add(new ann::ReLULayer<>);
+    std::cout<<"Relu"<<std::endl;
+    resNet.Add(basicBlock);
   }
 
   void MakeLayer(const std::string& block,
@@ -230,8 +273,7 @@ class ResNet{
     {
       if (stride != 1 || downSampleInSize != outSize * bottleNeckExpansion)
         downSample = true;
-      BottleNeck(downSampleInSize, outSize * bottleNeckExpansion, stride,
-        stride, downSample);
+      BottleNeck(downSampleInSize, outSize, stride, stride, downSample);
       downSampleInSize = outSize * bottleNeckExpansion;
       for (size_t i = 1; i != numBlocks; ++i)
         BottleNeck(downSampleInSize, outSize);
