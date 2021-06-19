@@ -264,7 +264,8 @@ class ResNet{
    *   sequentialLayer
    *   {
    *     if downsample == true
-   *       ConvolutionBlock1x1(inSize, outSize, downSampleInputWidth, downSampleInputHeight)
+   *       ConvolutionBlock1x1(inSize, outSize, downSampleInputWidth,
+   *           downSampleInputHeight)
    *       BatchNorm(outSize)
    *
    *     else
@@ -509,9 +510,19 @@ class ResNet{
   //! InSize for ResNet block creation.
   size_t downSampleInSize = 64;
 
-  //! Locally stored vector to constructor different ResNet versions.
-  std::vector<size_t> numBlockArray;
+  //! Locally stored map to constructor different ResNet versions.
+  std::map<size_t, std::map<std::string, std::array<size_t, 4>>> ResNetConfig = 
+      {
+        {18, {{"basicblock", {2, 2, 2, 2}}}},
+        {34, {{"basicblock", {3, 4, 6, 3}}}},
+        {50, {{"bottleneck", {3, 4, 6, 3}}}},
+        {101, {{"bottleneck", {3, 4, 23, 3}}}},
+        {152, {{"bottleneck", {3, 8, 36, 3}}}}
+      };
 
+  //! Locally stored array to constructor different ResNet versions.
+  std::array<size_t , 4> numBlockArray;
+  
   //! Locally stored block string from which to build the model.
   std::string builderBlock;
 }; // ResNet class

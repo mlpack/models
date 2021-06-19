@@ -62,32 +62,12 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
     numClasses(numClasses)
 {
   // Config for different Versions.
-  if (ResNetVersion == 18)
-  {
-    numBlockArray = {2, 1, 2, 2};
-    builderBlock = "basicblock";
-  }
-  else if (ResNetVersion == 34)
-  {
-    numBlockArray = {3, 4, 6, 3};
-    builderBlock = "basicblock";
-  }
-  else if (ResNetVersion == 50)
-  {
-    numBlockArray = {3, 4, 6, 3};
-    builderBlock = "bottleneck";
-  }
-  else if (ResNetVersion == 101)
-  {
-    numBlockArray = {3, 4, 23, 3};
-    builderBlock = "bottleneck";
-  }
-  else if (ResNetVersion == 152)
-  {
-    numBlockArray = {3, 8, 36, 3};
-    builderBlock = "bottleneck";
-  }
-  else
+  auto configFinder = ResNetConfig.find(ResNetVersion);
+  auto config = configFinder->second;
+  builderBlock = config.begin()->first;
+  numBlockArray = config.begin()->second;
+
+  if (configFinder == ResNetConfig.end())
   {
     mlpack::Log::Fatal << "Incorrect ResNet version. Possible Values are: 18, "
         "34, 50, 101 and 152" << std::endl;
@@ -114,22 +94,26 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
   mlpack::Log::Info << "Relu" << std::endl;
 
   resNet.Add(new ann::Padding<>(1, 1, 1, 1, inputWidth, inputHeight));
-  mlpack::Log::Info << "Padding: " << "(" << "64, " << inputWidth << ", " inputWidth << " ---> (";
+  mlpack::Log::Info << "Padding: " << "(" << "64, " << inputWidth << ", " <<
+      inputWidth << " ---> (";
 
   // Updating input dimesntions.
   inputWidth += 2;
   inputHeight += 2;
 
-  mlpack::Log::Info <<"64, "<< inputWidth << ", " << inputHeight << ")" << std::endl;
+  mlpack::Log::Info <<"64, "<< inputWidth << ", " << inputHeight << ")" <<
+      std::endl;
 
   resNet.Add(new ann::MaxPooling<>(3, 3, 2, 2));
-  mlpack::Log::Info << "MaxPool: " << "(" <<"64, " << inputWidth << ", " << inputHeight << " ---> (";
+  mlpack::Log::Info << "MaxPool: " << "(" <<"64, " << inputWidth << ", " <<
+      inputHeight << " ---> (";
 
   // Updating input dimesntions.
   inputWidth = ConvOutSize(inputWidth, 3, 2, 0);
   inputHeight = ConvOutSize(inputHeight, 3, 2, 0);
 
-  mlpack::Log::Info << "64, " << inputWidth << ", " << inputHeight << ")" << std::endl;
+  mlpack::Log::Info << "64, " << inputWidth << ", " << inputHeight << ")" <<
+      std::endl;
 
   MakeLayer(builderBlock, 64, numBlockArray[0]);
   MakeLayer(builderBlock, 128, numBlockArray[1], 2);
