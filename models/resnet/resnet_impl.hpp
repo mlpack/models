@@ -61,6 +61,7 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
     inputHeight(std::get<2>(inputShape)),
     numClasses(numClasses)
 {
+  // Config for different Versions.
   if (ResNetVersion == 18)
   {
     numBlockArray = {2, 1, 2, 2};
@@ -112,6 +113,7 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
   resNet.Add(new ann::Padding<>(1, 1, 1, 1, inputWidth, inputHeight));
   mlpack::Log::Info << "Padding: " << "(" << "1, 1, 1, 1" << " ";
 
+  // Updating input dimesntions.
   inputWidth += 2;
   inputHeight += 2;
 
@@ -120,6 +122,7 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
   resNet.Add(new ann::MaxPooling<>(3, 3, 2, 2));
   mlpack::Log::Info << "MaxPool: " << "(" <<"3,3,2,2" << " ";
 
+  // Updating input dimesntions.
   inputWidth = ConvOutSize(inputWidth, 3, 2, 0);
   inputHeight = ConvOutSize(inputHeight, 3, 2, 0);
 
@@ -134,7 +137,6 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
   {
     resNet.Add(new ann::AdaptiveMeanPooling<>(1, 1));
     mlpack::Log::Info << "AdaptiveMeanPooling: " << "(1, 1)" << std::endl;
-
 
     if (ResNetVersion == 18 || ResNetVersion == 34)
     {

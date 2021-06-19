@@ -36,6 +36,13 @@
 namespace mlpack {
 namespace models {
 
+/**
+ * Definition of a ResNet CNN.
+ * 
+ * @tparam OutputLayerType The output layer type used to evaluate the network.
+ * @tparam InitializationRuleType Rule used to initialize the weight matrix.
+ * @tparam ResNetVersion Version of ResNet.
+ */
 template<
   typename OutputLayerType = ann::CrossEntropyError<>,
   typename InitializationRuleType = ann::RandomInitialization,
@@ -43,8 +50,21 @@ template<
 >
 class ResNet{
  public:
+  //! Create the ResNet model.
   ResNet();
 
+  /**
+   * ResNet constructor intializes input shape and number of classes.
+   *
+   * @param inputChannels Number of input channels of the input image.
+   * @param inputWidth Width of the input image.
+   * @param inputHeight Height of the input image.
+   * @param includeTop Must be set to true if preTrained is set to true.
+   * @param preTrained True for pre-trained weights of ImageNet,
+   *    default is false.
+   * @param numClasses Optional number of classes to classify images into,
+   *     only to be specified if includeTop is true, default is 1000.
+   */
   ResNet(const size_t inputChannel,
          const size_t inputWidth,
          const size_t inputHeight,
@@ -52,6 +72,17 @@ class ResNet{
          const bool preTrained = false,
          const size_t numClasses = 1000);
 
+  /**
+   * ResNet constructor intializes input shape and number of classes.
+   *
+   * @param inputShape A three-valued tuple indicating input shape.
+   *     First value is number of channels (channels-first).
+   *     Second value is input height. Third value is input width.
+   * @param preTrained True for pre-trained weights of ImageNet,
+   *    default is false.
+   * @param numClasses Optional number of classes to classify images into,
+   *     only to be specified if includeTop is  true.
+   */
   ResNet(std::tuple<size_t, size_t, size_t> inputShape,
          const bool includeTop = true,
          const bool preTrained = false,
@@ -59,7 +90,9 @@ class ResNet{
 
   //! Get Layers of the model.
   ann::FFN<OutputLayerType, InitializationRuleType>& GetModel()
-      { return resNet; }
+  {
+    return resNet;
+  }
 
   //! Load weights into the model.
   void LoadModel(const std::string& filePath);
@@ -68,6 +101,21 @@ class ResNet{
   void SaveModel(const std::string& filepath);
 
  private:
+  /**
+   * Adds a 3x3 Convolution Block.
+   *
+   * @tparam SequentialType Layer type in which 3x3 convolution block will
+   *     be added.
+   *
+   * @param inSize Number of input maps.
+   * @param outSize Number of output maps.
+   * @param strideWidth Stride of filter application in the x direction.
+   * @param strideHeight Stride of filter application in the y direction.
+   * @param kernelWidth Width of the filter/kernel.
+   * @param kernelHeight Height of the filter/kernel.
+   * @param padW Padding width of the input.
+   * @param padH Padding height of the input.
+   */
   template<typename SequentialType = ann::Sequential<>>
   void ConvolutionBlock3x3(SequentialType* baseLayer,
                            const size_t inSize,
@@ -93,6 +141,24 @@ class ResNet{
         << " " << inputHeight << ")" << std::endl;
   }
 
+  /**
+   * Adds a 1x1 Convolution Block.
+   *
+   * @tparam SequentialType Layer type in which 1x1 convolution block will
+   *     be added.
+   *
+   * @param inSize Number of input maps.
+   * @param outSize Number of output maps.
+   * @param downSampleInputWidth Input widht for downSample block.
+   * @param downSampleInputHeight Input height for downSample block.
+   * @param strideWidth Stride of filter application in the x direction.
+   * @param strideHeight Stride of filter application in the y direction.
+   * @param kernelWidth Width of the filter/kernel.
+   * @param kernelHeight Height of the filter/kernel.
+   * @param padW Padding width of the input.
+   * @param padH Padding height of the input.
+   * @param downSample Bool if it's a downsample block or not. default is false.
+   */
   template<typename SequentialType = ann::Sequential<>>
   void ConvolutionBlock1x1(SequentialType* baseLayer,
                            const size_t inSize,
@@ -136,8 +202,26 @@ class ResNet{
     }
   }
 
-  template <typename AddmergeType = ann::AddMerge<>>
-  void DownSample(AddmergeType* resBlock,
+  /**
+   * Adds 1x1 Convolution Block and a batch norm layer to constrcut downSample
+   *     block.
+   *
+   * @tparam AddMergeType Layer type in which downSample block will
+   *     be added.
+   *
+   * @param inSize Number of input maps.
+   * @param outSize Number of output maps.
+   * @param downSampleInputWidth Input widht for down-sample block.
+   * @param downSampleInputHeight Input height for down-sample block.
+   * @param kernelWidth Width of the filter/kernel.
+   * @param kernelHeight Height of the filter/kernel.
+   * @param strideWidth Stride of filter application in the x direction.
+   * @param strideHeight Stride of filter application in the y direction.
+   * @param padW Padding width of the input.
+   * @param padH Padding height of the input.
+   */
+  template <typename AddMergeType = ann::AddMerge<>>
+  void DownSample(AddMergeType* resBlock,
                   const size_t inSize,
                   const size_t outSize,
                   const size_t downSampleInputWidth,
@@ -159,6 +243,42 @@ class ResNet{
     resBlock->Add(downSampleBlock);
   }
 
+  /**
+   * Adds basicBlock block for ResNet 18 and 34.
+   *
+   * It's represented as:
+   * 
+   * resBlock - AddMerge layer
+   * {
+   *   sequentialBlock - sequentialLayer
+   *   {
+   *     ConvolutionBlock3x3(inSize, outSize, strideWidth, strideHeight)
+   *     BatchNorm(outSize)
+   *     ReLU
+   *     ConvolutionBlock3x3(inSize, outSize)
+   *     BatchNorm(outSize)
+   *   }
+   *
+   *   sequentialLayer
+   *   {
+   *     if downsample == true
+   *       ConvolutionBlock1x1(inSize, outSize, downSampleInputWidth, downSampleInputHeight)
+   *       BatchNorm(outSize)
+   *
+   *     else
+   *       IdentityLayer
+   *   }
+   * 
+   *   ReLU
+   * }
+   *
+   * @param inSize Number of input maps.
+   * @param outSize Number of output maps.
+   * @param strideWidth Stride of filter application in the x direction.
+   * @param strideHeight Stride of filter application in the y direction.
+   * @param downSample If there will be a downSample block or not, default
+   *     false.
+   */
   void BasicBlock(const size_t inSize,
                   const size_t outSize,
                   const size_t strideWidth = 1,
@@ -201,6 +321,49 @@ class ResNet{
     resNet.Add(basicBlock);
   }
 
+  /**
+   * Adds bottleNeck block for ResNet 50, 101 and 152.
+   *
+   * It's represented as:
+   * 
+   * resBlock - AddMerge layer
+   * {
+   *   sequentialBlock
+   *   {
+   *     ConvolutionBlock1x1(inSize, width)
+   *     BatchNorm(width)
+   *     ReLU
+   *     ConvolutionBlock3x3(width, width, strideWidth, strideHeight)
+   *     BatchNorm(width)
+   *     ReLU
+   *     ConvolutionBlock1x1(width, outSize * bottleNeckExpansion)
+   *     BatchNorm(outSize * bottleNeckExpansion)
+   *   }
+   *
+   *   sequentialLayer
+   *   {
+   *     if downsample == true
+   *       ConvolutionBlock1x1(inSize, outSize * bottleNeckExpansion,
+   *           downSampleInputWidth, downSampleInputHeight, 1, 1, strideWidth,
+   *           strideHeight)
+   *       BatchNorm(outSize)
+   *
+   *     else
+   *       IdentityLayer
+   *   }
+   * 
+   *   ReLU
+   * }
+   *
+   * @param inSize Number of input maps.
+   * @param outSize Number of output maps.
+   * @param strideWidth Stride of filter application in the x direction.
+   * @param strideHeight Stride of filter application in the y direction.
+   * @param downSample If there will be a downSample block or not, default
+   *     false.
+   * @param baseWidth Parameter for calculating width.
+   * @param groups Parameter for calculating width.
+   */
   void BottleNeck(const size_t inSize,
                   const size_t outSize,
                   const size_t strideWidth = 1,
@@ -253,6 +416,14 @@ class ResNet{
     resNet.Add(basicBlock);
   }
 
+  /**
+   * Creates model layers based on the type of layer and parameters supplied.
+   *
+   * @param block Type of block to use for layer creation.
+   * @param outSize Number of output maps.
+   * @param numBlocks Number of layers to create.
+   * @param stride Single parameter for StrideHeight and strideWidth.
+   */
   void MakeLayer(const std::string& block,
                  const size_t outSize,
                  const size_t numBlocks,
