@@ -61,6 +61,14 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
     inputHeight(std::get<2>(inputShape)),
     numClasses(numClasses)
 {
+
+  if (preTrained)
+  {
+    LoadModel("./../weights/resnet/resnet" + std::to_string(ResNetVersion) +
+        "_imagenet.bin");
+    return;
+  }
+
   // Config for different Versions.
   auto configFinder = ResNetConfig.find(ResNetVersion);
   auto config = configFinder->second;
