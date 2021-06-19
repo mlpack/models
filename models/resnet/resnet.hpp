@@ -346,7 +346,7 @@ typedef ResNet<ann::CrossEntropyError<>, ann::RandomInitialization, 50>
 typedef ResNet<ann::CrossEntropyError<>, ann::RandomInitialization, 101>
     ResNet101;
 typedef ResNet<ann::CrossEntropyError<>, ann::RandomInitialization, 152>
-    ResNet152; 
+    ResNet152;
 
 } // namespace models
 } // namespace mlpack

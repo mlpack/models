@@ -84,16 +84,16 @@ TEST_CASE("ResNetModelTest", "[FFNModelsTests]")
   REQUIRE(output.n_rows == 1000);
 
   ResNet101 resnet101(3, 224, 224);
-  
+
   // Check output shape for resnet101.
   resnet101.GetModel().Predict(input, output);
   REQUIRE(output.n_cols == 1);
   REQUIRE(output.n_rows == 1000);
 
   ResNet152 resnet152(3, 224, 224);
-  
+
   // Check output shape for resnet152.
   resnet152.GetModel().Predict(input, output);
   REQUIRE(output.n_cols == 1);
-  REQUIRE(output.n_rows == 1000);s
+  REQUIRE(output.n_rows == 1000);
 }
