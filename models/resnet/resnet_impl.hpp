@@ -61,10 +61,9 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
     inputHeight(std::get<2>(inputShape)),
     numClasses(numClasses)
 {
-
   if (ResNetVersion == 18)
   {
-    numBlockArray = {2 ,1, 2, 2};
+    numBlockArray = {2, 1, 2, 2};
     builderBlock = "basicblock";
   }
   else if (ResNetVersion == 34)
@@ -95,15 +94,15 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
 
   resNet.Add(new ann::Convolution<>(3, 64, 7, 7, 2, 2, 3, 3, inputWidth,
       inputHeight));
- 
+
   // Updating input dimesntions.
   inputWidth = ConvOutSize(inputWidth, 7, 2, 3);
   inputHeight = ConvOutSize(inputHeight, 7, 2, 3);
-  
+
   mlpack::Log::Info << "Convolution: " << "(" << 3 << " " << 64 << " " << 7
       << " " << 7 << " " << 2 << " " << 2 << " " << 3 << " " << 3 << " " <<
       inputWidth << " " << inputHeight << ")" << std::endl;
-  
+
   resNet.Add(new ann::BatchNorm<>(64));
   mlpack::Log::Info << "BatchNorm: " << "(" << 64 << ")" << std::endl;
 
@@ -145,11 +144,11 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
     }
     else if (ResNetVersion == 50 || ResNetVersion == 101 ||
         ResNetVersion == 152)
-    { 
+    {
       resNet.Add(new ann::Linear<>(512 * bottleNeckExpansion, numClasses));
       mlpack::Log::Info<<"Linear: " << "(" << 512 * bottleNeckExpansion << " "
           << numClasses << ")" << std::endl;
-    } 
+    }
   }
 
   resNet.ResetParameters();

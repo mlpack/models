@@ -43,7 +43,6 @@ template<
 >
 class ResNet{
  public:
-
   ResNet();
 
   ResNet(const size_t inputChannel,
@@ -69,7 +68,6 @@ class ResNet{
   void SaveModel(const std::string& filepath);
 
  private:
-
   template<typename SequentialType = ann::Sequential<>>
   void ConvolutionBlock3x3(SequentialType* baseLayer,
                            const size_t inSize,
@@ -84,7 +82,7 @@ class ResNet{
     baseLayer->Add(new ann::Convolution<>(inSize, outSize, kernelWidth,
         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
         inputHeight));
-    
+
     // Updating input dimesntions.
     inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
     inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
@@ -130,7 +128,7 @@ class ResNet{
       // Updating input dimesntions.
       inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
       inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
-      
+
       mlpack::Log::Info << "Convolution: " << "(" << inSize << " " << outSize
           << " " << kernelWidth << " " << kernelHeight << " " << strideWidth
           << " " << strideHeight << " " << padW << " " << padH << " " <<
@@ -166,8 +164,7 @@ class ResNet{
                   const size_t strideWidth = 1,
                   const size_t strideHeight = 1,
                   const bool downSample = false)
-  {  
-
+  {
     downSampleInputWidth = inputWidth;
     downSampleInputHeight = inputHeight;
 
@@ -187,7 +184,7 @@ class ResNet{
     resBlock->Add(sequentialBlock);
 
     if (downSample == true)
-    {  
+    {
       mlpack::Log::Info << "DownSample below" << std::endl;
       DownSample(resBlock, inSize, outSize, downSampleInputWidth,
           downSampleInputHeight);
@@ -238,7 +235,7 @@ class ResNet{
     resBlock->Add(sequentialBlock);
 
     if (downSample == true)
-    {  
+    {
       mlpack::Log::Info << "DownSample below" << std::endl;
       DownSample(resBlock, inSize, outSize * bottleNeckExpansion,
           downSampleInputWidth, downSampleInputHeight, 1, 1, strideWidth,
@@ -284,7 +281,7 @@ class ResNet{
         BottleNeck(downSampleInSize, outSize);
     }
   }
-  
+
   /**
    * Return the convolution output size.
    *
