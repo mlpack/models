@@ -130,7 +130,7 @@ class ResNet{
     baseLayer->Add(new ann::Convolution<>(inSize, outSize, kernelWidth,
         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
         inputHeight));
-    
+
     mlpack::Log::Info << "Convolution: " << "(" << inSize << ", " << inputWidth
         << ", " << inputHeight << ")" << " ---> (";
 
@@ -412,7 +412,6 @@ class ResNet{
           downSampleInputWidth, downSampleInputHeight, 1, 1, strideWidth,
           strideHeight);
       mlpack::Log::Info << ")" << std::endl;
-
     }
     else
     {
@@ -511,7 +510,7 @@ class ResNet{
   size_t downSampleInSize = 64;
 
   //! Locally stored map to constructor different ResNet versions.
-  std::map<size_t, std::map<std::string, std::array<size_t, 4>>> ResNetConfig = 
+  std::map<size_t, std::map<std::string, std::array<size_t, 4>>> ResNetConfig =
       {
         {18, {{"basicblock", {2, 2, 2, 2}}}},
         {34, {{"basicblock", {3, 4, 6, 3}}}},
@@ -522,7 +521,7 @@ class ResNet{
 
   //! Locally stored array to constructor different ResNet versions.
   std::array<size_t , 4> numBlockArray;
-  
+
   //! Locally stored block string from which to build the model.
   std::string builderBlock;
 }; // ResNet class
