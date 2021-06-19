@@ -96,37 +96,40 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
   resNet.Add(new ann::Convolution<>(3, 64, 7, 7, 2, 2, 3, 3, inputWidth,
       inputHeight));
 
+  mlpack::Log::Info << "Convolution: " << "(" << 3 << ", " <<
+      inputWidth << ", " << inputHeight << ")" << " ---> (";
+
   // Updating input dimesntions.
   inputWidth = ConvOutSize(inputWidth, 7, 2, 3);
   inputHeight = ConvOutSize(inputHeight, 7, 2, 3);
 
-  mlpack::Log::Info << "Convolution: " << "(" << 3 << " " << 64 << " " << 7
-      << " " << 7 << " " << 2 << " " << 2 << " " << 3 << " " << 3 << " " <<
-      inputWidth << " " << inputHeight << ")" << std::endl;
+  mlpack::Log::Info << 64 << ", " << inputWidth << ", " << inputHeight
+      << ")" << std::endl;
 
   resNet.Add(new ann::BatchNorm<>(64));
-  mlpack::Log::Info << "BatchNorm: " << "(" << 64 << ")" << std::endl;
+  mlpack::Log::Info << "  BatchNorm: " << "(" << 64 << ")" << " ---> ("
+        << 64 << ")" << std::endl;
 
   resNet.Add(new ann::ReLULayer<>);
   mlpack::Log::Info << "Relu" << std::endl;
 
   resNet.Add(new ann::Padding<>(1, 1, 1, 1, inputWidth, inputHeight));
-  mlpack::Log::Info << "Padding: " << "(" << "1, 1, 1, 1" << " ";
+  mlpack::Log::Info << "Padding: " << "(" << "64, " << inputWidth << ", " inputWidth << " ---> (";
 
   // Updating input dimesntions.
   inputWidth += 2;
   inputHeight += 2;
 
-  mlpack::Log::Info << inputWidth << " " << inputHeight << ")" << std::endl;
+  mlpack::Log::Info <<"64, "<< inputWidth << ", " << inputHeight << ")" << std::endl;
 
   resNet.Add(new ann::MaxPooling<>(3, 3, 2, 2));
-  mlpack::Log::Info << "MaxPool: " << "(" <<"3,3,2,2" << " ";
+  mlpack::Log::Info << "MaxPool: " << "(" <<"64, " << inputWidth << ", " << inputHeight << " ---> (";
 
   // Updating input dimesntions.
   inputWidth = ConvOutSize(inputWidth, 3, 2, 0);
   inputHeight = ConvOutSize(inputHeight, 3, 2, 0);
 
-  mlpack::Log::Info << inputWidth << " " << inputHeight << ")" << std::endl;
+  mlpack::Log::Info << "64, " << inputWidth << ", " << inputHeight << ")" << std::endl;
 
   MakeLayer(builderBlock, 64, numBlockArray[0]);
   MakeLayer(builderBlock, 128, numBlockArray[1], 2);
@@ -142,14 +145,14 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
     {
       resNet.Add(new ann::Linear<>(512 * basicBlockExpansion, numClasses));
       mlpack::Log::Info << "Linear: " << "(" << 512 * basicBlockExpansion <<
-          " " << numClasses << ")" <<std::endl;
+          ") ---> (" << numClasses << ")" <<std::endl;
     }
     else if (ResNetVersion == 50 || ResNetVersion == 101 ||
         ResNetVersion == 152)
     {
       resNet.Add(new ann::Linear<>(512 * bottleNeckExpansion, numClasses));
-      mlpack::Log::Info<<"Linear: " << "(" << 512 * bottleNeckExpansion << " "
-          << numClasses << ")" << std::endl;
+      mlpack::Log::Info<<"Linear: " << "(" << 512 * bottleNeckExpansion <<
+          ") ---> (" << numClasses << ")" << std::endl;
     }
   }
 

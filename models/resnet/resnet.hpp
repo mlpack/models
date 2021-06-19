@@ -130,15 +130,16 @@ class ResNet{
     baseLayer->Add(new ann::Convolution<>(inSize, outSize, kernelWidth,
         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
         inputHeight));
+    
+    mlpack::Log::Info << "Convolution: " << "(" << inSize << ", " << inputWidth
+        << ", " << inputHeight << ")" << " ---> (";
 
     // Updating input dimesntions.
     inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
     inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
 
-    mlpack::Log::Info << "Convolution: " << "(" << inSize << " " << outSize
-        << " " << kernelWidth << " " << kernelHeight << " " << strideWidth <<
-        " " << strideHeight << " " << padW << " " << padH << " " << inputWidth
-        << " " << inputHeight << ")" << std::endl;
+    mlpack::Log::Info << outSize << ", " << inputWidth << ", " << inputHeight
+        << ")" << std::endl;
   }
 
   /**
@@ -179,11 +180,10 @@ class ResNet{
           kernelHeight, strideWidth, strideHeight, padW, padH,
           downSampleInputWidth, downSampleInputHeight));
 
-      mlpack::Log::Info << "Convolution: " << "(" << inSize << " " << outSize
-          << " " << kernelWidth << " " << kernelHeight << " " << strideWidth
-          << " " << strideHeight << " " << padW << " " << padH << " " <<
-          downSampleInputWidth << " " << downSampleInputHeight << ")"
-          << std::endl;
+      mlpack::Log::Info << "  Convolution: " << "(" << inSize << ", " <<
+          downSampleInputWidth << ", " << downSampleInputHeight << ")" <<
+          " ---> (" << outSize << ", " << downSampleInputWidth << ", " <<
+          downSampleInputHeight << ")" << std::endl;
     }
     else
     {
@@ -191,14 +191,15 @@ class ResNet{
           kernelHeight, strideWidth, strideHeight, padW, padH,
           inputWidth, inputHeight));
 
+      mlpack::Log::Info << "Convolution: " << "(" << inSize << ", " <<
+          inputWidth << ", " << inputHeight << ")" << " ---> (";
+
       // Updating input dimesntions.
       inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
       inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
 
-      mlpack::Log::Info << "Convolution: " << "(" << inSize << " " << outSize
-          << " " << kernelWidth << " " << kernelHeight << " " << strideWidth
-          << " " << strideHeight << " " << padW << " " << padH << " " <<
-          inputWidth << " " << inputHeight << ")" << std::endl;
+      mlpack::Log::Info << outSize << ", " << inputWidth << ", " << inputHeight
+          << ")" << std::endl;
     }
   }
 
@@ -239,7 +240,8 @@ class ResNet{
         kernelHeight, padW, padH, true);
 
     downSampleBlock->Add(new ann::BatchNorm<>(outSize));
-    mlpack::Log::Info << "BatchNorm: " << "(" <<outSize << ")" << std::endl;
+    mlpack::Log::Info << "  BatchNorm: " << "(" << outSize << ")" << " ---> ("
+        << outSize << ")" << std::endl;
     resBlock->Add(downSampleBlock);
   }
 
@@ -294,20 +296,23 @@ class ResNet{
     ConvolutionBlock3x3(sequentialBlock, inSize, outSize, strideWidth,
         strideHeight);
     sequentialBlock->Add(new ann::BatchNorm<>(outSize));
-    mlpack::Log::Info << "BatchNorm: " << "(" << outSize << ")" << std::endl;
+    mlpack::Log::Info << "BatchNorm: " << "(" << outSize << ")" << " ---> ("
+        << outSize << ")" << std::endl;
     sequentialBlock->Add(new ann::ReLULayer<>);
     mlpack::Log::Info << "Relu" << std::endl;
     ConvolutionBlock3x3(sequentialBlock, outSize, outSize);
     sequentialBlock->Add(new ann::BatchNorm<>(outSize));
-    mlpack::Log::Info << "BatchNorm: " << "(" << outSize << ")" << std::endl;
+    mlpack::Log::Info << "BatchNorm: " << "(" << outSize << ")" << " ---> ("
+        << outSize << ")" << std::endl;
 
     resBlock->Add(sequentialBlock);
 
     if (downSample == true)
     {
-      mlpack::Log::Info << "DownSample below" << std::endl;
+      mlpack::Log::Info << "DownSample (";
       DownSample(resBlock, inSize, outSize, downSampleInputWidth,
           downSampleInputHeight);
+      mlpack::Log::Info << ")" <<std::endl;
     }
     else
     {
@@ -381,28 +386,32 @@ class ResNet{
     ann::Sequential<>* sequentialBlock = new ann::Sequential<>();
     ConvolutionBlock1x1(sequentialBlock, inSize, width);
     sequentialBlock->Add(new ann::BatchNorm<>(width));
-    mlpack::Log::Info << "BatchNorm: " << "(" << width << ")" << std::endl;
+    mlpack::Log::Info << "BatchNorm: " << "(" << width << ")" << " ---> ("
+        << width << ")" << std::endl;
     sequentialBlock->Add(new ann::ReLULayer<>);
     mlpack::Log::Info << "Relu" << std::endl;
     ConvolutionBlock3x3(sequentialBlock, width, width, strideWidth,
         strideHeight);
     sequentialBlock->Add(new ann::BatchNorm<>(width));
-    mlpack::Log::Info << "BatchNorm: " << "(" << outSize << ")" << std::endl;
+    mlpack::Log::Info << "BatchNorm: " << "(" << width << ")" << " ---> ("
+        << width << ")" << std::endl;
     sequentialBlock->Add(new ann::ReLULayer<>);
     mlpack::Log::Info << "Relu" << std::endl;
     ConvolutionBlock1x1(sequentialBlock, width, outSize * bottleNeckExpansion);
     sequentialBlock->Add(new ann::BatchNorm<>(outSize * bottleNeckExpansion));
     mlpack::Log::Info << "BatchNorm: " << "(" << outSize * bottleNeckExpansion
-        << ")" << std::endl;
+    << ")" << " ---> (" << outSize * bottleNeckExpansion << ")" << std::endl;
 
     resBlock->Add(sequentialBlock);
 
     if (downSample == true)
     {
-      mlpack::Log::Info << "DownSample below" << std::endl;
+      mlpack::Log::Info << "DownSample (";
       DownSample(resBlock, inSize, outSize * bottleNeckExpansion,
           downSampleInputWidth, downSampleInputHeight, 1, 1, strideWidth,
           strideHeight);
+      mlpack::Log::Info << ")" << std::endl;
+
     }
     else
     {
