@@ -304,19 +304,19 @@ class ResNet{
 
   //! Locally stored DarkNet Model.
   ann::FFN<OutputLayerType, InitializationRuleType> resNet;
-  
+
   //! Locally stored number of channels in the image.
   size_t inputChannel;
-  
+
   //! Locally stored width of the image.
   size_t inputWidth;
-  
+
   //! Locally stored height of the image.
   size_t inputHeight;
-  
+
   //! Locally stored number of output classes.
   size_t numClasses;
-  
+
   //! Locally stored width of image for downSample block.
   size_t downSampleInputWidth;
 
@@ -325,7 +325,7 @@ class ResNet{
 
   //! Locally stored expansion for BasicBlock.
   size_t basicBlockExpansion = 1;
-  
+
   //! Locally stored expansion for BottleNeck.
   size_t bottleNeckExpansion = 4;
 
