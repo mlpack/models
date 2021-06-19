@@ -61,7 +61,6 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
     inputHeight(std::get<2>(inputShape)),
     numClasses(numClasses)
 {
-
   if (preTrained)
   {
     LoadModel("./../weights/resnet/resnet" + std::to_string(ResNetVersion) +
