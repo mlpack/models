@@ -10,12 +10,15 @@
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
 
-#ifndef MODELS_DATALOADER_IMPL_HPP
-#define MODELS_DATALOADER_IMPL_HPP
+#ifndef MODELS_DATALOADER_DATALOADER_IMPL_HPP
+#define MODELS_DATALOADER_DATALOADER_IMPL_HPP
 
 #include "dataloader.hpp"
 
 using namespace mlpack;
+
+namespace mlpack {
+namespace models {
 
 template<
   typename DatasetX,
@@ -491,5 +494,8 @@ template<
         std::endl;
   }
 }
+
+} // namespace models
+} // namespace mlpack
 
 #endif

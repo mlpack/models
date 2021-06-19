@@ -4,10 +4,16 @@ project(models_test)
 include(CTest)
 enable_testing()
 
+# The Catch CMake tools do not seem to work correctly on windows.
+if(NOT WIN32)
+  include(${CMAKE_SOURCE_DIR}/CMake/Catch.cmake)
+endif()
+
 set(MODEL_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/)
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../")
 
 add_executable(models_test
+               main.cpp
                augmentation_tests.cpp
                ffn_model_tests.cpp
                dataloader_tests.cpp
@@ -21,16 +27,15 @@ target_link_libraries(models_test
   ${ARMADILLO_LIBRARIES}
   ${Boost_FILESYSTEM_LIBRARY}
   ${Boost_SYSTEM_LIBRARY}
-  ${Boost_SERIALIZATION_LIBRARY}
   ${Boost_REGEX_LIBRARY}
   ${MLPACK_LIBRARIES}
-)
-
-# Add tests to the testing framework.
-# Get the list of sources from the test target.
-get_target_property(test_sources models_test SOURCES)
+)  
 
 # So the dll is placed in the same dir as the tests.
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-add_test(NAME "test" COMMAND models_test)
+if(NOT WIN32)
+  catch_discover_tests(models_test)
+else()
+  add_test(NAME "test" COMMAND models_test)
+endif()

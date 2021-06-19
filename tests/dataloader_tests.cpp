@@ -9,14 +9,10 @@
  * 3-clause BSD license along with mlpack.  If not, see
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
-
-/**
- * CATCH_CONFIG_MAIN tells Catch to provide a main() don't include
- * this in other test files.
- */
-#define CATCH_CONFIG_MAIN
 #include <dataloader/dataloader.hpp>
 #include "catch.hpp"
+
+using namespace mlpack::models;
 
 /**
  * Simple test for Dataloader.

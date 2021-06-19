@@ -13,6 +13,8 @@
 #include <dataloader/dataloader.hpp>
 #include "catch.hpp"
 
+using namespace mlpack::models;
+
 TEST_CASE("YOLOPreProcessor", "[PreProcessorsTest]")
 {
   arma::field<arma::vec> input;

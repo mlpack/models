@@ -47,31 +47,31 @@ def ImagesFromCSV(filename,
   return tempImage
 
 # Save posterior samples.
-ImagesFromCSV('samples_csv_files/samples_posterior.csv', destination =
+ImagesFromCSV('./samples_csv_files/samples_posterior.csv', destination =
     'samples_posterior')
 
 # Save prior samples with individual latent varying.
 latentSize = 10
-allLatent = ImagesFromCSV('samples_csv_files/samples_prior_latent0.csv',
+allLatent = ImagesFromCSV('./samples_csv_files/samples_prior_latent0.csv',
     destination = 'samples_prior')
 
 for i in range(1, latentSize):
   allLatent = np.concatenate((allLatent,
-      (ImagesFromCSV('samples_csv_files/samples_prior_latent' + str(i) + '.csv',
+      (ImagesFromCSV('./samples_csv_files/samples_prior_latent' + str(i) + '.csv',
       destination = 'samples_prior'))), axis = 0)
 
 saved = Image.fromarray(allLatent, 'L')
-saved.save('samples_prior/allLatent.jpg')
+saved.save('./samples_prior/allLatent.jpg')
 
 # Save prior samples with 2d latent varying.
 nofSamples = 20
-allLatent = ImagesFromCSV('samples_csv_files/samples_prior_latent_2d0.csv',
+allLatent = ImagesFromCSV('./samples_csv_files/samples_prior_latent_2d0.csv',
     destination = 'latent')
 
 for i in range(1, nofSamples):
   allLatent = np.concatenate((allLatent,
-      (ImagesFromCSV('samples_csv_files/samples_prior_latent_2d' + str(i) +
+      (ImagesFromCSV('./samples_csv_files/samples_prior_latent_2d' + str(i) +
       '.csv', destination = 'samples_prior'))), axis = 0)
 
 saved = Image.fromarray(allLatent, 'L')
-saved.save('samples_prior/2dLatent.jpg')
+saved.save('./samples_prior/2dLatent.jpg')
