@@ -239,7 +239,7 @@ class ResNet{
         downSampleInputHeight, strideWidth, strideHeight, kernelWidth,
         kernelHeight, padW, padH, true);
 
-    downSampleBlock->Add(new ann::BatchNorm<>(outSize));
+    downSampleBlock->Add(new ann::BatchNorm<>(outSize, 1e-5));
     mlpack::Log::Info << "  BatchNorm: " << "(" << outSize << ")" << " ---> ("
         << outSize << ")" << std::endl;
     resBlock->Add(downSampleBlock);
@@ -255,10 +255,10 @@ class ResNet{
    *   sequentialBlock - sequentialLayer
    *   {
    *     ConvolutionBlock3x3(inSize, outSize, strideWidth, strideHeight)
-   *     BatchNorm(outSize)
+   *     BatchNorm(outSize, 1e-5)
    *     ReLU
    *     ConvolutionBlock3x3(inSize, outSize)
-   *     BatchNorm(outSize)
+   *     BatchNorm(outSize, 1e-5)
    *   }
    *
    *   sequentialLayer
@@ -266,7 +266,7 @@ class ResNet{
    *     if downsample == true
    *       ConvolutionBlock1x1(inSize, outSize, downSampleInputWidth,
    *           downSampleInputHeight)
-   *       BatchNorm(outSize)
+   *       BatchNorm(outSize, 1e-5)
    *
    *     else
    *       IdentityLayer
@@ -296,13 +296,13 @@ class ResNet{
     ann::Sequential<>* sequentialBlock = new ann::Sequential<>();
     ConvolutionBlock3x3(sequentialBlock, inSize, outSize, strideWidth,
         strideHeight);
-    sequentialBlock->Add(new ann::BatchNorm<>(outSize));
+    sequentialBlock->Add(new ann::BatchNorm<>(outSize, 1e-5));
     mlpack::Log::Info << "BatchNorm: " << "(" << outSize << ")" << " ---> ("
         << outSize << ")" << std::endl;
     sequentialBlock->Add(new ann::ReLULayer<>);
     mlpack::Log::Info << "Relu" << std::endl;
     ConvolutionBlock3x3(sequentialBlock, outSize, outSize);
-    sequentialBlock->Add(new ann::BatchNorm<>(outSize));
+    sequentialBlock->Add(new ann::BatchNorm<>(outSize, 1e-5));
     mlpack::Log::Info << "BatchNorm: " << "(" << outSize << ")" << " ---> ("
         << outSize << ")" << std::endl;
 
@@ -337,13 +337,13 @@ class ResNet{
    *   sequentialBlock
    *   {
    *     ConvolutionBlock1x1(inSize, width)
-   *     BatchNorm(width)
+   *     BatchNorm(width, 1e-5)
    *     ReLU
    *     ConvolutionBlock3x3(width, width, strideWidth, strideHeight)
-   *     BatchNorm(width)
+   *     BatchNorm(width, 1e-5)
    *     ReLU
    *     ConvolutionBlock1x1(width, outSize * bottleNeckExpansion)
-   *     BatchNorm(outSize * bottleNeckExpansion)
+   *     BatchNorm(outSize * bottleNeckExpansion, 1e-5)
    *   }
    *
    *   sequentialLayer
@@ -352,7 +352,7 @@ class ResNet{
    *       ConvolutionBlock1x1(inSize, outSize * bottleNeckExpansion,
    *           downSampleInputWidth, downSampleInputHeight, 1, 1, strideWidth,
    *           strideHeight)
-   *       BatchNorm(outSize)
+   *       BatchNorm(outSize, 1e-5)
    *
    *     else
    *       IdentityLayer
@@ -386,20 +386,20 @@ class ResNet{
     ann::AddMerge<>* resBlock = new ann::AddMerge<>(true, true);
     ann::Sequential<>* sequentialBlock = new ann::Sequential<>();
     ConvolutionBlock1x1(sequentialBlock, inSize, width);
-    sequentialBlock->Add(new ann::BatchNorm<>(width));
+    sequentialBlock->Add(new ann::BatchNorm<>(width, 1e-5));
     mlpack::Log::Info << "BatchNorm: " << "(" << width << ")" << " ---> ("
         << width << ")" << std::endl;
     sequentialBlock->Add(new ann::ReLULayer<>);
     mlpack::Log::Info << "Relu" << std::endl;
     ConvolutionBlock3x3(sequentialBlock, width, width, strideWidth,
         strideHeight);
-    sequentialBlock->Add(new ann::BatchNorm<>(width));
+    sequentialBlock->Add(new ann::BatchNorm<>(width, 1e-5));
     mlpack::Log::Info << "BatchNorm: " << "(" << width << ")" << " ---> ("
         << width << ")" << std::endl;
     sequentialBlock->Add(new ann::ReLULayer<>);
     mlpack::Log::Info << "Relu" << std::endl;
     ConvolutionBlock1x1(sequentialBlock, width, outSize * bottleNeckExpansion);
-    sequentialBlock->Add(new ann::BatchNorm<>(outSize * bottleNeckExpansion));
+    sequentialBlock->Add(new ann::BatchNorm<>(outSize * bottleNeckExpansion, 1e-5));
     mlpack::Log::Info << "BatchNorm: " << "(" << outSize * bottleNeckExpansion
     << ")" << " ---> (" << outSize * bottleNeckExpansion << ")" << std::endl;
 
