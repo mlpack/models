@@ -399,7 +399,8 @@ class ResNet{
     sequentialBlock->Add(new ann::ReLULayer<>);
     mlpack::Log::Info << "Relu" << std::endl;
     ConvolutionBlock1x1(sequentialBlock, width, outSize * bottleNeckExpansion);
-    sequentialBlock->Add(new ann::BatchNorm<>(outSize * bottleNeckExpansion, 1e-5));
+    sequentialBlock->Add(new ann::BatchNorm<>(outSize * bottleNeckExpansion,
+        1e-5));
     mlpack::Log::Info << "BatchNorm: " << "(" << outSize * bottleNeckExpansion
     << ")" << " ---> (" << outSize * bottleNeckExpansion << ")" << std::endl;
 
