@@ -94,7 +94,7 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
       << ")" << std::endl;
 
   resNet.Add(new ann::BatchNorm<>(64, 1e-5));
-  mlpack::Log::Info << "  BatchNorm: " << "(" << 64 << ")" << " ---> ("
+  mlpack::Log::Info << "BatchNorm: " << "(" << 64 << ")" << " ---> ("
         << 64 << ")" << std::endl;
 
   resNet.Add(new ann::ReLULayer<>);

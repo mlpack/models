@@ -310,7 +310,7 @@ class ResNet{
 
     if (downSample == true)
     {
-      mlpack::Log::Info << "DownSample (";
+      mlpack::Log::Info << "DownSample (" << std::endl;
       DownSample(resBlock, inSize, outSize, downSampleInputWidth,
           downSampleInputHeight);
       mlpack::Log::Info << ")" <<std::endl;
@@ -408,7 +408,7 @@ class ResNet{
 
     if (downSample == true)
     {
-      mlpack::Log::Info << "DownSample (";
+      mlpack::Log::Info << "DownSample (" << std::endl;
       DownSample(resBlock, inSize, outSize * bottleNeckExpansion,
           downSampleInputWidth, downSampleInputHeight, 1, 1, strideWidth,
           strideHeight);
