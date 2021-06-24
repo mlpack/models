@@ -1,0 +1,478 @@
+\hypertarget{classmlpack_1_1models_1_1DataLoader}{}\doxysection{mlpack\+::models\+::Data\+Loader$<$ DatasetX, DatasetY, Scaler\+Type $>$ Class Template Reference}
+\label{classmlpack_1_1models_1_1DataLoader}\index{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}}
+
+
+{\ttfamily \#include $<$dataloader.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader_adcb8205b5c9457c261b282e5f3d9663a}{Data\+Loader}} ()
+\begin{DoxyCompactList}\small\item\em Create \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{Data\+Loader}} object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader_a08ccc9b5b28d3e31d4444e62b3152f21}{Data\+Loader}} (const std\+::string \&dataset, const bool shuffle, const double valid\+Ratio=0.\+25, const bool use\+Scaler=true, const std\+::vector$<$ std\+::string $>$ augmentation=std\+::vector$<$ std\+::string $>$(), const double augmentation\+Probability=0.\+2)
+\item 
+void \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader_a5088ca418aa435dc53f666b745dbc49c}{Load\+CSV}} (const std\+::string \&dataset\+Path, const bool load\+Train\+Data=true, const bool shuffle=true, const double valid\+Ratio=0.\+25, const bool use\+Scaler=false, const int start\+Input\+Features=-\/1, const int end\+Input\+Features=-\/1, const int start\+Prediction\+Features=-\/1, const int end\+Prediction\+Features=-\/1, const std\+::vector$<$ std\+::string $>$ augmentation=std\+::vector$<$ std\+::string $>$(), const double augmentation\+Probability=0.\+2)
+\item 
+void \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader_a63d87507ff811dce660dd6b15ac9d73e}{Load\+Object\+Detection\+Dataset}} (const std\+::string \&path\+To\+Annotations, const std\+::string \&path\+To\+Images, const std\+::vector$<$ std\+::string $>$ \&classes, const double valid\+Ratio=0.\+2, const bool shuffle=true, const std\+::vector$<$ std\+::string $>$ \&augmentation=std\+::vector$<$ std\+::string $>$(), const double augmentation\+Probability=0.\+2, const bool absolute\+Path=false, const std\+::string \&base\+XMLTag=\char`\"{}annotation\char`\"{}, const std\+::string \&image\+Name\+XMLTag=\char`\"{}filename\char`\"{}, const std\+::string \&size\+XMLTag=\char`\"{}size\char`\"{}, const std\+::string \&object\+XMLTag=\char`\"{}object\char`\"{}, const std\+::string \&bndbox\+XMLTag=\char`\"{}bndbox\char`\"{}, const std\+::string \&class\+Name\+XMLTag=\char`\"{}name\char`\"{}, const std\+::string \&x1\+XMLTag=\char`\"{}xmin\char`\"{}, const std\+::string \&y1\+XMLTag=\char`\"{}ymin\char`\"{}, const std\+::string \&x2\+XMLTag=\char`\"{}xmax\char`\"{}, const std\+::string \&y2\+XMLTag=\char`\"{}ymax\char`\"{})
+\item 
+void \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader_ab07479762669e5f73f85db621ab0c6c6}{Load\+All\+Images\+From\+Directory}} (const std\+::string \&images\+Path, DatasetX \&dataset, DatasetY \&labels, const size\+\_\+t image\+Width, const size\+\_\+t image\+Height, const size\+\_\+t image\+Depth, const size\+\_\+t label=0)
+\item 
+void \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader_a29460cf04a11596377be816efa4c8c12}{Load\+Image\+Dataset\+From\+Directory}} (const std\+::string \&path\+To\+Dataset, const size\+\_\+t image\+Width, const size\+\_\+t image\+Height, const size\+\_\+t image\+Depth, const bool train\+Data=true, const double valid\+Ratio=0.\+2, const bool shuffle=true, const std\+::vector$<$ std\+::string $>$ \&augmentation=std\+::vector$<$ std\+::string $>$(), const double augmentation\+Probability=0.\+2)
+\item 
+DatasetX \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader_a7131fef7f5adc778b07d137ad12e04c5}{Train\+Features}} () const
+\begin{DoxyCompactList}\small\item\em Get the training dataset features. \end{DoxyCompactList}\item 
+DatasetX \& \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader_a65772153d47e85ea5ab2084c41267c33}{Train\+Features}} ()
+\begin{DoxyCompactList}\small\item\em Modify the training dataset features. \end{DoxyCompactList}\item 
+DatasetY \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader_a5593e9ab8089cb727efb31cb43e99134}{Train\+Labels}} () const
+\begin{DoxyCompactList}\small\item\em Get the training dataset labels. \end{DoxyCompactList}\item 
+DatasetY \& \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader_a38958b931bcf4535f62e9fb8aaf99579}{Train\+Labels}} ()
+\begin{DoxyCompactList}\small\item\em Modify the training dataset labels. \end{DoxyCompactList}\item 
+DatasetX \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader_a4efbf88f8a0f243739fedf1f2f909688}{Test\+Features}} () const
+\begin{DoxyCompactList}\small\item\em Get the test dataset features. \end{DoxyCompactList}\item 
+DatasetX \& \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader_a6cf97c49f218cfec103fe6509ed30f16}{Test\+Features}} ()
+\begin{DoxyCompactList}\small\item\em Modify the test dataset features. \end{DoxyCompactList}\item 
+DatasetY \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader_ab9f79a71470007b5325aba44fbdec5b8}{Test\+Labels}} () const
+\begin{DoxyCompactList}\small\item\em Get the test dataset labels. \end{DoxyCompactList}\item 
+DatasetY \& \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader_a6b8aa216430b1f2d80db203cc562660a}{Test\+Labels}} ()
+\begin{DoxyCompactList}\small\item\em Modify the test dataset labels. \end{DoxyCompactList}\item 
+DatasetX \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader_aaf6502d39fd450f72dc57a5479dec8d7}{Valid\+Features}} () const
+\begin{DoxyCompactList}\small\item\em Get the validation dataset features. \end{DoxyCompactList}\item 
+DatasetX \& \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader_a105aa98a81d4eba285ec7b6a5d17c841}{Valid\+Features}} ()
+\begin{DoxyCompactList}\small\item\em Modify the validation dataset features. \end{DoxyCompactList}\item 
+DatasetY \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader_acdf60621eea698f881c69bd806196395}{Valid\+Labels}} () const
+\begin{DoxyCompactList}\small\item\em Get the validation dataset labels. \end{DoxyCompactList}\item 
+DatasetY \& \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader_af3aed7ce03baba0d638b966964fd8ce2}{Valid\+Labels}} ()
+\begin{DoxyCompactList}\small\item\em Modify the validation dataset labels. \end{DoxyCompactList}\item 
+std\+::tuple$<$ DatasetX, DatasetY $>$ \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader_a384722d604985a8f0e9d47a1a546ca66}{Train\+Set}} () const
+\begin{DoxyCompactList}\small\item\em Get the training dataset. \end{DoxyCompactList}\item 
+std\+::tuple$<$ DatasetX, DatasetY $>$ \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader_a8dabdc0a5e7d8e09a97053665bc7dc7a}{Valid\+Set}} () const
+\begin{DoxyCompactList}\small\item\em Get the validation dataset. \end{DoxyCompactList}\item 
+std\+::tuple$<$ DatasetX, DatasetY $>$ \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader_ac16b442e24bd3fc6e74c8de17a92b5bd}{Test\+Set}} () const
+\begin{DoxyCompactList}\small\item\em Get the testing dataset. \end{DoxyCompactList}\item 
+Scaler\+Type \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader_a65d6d59fb3ceda3ee25f2619acc85a1e}{Scaler}} () const
+\begin{DoxyCompactList}\small\item\em Get the Scaler. \end{DoxyCompactList}\item 
+Scaler\+Type \& \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader_ad207fa5222a46c0a48f818b92c734161}{Scaler}} ()
+\begin{DoxyCompactList}\small\item\em Modify the Scaler. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename DatasetX = arma\+::mat, typename DatasetY = arma\+::mat, class Scaler\+Type = mlpack\+::data\+::\+Min\+Max\+Scaler$>$\newline
+class mlpack\+::models\+::\+Data\+Loader$<$ Dataset\+X, Dataset\+Y, Scaler\+Type $>$}
+
+Dataloader class to load popular datasets.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{// Create a dataloader for any popular dataset.}}
+\DoxyCodeLine{\textcolor{comment}{// Set parameters for dataset.}}
+\DoxyCodeLine{\textcolor{keyword}{const} \textcolor{keywordtype}{string} datasetName = \textcolor{stringliteral}{"{}mnist"{}};}
+\DoxyCodeLine{\textcolor{keywordtype}{bool} shuffleData = \textcolor{keyword}{true};}
+\DoxyCodeLine{\textcolor{keywordtype}{double} ratioForTrainTestSplit = 0.75;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{// Create the DataLoader object.}}
+\DoxyCodeLine{DataLoader<> dataloader(datasetName, shuffleData,}
+\DoxyCodeLine{   ratioForTrainTestSplit);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{// Use the dataloader for training.}}
+\DoxyCodeLine{model.Train(dataloader.TrainFeatures(), dataloader.TrainLabels());}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{// Use the dataloader for prediction.}}
+\DoxyCodeLine{model.Predict(dataloader.TestFeatures(), dataloader.TestLabels());}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em DatasetX} & Datatype for loading input features. \\
+\hline
+{\em DatasetY} & Datatype for prediction features. \\
+\hline
+{\em Scaler\+Type} & mlpack\textquotesingle{}s Scaler Object for scaling features. \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classmlpack_1_1models_1_1DataLoader_adcb8205b5c9457c261b282e5f3d9663a}\label{classmlpack_1_1models_1_1DataLoader_adcb8205b5c9457c261b282e5f3d9663a}} 
+\index{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}!DataLoader@{DataLoader}}
+\index{DataLoader@{DataLoader}!mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}}
+\doxysubsubsection{\texorpdfstring{DataLoader()}{DataLoader()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename DatasetX , typename DatasetY , class Scaler\+Type $>$ \\
+\mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{mlpack\+::models\+::\+Data\+Loader}}$<$ DatasetX, DatasetY, Scaler\+Type $>$\+::\mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{Data\+Loader}}}
+
+
+
+Create \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{Data\+Loader}} object. 
+
+\mbox{\Hypertarget{classmlpack_1_1models_1_1DataLoader_a08ccc9b5b28d3e31d4444e62b3152f21}\label{classmlpack_1_1models_1_1DataLoader_a08ccc9b5b28d3e31d4444e62b3152f21}} 
+\index{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}!DataLoader@{DataLoader}}
+\index{DataLoader@{DataLoader}!mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}}
+\doxysubsubsection{\texorpdfstring{DataLoader()}{DataLoader()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename DatasetX , typename DatasetY , class Scaler\+Type $>$ \\
+\mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{mlpack\+::models\+::\+Data\+Loader}}$<$ DatasetX, DatasetY, Scaler\+Type $>$\+::\mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{Data\+Loader}} (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{dataset,  }\item[{const bool}]{shuffle,  }\item[{const double}]{valid\+Ratio = {\ttfamily 0.25},  }\item[{const bool}]{use\+Scaler = {\ttfamily true},  }\item[{const std\+::vector$<$ std\+::string $>$}]{augmentation = {\ttfamily std\+:\+:vector$<$std\+:\+:string$>$()},  }\item[{const double}]{augmentation\+Probability = {\ttfamily 0.2} }\end{DoxyParamCaption})}
+
+Constructor for \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{Data\+Loader}}. This is used for loading popular \mbox{\hyperlink{classmlpack_1_1models_1_1Datasets}{Datasets}} such as MNIST, Image\+Net, Pascal VOC and many more.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dataset\+Path} & Path or name of dataset. \\
+\hline
+{\em shuffle} & whether or not to shuffle the data. \\
+\hline
+{\em valid\+Ratio} & Ratio of dataset to be used for validation set. \\
+\hline
+{\em use\+Scaler} & Use feature scaler for pre-\/processing the dataset. \\
+\hline
+{\em augmentation} & Adds augmentation to training data only. \\
+\hline
+{\em augmentation\+Probability} & Probability of applying augmentation on dataset. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classmlpack_1_1models_1_1DataLoader_ab07479762669e5f73f85db621ab0c6c6}\label{classmlpack_1_1models_1_1DataLoader_ab07479762669e5f73f85db621ab0c6c6}} 
+\index{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}!LoadAllImagesFromDirectory@{LoadAllImagesFromDirectory}}
+\index{LoadAllImagesFromDirectory@{LoadAllImagesFromDirectory}!mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}}
+\doxysubsubsection{\texorpdfstring{LoadAllImagesFromDirectory()}{LoadAllImagesFromDirectory()}}
+{\footnotesize\ttfamily template$<$typename DatasetX , typename DatasetY , class Scaler\+Type $>$ \\
+void \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{mlpack\+::models\+::\+Data\+Loader}}$<$ DatasetX, DatasetY, Scaler\+Type $>$\+::Load\+All\+Images\+From\+Directory (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{images\+Path,  }\item[{DatasetX \&}]{dataset,  }\item[{DatasetY \&}]{labels,  }\item[{const size\+\_\+t}]{image\+Width,  }\item[{const size\+\_\+t}]{image\+Height,  }\item[{const size\+\_\+t}]{image\+Depth,  }\item[{const size\+\_\+t}]{label = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Load all images from directory.
+
+
+\begin{DoxyParams}{Parameters}
+{\em images\+Path} & Path to all images. \\
+\hline
+{\em dataset} & Armadillo type where images will be loaded. \\
+\hline
+{\em labels} & Armadillo type where labels will be loaded. \\
+\hline
+{\em image\+Width} & Width of images in dataset. \\
+\hline
+{\em image\+Height} & Height of images in dataset. \\
+\hline
+{\em image\+Depth} & Depth of images in dataset. \\
+\hline
+{\em label} & Label which will be assigned to image. \\
+\hline
+{\em augmentation} & Vector strings of augmentations supported by mlpack. \\
+\hline
+{\em augmentation\+Probability} & Probability of applying augmentation to a particular image. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmlpack_1_1models_1_1DataLoader_a5088ca418aa435dc53f666b745dbc49c}\label{classmlpack_1_1models_1_1DataLoader_a5088ca418aa435dc53f666b745dbc49c}} 
+\index{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}!LoadCSV@{LoadCSV}}
+\index{LoadCSV@{LoadCSV}!mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}}
+\doxysubsubsection{\texorpdfstring{LoadCSV()}{LoadCSV()}}
+{\footnotesize\ttfamily template$<$typename DatasetX , typename DatasetY , class Scaler\+Type $>$ \\
+void \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{mlpack\+::models\+::\+Data\+Loader}}$<$ DatasetX, DatasetY, Scaler\+Type $>$\+::Load\+CSV (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{dataset\+Path,  }\item[{const bool}]{load\+Train\+Data = {\ttfamily true},  }\item[{const bool}]{shuffle = {\ttfamily true},  }\item[{const double}]{valid\+Ratio = {\ttfamily 0.25},  }\item[{const bool}]{use\+Scaler = {\ttfamily false},  }\item[{const int}]{start\+Input\+Features = {\ttfamily -\/1},  }\item[{const int}]{end\+Input\+Features = {\ttfamily -\/1},  }\item[{const int}]{start\+Prediction\+Features = {\ttfamily -\/1},  }\item[{const int}]{end\+Prediction\+Features = {\ttfamily -\/1},  }\item[{const std\+::vector$<$ std\+::string $>$}]{augmentation = {\ttfamily std\+:\+:vector$<$std\+:\+:string$>$()},  }\item[{const double}]{augmentation\+Probability = {\ttfamily 0.2} }\end{DoxyParamCaption})}
+
+Function to load and preprocess train or test data stored in CSV files.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dataset\+Path} & Path to the dataset. \\
+\hline
+{\em load\+Train\+Data} & Boolean to determine whether data will be stored for training or testing. If true, data will be loaded for training. Note\+: This option augmentation to NULL, set ratio to 1 and scaler will be used to only transform the test data. \\
+\hline
+{\em shuffle} & Boolean to determine whether or not to shuffle the data. \\
+\hline
+{\em valid\+Ratio} & Ratio of dataset to be used for validation set. \\
+\hline
+{\em use\+Scaler} & Fits the scaler on training data and transforms dataset. \\
+\hline
+{\em start\+Input\+Features} & First Index which will be fed into the model as input. Note\+: Indicies are wrapped and -\/1 implies last column. \\
+\hline
+{\em end\+Input\+Feature} & Last Index which will be fed into the model as input. Note\+: Indicies are wrapped and -\/1 implies last column. \\
+\hline
+{\em start\+Prediction\+Features} & First Index which be predicted by the model as output. Note\+: Indicies are wrapped and -\/1 implies last column. \\
+\hline
+{\em end\+Prediction\+Features} & Last Index which be predicted by the model as output. Note\+: Indicies are wrapped and -\/1 implies last column. \\
+\hline
+{\em augmentation} & Vector strings of augmentations supported by mlpack. \\
+\hline
+{\em augmentation\+Probability} & Probability of applying augmentation to a particular cell. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmlpack_1_1models_1_1DataLoader_a29460cf04a11596377be816efa4c8c12}\label{classmlpack_1_1models_1_1DataLoader_a29460cf04a11596377be816efa4c8c12}} 
+\index{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}!LoadImageDatasetFromDirectory@{LoadImageDatasetFromDirectory}}
+\index{LoadImageDatasetFromDirectory@{LoadImageDatasetFromDirectory}!mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}}
+\doxysubsubsection{\texorpdfstring{LoadImageDatasetFromDirectory()}{LoadImageDatasetFromDirectory()}}
+{\footnotesize\ttfamily template$<$typename DatasetX , typename DatasetY , class Scaler\+Type $>$ \\
+void \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{mlpack\+::models\+::\+Data\+Loader}}$<$ DatasetX, DatasetY, Scaler\+Type $>$\+::Load\+Image\+Dataset\+From\+Directory (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{path\+To\+Dataset,  }\item[{const size\+\_\+t}]{image\+Width,  }\item[{const size\+\_\+t}]{image\+Height,  }\item[{const size\+\_\+t}]{image\+Depth,  }\item[{const bool}]{train\+Data = {\ttfamily true},  }\item[{const double}]{valid\+Ratio = {\ttfamily 0.2},  }\item[{const bool}]{shuffle = {\ttfamily true},  }\item[{const std\+::vector$<$ std\+::string $>$ \&}]{augmentation = {\ttfamily std\+:\+:vector$<$std\+:\+:string$>$()},  }\item[{const double}]{augmentation\+Probability = {\ttfamily 0.2} }\end{DoxyParamCaption})}
+
+Load all images from directory.
+
+
+\begin{DoxyParams}{Parameters}
+{\em path\+To\+Dataset} & Path to all folders containing all images. \\
+\hline
+{\em image\+Width} & Width of images in dataset. \\
+\hline
+{\em image\+Height} & Height of images in dataset. \\
+\hline
+{\em image\+Depth} & Depth of images in dataset. \\
+\hline
+{\em train\+Data} & Determines whether data is training set or test set. \\
+\hline
+{\em shuffle} & Boolean to determine whether or not to shuffle the data. \\
+\hline
+{\em valid\+Ratio} & Ratio of dataset to be used for validation set. \\
+\hline
+{\em augmentation} & Vector strings of augmentations supported by mlpack. \\
+\hline
+{\em augmentation\+Probability} & Probability of applying augmentation to a particular image. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmlpack_1_1models_1_1DataLoader_a63d87507ff811dce660dd6b15ac9d73e}\label{classmlpack_1_1models_1_1DataLoader_a63d87507ff811dce660dd6b15ac9d73e}} 
+\index{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}!LoadObjectDetectionDataset@{LoadObjectDetectionDataset}}
+\index{LoadObjectDetectionDataset@{LoadObjectDetectionDataset}!mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}}
+\doxysubsubsection{\texorpdfstring{LoadObjectDetectionDataset()}{LoadObjectDetectionDataset()}}
+{\footnotesize\ttfamily template$<$typename DatasetX , typename DatasetY , class Scaler\+Type $>$ \\
+void \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{mlpack\+::models\+::\+Data\+Loader}}$<$ DatasetX, DatasetY, Scaler\+Type $>$\+::Load\+Object\+Detection\+Dataset (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{path\+To\+Annotations,  }\item[{const std\+::string \&}]{path\+To\+Images,  }\item[{const std\+::vector$<$ std\+::string $>$ \&}]{classes,  }\item[{const double}]{valid\+Ratio = {\ttfamily 0.2},  }\item[{const bool}]{shuffle = {\ttfamily true},  }\item[{const std\+::vector$<$ std\+::string $>$ \&}]{augmentation = {\ttfamily std\+:\+:vector$<$std\+:\+:string$>$()},  }\item[{const double}]{augmentation\+Probability = {\ttfamily 0.2},  }\item[{const bool}]{absolute\+Path = {\ttfamily false},  }\item[{const std\+::string \&}]{base\+XMLTag = {\ttfamily \char`\"{}annotation\char`\"{}},  }\item[{const std\+::string \&}]{image\+Name\+XMLTag = {\ttfamily \char`\"{}filename\char`\"{}},  }\item[{const std\+::string \&}]{size\+XMLTag = {\ttfamily \char`\"{}size\char`\"{}},  }\item[{const std\+::string \&}]{object\+XMLTag = {\ttfamily \char`\"{}object\char`\"{}},  }\item[{const std\+::string \&}]{bndbox\+XMLTag = {\ttfamily \char`\"{}bndbox\char`\"{}},  }\item[{const std\+::string \&}]{class\+Name\+XMLTag = {\ttfamily \char`\"{}name\char`\"{}},  }\item[{const std\+::string \&}]{x1\+XMLTag = {\ttfamily \char`\"{}xmin\char`\"{}},  }\item[{const std\+::string \&}]{y1\+XMLTag = {\ttfamily \char`\"{}ymin\char`\"{}},  }\item[{const std\+::string \&}]{x2\+XMLTag = {\ttfamily \char`\"{}xmax\char`\"{}},  }\item[{const std\+::string \&}]{y2\+XMLTag = {\ttfamily \char`\"{}ymax\char`\"{}} }\end{DoxyParamCaption})}
+
+Loads object detection dataset. It requires a single annotation file in XML format. Each XML file should correspond to a single image in images folder.
+
+XML file should containg the following \+:
+\begin{DoxyEnumerate}
+\item Each XML file should be wrapped in annotation tag.
+\item Filename of image in images folder will be depicted by filename tag.
+\item Object tag depicting characteristics of bounding box.
+\item Each object tag should contain name tag i.\+e. class of the object.
+\item Each object tag should contain bndbox tag containing xmin, ymin, xmax, ymax.
+\end{DoxyEnumerate}
+
+NOTE \+: Labels are assigned using classes vector. Set verbose to 1 to print labels and their corresponding class. The labels type should be field type here.
+
+
+\begin{DoxyParams}{Parameters}
+{\em path\+To\+Annotations} & Path to the folder containing XML type annotation files. \\
+\hline
+{\em path\+To\+Images} & Path to folder containing images corresponding to annotations. \\
+\hline
+{\em classes} & Vector of strings containing list of classes. Labels are assigned according to this vector. \\
+\hline
+{\em valid\+Ratio} & Ratio of dataset that will be used for validation. \\
+\hline
+{\em shuffle} & Boolean to determine whether the dataset is shuffled. \\
+\hline
+{\em augmentation} & Vector strings of augmentations supported by mlpack. \\
+\hline
+{\em augmentation\+Probability} & Probability of applying augmentation to a particular image. \\
+\hline
+{\em absolute\+Path} & Boolean to determine if absolute path is used. Defaults to false. \\
+\hline
+{\em base\+XMLTag} & XML tag name which wraps around the annotation file. \\
+\hline
+{\em image\+Name\+XMLTag} & XML tag name which holds the value of image filename. \\
+\hline
+{\em object\+XMLTag} & XML tag name which holds details of bounding box i.\+e. class and coordinates of bounding box. \\
+\hline
+{\em bndbox\+XMLTag} & XML tag name which holds coordinates of bounding box. \\
+\hline
+{\em class\+Name\+XMLTag} & XML tag name inside object\+XMLTag which holds the name of the class of bounding box. \\
+\hline
+{\em x1\+XMLTag} & XML tag name inside bndbox\+XMLTag which hold value of lower most x coordinate of bounding box. \\
+\hline
+{\em y1\+XMLTag} & XML tag name inside bndbox\+XMLTag which hold value of lower most y coordinate of bounding box. \\
+\hline
+{\em x2\+XMLTag} & XML tag name inside bndbox\+XMLTag which hold value of upper most x coordinate of bounding box. \\
+\hline
+{\em y2\+XMLTag} & XML tag name inside bndbox\+XMLTag which hold value of upper most y coordinate of bounding box. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmlpack_1_1models_1_1DataLoader_ad207fa5222a46c0a48f818b92c734161}\label{classmlpack_1_1models_1_1DataLoader_ad207fa5222a46c0a48f818b92c734161}} 
+\index{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}!Scaler@{Scaler}}
+\index{Scaler@{Scaler}!mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}}
+\doxysubsubsection{\texorpdfstring{Scaler()}{Scaler()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename DatasetX  = arma\+::mat, typename DatasetY  = arma\+::mat, class Scaler\+Type  = mlpack\+::data\+::\+Min\+Max\+Scaler$>$ \\
+Scaler\+Type\& \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{mlpack\+::models\+::\+Data\+Loader}}$<$ DatasetX, DatasetY, Scaler\+Type $>$\+::Scaler (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Modify the Scaler. 
+
+\mbox{\Hypertarget{classmlpack_1_1models_1_1DataLoader_a65d6d59fb3ceda3ee25f2619acc85a1e}\label{classmlpack_1_1models_1_1DataLoader_a65d6d59fb3ceda3ee25f2619acc85a1e}} 
+\index{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}!Scaler@{Scaler}}
+\index{Scaler@{Scaler}!mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}}
+\doxysubsubsection{\texorpdfstring{Scaler()}{Scaler()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename DatasetX  = arma\+::mat, typename DatasetY  = arma\+::mat, class Scaler\+Type  = mlpack\+::data\+::\+Min\+Max\+Scaler$>$ \\
+Scaler\+Type \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{mlpack\+::models\+::\+Data\+Loader}}$<$ DatasetX, DatasetY, Scaler\+Type $>$\+::Scaler (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the Scaler. 
+
+\mbox{\Hypertarget{classmlpack_1_1models_1_1DataLoader_a6cf97c49f218cfec103fe6509ed30f16}\label{classmlpack_1_1models_1_1DataLoader_a6cf97c49f218cfec103fe6509ed30f16}} 
+\index{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}!TestFeatures@{TestFeatures}}
+\index{TestFeatures@{TestFeatures}!mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}}
+\doxysubsubsection{\texorpdfstring{TestFeatures()}{TestFeatures()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename DatasetX  = arma\+::mat, typename DatasetY  = arma\+::mat, class Scaler\+Type  = mlpack\+::data\+::\+Min\+Max\+Scaler$>$ \\
+DatasetX\& \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{mlpack\+::models\+::\+Data\+Loader}}$<$ DatasetX, DatasetY, Scaler\+Type $>$\+::Test\+Features (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Modify the test dataset features. 
+
+\mbox{\Hypertarget{classmlpack_1_1models_1_1DataLoader_a4efbf88f8a0f243739fedf1f2f909688}\label{classmlpack_1_1models_1_1DataLoader_a4efbf88f8a0f243739fedf1f2f909688}} 
+\index{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}!TestFeatures@{TestFeatures}}
+\index{TestFeatures@{TestFeatures}!mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}}
+\doxysubsubsection{\texorpdfstring{TestFeatures()}{TestFeatures()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename DatasetX  = arma\+::mat, typename DatasetY  = arma\+::mat, class Scaler\+Type  = mlpack\+::data\+::\+Min\+Max\+Scaler$>$ \\
+DatasetX \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{mlpack\+::models\+::\+Data\+Loader}}$<$ DatasetX, DatasetY, Scaler\+Type $>$\+::Test\+Features (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the test dataset features. 
+
+\mbox{\Hypertarget{classmlpack_1_1models_1_1DataLoader_a6b8aa216430b1f2d80db203cc562660a}\label{classmlpack_1_1models_1_1DataLoader_a6b8aa216430b1f2d80db203cc562660a}} 
+\index{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}!TestLabels@{TestLabels}}
+\index{TestLabels@{TestLabels}!mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}}
+\doxysubsubsection{\texorpdfstring{TestLabels()}{TestLabels()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename DatasetX  = arma\+::mat, typename DatasetY  = arma\+::mat, class Scaler\+Type  = mlpack\+::data\+::\+Min\+Max\+Scaler$>$ \\
+DatasetY\& \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{mlpack\+::models\+::\+Data\+Loader}}$<$ DatasetX, DatasetY, Scaler\+Type $>$\+::Test\+Labels (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Modify the test dataset labels. 
+
+\mbox{\Hypertarget{classmlpack_1_1models_1_1DataLoader_ab9f79a71470007b5325aba44fbdec5b8}\label{classmlpack_1_1models_1_1DataLoader_ab9f79a71470007b5325aba44fbdec5b8}} 
+\index{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}!TestLabels@{TestLabels}}
+\index{TestLabels@{TestLabels}!mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}}
+\doxysubsubsection{\texorpdfstring{TestLabels()}{TestLabels()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename DatasetX  = arma\+::mat, typename DatasetY  = arma\+::mat, class Scaler\+Type  = mlpack\+::data\+::\+Min\+Max\+Scaler$>$ \\
+DatasetY \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{mlpack\+::models\+::\+Data\+Loader}}$<$ DatasetX, DatasetY, Scaler\+Type $>$\+::Test\+Labels (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the test dataset labels. 
+
+\mbox{\Hypertarget{classmlpack_1_1models_1_1DataLoader_ac16b442e24bd3fc6e74c8de17a92b5bd}\label{classmlpack_1_1models_1_1DataLoader_ac16b442e24bd3fc6e74c8de17a92b5bd}} 
+\index{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}!TestSet@{TestSet}}
+\index{TestSet@{TestSet}!mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}}
+\doxysubsubsection{\texorpdfstring{TestSet()}{TestSet()}}
+{\footnotesize\ttfamily template$<$typename DatasetX  = arma\+::mat, typename DatasetY  = arma\+::mat, class Scaler\+Type  = mlpack\+::data\+::\+Min\+Max\+Scaler$>$ \\
+std\+::tuple$<$DatasetX, DatasetY$>$ \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{mlpack\+::models\+::\+Data\+Loader}}$<$ DatasetX, DatasetY, Scaler\+Type $>$\+::Test\+Set (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the testing dataset. 
+
+\mbox{\Hypertarget{classmlpack_1_1models_1_1DataLoader_a65772153d47e85ea5ab2084c41267c33}\label{classmlpack_1_1models_1_1DataLoader_a65772153d47e85ea5ab2084c41267c33}} 
+\index{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}!TrainFeatures@{TrainFeatures}}
+\index{TrainFeatures@{TrainFeatures}!mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}}
+\doxysubsubsection{\texorpdfstring{TrainFeatures()}{TrainFeatures()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename DatasetX  = arma\+::mat, typename DatasetY  = arma\+::mat, class Scaler\+Type  = mlpack\+::data\+::\+Min\+Max\+Scaler$>$ \\
+DatasetX\& \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{mlpack\+::models\+::\+Data\+Loader}}$<$ DatasetX, DatasetY, Scaler\+Type $>$\+::Train\+Features (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Modify the training dataset features. 
+
+\mbox{\Hypertarget{classmlpack_1_1models_1_1DataLoader_a7131fef7f5adc778b07d137ad12e04c5}\label{classmlpack_1_1models_1_1DataLoader_a7131fef7f5adc778b07d137ad12e04c5}} 
+\index{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}!TrainFeatures@{TrainFeatures}}
+\index{TrainFeatures@{TrainFeatures}!mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}}
+\doxysubsubsection{\texorpdfstring{TrainFeatures()}{TrainFeatures()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename DatasetX  = arma\+::mat, typename DatasetY  = arma\+::mat, class Scaler\+Type  = mlpack\+::data\+::\+Min\+Max\+Scaler$>$ \\
+DatasetX \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{mlpack\+::models\+::\+Data\+Loader}}$<$ DatasetX, DatasetY, Scaler\+Type $>$\+::Train\+Features (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the training dataset features. 
+
+\mbox{\Hypertarget{classmlpack_1_1models_1_1DataLoader_a38958b931bcf4535f62e9fb8aaf99579}\label{classmlpack_1_1models_1_1DataLoader_a38958b931bcf4535f62e9fb8aaf99579}} 
+\index{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}!TrainLabels@{TrainLabels}}
+\index{TrainLabels@{TrainLabels}!mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}}
+\doxysubsubsection{\texorpdfstring{TrainLabels()}{TrainLabels()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename DatasetX  = arma\+::mat, typename DatasetY  = arma\+::mat, class Scaler\+Type  = mlpack\+::data\+::\+Min\+Max\+Scaler$>$ \\
+DatasetY\& \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{mlpack\+::models\+::\+Data\+Loader}}$<$ DatasetX, DatasetY, Scaler\+Type $>$\+::Train\+Labels (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Modify the training dataset labels. 
+
+\mbox{\Hypertarget{classmlpack_1_1models_1_1DataLoader_a5593e9ab8089cb727efb31cb43e99134}\label{classmlpack_1_1models_1_1DataLoader_a5593e9ab8089cb727efb31cb43e99134}} 
+\index{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}!TrainLabels@{TrainLabels}}
+\index{TrainLabels@{TrainLabels}!mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}}
+\doxysubsubsection{\texorpdfstring{TrainLabels()}{TrainLabels()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename DatasetX  = arma\+::mat, typename DatasetY  = arma\+::mat, class Scaler\+Type  = mlpack\+::data\+::\+Min\+Max\+Scaler$>$ \\
+DatasetY \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{mlpack\+::models\+::\+Data\+Loader}}$<$ DatasetX, DatasetY, Scaler\+Type $>$\+::Train\+Labels (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the training dataset labels. 
+
+\mbox{\Hypertarget{classmlpack_1_1models_1_1DataLoader_a384722d604985a8f0e9d47a1a546ca66}\label{classmlpack_1_1models_1_1DataLoader_a384722d604985a8f0e9d47a1a546ca66}} 
+\index{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}!TrainSet@{TrainSet}}
+\index{TrainSet@{TrainSet}!mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}}
+\doxysubsubsection{\texorpdfstring{TrainSet()}{TrainSet()}}
+{\footnotesize\ttfamily template$<$typename DatasetX  = arma\+::mat, typename DatasetY  = arma\+::mat, class Scaler\+Type  = mlpack\+::data\+::\+Min\+Max\+Scaler$>$ \\
+std\+::tuple$<$DatasetX, DatasetY$>$ \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{mlpack\+::models\+::\+Data\+Loader}}$<$ DatasetX, DatasetY, Scaler\+Type $>$\+::Train\+Set (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the training dataset. 
+
+\mbox{\Hypertarget{classmlpack_1_1models_1_1DataLoader_a105aa98a81d4eba285ec7b6a5d17c841}\label{classmlpack_1_1models_1_1DataLoader_a105aa98a81d4eba285ec7b6a5d17c841}} 
+\index{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}!ValidFeatures@{ValidFeatures}}
+\index{ValidFeatures@{ValidFeatures}!mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}}
+\doxysubsubsection{\texorpdfstring{ValidFeatures()}{ValidFeatures()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename DatasetX  = arma\+::mat, typename DatasetY  = arma\+::mat, class Scaler\+Type  = mlpack\+::data\+::\+Min\+Max\+Scaler$>$ \\
+DatasetX\& \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{mlpack\+::models\+::\+Data\+Loader}}$<$ DatasetX, DatasetY, Scaler\+Type $>$\+::Valid\+Features (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Modify the validation dataset features. 
+
+\mbox{\Hypertarget{classmlpack_1_1models_1_1DataLoader_aaf6502d39fd450f72dc57a5479dec8d7}\label{classmlpack_1_1models_1_1DataLoader_aaf6502d39fd450f72dc57a5479dec8d7}} 
+\index{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}!ValidFeatures@{ValidFeatures}}
+\index{ValidFeatures@{ValidFeatures}!mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}}
+\doxysubsubsection{\texorpdfstring{ValidFeatures()}{ValidFeatures()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename DatasetX  = arma\+::mat, typename DatasetY  = arma\+::mat, class Scaler\+Type  = mlpack\+::data\+::\+Min\+Max\+Scaler$>$ \\
+DatasetX \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{mlpack\+::models\+::\+Data\+Loader}}$<$ DatasetX, DatasetY, Scaler\+Type $>$\+::Valid\+Features (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the validation dataset features. 
+
+\mbox{\Hypertarget{classmlpack_1_1models_1_1DataLoader_af3aed7ce03baba0d638b966964fd8ce2}\label{classmlpack_1_1models_1_1DataLoader_af3aed7ce03baba0d638b966964fd8ce2}} 
+\index{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}!ValidLabels@{ValidLabels}}
+\index{ValidLabels@{ValidLabels}!mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}}
+\doxysubsubsection{\texorpdfstring{ValidLabels()}{ValidLabels()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename DatasetX  = arma\+::mat, typename DatasetY  = arma\+::mat, class Scaler\+Type  = mlpack\+::data\+::\+Min\+Max\+Scaler$>$ \\
+DatasetY\& \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{mlpack\+::models\+::\+Data\+Loader}}$<$ DatasetX, DatasetY, Scaler\+Type $>$\+::Valid\+Labels (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Modify the validation dataset labels. 
+
+\mbox{\Hypertarget{classmlpack_1_1models_1_1DataLoader_acdf60621eea698f881c69bd806196395}\label{classmlpack_1_1models_1_1DataLoader_acdf60621eea698f881c69bd806196395}} 
+\index{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}!ValidLabels@{ValidLabels}}
+\index{ValidLabels@{ValidLabels}!mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}}
+\doxysubsubsection{\texorpdfstring{ValidLabels()}{ValidLabels()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename DatasetX  = arma\+::mat, typename DatasetY  = arma\+::mat, class Scaler\+Type  = mlpack\+::data\+::\+Min\+Max\+Scaler$>$ \\
+DatasetY \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{mlpack\+::models\+::\+Data\+Loader}}$<$ DatasetX, DatasetY, Scaler\+Type $>$\+::Valid\+Labels (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the validation dataset labels. 
+
+\mbox{\Hypertarget{classmlpack_1_1models_1_1DataLoader_a8dabdc0a5e7d8e09a97053665bc7dc7a}\label{classmlpack_1_1models_1_1DataLoader_a8dabdc0a5e7d8e09a97053665bc7dc7a}} 
+\index{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}!ValidSet@{ValidSet}}
+\index{ValidSet@{ValidSet}!mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$@{mlpack::models::DataLoader$<$ DatasetX, DatasetY, ScalerType $>$}}
+\doxysubsubsection{\texorpdfstring{ValidSet()}{ValidSet()}}
+{\footnotesize\ttfamily template$<$typename DatasetX  = arma\+::mat, typename DatasetY  = arma\+::mat, class Scaler\+Type  = mlpack\+::data\+::\+Min\+Max\+Scaler$>$ \\
+std\+::tuple$<$DatasetX, DatasetY$>$ \mbox{\hyperlink{classmlpack_1_1models_1_1DataLoader}{mlpack\+::models\+::\+Data\+Loader}}$<$ DatasetX, DatasetY, Scaler\+Type $>$\+::Valid\+Set (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the validation dataset. 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/aakash/models/dataloader/\mbox{\hyperlink{dataloader_8hpp}{dataloader.\+hpp}}\item 
+/home/aakash/models/dataloader/\mbox{\hyperlink{dataloader__impl_8hpp}{dataloader\+\_\+impl.\+hpp}}\end{DoxyCompactItemize}
