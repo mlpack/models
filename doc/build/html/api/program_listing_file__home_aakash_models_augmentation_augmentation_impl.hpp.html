@@ -1,0 +1,232 @@
+
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Program Listing for File augmentation_impl.hpp &mdash; models 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/collapsible-lists/css/tree_view.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
+            <a class="site-title" href="../index.html">
+                models
+            </a>
+        </div>
+    </header>
+
+
+<div class="breadcrumbs-outer hidden-xs-down">
+    <div class="container">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a></li>
+        
+      <li>Program Listing for File augmentation_impl.hpp</li>
+    
+    
+      <li class="breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/program_listing_file__home_aakash_models_augmentation_augmentation_impl.hpp.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+</div>
+    </div>
+</div>
+    <div class="main-outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 site-nav">
+                    
+<div role="search">
+    <form class="search" action="../search.html" method="get">
+        <div class="icon-input">
+            <input type="text" name="q" placeholder="Search" />
+            <span class="icon-search"></span>
+        </div>
+        <input type="submit" value="Go" class="d-hidden" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+                    <div class="site-nav-tree">
+                        
+                            
+                            
+                                <ul>
+<li class="toctree-l1"><a class="reference internal" href="library_root.html">Models API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#file-hierarchy">File Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#full-api">Full API</a></li>
+</ul>
+</li>
+</ul>
+
+                            
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div class="document">
+                        
+                            
+  <div class="section" id="program-listing-for-file-augmentation-impl-hpp">
+<span id="program-listing-file-home-aakash-models-augmentation-augmentation-impl-hpp"></span><h1>Program Listing for File augmentation_impl.hpp<a class="headerlink" href="#program-listing-for-file-augmentation-impl-hpp" title="Permalink to this headline">¶</a></h1>
+<p>↰ <a class="reference internal" href="file__home_aakash_models_augmentation_augmentation_impl.hpp.html#file-home-aakash-models-augmentation-augmentation-impl-hpp"><span class="std std-ref">Return to documentation for file</span></a> (<code class="docutils literal notranslate"><span class="pre">/home/aakash/models/augmentation/augmentation_impl.hpp</span></code>)</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#ifndef MODELS_AUGMENTATION_AUGMENTATION_IMPL_HPP</span>
+<span class="cp">#define MODELS_AUGMENTATION_AUGMENTATION_IMPL_HPP</span>
+
+<span class="c1">// Incase it has not been included already.</span>
+<span class="cp">#include</span> <span class="cpf">&quot;augmentation.hpp&quot;</span><span class="cp"></span>
+
+<span class="k">namespace</span> <span class="n">mlpack</span> <span class="p">{</span>
+<span class="k">namespace</span> <span class="n">models</span> <span class="p">{</span>
+
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="nc">DatasetType</span><span class="o">&gt;</span>
+<span class="kt">void</span> <span class="n">Augmentation</span><span class="o">::</span><span class="n">Transform</span><span class="p">(</span><span class="n">DatasetType</span><span class="o">&amp;</span> <span class="n">dataset</span><span class="p">,</span>
+                             <span class="k">const</span> <span class="kt">size_t</span> <span class="n">datapointWidth</span><span class="p">,</span>
+                             <span class="k">const</span> <span class="kt">size_t</span> <span class="n">datapointHeight</span><span class="p">,</span>
+                             <span class="k">const</span> <span class="kt">size_t</span> <span class="n">datapointDepth</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="c1">// Initialize the augmentation map.</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span> <span class="kt">void</span><span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="n">DatasetType</span><span class="o">&amp;</span><span class="p">,</span>
+       <span class="kt">size_t</span><span class="p">,</span> <span class="kt">size_t</span><span class="p">,</span> <span class="kt">size_t</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">augmentationMap</span><span class="p">;</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">augmentations</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">augmentationMap</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="n">augmentations</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+    <span class="p">{</span>
+      <span class="n">augmentationMap</span><span class="p">[</span><span class="n">augmentations</span><span class="p">[</span><span class="n">i</span><span class="p">]](</span><span class="n">dataset</span><span class="p">,</span> <span class="n">datapointWidth</span><span class="p">,</span>
+        <span class="n">datapointHeight</span><span class="p">,</span> <span class="n">datapointDepth</span><span class="p">,</span> <span class="n">augmentations</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">HasResizeParam</span><span class="p">(</span><span class="n">augmentations</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+    <span class="p">{</span>
+      <span class="k">this</span><span class="o">-&gt;</span><span class="n">ResizeTransform</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">datapointWidth</span><span class="p">,</span> <span class="n">datapointHeight</span><span class="p">,</span>
+        <span class="n">datapointDepth</span><span class="p">,</span> <span class="n">augmentations</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+      <span class="n">mlpack</span><span class="o">::</span><span class="n">Log</span><span class="o">::</span><span class="n">Warn</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Unknown augmentation : </span><span class="se">\&#39;</span><span class="s">&quot;</span> <span class="o">&lt;&lt;</span>
+          <span class="n">augmentations</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;</span><span class="se">\&#39;</span><span class="s"> not found!&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="nc">DatasetType</span><span class="o">&gt;</span>
+<span class="kt">void</span> <span class="n">Augmentation</span><span class="o">::</span><span class="n">ResizeTransform</span><span class="p">(</span>
+    <span class="n">DatasetType</span><span class="o">&amp;</span> <span class="n">dataset</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">datapointWidth</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">datapointHeight</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">datapointDepth</span><span class="p">,</span>
+    <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">augmentation</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="kt">size_t</span> <span class="n">outputWidth</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">outputHeight</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+  <span class="c1">// Get output width and output height.</span>
+  <span class="n">GetResizeParam</span><span class="p">(</span><span class="n">outputWidth</span><span class="p">,</span> <span class="n">outputHeight</span><span class="p">,</span> <span class="n">augmentation</span><span class="p">);</span>
+
+  <span class="c1">// We will use mlpack&#39;s bilinear interpolation layer to</span>
+  <span class="c1">// resize the input.</span>
+  <span class="n">mlpack</span><span class="o">::</span><span class="n">ann</span><span class="o">::</span><span class="n">BilinearInterpolation</span><span class="o">&lt;</span><span class="n">DatasetType</span><span class="p">,</span> <span class="n">DatasetType</span><span class="o">&gt;</span> <span class="n">resizeLayer</span><span class="p">(</span>
+      <span class="n">datapointWidth</span><span class="p">,</span> <span class="n">datapointHeight</span><span class="p">,</span> <span class="n">outputWidth</span><span class="p">,</span> <span class="n">outputHeight</span><span class="p">,</span>
+      <span class="n">datapointDepth</span><span class="p">);</span>
+
+  <span class="n">DatasetType</span> <span class="n">output</span><span class="p">;</span>
+  <span class="n">resizeLayer</span><span class="p">.</span><span class="n">Forward</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">output</span><span class="p">);</span>
+  <span class="n">dataset</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">output</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="p">}</span> <span class="c1">// namespace models</span>
+<span class="p">}</span> <span class="c1">// namespace mlpack</span>
+
+<span class="cp">#endif</span>
+</pre></div>
+</div>
+</div>
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script type="text/javascript" src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+    <div class="footer" role="contentinfo">
+        <div class="container">
+            &#169; Copyright 2021, mlpack.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.
+        </div>
+    </div>  
+
+</body>
+</html>

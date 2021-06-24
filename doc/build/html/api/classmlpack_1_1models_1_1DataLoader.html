@@ -1,0 +1,440 @@
+
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Template Class DataLoader &mdash; models 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/collapsible-lists/css/tree_view.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Template Class Datasets" href="classmlpack_1_1models_1_1Datasets.html" />
+    <link rel="prev" title="Template Class DarkNet" href="classmlpack_1_1models_1_1DarkNet.html" /> 
+
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
+            <a class="site-title" href="../index.html">
+                models
+            </a>
+        </div>
+    </header>
+
+
+<div class="breadcrumbs-outer hidden-xs-down">
+    <div class="container">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a></li>
+        
+          <li><a href="library_root.html">Models API</a></li>
+        
+      <li>Template Class DataLoader</li>
+    
+    
+      <li class="breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/classmlpack_1_1models_1_1DataLoader.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+</div>
+    </div>
+</div>
+    <div class="main-outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 site-nav">
+                    
+<div role="search">
+    <form class="search" action="../search.html" method="get">
+        <div class="icon-input">
+            <input type="text" name="q" placeholder="Search" />
+            <span class="icon-search"></span>
+        </div>
+        <input type="submit" value="Go" class="d-hidden" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+                    <div class="site-nav-tree">
+                        
+                            
+                            
+                                <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="library_root.html">Models API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#file-hierarchy">File Hierarchy</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="library_root.html#full-api">Full API</a></li>
+</ul>
+</li>
+</ul>
+
+                            
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div class="document">
+                        
+                            
+  <div class="section" id="template-class-dataloader">
+<span id="exhale-class-classmlpack-1-1models-1-1dataloader"></span><h1>Template Class DataLoader<a class="headerlink" href="#template-class-dataloader" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Defined in <a class="reference internal" href="file__home_aakash_models_dataloader_dataloader.hpp.html#file-home-aakash-models-dataloader-dataloader-hpp"><span class="std std-ref">File dataloader.hpp</span></a></p></li>
+</ul>
+<div class="section" id="class-documentation">
+<h2>Class Documentation<a class="headerlink" href="#class-documentation" title="Permalink to this headline">¶</a></h2>
+<dl class="cpp class">
+<dt id="_CPPv4I000EN6mlpack6models10DataLoaderE">
+<span id="_CPPv3I000EN6mlpack6models10DataLoaderE"></span><span id="_CPPv2I000EN6mlpack6models10DataLoaderE"></span><span class="pre">template&lt;</span><span class="pre">typename</span> <code class="sig-name descname"><span class="pre">DatasetX</span></code> <span class="pre">=</span> <span class="pre">arma</span><span class="pre">::</span><span class="pre">mat</span><span class="pre">,</span> <span class="pre">typename</span> <code class="sig-name descname"><span class="pre">DatasetY</span></code> <span class="pre">=</span> <span class="pre">arma</span><span class="pre">::</span><span class="pre">mat</span><span class="pre">,</span> <span class="pre">class</span> <code class="sig-name descname"><span class="pre">ScalerType</span></code> <span class="pre">=</span> <span class="pre">mlpack</span><span class="pre">::</span><span class="pre">data</span><span class="pre">::</span><span class="pre">MinMaxScaler</span><span class="pre">&gt;</span><br /><span class="target" id="classmlpack_1_1models_1_1DataLoader"></span><em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mlpack</span><span class="pre">::</span><span class="pre">models</span><code class="sig-prename descclassname"><span class="pre">::</span></code></code><code class="sig-name descname"><span class="pre">DataLoader</span></code><a class="headerlink" href="#_CPPv4I000EN6mlpack6models10DataLoaderE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Dataloader class to load popular datasets.</p>
+<p><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create a dataloader for any popular dataset.</span>
+<span class="c1">// Set parameters for dataset.</span>
+<span class="k">const</span> <span class="n">string</span> <span class="n">datasetName</span> <span class="o">=</span> <span class="s">&quot;mnist&quot;</span><span class="p">;</span>
+<span class="kt">bool</span> <span class="n">shuffleData</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+<span class="kt">double</span> <span class="n">ratioForTrainTestSplit</span> <span class="o">=</span> <span class="mf">0.75</span><span class="p">;</span>
+
+<span class="c1">// Create the DataLoader object.</span>
+<span class="n">DataLoader</span><span class="o">&lt;&gt;</span> <span class="n">dataloader</span><span class="p">(</span><span class="n">datasetName</span><span class="p">,</span> <span class="n">shuffleData</span><span class="p">,</span>
+   <span class="n">ratioForTrainTestSplit</span><span class="p">);</span>
+
+<span class="c1">// Use the dataloader for training.</span>
+<span class="n">model</span><span class="p">.</span><span class="n">Train</span><span class="p">(</span><span class="n">dataloader</span><span class="p">.</span><span class="n">TrainFeatures</span><span class="p">(),</span> <span class="n">dataloader</span><span class="p">.</span><span class="n">TrainLabels</span><span class="p">());</span>
+
+<span class="c1">// Use the dataloader for prediction.</span>
+<span class="n">model</span><span class="p">.</span><span class="n">Predict</span><span class="p">(</span><span class="n">dataloader</span><span class="p">.</span><span class="n">TestFeatures</span><span class="p">(),</span> <span class="n">dataloader</span><span class="p">.</span><span class="n">TestLabels</span><span class="p">());</span>
+</pre></div>
+</div>
+</p>
+<p><dl class="field-list simple">
+<dt class="field-odd">tparam DatasetX</dt>
+<dd class="field-odd"><p>Datatype for loading input features. </p>
+</dd>
+<dt class="field-even">tparam DatasetY</dt>
+<dd class="field-even"><p>Datatype for prediction features. </p>
+</dd>
+<dt class="field-odd">tparam ScalerType</dt>
+<dd class="field-odd"><p>mlpack’s Scaler Object for scaling features. </p>
+</dd>
+</dl>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N6mlpack6models10DataLoader10DataLoaderEv">
+<span id="_CPPv3N6mlpack6models10DataLoader10DataLoaderEv"></span><span id="_CPPv2N6mlpack6models10DataLoader10DataLoaderEv"></span><span id="mlpack::models::DataLoader::DataLoader"></span><span class="target" id="classmlpack_1_1models_1_1DataLoader_1adcb8205b5c9457c261b282e5f3d9663a"></span><code class="sig-name descname"><span class="pre">DataLoader</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6mlpack6models10DataLoader10DataLoaderEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create <a class="reference internal" href="#classmlpack_1_1models_1_1DataLoader"><span class="std std-ref">DataLoader</span></a> object. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6mlpack6models10DataLoader10DataLoaderERKNSt6stringEKbKdKbKNSt6vectorINSt6stringEEEKd">
+<span id="_CPPv3N6mlpack6models10DataLoader10DataLoaderERKNSt6stringEKbKdKbKNSt6vectorINSt6stringEEEKd"></span><span id="_CPPv2N6mlpack6models10DataLoader10DataLoaderERKNSt6stringEKbKdKbKNSt6vectorINSt6stringEEEKd"></span><span id="mlpack::models::DataLoader::DataLoader__ssCR.bC.doubleC.bC.std::vector:ss:C.doubleC"></span><span class="target" id="classmlpack_1_1models_1_1DataLoader_1a08ccc9b5b28d3e31d4444e62b3152f21"></span><code class="sig-name descname"><span class="pre">DataLoader</span></code><span class="sig-paren">(</span><em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">string</span> <span class="pre">&amp;</span><em><span class="pre">dataset</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">bool</span> <em><span class="pre">shuffle</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">double</span> <em><span class="pre">validRatio</span></em> <span class="pre">=</span> <span class="pre">0.25</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">bool</span> <em><span class="pre">useScaler</span></em> <span class="pre">=</span> <span class="pre">true</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">vector</span><span class="pre">&lt;</span><span class="pre">std</span><span class="pre">::</span><span class="pre">string</span><span class="pre">&gt;</span> <em><span class="pre">augmentation</span></em> <span class="pre">=</span> <span class="pre">std</span><span class="pre">::</span><span class="pre">vector</span><span class="pre">&lt;</span><span class="pre">std</span><span class="pre">::</span><span class="pre">string</span><span class="pre">&gt;</span><span class="pre">(</span><span class="pre">)</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">double</span> <em><span class="pre">augmentationProbability</span></em> <span class="pre">=</span> <span class="pre">0.2</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6mlpack6models10DataLoader10DataLoaderERKNSt6stringEKbKdKbKNSt6vectorINSt6stringEEEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Constructor for <a class="reference internal" href="#classmlpack_1_1models_1_1DataLoader"><span class="std std-ref">DataLoader</span></a>. This is used for loading popular <a class="reference internal" href="classmlpack_1_1models_1_1Datasets.html#classmlpack_1_1models_1_1Datasets"><span class="std std-ref">Datasets</span></a> such as MNIST, ImageNet, Pascal VOC and many more.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>datasetPath</strong> – Path or name of dataset. </p></li>
+<li><p><strong>shuffle</strong> – whether or not to shuffle the data. </p></li>
+<li><p><strong>validRatio</strong> – Ratio of dataset to be used for validation set. </p></li>
+<li><p><strong>useScaler</strong> – Use feature scaler for pre-processing the dataset. </p></li>
+<li><p><strong>augmentation</strong> – Adds augmentation to training data only. </p></li>
+<li><p><strong>augmentationProbability</strong> – Probability of applying augmentation on dataset. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6mlpack6models10DataLoader7LoadCSVERKNSt6stringEKbKbKdKbKiKiKiKiKNSt6vectorINSt6stringEEEKd">
+<span id="_CPPv3N6mlpack6models10DataLoader7LoadCSVERKNSt6stringEKbKbKdKbKiKiKiKiKNSt6vectorINSt6stringEEEKd"></span><span id="_CPPv2N6mlpack6models10DataLoader7LoadCSVERKNSt6stringEKbKbKdKbKiKiKiKiKNSt6vectorINSt6stringEEEKd"></span><span id="mlpack::models::DataLoader::LoadCSV__ssCR.bC.bC.doubleC.bC.iC.iC.iC.iC.std::vector:ss:C.doubleC"></span><span class="target" id="classmlpack_1_1models_1_1DataLoader_1a5088ca418aa435dc53f666b745dbc49c"></span><span class="pre">void</span> <code class="sig-name descname"><span class="pre">LoadCSV</span></code><span class="sig-paren">(</span><em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">string</span> <span class="pre">&amp;</span><em><span class="pre">datasetPath</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">bool</span> <em><span class="pre">loadTrainData</span></em> <span class="pre">=</span> <span class="pre">true</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">bool</span> <em><span class="pre">shuffle</span></em> <span class="pre">=</span> <span class="pre">true</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">double</span> <em><span class="pre">validRatio</span></em> <span class="pre">=</span> <span class="pre">0.25</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">bool</span> <em><span class="pre">useScaler</span></em> <span class="pre">=</span> <span class="pre">false</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">int</span> <em><span class="pre">startInputFeatures</span></em> <span class="pre">=</span> <span class="pre">-</span><span class="pre">1</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">int</span> <em><span class="pre">endInputFeatures</span></em> <span class="pre">=</span> <span class="pre">-</span><span class="pre">1</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">int</span> <em><span class="pre">startPredictionFeatures</span></em> <span class="pre">=</span> <span class="pre">-</span><span class="pre">1</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">int</span> <em><span class="pre">endPredictionFeatures</span></em> <span class="pre">=</span> <span class="pre">-</span><span class="pre">1</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">vector</span><span class="pre">&lt;</span><span class="pre">std</span><span class="pre">::</span><span class="pre">string</span><span class="pre">&gt;</span> <em><span class="pre">augmentation</span></em> <span class="pre">=</span> <span class="pre">std</span><span class="pre">::</span><span class="pre">vector</span><span class="pre">&lt;</span><span class="pre">std</span><span class="pre">::</span><span class="pre">string</span><span class="pre">&gt;</span><span class="pre">(</span><span class="pre">)</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">double</span> <em><span class="pre">augmentationProbability</span></em> <span class="pre">=</span> <span class="pre">0.2</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6mlpack6models10DataLoader7LoadCSVERKNSt6stringEKbKbKdKbKiKiKiKiKNSt6vectorINSt6stringEEEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function to load and preprocess train or test data stored in CSV files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>datasetPath</strong> – Path to the dataset. </p></li>
+<li><p><strong>loadTrainData</strong> – Boolean to determine whether data will be stored for training or testing. If true, data will be loaded for training. Note: This option augmentation to NULL, set ratio to 1 and scaler will be used to only transform the test data. </p></li>
+<li><p><strong>shuffle</strong> – Boolean to determine whether or not to shuffle the data. </p></li>
+<li><p><strong>validRatio</strong> – Ratio of dataset to be used for validation set. </p></li>
+<li><p><strong>useScaler</strong> – Fits the scaler on training data and transforms dataset. </p></li>
+<li><p><strong>startInputFeatures</strong> – First Index which will be fed into the model as input. Note: Indicies are wrapped and -1 implies last column. </p></li>
+<li><p><strong>endInputFeature</strong> – Last Index which will be fed into the model as input. Note: Indicies are wrapped and -1 implies last column. </p></li>
+<li><p><strong>startPredictionFeatures</strong> – First Index which be predicted by the model as output. Note: Indicies are wrapped and -1 implies last column. </p></li>
+<li><p><strong>endPredictionFeatures</strong> – Last Index which be predicted by the model as output. Note: Indicies are wrapped and -1 implies last column. </p></li>
+<li><p><strong>augmentation</strong> – Vector strings of augmentations supported by mlpack. </p></li>
+<li><p><strong>augmentationProbability</strong> – Probability of applying augmentation to a particular cell. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6mlpack6models10DataLoader26LoadObjectDetectionDatasetERKNSt6stringERKNSt6stringERKNSt6vectorINSt6stringEEEKdKbRKNSt6vectorINSt6stringEEEKdKbRKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringE">
+<span id="_CPPv3N6mlpack6models10DataLoader26LoadObjectDetectionDatasetERKNSt6stringERKNSt6stringERKNSt6vectorINSt6stringEEEKdKbRKNSt6vectorINSt6stringEEEKdKbRKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringE"></span><span id="_CPPv2N6mlpack6models10DataLoader26LoadObjectDetectionDatasetERKNSt6stringERKNSt6stringERKNSt6vectorINSt6stringEEEKdKbRKNSt6vectorINSt6stringEEEKdKbRKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringE"></span><span id="mlpack::models::DataLoader::LoadObjectDetectionDataset__ssCR.ssCR.std::vector:ss:CR.doubleC.bC.std::vector:ss:CR.doubleC.bC.ssCR.ssCR.ssCR.ssCR.ssCR.ssCR.ssCR.ssCR.ssCR.ssCR"></span><span class="target" id="classmlpack_1_1models_1_1DataLoader_1a63d87507ff811dce660dd6b15ac9d73e"></span><span class="pre">void</span> <code class="sig-name descname"><span class="pre">LoadObjectDetectionDataset</span></code><span class="sig-paren">(</span><em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">string</span> <span class="pre">&amp;</span><em><span class="pre">pathToAnnotations</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">string</span> <span class="pre">&amp;</span><em><span class="pre">pathToImages</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">vector</span><span class="pre">&lt;</span><span class="pre">std</span><span class="pre">::</span><span class="pre">string</span><span class="pre">&gt;</span> <span class="pre">&amp;</span><em><span class="pre">classes</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">double</span> <em><span class="pre">validRatio</span></em> <span class="pre">=</span> <span class="pre">0.2</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">bool</span> <em><span class="pre">shuffle</span></em> <span class="pre">=</span> <span class="pre">true</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">vector</span><span class="pre">&lt;</span><span class="pre">std</span><span class="pre">::</span><span class="pre">string</span><span class="pre">&gt;</span> <span class="pre">&amp;</span><em><span class="pre">augmentation</span></em> <span class="pre">=</span> <span class="pre">std</span><span class="pre">::</span><span class="pre">vector</span><span class="pre">&lt;</span><span class="pre">std</span><span class="pre">::</span><span class="pre">string</span><span class="pre">&gt;</span><span class="pre">(</span><span class="pre">)</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">double</span> <em><span class="pre">augmentationProbability</span></em> <span class="pre">=</span> <span class="pre">0.2</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">bool</span> <em><span class="pre">absolutePath</span></em> <span class="pre">=</span> <span class="pre">false</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">string</span> <span class="pre">&amp;</span><em><span class="pre">baseXMLTag</span></em> <span class="pre">=</span> <span class="pre">&quot;annotation&quot;</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">string</span> <span class="pre">&amp;</span><em><span class="pre">imageNameXMLTag</span></em> <span class="pre">=</span> <span class="pre">&quot;filename&quot;</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">string</span> <span class="pre">&amp;</span><em><span class="pre">sizeXMLTag</span></em> <span class="pre">=</span> <span class="pre">&quot;size&quot;</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">string</span> <span class="pre">&amp;</span><em><span class="pre">objectXMLTag</span></em> <span class="pre">=</span> <span class="pre">&quot;object&quot;</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">string</span> <span class="pre">&amp;</span><em><span class="pre">bndboxXMLTag</span></em> <span class="pre">=</span> <span class="pre">&quot;bndbox&quot;</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">string</span> <span class="pre">&amp;</span><em><span class="pre">classNameXMLTag</span></em> <span class="pre">=</span> <span class="pre">&quot;name&quot;</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">string</span> <span class="pre">&amp;</span><em><span class="pre">x1XMLTag</span></em> <span class="pre">=</span> <span class="pre">&quot;xmin&quot;</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">string</span> <span class="pre">&amp;</span><em><span class="pre">y1XMLTag</span></em> <span class="pre">=</span> <span class="pre">&quot;ymin&quot;</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">string</span> <span class="pre">&amp;</span><em><span class="pre">x2XMLTag</span></em> <span class="pre">=</span> <span class="pre">&quot;xmax&quot;</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">string</span> <span class="pre">&amp;</span><em><span class="pre">y2XMLTag</span></em> <span class="pre">=</span> <span class="pre">&quot;ymax&quot;</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6mlpack6models10DataLoader26LoadObjectDetectionDatasetERKNSt6stringERKNSt6stringERKNSt6vectorINSt6stringEEEKdKbRKNSt6vectorINSt6stringEEEKdKbRKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Loads object detection dataset. It requires a single annotation file in XML format. Each XML file should correspond to a single image in images folder.</p>
+<p>XML file should containg the following :<ol class="lowerroman simple">
+<li><p>Each XML file should be wrapped in annotation tag.</p></li>
+<li><p>Filename of image in images folder will be depicted by filename tag.</p></li>
+<li><p>Object tag depicting characteristics of bounding box.</p></li>
+<li><p>Each object tag should contain name tag i.e. class of the object.</p></li>
+<li><p>Each object tag should contain bndbox tag containing xmin, ymin, xmax, ymax.</p></li>
+</ol>
+</p>
+<p>NOTE : Labels are assigned using classes vector. Set verbose to 1 to print labels and their corresponding class. The labels type should be field type here.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pathToAnnotations</strong> – Path to the folder containing XML type annotation files. </p></li>
+<li><p><strong>pathToImages</strong> – Path to folder containing images corresponding to annotations. </p></li>
+<li><p><strong>classes</strong> – Vector of strings containing list of classes. Labels are assigned according to this vector. </p></li>
+<li><p><strong>validRatio</strong> – Ratio of dataset that will be used for validation. </p></li>
+<li><p><strong>shuffle</strong> – Boolean to determine whether the dataset is shuffled. </p></li>
+<li><p><strong>augmentation</strong> – Vector strings of augmentations supported by mlpack. </p></li>
+<li><p><strong>augmentationProbability</strong> – Probability of applying augmentation to a particular image. </p></li>
+<li><p><strong>absolutePath</strong> – Boolean to determine if absolute path is used. Defaults to false. </p></li>
+<li><p><strong>baseXMLTag</strong> – XML tag name which wraps around the annotation file. </p></li>
+<li><p><strong>imageNameXMLTag</strong> – XML tag name which holds the value of image filename. </p></li>
+<li><p><strong>objectXMLTag</strong> – XML tag name which holds details of bounding box i.e. class and coordinates of bounding box. </p></li>
+<li><p><strong>bndboxXMLTag</strong> – XML tag name which holds coordinates of bounding box. </p></li>
+<li><p><strong>classNameXMLTag</strong> – XML tag name inside objectXMLTag which holds the name of the class of bounding box. </p></li>
+<li><p><strong>x1XMLTag</strong> – XML tag name inside bndboxXMLTag which hold value of lower most x coordinate of bounding box. </p></li>
+<li><p><strong>y1XMLTag</strong> – XML tag name inside bndboxXMLTag which hold value of lower most y coordinate of bounding box. </p></li>
+<li><p><strong>x2XMLTag</strong> – XML tag name inside bndboxXMLTag which hold value of upper most x coordinate of bounding box. </p></li>
+<li><p><strong>y2XMLTag</strong> – XML tag name inside bndboxXMLTag which hold value of upper most y coordinate of bounding box. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6mlpack6models10DataLoader26LoadAllImagesFromDirectoryERKNSt6stringER8DatasetXR8DatasetYK6size_tK6size_tK6size_tK6size_t">
+<span id="_CPPv3N6mlpack6models10DataLoader26LoadAllImagesFromDirectoryERKNSt6stringER8DatasetXR8DatasetYK6size_tK6size_tK6size_tK6size_t"></span><span id="_CPPv2N6mlpack6models10DataLoader26LoadAllImagesFromDirectoryERKNSt6stringER8DatasetXR8DatasetYK6size_tK6size_tK6size_tK6size_t"></span><span id="mlpack::models::DataLoader::LoadAllImagesFromDirectory__ssCR.DatasetXR.DatasetYR.sC.sC.sC.sC"></span><span class="target" id="classmlpack_1_1models_1_1DataLoader_1ab07479762669e5f73f85db621ab0c6c6"></span><span class="pre">void</span> <code class="sig-name descname"><span class="pre">LoadAllImagesFromDirectory</span></code><span class="sig-paren">(</span><em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">string</span> <span class="pre">&amp;</span><em><span class="pre">imagesPath</span></em>, <a class="reference internal" href="#_CPPv4I000EN6mlpack6models10DataLoaderE" title="mlpack::models::DataLoader::DatasetX"><span class="pre">DatasetX</span></a> <span class="pre">&amp;</span><em><span class="pre">dataset</span></em>, <a class="reference internal" href="#_CPPv4I000EN6mlpack6models10DataLoaderE" title="mlpack::models::DataLoader::DatasetY"><span class="pre">DatasetY</span></a> <span class="pre">&amp;</span><em><span class="pre">labels</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">imageWidth</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">imageHeight</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">imageDepth</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">label</span></em> <span class="pre">=</span> <span class="pre">0</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6mlpack6models10DataLoader26LoadAllImagesFromDirectoryERKNSt6stringER8DatasetXR8DatasetYK6size_tK6size_tK6size_tK6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Load all images from directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>imagesPath</strong> – Path to all images. </p></li>
+<li><p><strong>dataset</strong> – Armadillo type where images will be loaded. </p></li>
+<li><p><strong>labels</strong> – Armadillo type where labels will be loaded. </p></li>
+<li><p><strong>imageWidth</strong> – Width of images in dataset. </p></li>
+<li><p><strong>imageHeight</strong> – Height of images in dataset. </p></li>
+<li><p><strong>imageDepth</strong> – Depth of images in dataset. </p></li>
+<li><p><strong>label</strong> – Label which will be assigned to image. </p></li>
+<li><p><strong>augmentation</strong> – Vector strings of augmentations supported by mlpack. </p></li>
+<li><p><strong>augmentationProbability</strong> – Probability of applying augmentation to a particular image. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6mlpack6models10DataLoader29LoadImageDatasetFromDirectoryERKNSt6stringEK6size_tK6size_tK6size_tKbKdKbRKNSt6vectorINSt6stringEEEKd">
+<span id="_CPPv3N6mlpack6models10DataLoader29LoadImageDatasetFromDirectoryERKNSt6stringEK6size_tK6size_tK6size_tKbKdKbRKNSt6vectorINSt6stringEEEKd"></span><span id="_CPPv2N6mlpack6models10DataLoader29LoadImageDatasetFromDirectoryERKNSt6stringEK6size_tK6size_tK6size_tKbKdKbRKNSt6vectorINSt6stringEEEKd"></span><span id="mlpack::models::DataLoader::LoadImageDatasetFromDirectory__ssCR.sC.sC.sC.bC.doubleC.bC.std::vector:ss:CR.doubleC"></span><span class="target" id="classmlpack_1_1models_1_1DataLoader_1a29460cf04a11596377be816efa4c8c12"></span><span class="pre">void</span> <code class="sig-name descname"><span class="pre">LoadImageDatasetFromDirectory</span></code><span class="sig-paren">(</span><em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">string</span> <span class="pre">&amp;</span><em><span class="pre">pathToDataset</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">imageWidth</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">imageHeight</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">imageDepth</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">bool</span> <em><span class="pre">trainData</span></em> <span class="pre">=</span> <span class="pre">true</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">double</span> <em><span class="pre">validRatio</span></em> <span class="pre">=</span> <span class="pre">0.2</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">bool</span> <em><span class="pre">shuffle</span></em> <span class="pre">=</span> <span class="pre">true</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">vector</span><span class="pre">&lt;</span><span class="pre">std</span><span class="pre">::</span><span class="pre">string</span><span class="pre">&gt;</span> <span class="pre">&amp;</span><em><span class="pre">augmentation</span></em> <span class="pre">=</span> <span class="pre">std</span><span class="pre">::</span><span class="pre">vector</span><span class="pre">&lt;</span><span class="pre">std</span><span class="pre">::</span><span class="pre">string</span><span class="pre">&gt;</span><span class="pre">(</span><span class="pre">)</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">double</span> <em><span class="pre">augmentationProbability</span></em> <span class="pre">=</span> <span class="pre">0.2</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6mlpack6models10DataLoader29LoadImageDatasetFromDirectoryERKNSt6stringEK6size_tK6size_tK6size_tKbKdKbRKNSt6vectorINSt6stringEEEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Load all images from directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pathToDataset</strong> – Path to all folders containing all images. </p></li>
+<li><p><strong>imageWidth</strong> – Width of images in dataset. </p></li>
+<li><p><strong>imageHeight</strong> – Height of images in dataset. </p></li>
+<li><p><strong>imageDepth</strong> – Depth of images in dataset. </p></li>
+<li><p><strong>trainData</strong> – Determines whether data is training set or test set. </p></li>
+<li><p><strong>shuffle</strong> – Boolean to determine whether or not to shuffle the data. </p></li>
+<li><p><strong>validRatio</strong> – Ratio of dataset to be used for validation set. </p></li>
+<li><p><strong>augmentation</strong> – Vector strings of augmentations supported by mlpack. </p></li>
+<li><p><strong>augmentationProbability</strong> – Probability of applying augmentation to a particular image. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6mlpack6models10DataLoader13TrainFeaturesEv">
+<span id="_CPPv3NK6mlpack6models10DataLoader13TrainFeaturesEv"></span><span id="_CPPv2NK6mlpack6models10DataLoader13TrainFeaturesEv"></span><span id="mlpack::models::DataLoader::TrainFeaturesC"></span><span class="target" id="classmlpack_1_1models_1_1DataLoader_1a7131fef7f5adc778b07d137ad12e04c5"></span><em class="property"><span class="pre">inline</span></em> <a class="reference internal" href="#_CPPv4I000EN6mlpack6models10DataLoaderE" title="mlpack::models::DataLoader::DatasetX"><span class="pre">DatasetX</span></a> <code class="sig-name descname"><span class="pre">TrainFeatures</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em><a class="headerlink" href="#_CPPv4NK6mlpack6models10DataLoader13TrainFeaturesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the training dataset features. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6mlpack6models10DataLoader13TrainFeaturesEv">
+<span id="_CPPv3N6mlpack6models10DataLoader13TrainFeaturesEv"></span><span id="_CPPv2N6mlpack6models10DataLoader13TrainFeaturesEv"></span><span id="mlpack::models::DataLoader::TrainFeatures"></span><span class="target" id="classmlpack_1_1models_1_1DataLoader_1a65772153d47e85ea5ab2084c41267c33"></span><em class="property"><span class="pre">inline</span></em> <a class="reference internal" href="#_CPPv4I000EN6mlpack6models10DataLoaderE" title="mlpack::models::DataLoader::DatasetX"><span class="pre">DatasetX</span></a> <span class="pre">&amp;</span><code class="sig-name descname"><span class="pre">TrainFeatures</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6mlpack6models10DataLoader13TrainFeaturesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Modify the training dataset features. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6mlpack6models10DataLoader11TrainLabelsEv">
+<span id="_CPPv3NK6mlpack6models10DataLoader11TrainLabelsEv"></span><span id="_CPPv2NK6mlpack6models10DataLoader11TrainLabelsEv"></span><span id="mlpack::models::DataLoader::TrainLabelsC"></span><span class="target" id="classmlpack_1_1models_1_1DataLoader_1a5593e9ab8089cb727efb31cb43e99134"></span><em class="property"><span class="pre">inline</span></em> <a class="reference internal" href="#_CPPv4I000EN6mlpack6models10DataLoaderE" title="mlpack::models::DataLoader::DatasetY"><span class="pre">DatasetY</span></a> <code class="sig-name descname"><span class="pre">TrainLabels</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em><a class="headerlink" href="#_CPPv4NK6mlpack6models10DataLoader11TrainLabelsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the training dataset labels. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6mlpack6models10DataLoader11TrainLabelsEv">
+<span id="_CPPv3N6mlpack6models10DataLoader11TrainLabelsEv"></span><span id="_CPPv2N6mlpack6models10DataLoader11TrainLabelsEv"></span><span id="mlpack::models::DataLoader::TrainLabels"></span><span class="target" id="classmlpack_1_1models_1_1DataLoader_1a38958b931bcf4535f62e9fb8aaf99579"></span><em class="property"><span class="pre">inline</span></em> <a class="reference internal" href="#_CPPv4I000EN6mlpack6models10DataLoaderE" title="mlpack::models::DataLoader::DatasetY"><span class="pre">DatasetY</span></a> <span class="pre">&amp;</span><code class="sig-name descname"><span class="pre">TrainLabels</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6mlpack6models10DataLoader11TrainLabelsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Modify the training dataset labels. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6mlpack6models10DataLoader12TestFeaturesEv">
+<span id="_CPPv3NK6mlpack6models10DataLoader12TestFeaturesEv"></span><span id="_CPPv2NK6mlpack6models10DataLoader12TestFeaturesEv"></span><span id="mlpack::models::DataLoader::TestFeaturesC"></span><span class="target" id="classmlpack_1_1models_1_1DataLoader_1a4efbf88f8a0f243739fedf1f2f909688"></span><em class="property"><span class="pre">inline</span></em> <a class="reference internal" href="#_CPPv4I000EN6mlpack6models10DataLoaderE" title="mlpack::models::DataLoader::DatasetX"><span class="pre">DatasetX</span></a> <code class="sig-name descname"><span class="pre">TestFeatures</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em><a class="headerlink" href="#_CPPv4NK6mlpack6models10DataLoader12TestFeaturesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the test dataset features. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6mlpack6models10DataLoader12TestFeaturesEv">
+<span id="_CPPv3N6mlpack6models10DataLoader12TestFeaturesEv"></span><span id="_CPPv2N6mlpack6models10DataLoader12TestFeaturesEv"></span><span id="mlpack::models::DataLoader::TestFeatures"></span><span class="target" id="classmlpack_1_1models_1_1DataLoader_1a6cf97c49f218cfec103fe6509ed30f16"></span><em class="property"><span class="pre">inline</span></em> <a class="reference internal" href="#_CPPv4I000EN6mlpack6models10DataLoaderE" title="mlpack::models::DataLoader::DatasetX"><span class="pre">DatasetX</span></a> <span class="pre">&amp;</span><code class="sig-name descname"><span class="pre">TestFeatures</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6mlpack6models10DataLoader12TestFeaturesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Modify the test dataset features. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6mlpack6models10DataLoader10TestLabelsEv">
+<span id="_CPPv3NK6mlpack6models10DataLoader10TestLabelsEv"></span><span id="_CPPv2NK6mlpack6models10DataLoader10TestLabelsEv"></span><span id="mlpack::models::DataLoader::TestLabelsC"></span><span class="target" id="classmlpack_1_1models_1_1DataLoader_1ab9f79a71470007b5325aba44fbdec5b8"></span><em class="property"><span class="pre">inline</span></em> <a class="reference internal" href="#_CPPv4I000EN6mlpack6models10DataLoaderE" title="mlpack::models::DataLoader::DatasetY"><span class="pre">DatasetY</span></a> <code class="sig-name descname"><span class="pre">TestLabels</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em><a class="headerlink" href="#_CPPv4NK6mlpack6models10DataLoader10TestLabelsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the test dataset labels. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6mlpack6models10DataLoader10TestLabelsEv">
+<span id="_CPPv3N6mlpack6models10DataLoader10TestLabelsEv"></span><span id="_CPPv2N6mlpack6models10DataLoader10TestLabelsEv"></span><span id="mlpack::models::DataLoader::TestLabels"></span><span class="target" id="classmlpack_1_1models_1_1DataLoader_1a6b8aa216430b1f2d80db203cc562660a"></span><em class="property"><span class="pre">inline</span></em> <a class="reference internal" href="#_CPPv4I000EN6mlpack6models10DataLoaderE" title="mlpack::models::DataLoader::DatasetY"><span class="pre">DatasetY</span></a> <span class="pre">&amp;</span><code class="sig-name descname"><span class="pre">TestLabels</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6mlpack6models10DataLoader10TestLabelsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Modify the test dataset labels. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6mlpack6models10DataLoader13ValidFeaturesEv">
+<span id="_CPPv3NK6mlpack6models10DataLoader13ValidFeaturesEv"></span><span id="_CPPv2NK6mlpack6models10DataLoader13ValidFeaturesEv"></span><span id="mlpack::models::DataLoader::ValidFeaturesC"></span><span class="target" id="classmlpack_1_1models_1_1DataLoader_1aaf6502d39fd450f72dc57a5479dec8d7"></span><em class="property"><span class="pre">inline</span></em> <a class="reference internal" href="#_CPPv4I000EN6mlpack6models10DataLoaderE" title="mlpack::models::DataLoader::DatasetX"><span class="pre">DatasetX</span></a> <code class="sig-name descname"><span class="pre">ValidFeatures</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em><a class="headerlink" href="#_CPPv4NK6mlpack6models10DataLoader13ValidFeaturesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the validation dataset features. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6mlpack6models10DataLoader13ValidFeaturesEv">
+<span id="_CPPv3N6mlpack6models10DataLoader13ValidFeaturesEv"></span><span id="_CPPv2N6mlpack6models10DataLoader13ValidFeaturesEv"></span><span id="mlpack::models::DataLoader::ValidFeatures"></span><span class="target" id="classmlpack_1_1models_1_1DataLoader_1a105aa98a81d4eba285ec7b6a5d17c841"></span><em class="property"><span class="pre">inline</span></em> <a class="reference internal" href="#_CPPv4I000EN6mlpack6models10DataLoaderE" title="mlpack::models::DataLoader::DatasetX"><span class="pre">DatasetX</span></a> <span class="pre">&amp;</span><code class="sig-name descname"><span class="pre">ValidFeatures</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6mlpack6models10DataLoader13ValidFeaturesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Modify the validation dataset features. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6mlpack6models10DataLoader11ValidLabelsEv">
+<span id="_CPPv3NK6mlpack6models10DataLoader11ValidLabelsEv"></span><span id="_CPPv2NK6mlpack6models10DataLoader11ValidLabelsEv"></span><span id="mlpack::models::DataLoader::ValidLabelsC"></span><span class="target" id="classmlpack_1_1models_1_1DataLoader_1acdf60621eea698f881c69bd806196395"></span><em class="property"><span class="pre">inline</span></em> <a class="reference internal" href="#_CPPv4I000EN6mlpack6models10DataLoaderE" title="mlpack::models::DataLoader::DatasetY"><span class="pre">DatasetY</span></a> <code class="sig-name descname"><span class="pre">ValidLabels</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em><a class="headerlink" href="#_CPPv4NK6mlpack6models10DataLoader11ValidLabelsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the validation dataset labels. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6mlpack6models10DataLoader11ValidLabelsEv">
+<span id="_CPPv3N6mlpack6models10DataLoader11ValidLabelsEv"></span><span id="_CPPv2N6mlpack6models10DataLoader11ValidLabelsEv"></span><span id="mlpack::models::DataLoader::ValidLabels"></span><span class="target" id="classmlpack_1_1models_1_1DataLoader_1af3aed7ce03baba0d638b966964fd8ce2"></span><em class="property"><span class="pre">inline</span></em> <a class="reference internal" href="#_CPPv4I000EN6mlpack6models10DataLoaderE" title="mlpack::models::DataLoader::DatasetY"><span class="pre">DatasetY</span></a> <span class="pre">&amp;</span><code class="sig-name descname"><span class="pre">ValidLabels</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6mlpack6models10DataLoader11ValidLabelsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Modify the validation dataset labels. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6mlpack6models10DataLoader8TrainSetEv">
+<span id="_CPPv3NK6mlpack6models10DataLoader8TrainSetEv"></span><span id="_CPPv2NK6mlpack6models10DataLoader8TrainSetEv"></span><span id="mlpack::models::DataLoader::TrainSetC"></span><span class="target" id="classmlpack_1_1models_1_1DataLoader_1a384722d604985a8f0e9d47a1a546ca66"></span><em class="property"><span class="pre">inline</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">tuple</span><span class="pre">&lt;</span><a class="reference internal" href="#_CPPv4I000EN6mlpack6models10DataLoaderE" title="mlpack::models::DataLoader::DatasetX"><span class="pre">DatasetX</span></a><span class="pre">,</span> <a class="reference internal" href="#_CPPv4I000EN6mlpack6models10DataLoaderE" title="mlpack::models::DataLoader::DatasetY"><span class="pre">DatasetY</span></a><span class="pre">&gt;</span> <code class="sig-name descname"><span class="pre">TrainSet</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em><a class="headerlink" href="#_CPPv4NK6mlpack6models10DataLoader8TrainSetEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the training dataset. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6mlpack6models10DataLoader8ValidSetEv">
+<span id="_CPPv3NK6mlpack6models10DataLoader8ValidSetEv"></span><span id="_CPPv2NK6mlpack6models10DataLoader8ValidSetEv"></span><span id="mlpack::models::DataLoader::ValidSetC"></span><span class="target" id="classmlpack_1_1models_1_1DataLoader_1a8dabdc0a5e7d8e09a97053665bc7dc7a"></span><em class="property"><span class="pre">inline</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">tuple</span><span class="pre">&lt;</span><a class="reference internal" href="#_CPPv4I000EN6mlpack6models10DataLoaderE" title="mlpack::models::DataLoader::DatasetX"><span class="pre">DatasetX</span></a><span class="pre">,</span> <a class="reference internal" href="#_CPPv4I000EN6mlpack6models10DataLoaderE" title="mlpack::models::DataLoader::DatasetY"><span class="pre">DatasetY</span></a><span class="pre">&gt;</span> <code class="sig-name descname"><span class="pre">ValidSet</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em><a class="headerlink" href="#_CPPv4NK6mlpack6models10DataLoader8ValidSetEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the validation dataset. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6mlpack6models10DataLoader7TestSetEv">
+<span id="_CPPv3NK6mlpack6models10DataLoader7TestSetEv"></span><span id="_CPPv2NK6mlpack6models10DataLoader7TestSetEv"></span><span id="mlpack::models::DataLoader::TestSetC"></span><span class="target" id="classmlpack_1_1models_1_1DataLoader_1ac16b442e24bd3fc6e74c8de17a92b5bd"></span><em class="property"><span class="pre">inline</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">tuple</span><span class="pre">&lt;</span><a class="reference internal" href="#_CPPv4I000EN6mlpack6models10DataLoaderE" title="mlpack::models::DataLoader::DatasetX"><span class="pre">DatasetX</span></a><span class="pre">,</span> <a class="reference internal" href="#_CPPv4I000EN6mlpack6models10DataLoaderE" title="mlpack::models::DataLoader::DatasetY"><span class="pre">DatasetY</span></a><span class="pre">&gt;</span> <code class="sig-name descname"><span class="pre">TestSet</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em><a class="headerlink" href="#_CPPv4NK6mlpack6models10DataLoader7TestSetEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the testing dataset. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4NK6mlpack6models10DataLoader6ScalerEv">
+<span id="_CPPv3NK6mlpack6models10DataLoader6ScalerEv"></span><span id="_CPPv2NK6mlpack6models10DataLoader6ScalerEv"></span><span id="mlpack::models::DataLoader::ScalerC"></span><span class="target" id="classmlpack_1_1models_1_1DataLoader_1a65d6d59fb3ceda3ee25f2619acc85a1e"></span><em class="property"><span class="pre">inline</span></em> <a class="reference internal" href="#_CPPv4I000EN6mlpack6models10DataLoaderE" title="mlpack::models::DataLoader::ScalerType"><span class="pre">ScalerType</span></a> <code class="sig-name descname"><span class="pre">Scaler</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property"><span class="pre">const</span></em><a class="headerlink" href="#_CPPv4NK6mlpack6models10DataLoader6ScalerEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the Scaler. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6mlpack6models10DataLoader6ScalerEv">
+<span id="_CPPv3N6mlpack6models10DataLoader6ScalerEv"></span><span id="_CPPv2N6mlpack6models10DataLoader6ScalerEv"></span><span id="mlpack::models::DataLoader::Scaler"></span><span class="target" id="classmlpack_1_1models_1_1DataLoader_1ad207fa5222a46c0a48f818b92c734161"></span><em class="property"><span class="pre">inline</span></em> <a class="reference internal" href="#_CPPv4I000EN6mlpack6models10DataLoaderE" title="mlpack::models::DataLoader::ScalerType"><span class="pre">ScalerType</span></a> <span class="pre">&amp;</span><code class="sig-name descname"><span class="pre">Scaler</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6mlpack6models10DataLoader6ScalerEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Modify the Scaler. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script type="text/javascript" src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+    <div class="footer" role="contentinfo">
+        <div class="container">
+            &#169; Copyright 2021, mlpack.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.
+        </div>
+    </div>  
+
+</body>
+</html>

@@ -1,0 +1,244 @@
+
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Template Class PreProcessor &mdash; models 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/collapsible-lists/css/tree_view.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Template Class ResNet" href="classmlpack_1_1models_1_1ResNet.html" />
+    <link rel="prev" title="Template Class Datasets" href="classmlpack_1_1models_1_1Datasets.html" /> 
+
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
+            <a class="site-title" href="../index.html">
+                models
+            </a>
+        </div>
+    </header>
+
+
+<div class="breadcrumbs-outer hidden-xs-down">
+    <div class="container">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a></li>
+        
+          <li><a href="library_root.html">Models API</a></li>
+        
+      <li>Template Class PreProcessor</li>
+    
+    
+      <li class="breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/classmlpack_1_1models_1_1PreProcessor.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+</div>
+    </div>
+</div>
+    <div class="main-outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 site-nav">
+                    
+<div role="search">
+    <form class="search" action="../search.html" method="get">
+        <div class="icon-input">
+            <input type="text" name="q" placeholder="Search" />
+            <span class="icon-search"></span>
+        </div>
+        <input type="submit" value="Go" class="d-hidden" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+                    <div class="site-nav-tree">
+                        
+                            
+                            
+                                <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="library_root.html">Models API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#file-hierarchy">File Hierarchy</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="library_root.html#full-api">Full API</a></li>
+</ul>
+</li>
+</ul>
+
+                            
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div class="document">
+                        
+                            
+  <div class="section" id="template-class-preprocessor">
+<span id="exhale-class-classmlpack-1-1models-1-1preprocessor"></span><h1>Template Class PreProcessor<a class="headerlink" href="#template-class-preprocessor" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Defined in <a class="reference internal" href="file__home_aakash_models_dataloader_preprocessor.hpp.html#file-home-aakash-models-dataloader-preprocessor-hpp"><span class="std std-ref">File preprocessor.hpp</span></a></p></li>
+</ul>
+<div class="section" id="class-documentation">
+<h2>Class Documentation<a class="headerlink" href="#class-documentation" title="Permalink to this headline">¶</a></h2>
+<dl class="cpp class">
+<dt id="_CPPv4I00EN6mlpack6models12PreProcessorE">
+<span id="_CPPv3I00EN6mlpack6models12PreProcessorE"></span><span id="_CPPv2I00EN6mlpack6models12PreProcessorE"></span><span class="pre">template&lt;</span><span class="pre">typename</span> <code class="sig-name descname"><span class="pre">DatasetX</span></code> <span class="pre">=</span> <span class="pre">arma</span><span class="pre">::</span><span class="pre">mat</span><span class="pre">,</span> <span class="pre">typename</span> <code class="sig-name descname"><span class="pre">DatasetY</span></code> <span class="pre">=</span> <span class="pre">arma</span><span class="pre">::</span><span class="pre">mat</span><span class="pre">&gt;</span><br /><span class="target" id="classmlpack_1_1models_1_1PreProcessor"></span><em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mlpack</span><span class="pre">::</span><span class="pre">models</span><code class="sig-prename descclassname"><span class="pre">::</span></code></code><code class="sig-name descname"><span class="pre">PreProcessor</span></code><a class="headerlink" href="#_CPPv4I00EN6mlpack6models12PreProcessorE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Contains standatd pre-process functions for popular datasets.</p>
+<p><dl class="field-list simple">
+<dt class="field-odd">tparam DatasetX</dt>
+<dd class="field-odd"><p>Datatype for loading input features. </p>
+</dd>
+<dt class="field-even">tparam DatasetY</dt>
+<dd class="field-even"><p>Datatype for prediction features. </p>
+</dd>
+</dl>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N6mlpack6models12PreProcessor5MNISTER8DatasetXR8DatasetYR8DatasetYR8DatasetYR8DatasetX">
+<span id="_CPPv3N6mlpack6models12PreProcessor5MNISTER8DatasetXR8DatasetYR8DatasetYR8DatasetYR8DatasetX"></span><span id="_CPPv2N6mlpack6models12PreProcessor5MNISTER8DatasetXR8DatasetYR8DatasetYR8DatasetYR8DatasetX"></span><span id="mlpack::models::PreProcessor::MNIST__DatasetXR.DatasetYR.DatasetYR.DatasetYR.DatasetXR"></span><span class="target" id="classmlpack_1_1models_1_1PreProcessor_1a61df1fd2d87484698971cfbe4044ae39"></span><em class="property"><span class="pre">static</span></em> <em class="property"><span class="pre">inline</span></em> <span class="pre">void</span> <code class="sig-name descname"><span class="pre">MNIST</span></code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I00EN6mlpack6models12PreProcessorE" title="mlpack::models::PreProcessor::DatasetX"><span class="pre">DatasetX</span></a><span class="pre">&amp;</span>, <a class="reference internal" href="#_CPPv4I00EN6mlpack6models12PreProcessorE" title="mlpack::models::PreProcessor::DatasetY"><span class="pre">DatasetY</span></a> <span class="pre">&amp;</span><em><span class="pre">trainY</span></em>, <a class="reference internal" href="#_CPPv4I00EN6mlpack6models12PreProcessorE" title="mlpack::models::PreProcessor::DatasetY"><span class="pre">DatasetY</span></a><span class="pre">&amp;</span>, <a class="reference internal" href="#_CPPv4I00EN6mlpack6models12PreProcessorE" title="mlpack::models::PreProcessor::DatasetY"><span class="pre">DatasetY</span></a> <span class="pre">&amp;</span><em><span class="pre">validY</span></em>, <a class="reference internal" href="#_CPPv4I00EN6mlpack6models12PreProcessorE" title="mlpack::models::PreProcessor::DatasetX"><span class="pre">DatasetX</span></a><span class="pre">&amp;</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6mlpack6models12PreProcessor5MNISTER8DatasetXR8DatasetYR8DatasetYR8DatasetYR8DatasetX" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6mlpack6models12PreProcessor9PascalVOCER8DatasetXR8DatasetYR8DatasetYR8DatasetYR8DatasetX">
+<span id="_CPPv3N6mlpack6models12PreProcessor9PascalVOCER8DatasetXR8DatasetYR8DatasetYR8DatasetYR8DatasetX"></span><span id="_CPPv2N6mlpack6models12PreProcessor9PascalVOCER8DatasetXR8DatasetYR8DatasetYR8DatasetYR8DatasetX"></span><span id="mlpack::models::PreProcessor::PascalVOC__DatasetXR.DatasetYR.DatasetYR.DatasetYR.DatasetXR"></span><span class="target" id="classmlpack_1_1models_1_1PreProcessor_1a62f01aa7d59a3256758ca08dfc4d8ec7"></span><em class="property"><span class="pre">static</span></em> <em class="property"><span class="pre">inline</span></em> <span class="pre">void</span> <code class="sig-name descname"><span class="pre">PascalVOC</span></code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I00EN6mlpack6models12PreProcessorE" title="mlpack::models::PreProcessor::DatasetX"><span class="pre">DatasetX</span></a><span class="pre">&amp;</span>, <a class="reference internal" href="#_CPPv4I00EN6mlpack6models12PreProcessorE" title="mlpack::models::PreProcessor::DatasetY"><span class="pre">DatasetY</span></a><span class="pre">&amp;</span>, <a class="reference internal" href="#_CPPv4I00EN6mlpack6models12PreProcessorE" title="mlpack::models::PreProcessor::DatasetY"><span class="pre">DatasetY</span></a><span class="pre">&amp;</span>, <a class="reference internal" href="#_CPPv4I00EN6mlpack6models12PreProcessorE" title="mlpack::models::PreProcessor::DatasetY"><span class="pre">DatasetY</span></a><span class="pre">&amp;</span>, <a class="reference internal" href="#_CPPv4I00EN6mlpack6models12PreProcessorE" title="mlpack::models::PreProcessor::DatasetX"><span class="pre">DatasetX</span></a><span class="pre">&amp;</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6mlpack6models12PreProcessor9PascalVOCER8DatasetXR8DatasetYR8DatasetYR8DatasetYR8DatasetX" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6mlpack6models12PreProcessor7CIFAR10ER8DatasetXR8DatasetYR8DatasetYR8DatasetYR8DatasetX">
+<span id="_CPPv3N6mlpack6models12PreProcessor7CIFAR10ER8DatasetXR8DatasetYR8DatasetYR8DatasetYR8DatasetX"></span><span id="_CPPv2N6mlpack6models12PreProcessor7CIFAR10ER8DatasetXR8DatasetYR8DatasetYR8DatasetYR8DatasetX"></span><span id="mlpack::models::PreProcessor::CIFAR10__DatasetXR.DatasetYR.DatasetYR.DatasetYR.DatasetXR"></span><span class="target" id="classmlpack_1_1models_1_1PreProcessor_1a0fbe7bdbe17699974b238d7855c089bb"></span><em class="property"><span class="pre">static</span></em> <em class="property"><span class="pre">inline</span></em> <span class="pre">void</span> <code class="sig-name descname"><span class="pre">CIFAR10</span></code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I00EN6mlpack6models12PreProcessorE" title="mlpack::models::PreProcessor::DatasetX"><span class="pre">DatasetX</span></a><span class="pre">&amp;</span>, <a class="reference internal" href="#_CPPv4I00EN6mlpack6models12PreProcessorE" title="mlpack::models::PreProcessor::DatasetY"><span class="pre">DatasetY</span></a><span class="pre">&amp;</span>, <a class="reference internal" href="#_CPPv4I00EN6mlpack6models12PreProcessorE" title="mlpack::models::PreProcessor::DatasetY"><span class="pre">DatasetY</span></a><span class="pre">&amp;</span>, <a class="reference internal" href="#_CPPv4I00EN6mlpack6models12PreProcessorE" title="mlpack::models::PreProcessor::DatasetY"><span class="pre">DatasetY</span></a><span class="pre">&amp;</span>, <a class="reference internal" href="#_CPPv4I00EN6mlpack6models12PreProcessorE" title="mlpack::models::PreProcessor::DatasetX"><span class="pre">DatasetX</span></a><span class="pre">&amp;</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6mlpack6models12PreProcessor7CIFAR10ER8DatasetXR8DatasetYR8DatasetYR8DatasetYR8DatasetX" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6mlpack6models12PreProcessor18ChannelFirstImagesER8DatasetXK6size_tK6size_tK6size_tb">
+<span id="_CPPv3N6mlpack6models12PreProcessor18ChannelFirstImagesER8DatasetXK6size_tK6size_tK6size_tb"></span><span id="_CPPv2N6mlpack6models12PreProcessor18ChannelFirstImagesER8DatasetXK6size_tK6size_tK6size_tb"></span><span id="mlpack::models::PreProcessor::ChannelFirstImages__DatasetXR.sC.sC.sC.b"></span><span class="target" id="classmlpack_1_1models_1_1PreProcessor_1ac8d3b5332330126df9dc582c0a48f089"></span><em class="property"><span class="pre">static</span></em> <em class="property"><span class="pre">inline</span></em> <span class="pre">void</span> <code class="sig-name descname"><span class="pre">ChannelFirstImages</span></code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I00EN6mlpack6models12PreProcessorE" title="mlpack::models::PreProcessor::DatasetX"><span class="pre">DatasetX</span></a> <span class="pre">&amp;</span><em><span class="pre">trainFeatures</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">imageWidth</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">imageHeight</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">imageDepth</span></em>, <span class="pre">bool</span> <em><span class="pre">normalize</span></em> <span class="pre">=</span> <span class="pre">true</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6mlpack6models12PreProcessor18ChannelFirstImagesER8DatasetXK6size_tK6size_tK6size_tb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Converts image to channel first format used in PyTorch. Performs the same function as torch.transforms.ToTensor().</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trainFeatures</strong> – Input features that will be converted into channel first format. </p></li>
+<li><p><strong>imageWidth</strong> – Width of the image in dataset. </p></li>
+<li><p><strong>imageHeight</strong> – Height of the image in dataset. </p></li>
+<li><p><strong>imageDepth</strong> – Depth / Number of channels of the image in dataset. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4I0EN6mlpack6models12PreProcessor16YOLOPreProcessorEvRK8DatasetYRN4arma3MatI2eTEEK6size_tK6size_tK6size_tK6size_tK6size_tK6size_tK6size_tKb">
+<span id="_CPPv3I0EN6mlpack6models12PreProcessor16YOLOPreProcessorERK8DatasetYRN4arma3MatI2eTEEK6size_tK6size_tK6size_tK6size_tK6size_tK6size_tK6size_tKb"></span><span id="_CPPv2I0EN6mlpack6models12PreProcessor16YOLOPreProcessorERK8DatasetYRN4arma3MatI2eTEEK6size_tK6size_tK6size_tK6size_tK6size_tK6size_tK6size_tKb"></span><span class="pre">template&lt;</span><span class="pre">typename</span> <code class="sig-name descname"><span class="pre">eT</span></code><span class="pre">&gt;</span><br /><span class="target" id="classmlpack_1_1models_1_1PreProcessor_1a0f619abd9901732f9150d4c672962725"></span><em class="property"><span class="pre">static</span></em> <em class="property"><span class="pre">inline</span></em> <span class="pre">void</span> <code class="sig-name descname"><span class="pre">YOLOPreProcessor</span></code><span class="sig-paren">(</span><em class="property"><span class="pre">const</span></em> <a class="reference internal" href="#_CPPv4I00EN6mlpack6models12PreProcessorE" title="mlpack::models::PreProcessor::DatasetY"><span class="pre">DatasetY</span></a> <span class="pre">&amp;</span><em><span class="pre">annotations</span></em>, <span class="pre">arma</span><span class="pre">::</span><span class="pre">Mat</span><span class="pre">&lt;</span><a class="reference internal" href="#_CPPv4I0EN6mlpack6models12PreProcessor16YOLOPreProcessorEvRK8DatasetYRN4arma3MatI2eTEEK6size_tK6size_tK6size_tK6size_tK6size_tK6size_tK6size_tKb" title="mlpack::models::PreProcessor::YOLOPreProcessor::eT"><span class="pre">eT</span></a><span class="pre">&gt;</span> <span class="pre">&amp;</span><em><span class="pre">output</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">version</span></em> <span class="pre">=</span> <span class="pre">1</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">imageWidth</span></em> <span class="pre">=</span> <span class="pre">224</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">imageHeight</span></em> <span class="pre">=</span> <span class="pre">224</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">gridWidth</span></em> <span class="pre">=</span> <span class="pre">7</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">gridHeight</span></em> <span class="pre">=</span> <span class="pre">7</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">numBoxes</span></em> <span class="pre">=</span> <span class="pre">2</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">numClasses</span></em> <span class="pre">=</span> <span class="pre">20</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">bool</span> <em><span class="pre">normalize</span></em> <span class="pre">=</span> <span class="pre">true</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6mlpack6models12PreProcessor16YOLOPreProcessorEvRK8DatasetYRN4arma3MatI2eTEEK6size_tK6size_tK6size_tK6size_tK6size_tK6size_tK6size_tKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="#classmlpack_1_1models_1_1PreProcessor"><span class="std std-ref">PreProcessor</span></a> for <a class="reference internal" href="classmlpack_1_1models_1_1YOLO.html#classmlpack_1_1models_1_1YOLO"><span class="std std-ref">YOLO</span></a> model. Converts arma::field type annotations to arma::mat type for training <a class="reference internal" href="classmlpack_1_1models_1_1YOLO.html#classmlpack_1_1models_1_1YOLO"><span class="std std-ref">YOLO</span></a> model. Each column in target matrix has the size : gridWidth * gridHeight * (5 * numBoxes + classes).</p>
+<p>
+Note : This function must be called manually before model is used. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>annotations</strong> – Field object created using model’s dataloader containing annotation for images. </p></li>
+<li><p><strong>output</strong> – Output matrix where output will be stored. </p></li>
+<li><p><strong>imageWidth</strong> – Width of image used for training <a class="reference internal" href="classmlpack_1_1models_1_1YOLO.html#classmlpack_1_1models_1_1YOLO"><span class="std std-ref">YOLO</span></a> model. </p></li>
+<li><p><strong>imageHeight</strong> – Height of image used for training <a class="reference internal" href="classmlpack_1_1models_1_1YOLO.html#classmlpack_1_1models_1_1YOLO"><span class="std std-ref">YOLO</span></a> model. </p></li>
+<li><p><strong>gridWidth</strong> – Width of output feature map of <a class="reference internal" href="classmlpack_1_1models_1_1YOLO.html#classmlpack_1_1models_1_1YOLO"><span class="std std-ref">YOLO</span></a> model. </p></li>
+<li><p><strong>gridHeight</strong> – Height of output feature map of <a class="reference internal" href="classmlpack_1_1models_1_1YOLO.html#classmlpack_1_1models_1_1YOLO"><span class="std std-ref">YOLO</span></a> model. </p></li>
+<li><p><strong>numBoxes</strong> – Number of bounding boxes per grid. </p></li>
+<li><p><strong>numClasses</strong> – Number of classes in training set. </p></li>
+<li><p><strong>normalize</strong> – Boolean to determine whether coordinates are to to be normalized or not. Defaults to true.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script type="text/javascript" src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+    <div class="footer" role="contentinfo">
+        <div class="container">
+            &#169; Copyright 2021, mlpack.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.
+        </div>
+    </div>  
+
+</body>
+</html>

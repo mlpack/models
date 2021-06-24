@@ -1,0 +1,245 @@
+
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Class Augmentation &mdash; models 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/collapsible-lists/css/tree_view.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Template Class DarkNet" href="classmlpack_1_1models_1_1DarkNet.html" />
+    <link rel="prev" title="Template Struct DatasetDetails" href="structmlpack_1_1models_1_1DatasetDetails.html" /> 
+
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
+            <a class="site-title" href="../index.html">
+                models
+            </a>
+        </div>
+    </header>
+
+
+<div class="breadcrumbs-outer hidden-xs-down">
+    <div class="container">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a></li>
+        
+          <li><a href="library_root.html">Models API</a></li>
+        
+      <li>Class Augmentation</li>
+    
+    
+      <li class="breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/classmlpack_1_1models_1_1Augmentation.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+</div>
+    </div>
+</div>
+    <div class="main-outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 site-nav">
+                    
+<div role="search">
+    <form class="search" action="../search.html" method="get">
+        <div class="icon-input">
+            <input type="text" name="q" placeholder="Search" />
+            <span class="icon-search"></span>
+        </div>
+        <input type="submit" value="Go" class="d-hidden" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+                    <div class="site-nav-tree">
+                        
+                            
+                            
+                                <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="library_root.html">Models API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#file-hierarchy">File Hierarchy</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="library_root.html#full-api">Full API</a></li>
+</ul>
+</li>
+</ul>
+
+                            
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div class="document">
+                        
+                            
+  <div class="section" id="class-augmentation">
+<span id="exhale-class-classmlpack-1-1models-1-1augmentation"></span><h1>Class Augmentation<a class="headerlink" href="#class-augmentation" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Defined in <a class="reference internal" href="file__home_aakash_models_augmentation_augmentation.hpp.html#file-home-aakash-models-augmentation-augmentation-hpp"><span class="std std-ref">File augmentation.hpp</span></a></p></li>
+</ul>
+<div class="section" id="class-documentation">
+<h2>Class Documentation<a class="headerlink" href="#class-documentation" title="Permalink to this headline">¶</a></h2>
+<dl class="cpp class">
+<dt id="_CPPv4N6mlpack6models12AugmentationE">
+<span id="_CPPv3N6mlpack6models12AugmentationE"></span><span id="_CPPv2N6mlpack6models12AugmentationE"></span><span id="mlpack::models::Augmentation"></span><span class="target" id="classmlpack_1_1models_1_1Augmentation"></span><em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mlpack</span><span class="pre">::</span><span class="pre">models</span><code class="sig-prename descclassname"><span class="pre">::</span></code></code><code class="sig-name descname"><span class="pre">Augmentation</span></code><a class="headerlink" href="#_CPPv4N6mlpack6models12AugmentationE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="#classmlpack_1_1models_1_1Augmentation"><span class="std std-ref">Augmentation</span></a> class used to perform augmentations by transforming the data. For the list of supported augmentation, take a look at our wiki page.</p>
+<p><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Augmentation</span> <span class="nf">augmentation</span><span class="p">({</span><span class="s">&quot;horizontal-flip&quot;</span><span class="p">,</span> <span class="s">&quot;resize = (224, 224)&quot;}, 0.2)</span><span class="p">;</span>
+<span class="n">augmentation</span><span class="p">.</span><span class="n">Transform</span><span class="p">(</span><span class="n">dataloader</span><span class="p">.</span><span class="n">TrainFeatures</span><span class="p">);</span>
+</pre></div>
+</div>
+ </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N6mlpack6models12Augmentation12AugmentationEv">
+<span id="_CPPv3N6mlpack6models12Augmentation12AugmentationEv"></span><span id="_CPPv2N6mlpack6models12Augmentation12AugmentationEv"></span><span id="mlpack::models::Augmentation::Augmentation"></span><span class="target" id="classmlpack_1_1models_1_1Augmentation_1ad063434588480cacfc95595125b4d7e5"></span><em class="property"><span class="pre">inline</span></em> <code class="sig-name descname"><span class="pre">Augmentation</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6mlpack6models12Augmentation12AugmentationEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create the augmentation class object. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6mlpack6models12Augmentation12AugmentationERKNSt6vectorINSt6stringEEEKd">
+<span id="_CPPv3N6mlpack6models12Augmentation12AugmentationERKNSt6vectorINSt6stringEEEKd"></span><span id="_CPPv2N6mlpack6models12Augmentation12AugmentationERKNSt6vectorINSt6stringEEEKd"></span><span id="mlpack::models::Augmentation::Augmentation__std::vector:ss:CR.doubleC"></span><span class="target" id="classmlpack_1_1models_1_1Augmentation_1a1ab7a618f52e931566938b755b1509d8"></span><em class="property"><span class="pre">inline</span></em> <code class="sig-name descname"><span class="pre">Augmentation</span></code><span class="sig-paren">(</span><em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">vector</span><span class="pre">&lt;</span><span class="pre">std</span><span class="pre">::</span><span class="pre">string</span><span class="pre">&gt;</span> <span class="pre">&amp;</span><em><span class="pre">augmentations</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">double</span> <em><span class="pre">augmentationProbability</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6mlpack6models12Augmentation12AugmentationERKNSt6vectorINSt6stringEEEKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Constructor for augmentation class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>augmentations</strong> – List of strings containing one of the supported augmentations. </p></li>
+<li><p><strong>augmentationProbability</strong> – Probability of applying augmentation on the dataset. NOTE : This doesn’t apply to augmentations such as resize. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4I0EN6mlpack6models12Augmentation9TransformEvR11DatasetTypeK6size_tK6size_tK6size_t">
+<span id="_CPPv3I0EN6mlpack6models12Augmentation9TransformER11DatasetTypeK6size_tK6size_tK6size_t"></span><span id="_CPPv2I0EN6mlpack6models12Augmentation9TransformER11DatasetTypeK6size_tK6size_tK6size_t"></span><span class="pre">template&lt;</span><span class="pre">typename</span> <code class="sig-name descname"><span class="pre">DatasetType</span></code><span class="pre">&gt;</span><br /><span class="target" id="classmlpack_1_1models_1_1Augmentation_1a2be1a05a9897c58526eac15012947c9e"></span><span class="pre">void</span> <code class="sig-name descname"><span class="pre">Transform</span></code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I0EN6mlpack6models12Augmentation9TransformEvR11DatasetTypeK6size_tK6size_tK6size_t" title="mlpack::models::Augmentation::Transform::DatasetType"><span class="pre">DatasetType</span></a> <span class="pre">&amp;</span><em><span class="pre">dataset</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">datapointWidth</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">datapointHeight</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">datapointDepth</span></em> <span class="pre">=</span> <span class="pre">1</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6mlpack6models12Augmentation9TransformEvR11DatasetTypeK6size_tK6size_tK6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Applies augmentation to the passed dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Template Parameters</dt>
+<dd class="field-odd"><p><strong>DatasetType</strong> – Datatype on which augmentation will be done.</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>dataset</strong> – Dataset on which augmentation will be applied. </p></li>
+<li><p><strong>datapointWidth</strong> – Width of a single data point i.e. Since each column represents a seperate data point. </p></li>
+<li><p><strong>datapointHeight</strong> – Height of a single data point. </p></li>
+<li><p><strong>datapointDepth</strong> – Depth of a single data point. For one 2-dimensional data point, set it to 1. Defaults to 1. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4I0EN6mlpack6models12Augmentation15ResizeTransformEvR11DatasetTypeK6size_tK6size_tK6size_tRKNSt6stringE">
+<span id="_CPPv3I0EN6mlpack6models12Augmentation15ResizeTransformER11DatasetTypeK6size_tK6size_tK6size_tRKNSt6stringE"></span><span id="_CPPv2I0EN6mlpack6models12Augmentation15ResizeTransformER11DatasetTypeK6size_tK6size_tK6size_tRKNSt6stringE"></span><span class="pre">template&lt;</span><span class="pre">typename</span> <code class="sig-name descname"><span class="pre">DatasetType</span></code><span class="pre">&gt;</span><br /><span class="target" id="classmlpack_1_1models_1_1Augmentation_1a760f89cc03540f7093aa624e7d731d0b"></span><span class="pre">void</span> <code class="sig-name descname"><span class="pre">ResizeTransform</span></code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I0EN6mlpack6models12Augmentation15ResizeTransformEvR11DatasetTypeK6size_tK6size_tK6size_tRKNSt6stringE" title="mlpack::models::Augmentation::ResizeTransform::DatasetType"><span class="pre">DatasetType</span></a> <span class="pre">&amp;</span><em><span class="pre">dataset</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">datapointWidth</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">datapointHeight</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">datapointDepth</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">string</span> <span class="pre">&amp;</span><em><span class="pre">augmentation</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6mlpack6models12Augmentation15ResizeTransformEvR11DatasetTypeK6size_tK6size_tK6size_tRKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Applies resize transform to the entire dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Template Parameters</dt>
+<dd class="field-odd"><p><strong>DatasetType</strong> – Datatype on which augmentation will be done.</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>dataset</strong> – Dataset on which augmentation will be applied. </p></li>
+<li><p><strong>datapointWidth</strong> – Width of a single data point i.e. Since each column represents a seperate data point. </p></li>
+<li><p><strong>datapointHeight</strong> – Height of a single data point. </p></li>
+<li><p><strong>datapointDepth</strong> – Depth of a single data point. For one 2-dimensional data point, set it to 1. Defaults to 1. </p></li>
+<li><p><strong>augmentation</strong> – String containing the transform. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script type="text/javascript" src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+    <div class="footer" role="contentinfo">
+        <div class="container">
+            &#169; Copyright 2021, mlpack.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.
+        </div>
+    </div>  
+
+</body>
+</html>

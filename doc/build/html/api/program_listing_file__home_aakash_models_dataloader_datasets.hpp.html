@@ -1,0 +1,429 @@
+
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Program Listing for File datasets.hpp &mdash; models 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/collapsible-lists/css/tree_view.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
+            <a class="site-title" href="../index.html">
+                models
+            </a>
+        </div>
+    </header>
+
+
+<div class="breadcrumbs-outer hidden-xs-down">
+    <div class="container">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a></li>
+        
+      <li>Program Listing for File datasets.hpp</li>
+    
+    
+      <li class="breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/program_listing_file__home_aakash_models_dataloader_datasets.hpp.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+</div>
+    </div>
+</div>
+    <div class="main-outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 site-nav">
+                    
+<div role="search">
+    <form class="search" action="../search.html" method="get">
+        <div class="icon-input">
+            <input type="text" name="q" placeholder="Search" />
+            <span class="icon-search"></span>
+        </div>
+        <input type="submit" value="Go" class="d-hidden" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+                    <div class="site-nav-tree">
+                        
+                            
+                            
+                                <ul>
+<li class="toctree-l1"><a class="reference internal" href="library_root.html">Models API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#file-hierarchy">File Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#full-api">Full API</a></li>
+</ul>
+</li>
+</ul>
+
+                            
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div class="document">
+                        
+                            
+  <div class="section" id="program-listing-for-file-datasets-hpp">
+<span id="program-listing-file-home-aakash-models-dataloader-datasets-hpp"></span><h1>Program Listing for File datasets.hpp<a class="headerlink" href="#program-listing-for-file-datasets-hpp" title="Permalink to this headline">¶</a></h1>
+<p>↰ <a class="reference internal" href="file__home_aakash_models_dataloader_datasets.hpp.html#file-home-aakash-models-dataloader-datasets-hpp"><span class="std std-ref">Return to documentation for file</span></a> (<code class="docutils literal notranslate"><span class="pre">/home/aakash/models/dataloader/datasets.hpp</span></code>)</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#ifndef MODELS_DATALOADER_DATASETS_HPP</span>
+<span class="cp">#define MODELS_DATALOADER_DATASETS_HPP</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;dataloader/preprocessor.hpp&gt;</span><span class="cp"></span>
+
+<span class="k">namespace</span> <span class="n">mlpack</span> <span class="p">{</span>
+<span class="k">namespace</span> <span class="n">models</span> <span class="p">{</span>
+
+<span class="k">template</span><span class="o">&lt;</span>
+    <span class="k">typename</span> <span class="nc">DatasetX</span> <span class="o">=</span> <span class="n">arma</span><span class="o">::</span><span class="n">mat</span><span class="p">,</span>
+    <span class="k">typename</span> <span class="nc">DatasetY</span> <span class="o">=</span> <span class="n">arma</span><span class="o">::</span><span class="n">mat</span>
+<span class="o">&gt;</span>
+<span class="k">struct</span> <span class="nc">DatasetDetails</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">datasetName</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">trainDownloadURL</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">testDownloadURL</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">trainHash</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">testHash</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">datasetType</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">trainPath</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">testPath</span><span class="p">;</span>
+
+  <span class="kt">bool</span> <span class="n">zipFile</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">datasetURL</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">datasetPath</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">datasetHash</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">serverName</span><span class="p">;</span>
+
+  <span class="c1">// Pre-Process functor.</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">void</span><span class="p">(</span><span class="n">DatasetX</span><span class="o">&amp;</span><span class="p">,</span> <span class="n">DatasetY</span><span class="o">&amp;</span><span class="p">,</span>
+      <span class="n">DatasetX</span><span class="o">&amp;</span><span class="p">,</span> <span class="n">DatasetY</span><span class="o">&amp;</span><span class="p">,</span> <span class="n">DatasetX</span><span class="o">&amp;</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">PreProcess</span><span class="p">;</span>
+
+  <span class="c1">// The following parameters are for CSVs only.</span>
+  <span class="kt">size_t</span> <span class="n">startTrainingInputFeatures</span><span class="p">;</span>
+  <span class="kt">size_t</span> <span class="n">endTrainingInputFeatures</span><span class="p">;</span>
+
+  <span class="kt">size_t</span> <span class="n">startTrainingPredictionFeatures</span><span class="p">;</span>
+  <span class="kt">size_t</span> <span class="n">endTrainingPredictionFeatures</span><span class="p">;</span>
+
+  <span class="kt">size_t</span> <span class="n">startTestingInputFeatures</span><span class="p">;</span>
+  <span class="kt">size_t</span> <span class="n">endTestingInputFeatures</span><span class="p">;</span>
+
+  <span class="kt">bool</span> <span class="n">dropHeader</span><span class="p">;</span>
+
+  <span class="c1">// The following data members corresponds to image classification / detection</span>
+  <span class="c1">// type of datasets.</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">trainingImagesPath</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">testingImagesPath</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">trainingAnnotationPath</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">classes</span><span class="p">;</span>
+
+  <span class="kt">size_t</span> <span class="n">imageWidth</span><span class="p">;</span>
+
+  <span class="kt">size_t</span> <span class="n">imageHeight</span><span class="p">;</span>
+
+  <span class="kt">size_t</span> <span class="n">imageDepth</span><span class="p">;</span>
+
+  <span class="c1">// Default constructor.</span>
+  <span class="n">DatasetDetails</span><span class="p">()</span> <span class="o">:</span>
+      <span class="n">datasetName</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span>
+      <span class="n">trainDownloadURL</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span>
+      <span class="n">testDownloadURL</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span>
+      <span class="n">trainHash</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span>
+      <span class="n">testHash</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span>
+      <span class="n">datasetType</span><span class="p">(</span><span class="s">&quot;none&quot;</span><span class="p">),</span>
+      <span class="n">trainPath</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span>
+      <span class="n">testPath</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span>
+      <span class="n">zipFile</span><span class="p">(</span><span class="nb">false</span><span class="p">),</span>
+      <span class="n">datasetURL</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span>
+      <span class="n">datasetPath</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span>
+      <span class="n">datasetHash</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span>
+      <span class="n">serverName</span><span class="p">(</span><span class="s">&quot;www.mlpack.org&quot;</span><span class="p">),</span>
+      <span class="n">startTrainingInputFeatures</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+      <span class="n">endTrainingInputFeatures</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+      <span class="n">startTrainingPredictionFeatures</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+      <span class="n">endTrainingPredictionFeatures</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+      <span class="n">startTestingInputFeatures</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+      <span class="n">endTestingInputFeatures</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+      <span class="n">dropHeader</span><span class="p">(</span><span class="nb">false</span><span class="p">),</span>
+      <span class="n">trainingImagesPath</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span>
+      <span class="n">testingImagesPath</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span>
+      <span class="n">trainingAnnotationPath</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span>
+      <span class="n">classes</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">()),</span>
+      <span class="n">imageWidth</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+      <span class="n">imageHeight</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+      <span class="n">imageDepth</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+  <span class="p">{</span><span class="cm">/* Nothing to do here. */</span><span class="p">}</span>
+
+  <span class="n">DatasetDetails</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">datasetName</span><span class="p">,</span>
+                 <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">trainDownloadURL</span><span class="p">,</span>
+                 <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">testDownloadURL</span><span class="p">,</span>
+                 <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">trainHash</span><span class="p">,</span>
+                 <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">testHash</span><span class="p">,</span>
+                 <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">datasetType</span><span class="p">,</span>
+                 <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">trainPath</span><span class="p">,</span>
+                 <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">testPath</span><span class="p">)</span> <span class="o">:</span>
+                 <span class="n">datasetName</span><span class="p">(</span><span class="n">datasetName</span><span class="p">),</span>
+                 <span class="n">trainDownloadURL</span><span class="p">(</span><span class="n">trainDownloadURL</span><span class="p">),</span>
+                 <span class="n">testDownloadURL</span><span class="p">(</span><span class="n">testDownloadURL</span><span class="p">),</span>
+                 <span class="n">trainHash</span><span class="p">(</span><span class="n">trainHash</span><span class="p">),</span>
+                 <span class="n">testHash</span><span class="p">(</span><span class="n">testHash</span><span class="p">),</span>
+                 <span class="n">datasetType</span><span class="p">(</span><span class="n">datasetType</span><span class="p">),</span>
+                 <span class="n">trainPath</span><span class="p">(</span><span class="n">trainPath</span><span class="p">),</span>
+                 <span class="n">testPath</span><span class="p">(</span><span class="n">testPath</span><span class="p">),</span>
+                 <span class="n">zipFile</span><span class="p">(</span><span class="nb">false</span><span class="p">),</span>
+                 <span class="n">datasetURL</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span>
+                 <span class="n">datasetHash</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span>
+                 <span class="n">serverName</span><span class="p">(</span><span class="s">&quot;www.mlpack.org&quot;</span><span class="p">),</span>
+                 <span class="n">startTrainingInputFeatures</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                 <span class="n">endTrainingInputFeatures</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                 <span class="n">startTrainingPredictionFeatures</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                 <span class="n">endTrainingPredictionFeatures</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                 <span class="n">startTestingInputFeatures</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                 <span class="n">endTestingInputFeatures</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                 <span class="n">dropHeader</span><span class="p">(</span><span class="nb">false</span><span class="p">),</span>
+                 <span class="n">trainingImagesPath</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span>
+                 <span class="n">testingImagesPath</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span>
+                 <span class="n">trainingAnnotationPath</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span>
+                 <span class="n">classes</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">()),</span>
+                 <span class="n">imageWidth</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                 <span class="n">imageHeight</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                 <span class="n">imageDepth</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="c1">// Nothing to do here.</span>
+  <span class="p">}</span>
+
+  <span class="n">DatasetDetails</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">datasetName</span><span class="p">,</span>
+                 <span class="k">const</span> <span class="kt">bool</span> <span class="n">zipFile</span><span class="p">,</span>
+                 <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">datasetURL</span><span class="p">,</span>
+                 <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">datasetPath</span><span class="p">,</span>
+                 <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">datasetHash</span><span class="p">,</span>
+                 <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">datasetType</span><span class="p">,</span>
+                 <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">trainPath</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+                 <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">testPath</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">)</span> <span class="o">:</span>
+                 <span class="n">datasetName</span><span class="p">(</span><span class="n">datasetName</span><span class="p">),</span>
+                 <span class="n">trainDownloadURL</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span>
+                 <span class="n">testDownloadURL</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span>
+                 <span class="n">trainHash</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span>
+                 <span class="n">testHash</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span>
+                 <span class="n">datasetType</span><span class="p">(</span><span class="n">datasetType</span><span class="p">),</span>
+                 <span class="n">trainPath</span><span class="p">(</span><span class="n">trainPath</span><span class="p">),</span>
+                 <span class="n">testPath</span><span class="p">(</span><span class="n">testPath</span><span class="p">),</span>
+                 <span class="n">zipFile</span><span class="p">(</span><span class="n">zipFile</span><span class="p">),</span>
+                 <span class="n">datasetURL</span><span class="p">(</span><span class="n">datasetURL</span><span class="p">),</span>
+                 <span class="n">datasetPath</span><span class="p">(</span><span class="n">datasetPath</span><span class="p">),</span>
+                 <span class="n">datasetHash</span><span class="p">(</span><span class="n">datasetHash</span><span class="p">),</span>
+                 <span class="n">serverName</span><span class="p">(</span><span class="s">&quot;www.mlpack.org&quot;</span><span class="p">),</span>
+                 <span class="n">startTrainingInputFeatures</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                 <span class="n">endTrainingInputFeatures</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                 <span class="n">startTrainingPredictionFeatures</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                 <span class="n">endTrainingPredictionFeatures</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                 <span class="n">startTestingInputFeatures</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                 <span class="n">endTestingInputFeatures</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                 <span class="n">dropHeader</span><span class="p">(</span><span class="nb">false</span><span class="p">),</span>
+                 <span class="n">trainingImagesPath</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span>
+                 <span class="n">testingImagesPath</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span>
+                 <span class="n">trainingAnnotationPath</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span>
+                 <span class="n">classes</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">()),</span>
+                 <span class="n">imageWidth</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                 <span class="n">imageHeight</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                 <span class="n">imageDepth</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="c1">// Nothing to do here.</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">template</span><span class="o">&lt;</span>
+    <span class="k">typename</span> <span class="nc">DatasetX</span> <span class="o">=</span> <span class="n">arma</span><span class="o">::</span><span class="n">mat</span><span class="p">,</span>
+    <span class="k">typename</span> <span class="nc">DatasetY</span> <span class="o">=</span> <span class="n">arma</span><span class="o">::</span><span class="n">mat</span>
+<span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">Datasets</span>
+<span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="k">const</span> <span class="k">static</span> <span class="n">DatasetDetails</span><span class="o">&lt;</span><span class="n">DatasetX</span><span class="p">,</span> <span class="n">DatasetY</span><span class="o">&gt;</span> <span class="n">MNIST</span><span class="p">()</span>
+  <span class="p">{</span>
+    <span class="n">DatasetDetails</span><span class="o">&lt;</span><span class="n">DatasetX</span><span class="p">,</span> <span class="n">DatasetY</span><span class="o">&gt;</span> <span class="n">mnistDetails</span><span class="p">(</span>
+        <span class="s">&quot;mnist&quot;</span><span class="p">,</span>
+        <span class="nb">true</span><span class="p">,</span>
+        <span class="s">&quot;/datasets/mnist.tar.gz&quot;</span><span class="p">,</span>
+        <span class="s">&quot;./../data/mnist.tar.gz&quot;</span><span class="p">,</span>
+        <span class="s">&quot;33470ca3&quot;</span><span class="p">,</span>
+        <span class="s">&quot;csv&quot;</span><span class="p">,</span>
+        <span class="s">&quot;./../data/mnist-dataset/mnist_train.csv&quot;</span><span class="p">,</span>
+        <span class="s">&quot;./../data/mnist-dataset/mnist_test.csv&quot;</span><span class="p">);</span>
+
+    <span class="c1">// Set the Pre-Processor Function.</span>
+    <span class="n">mnistDetails</span><span class="p">.</span><span class="n">PreProcess</span> <span class="o">=</span> <span class="n">PreProcessor</span><span class="o">&lt;</span><span class="n">DatasetX</span><span class="p">,</span> <span class="n">DatasetY</span><span class="o">&gt;::</span><span class="n">MNIST</span><span class="p">;</span>
+
+    <span class="c1">// Set Parameters for CSV file.</span>
+    <span class="n">mnistDetails</span><span class="p">.</span><span class="n">startTestingInputFeatures</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">mnistDetails</span><span class="p">.</span><span class="n">endTestingInputFeatures</span> <span class="o">=</span> <span class="mi">-1</span><span class="p">;</span>
+    <span class="n">mnistDetails</span><span class="p">.</span><span class="n">startTrainingInputFeatures</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">mnistDetails</span><span class="p">.</span><span class="n">endTrainingInputFeatures</span> <span class="o">=</span> <span class="mi">-1</span><span class="p">;</span>
+    <span class="n">mnistDetails</span><span class="p">.</span><span class="n">startTrainingPredictionFeatures</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">mnistDetails</span><span class="p">.</span><span class="n">endTrainingPredictionFeatures</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">mnistDetails</span><span class="p">.</span><span class="n">dropHeader</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">mnistDetails</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">const</span> <span class="k">static</span> <span class="n">DatasetDetails</span><span class="o">&lt;</span><span class="n">DatasetX</span><span class="p">,</span> <span class="n">DatasetY</span><span class="o">&gt;</span> <span class="n">VOCDetection</span><span class="p">()</span>
+  <span class="p">{</span>
+    <span class="n">DatasetDetails</span><span class="o">&lt;</span><span class="n">DatasetX</span><span class="p">,</span> <span class="n">DatasetY</span><span class="o">&gt;</span> <span class="n">VOCDetectionDetail</span><span class="p">(</span>
+        <span class="s">&quot;voc-detection&quot;</span><span class="p">,</span>
+        <span class="nb">true</span><span class="p">,</span>
+        <span class="s">&quot;/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar&quot;</span><span class="p">,</span>
+        <span class="s">&quot;./../data/VOCtrainval_11-May-2012.tar&quot;</span><span class="p">,</span>
+        <span class="s">&quot;504b9278&quot;</span><span class="p">,</span>
+        <span class="s">&quot;image-detection&quot;</span><span class="p">);</span>
+
+    <span class="n">VOCDetectionDetail</span><span class="p">.</span><span class="n">trainingImagesPath</span> <span class="o">=</span>
+        <span class="s">&quot;./../data/VOCdevkit/VOC2012/JPEGImages/&quot;</span><span class="p">;</span>
+    <span class="n">VOCDetectionDetail</span><span class="p">.</span><span class="n">trainingAnnotationPath</span> <span class="o">=</span>
+      <span class="s">&quot;./../data/VOCdevkit/VOC2012/Annotations/&quot;</span><span class="p">;</span>
+    <span class="n">VOCDetectionDetail</span><span class="p">.</span><span class="n">serverName</span> <span class="o">=</span> <span class="s">&quot;http://host.robots.ox.ac.uk&quot;</span><span class="p">;</span>
+    <span class="n">VOCDetectionDetail</span><span class="p">.</span><span class="n">PreProcess</span> <span class="o">=</span> <span class="n">PreProcessor</span><span class="o">&lt;</span><span class="n">DatasetX</span><span class="p">,</span> <span class="n">DatasetY</span><span class="o">&gt;::</span><span class="n">PascalVOC</span><span class="p">;</span>
+
+    <span class="c1">// Set classes for dataset.</span>
+    <span class="n">VOCDetectionDetail</span><span class="p">.</span><span class="n">classes</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;background&quot;</span><span class="p">,</span> <span class="s">&quot;aeroplane&quot;</span><span class="p">,</span> <span class="s">&quot;bicycle&quot;</span><span class="p">,</span>
+      <span class="s">&quot;bird&quot;</span><span class="p">,</span> <span class="s">&quot;boat&quot;</span><span class="p">,</span> <span class="s">&quot;bottle&quot;</span><span class="p">,</span> <span class="s">&quot;bus&quot;</span><span class="p">,</span> <span class="s">&quot;car&quot;</span><span class="p">,</span> <span class="s">&quot;cat&quot;</span><span class="p">,</span> <span class="s">&quot;chair&quot;</span><span class="p">,</span> <span class="s">&quot;cow&quot;</span><span class="p">,</span>
+      <span class="s">&quot;diningtable&quot;</span><span class="p">,</span> <span class="s">&quot;dog&quot;</span><span class="p">,</span> <span class="s">&quot;horse&quot;</span><span class="p">,</span> <span class="s">&quot;motorbike&quot;</span><span class="p">,</span> <span class="s">&quot;person&quot;</span><span class="p">,</span> <span class="s">&quot;pottedplant&quot;</span><span class="p">,</span>
+      <span class="s">&quot;sheep&quot;</span><span class="p">,</span> <span class="s">&quot;sofa&quot;</span><span class="p">,</span> <span class="s">&quot;train&quot;</span><span class="p">,</span> <span class="s">&quot;tvmonitor&quot;</span><span class="p">};</span>
+
+    <span class="k">return</span> <span class="n">VOCDetectionDetail</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">const</span> <span class="k">static</span> <span class="n">DatasetDetails</span><span class="o">&lt;</span><span class="n">DatasetX</span><span class="p">,</span> <span class="n">DatasetY</span><span class="o">&gt;</span> <span class="n">CIFAR10</span><span class="p">()</span>
+  <span class="p">{</span>
+    <span class="n">DatasetDetails</span><span class="o">&lt;</span><span class="n">DatasetX</span><span class="p">,</span> <span class="n">DatasetY</span><span class="o">&gt;</span> <span class="n">CIFAR10Detail</span><span class="p">(</span>
+        <span class="s">&quot;cifar10&quot;</span><span class="p">,</span>
+        <span class="nb">true</span><span class="p">,</span>
+        <span class="s">&quot;/datasets/cifar10.tar.gz&quot;</span><span class="p">,</span>
+        <span class="s">&quot;./../data/cifar10.tar.gz&quot;</span><span class="p">,</span>
+        <span class="s">&quot;4cd9757b&quot;</span><span class="p">,</span>
+        <span class="s">&quot;image-classification&quot;</span><span class="p">);</span>
+
+    <span class="n">CIFAR10Detail</span><span class="p">.</span><span class="n">trainingImagesPath</span> <span class="o">=</span> <span class="s">&quot;./../data/cifar10/train/&quot;</span><span class="p">;</span>
+    <span class="n">CIFAR10Detail</span><span class="p">.</span><span class="n">testingImagesPath</span> <span class="o">=</span> <span class="s">&quot;./../data/cifar10/test/&quot;</span><span class="p">;</span>
+
+    <span class="n">CIFAR10Detail</span><span class="p">.</span><span class="n">serverName</span> <span class="o">=</span> <span class="s">&quot;www.mlpack.org&quot;</span><span class="p">;</span>
+    <span class="n">CIFAR10Detail</span><span class="p">.</span><span class="n">PreProcess</span> <span class="o">=</span> <span class="n">PreProcessor</span><span class="o">&lt;</span><span class="n">DatasetX</span><span class="p">,</span> <span class="n">DatasetY</span><span class="o">&gt;::</span><span class="n">CIFAR10</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="n">CIFAR10Detail</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="p">}</span> <span class="c1">// namespace models</span>
+<span class="p">}</span> <span class="c1">// namespace mlpack</span>
+
+<span class="cp">#endif</span>
+</pre></div>
+</div>
+</div>
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script type="text/javascript" src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+    <div class="footer" role="contentinfo">
+        <div class="container">
+            &#169; Copyright 2021, mlpack.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.
+        </div>
+    </div>  
+
+</body>
+</html>

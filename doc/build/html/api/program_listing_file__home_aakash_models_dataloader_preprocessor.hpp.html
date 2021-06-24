@@ -1,0 +1,390 @@
+
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Program Listing for File preprocessor.hpp &mdash; models 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/collapsible-lists/css/tree_view.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
+            <a class="site-title" href="../index.html">
+                models
+            </a>
+        </div>
+    </header>
+
+
+<div class="breadcrumbs-outer hidden-xs-down">
+    <div class="container">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a></li>
+        
+      <li>Program Listing for File preprocessor.hpp</li>
+    
+    
+      <li class="breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/program_listing_file__home_aakash_models_dataloader_preprocessor.hpp.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+</div>
+    </div>
+</div>
+    <div class="main-outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 site-nav">
+                    
+<div role="search">
+    <form class="search" action="../search.html" method="get">
+        <div class="icon-input">
+            <input type="text" name="q" placeholder="Search" />
+            <span class="icon-search"></span>
+        </div>
+        <input type="submit" value="Go" class="d-hidden" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+                    <div class="site-nav-tree">
+                        
+                            
+                            
+                                <ul>
+<li class="toctree-l1"><a class="reference internal" href="library_root.html">Models API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#file-hierarchy">File Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#full-api">Full API</a></li>
+</ul>
+</li>
+</ul>
+
+                            
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div class="document">
+                        
+                            
+  <div class="section" id="program-listing-for-file-preprocessor-hpp">
+<span id="program-listing-file-home-aakash-models-dataloader-preprocessor-hpp"></span><h1>Program Listing for File preprocessor.hpp<a class="headerlink" href="#program-listing-for-file-preprocessor-hpp" title="Permalink to this headline">¶</a></h1>
+<p>↰ <a class="reference internal" href="file__home_aakash_models_dataloader_preprocessor.hpp.html#file-home-aakash-models-dataloader-preprocessor-hpp"><span class="std std-ref">Return to documentation for file</span></a> (<code class="docutils literal notranslate"><span class="pre">/home/aakash/models/dataloader/preprocessor.hpp</span></code>)</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#ifndef MODELS_DATALOADER_PREPROCESSOR_HPP</span>
+<span class="cp">#define MODELS_DATALOADER_PREPROCESSOR_HPP</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;mlpack/prereqs.hpp&gt;</span><span class="cp"></span>
+
+<span class="k">namespace</span> <span class="n">mlpack</span> <span class="p">{</span>
+<span class="k">namespace</span> <span class="n">models</span> <span class="p">{</span>
+
+<span class="k">template</span><span class="o">&lt;</span>
+  <span class="k">typename</span> <span class="nc">DatasetX</span> <span class="o">=</span> <span class="n">arma</span><span class="o">::</span><span class="n">mat</span><span class="p">,</span>
+  <span class="k">typename</span> <span class="nc">DatasetY</span> <span class="o">=</span> <span class="n">arma</span><span class="o">::</span><span class="n">mat</span>
+<span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">PreProcessor</span>
+<span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="k">static</span> <span class="kt">void</span> <span class="n">MNIST</span><span class="p">(</span><span class="n">DatasetX</span><span class="o">&amp;</span> <span class="cm">/* trainX */</span><span class="p">,</span>
+                    <span class="n">DatasetY</span><span class="o">&amp;</span> <span class="n">trainY</span><span class="p">,</span>
+                    <span class="n">DatasetY</span><span class="o">&amp;</span> <span class="cm">/* validX */</span><span class="p">,</span>
+                    <span class="n">DatasetY</span><span class="o">&amp;</span> <span class="n">validY</span><span class="p">,</span>
+                    <span class="n">DatasetX</span><span class="o">&amp;</span> <span class="cm">/* testX */</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">trainY</span> <span class="o">=</span> <span class="n">trainY</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">validY</span> <span class="o">=</span> <span class="n">validY</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">static</span> <span class="kt">void</span> <span class="n">PascalVOC</span><span class="p">(</span><span class="n">DatasetX</span><span class="o">&amp;</span> <span class="cm">/* trainX */</span><span class="p">,</span>
+                        <span class="n">DatasetY</span><span class="o">&amp;</span> <span class="cm">/* trainY */</span><span class="p">,</span>
+                        <span class="n">DatasetY</span><span class="o">&amp;</span> <span class="cm">/* validX */</span><span class="p">,</span>
+                        <span class="n">DatasetY</span><span class="o">&amp;</span> <span class="cm">/* validY */</span><span class="p">,</span>
+                        <span class="n">DatasetX</span><span class="o">&amp;</span> <span class="cm">/* testX */</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="c1">// Nothing to do here. Added to match the rest of the codebase.</span>
+  <span class="p">}</span>
+
+  <span class="k">static</span> <span class="kt">void</span> <span class="n">CIFAR10</span><span class="p">(</span><span class="n">DatasetX</span> <span class="o">&amp;</span> <span class="cm">/* trainX */</span><span class="p">,</span>
+                      <span class="n">DatasetY</span> <span class="o">&amp;</span> <span class="cm">/* trainY */</span><span class="p">,</span>
+                      <span class="n">DatasetY</span> <span class="o">&amp;</span> <span class="cm">/* validX */</span><span class="p">,</span>
+                      <span class="n">DatasetY</span> <span class="o">&amp;</span> <span class="cm">/* validY */</span><span class="p">,</span>
+                      <span class="n">DatasetX</span> <span class="o">&amp;</span> <span class="cm">/* testX */</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="c1">// Nothing to do here. Added to match the rest of the codebase.</span>
+  <span class="p">}</span>
+
+  <span class="k">static</span> <span class="kt">void</span> <span class="n">ChannelFirstImages</span><span class="p">(</span><span class="n">DatasetX</span><span class="o">&amp;</span> <span class="n">trainFeatures</span><span class="p">,</span>
+      <span class="k">const</span> <span class="kt">size_t</span> <span class="n">imageWidth</span><span class="p">,</span>
+      <span class="k">const</span> <span class="kt">size_t</span> <span class="n">imageHeight</span><span class="p">,</span>
+      <span class="k">const</span> <span class="kt">size_t</span> <span class="n">imageDepth</span><span class="p">,</span>
+      <span class="kt">bool</span> <span class="n">normalize</span> <span class="o">=</span> <span class="nb">true</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="n">trainFeatures</span><span class="p">.</span><span class="n">n_cols</span><span class="p">;</span> <span class="n">idx</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// Create a copy of the current image so that the image isn&#39;t affected.</span>
+        <span class="n">arma</span><span class="o">::</span><span class="n">cube</span> <span class="n">inputTemp</span><span class="p">(</span><span class="n">trainFeatures</span><span class="p">.</span><span class="n">col</span><span class="p">(</span><span class="n">idx</span><span class="p">).</span><span class="n">memptr</span><span class="p">(),</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">);</span>
+
+        <span class="kt">size_t</span> <span class="n">currentOffset</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">inputTemp</span><span class="p">.</span><span class="n">n_slices</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+          <span class="n">trainFeatures</span><span class="p">.</span><span class="n">col</span><span class="p">(</span><span class="n">idx</span><span class="p">)(</span><span class="n">arma</span><span class="o">::</span><span class="n">span</span><span class="p">(</span><span class="n">currentOffset</span><span class="p">,</span> <span class="n">currentOffset</span> <span class="o">+</span>
+              <span class="n">inputTemp</span><span class="p">.</span><span class="n">slice</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">n_elem</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">arma</span><span class="o">::</span><span class="n">span</span><span class="p">())</span> <span class="o">=</span>
+              <span class="n">arma</span><span class="o">::</span><span class="n">vectorise</span><span class="p">(</span><span class="n">inputTemp</span><span class="p">.</span><span class="n">slice</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">t</span><span class="p">());</span>
+          <span class="n">currentOffset</span> <span class="o">+=</span> <span class="n">inputTemp</span><span class="p">.</span><span class="n">slice</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">n_elem</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">normalize</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="c1">// Convert each element to uint8 first and then divide by 255.</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">trainFeatures</span><span class="p">.</span><span class="n">n_elem</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+          <span class="n">trainFeatures</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="p">((</span><span class="kt">uint8_t</span><span class="p">)(</span><span class="n">trainFeatures</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="o">/</span> <span class="mf">255.0</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="nc">eT</span><span class="o">&gt;</span>
+  <span class="k">static</span> <span class="kt">void</span> <span class="n">YOLOPreProcessor</span><span class="p">(</span><span class="k">const</span> <span class="n">DatasetY</span><span class="o">&amp;</span> <span class="n">annotations</span><span class="p">,</span>
+                               <span class="n">arma</span><span class="o">::</span><span class="n">Mat</span><span class="o">&lt;</span><span class="n">eT</span><span class="o">&gt;&amp;</span> <span class="n">output</span><span class="p">,</span>
+                               <span class="k">const</span> <span class="kt">size_t</span> <span class="n">version</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                               <span class="k">const</span> <span class="kt">size_t</span> <span class="n">imageWidth</span> <span class="o">=</span> <span class="mi">224</span><span class="p">,</span>
+                               <span class="k">const</span> <span class="kt">size_t</span> <span class="n">imageHeight</span> <span class="o">=</span> <span class="mi">224</span><span class="p">,</span>
+                               <span class="k">const</span> <span class="kt">size_t</span> <span class="n">gridWidth</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span>
+                               <span class="k">const</span> <span class="kt">size_t</span> <span class="n">gridHeight</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span>
+                               <span class="k">const</span> <span class="kt">size_t</span> <span class="n">numBoxes</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+                               <span class="k">const</span> <span class="kt">size_t</span> <span class="n">numClasses</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+                               <span class="k">const</span> <span class="kt">bool</span> <span class="n">normalize</span> <span class="o">=</span> <span class="nb">true</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="c1">// See if we can change this to v4 / v5.</span>
+    <span class="n">mlpack</span><span class="o">::</span><span class="n">Log</span><span class="o">::</span><span class="n">Assert</span><span class="p">(</span><span class="n">version</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">version</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">,</span> <span class="s">&quot;Supported YOLO versions \</span>
+<span class="s">        are version 1 to version 3.&quot;</span><span class="p">);</span>
+
+    <span class="n">mlpack</span><span class="o">::</span><span class="n">Log</span><span class="o">::</span><span class="n">Assert</span><span class="p">(</span><span class="k">typeid</span><span class="p">(</span><span class="n">annotations</span><span class="p">)</span> <span class="o">==</span> <span class="k">typeid</span><span class="p">(</span><span class="n">arma</span><span class="o">::</span><span class="n">field</span><span class="o">&lt;</span><span class="n">arma</span><span class="o">::</span><span class="n">vec</span><span class="o">&gt;</span><span class="p">),</span>
+        <span class="s">&quot;Use Field type to represent annotations.&quot;</span><span class="p">);</span>
+
+    <span class="kt">size_t</span> <span class="n">batchSize</span> <span class="o">=</span> <span class="n">annotations</span><span class="p">.</span><span class="n">n_cols</span><span class="p">;</span>
+    <span class="kt">size_t</span> <span class="n">numPredictions</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">numBoxes</span> <span class="o">+</span> <span class="n">numClasses</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">version</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="c1">// Each bounding boxes has a corresponding class.</span>
+      <span class="n">numPredictions</span> <span class="o">=</span> <span class="n">numBoxes</span> <span class="o">*</span> <span class="p">(</span><span class="mi">5</span> <span class="o">+</span> <span class="n">numClasses</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kt">double</span> <span class="n">cellSizeHeight</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">gridHeight</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">cellSizeWidth</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">gridWidth</span><span class="p">;</span>
+
+    <span class="c1">// Set size of output and use cubes convenience.</span>
+    <span class="n">output</span><span class="p">.</span><span class="n">set_size</span><span class="p">(</span><span class="n">gridWidth</span> <span class="o">*</span> <span class="n">gridHeight</span> <span class="o">*</span> <span class="n">numPredictions</span><span class="p">,</span> <span class="n">batchSize</span><span class="p">);</span>
+    <span class="n">output</span><span class="p">.</span><span class="n">zeros</span><span class="p">();</span>
+
+    <span class="c1">// Use offset to create a cube for a particular column / batch.</span>
+    <span class="kt">size_t</span> <span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">boxIdx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">boxIdx</span> <span class="o">&lt;</span> <span class="n">batchSize</span><span class="p">;</span> <span class="n">boxIdx</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="n">arma</span><span class="o">::</span><span class="n">cube</span> <span class="n">outputTemp</span><span class="p">(</span><span class="k">const_cast</span><span class="o">&lt;</span><span class="n">arma</span><span class="o">::</span><span class="n">Mat</span><span class="o">&lt;</span><span class="n">eT</span><span class="o">&gt;</span> <span class="o">&amp;&gt;</span><span class="p">(</span><span class="n">output</span><span class="p">).</span><span class="n">memptr</span><span class="p">()</span> <span class="o">+</span>
+          <span class="n">offset</span><span class="p">,</span> <span class="n">gridHeight</span><span class="p">,</span> <span class="n">gridWidth</span><span class="p">,</span> <span class="n">numPredictions</span><span class="p">,</span> <span class="nb">false</span><span class="p">,</span> <span class="nb">false</span><span class="p">);</span>
+      <span class="n">offset</span> <span class="o">+=</span> <span class="n">gridWidth</span> <span class="o">*</span> <span class="n">gridHeight</span> <span class="o">*</span> <span class="n">numPredictions</span><span class="p">;</span>
+
+      <span class="c1">// Get the bounding box and labels corresponding to current image.</span>
+      <span class="n">arma</span><span class="o">::</span><span class="n">mat</span> <span class="n">labels</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">annotations</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">boxIdx</span><span class="p">).</span><span class="n">n_elem</span> <span class="o">/</span> <span class="mi">5</span><span class="p">);</span>
+      <span class="n">arma</span><span class="o">::</span><span class="n">mat</span> <span class="n">boundingBoxes</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">annotations</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">boxIdx</span><span class="p">).</span><span class="n">n_elem</span> <span class="o">/</span> <span class="mi">5</span><span class="p">);</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">boundingBoxes</span><span class="p">.</span><span class="n">n_cols</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+      <span class="p">{</span>
+        <span class="n">labels</span><span class="p">.</span><span class="n">col</span><span class="p">(</span><span class="n">i</span><span class="p">)(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="n">annotations</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">boxIdx</span><span class="p">)(</span><span class="n">i</span> <span class="o">*</span> <span class="mi">5</span><span class="p">);</span>
+        <span class="n">boundingBoxes</span><span class="p">.</span><span class="n">col</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">annotations</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">boxIdx</span><span class="p">)(</span><span class="n">arma</span><span class="o">::</span><span class="n">span</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">-</span> <span class="mi">1</span><span class="p">));</span>
+      <span class="p">}</span>
+
+      <span class="c1">// For YOLOv2 or higher, each bounding box can represent a class</span>
+      <span class="c1">// so we don&#39;t repeat labels as done for YOLOv1. We will use map</span>
+      <span class="c1">// to store last inserted bounding box.</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="kt">size_t</span><span class="o">&gt;</span><span class="p">,</span> <span class="kt">size_t</span><span class="o">&gt;</span> <span class="n">boundingBoxOffset</span><span class="p">;</span>
+
+      <span class="c1">// Normalize the coordinates.</span>
+      <span class="n">boundingBoxes</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">/=</span> <span class="n">imageWidth</span><span class="p">;</span>
+      <span class="n">boundingBoxes</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">/=</span> <span class="n">imageWidth</span><span class="p">;</span>
+      <span class="n">boundingBoxes</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">/=</span> <span class="n">imageHeight</span><span class="p">;</span>
+      <span class="n">boundingBoxes</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/=</span> <span class="n">imageHeight</span><span class="p">;</span>
+
+      <span class="c1">// Get width and height as well as centres for the bounding box.</span>
+      <span class="n">arma</span><span class="o">::</span><span class="n">mat</span> <span class="n">widthAndHeight</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">boundingBoxes</span><span class="p">.</span><span class="n">n_cols</span><span class="p">);</span>
+      <span class="n">widthAndHeight</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">boundingBoxes</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">boundingBoxes</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
+      <span class="n">widthAndHeight</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">boundingBoxes</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">-</span> <span class="n">boundingBoxes</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+
+      <span class="n">arma</span><span class="o">::</span><span class="n">mat</span> <span class="n">centres</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">boundingBoxes</span><span class="p">.</span><span class="n">n_cols</span><span class="p">);</span>
+      <span class="n">centres</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">boundingBoxes</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">boundingBoxes</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">;</span>
+      <span class="n">centres</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">boundingBoxes</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="n">boundingBoxes</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">;</span>
+
+      <span class="c1">// Assign bounding boxes to the grid.</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">boundingBoxes</span><span class="p">.</span><span class="n">n_cols</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+      <span class="p">{</span>
+        <span class="c1">// Index for representing bounding box on grid.</span>
+        <span class="n">arma</span><span class="o">::</span><span class="n">vec</span> <span class="n">gridCoordinates</span> <span class="o">=</span> <span class="n">centres</span><span class="p">.</span><span class="n">col</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+        <span class="n">arma</span><span class="o">::</span><span class="n">vec</span> <span class="n">centreCoordinates</span> <span class="o">=</span> <span class="n">centres</span><span class="p">.</span><span class="n">col</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">normalize</span><span class="p">)</span>
+        <span class="p">{</span>
+          <span class="n">gridCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">ceil</span><span class="p">(</span><span class="n">gridCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span>
+              <span class="n">cellSizeWidth</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+          <span class="n">gridCoordinates</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">ceil</span><span class="p">(</span><span class="n">gridCoordinates</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span>
+              <span class="n">cellSizeHeight</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+          <span class="n">gridCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">ceil</span><span class="p">((</span><span class="n">gridCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span>
+              <span class="n">imageWidth</span><span class="p">)</span> <span class="o">/</span> <span class="n">cellSizeWidth</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+          <span class="n">gridCoordinates</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">ceil</span><span class="p">((</span><span class="n">gridCoordinates</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span>
+              <span class="n">imageHeight</span><span class="p">)</span> <span class="o">/</span> <span class="n">cellSizeHeight</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="kt">size_t</span> <span class="n">gridX</span> <span class="o">=</span> <span class="n">gridCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+        <span class="kt">size_t</span> <span class="n">gridY</span> <span class="o">=</span> <span class="n">gridCoordinates</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+        <span class="n">gridCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="n">gridCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">cellSizeWidth</span><span class="p">;</span>
+        <span class="n">gridCoordinates</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">gridCoordinates</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">cellSizeHeight</span><span class="p">;</span>
+
+        <span class="c1">// Normalize to 1.0.</span>
+        <span class="n">gridCoordinates</span> <span class="o">=</span> <span class="n">centres</span><span class="p">.</span><span class="n">col</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="n">gridCoordinates</span><span class="p">;</span>
+        <span class="n">gridCoordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">/=</span> <span class="n">cellSizeWidth</span><span class="p">;</span>
+        <span class="n">gridCoordinates</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">/=</span> <span class="n">cellSizeHeight</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">normalize</span><span class="p">)</span>
+          <span class="n">centreCoordinates</span> <span class="o">=</span> <span class="n">gridCoordinates</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">version</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">{</span>
+          <span class="c1">// Fill elements in the grid.</span>
+          <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">numBoxes</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span>
+          <span class="p">{</span>
+            <span class="kt">size_t</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">k</span><span class="p">;</span>
+            <span class="n">outputTemp</span><span class="p">(</span><span class="n">arma</span><span class="o">::</span><span class="n">span</span><span class="p">(</span><span class="n">gridX</span><span class="p">),</span> <span class="n">arma</span><span class="o">::</span><span class="n">span</span><span class="p">(</span><span class="n">gridY</span><span class="p">),</span>
+                <span class="n">arma</span><span class="o">::</span><span class="n">span</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">s</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">=</span> <span class="n">centreCoordinates</span><span class="p">;</span>
+            <span class="n">outputTemp</span><span class="p">(</span><span class="n">arma</span><span class="o">::</span><span class="n">span</span><span class="p">(</span><span class="n">gridX</span><span class="p">),</span> <span class="n">arma</span><span class="o">::</span><span class="n">span</span><span class="p">(</span><span class="n">gridY</span><span class="p">),</span>
+                <span class="n">arma</span><span class="o">::</span><span class="n">span</span><span class="p">(</span><span class="n">s</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">s</span> <span class="o">+</span> <span class="mi">3</span><span class="p">))</span> <span class="o">=</span> <span class="n">widthAndHeight</span><span class="p">.</span><span class="n">col</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+            <span class="n">outputTemp</span><span class="p">(</span><span class="n">gridX</span><span class="p">,</span> <span class="n">gridY</span><span class="p">,</span> <span class="n">s</span> <span class="o">+</span> <span class="mi">4</span><span class="p">)</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+          <span class="p">}</span>
+          <span class="n">outputTemp</span><span class="p">(</span><span class="n">gridX</span><span class="p">,</span> <span class="n">gridY</span><span class="p">,</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">numBoxes</span> <span class="o">+</span> <span class="n">labels</span><span class="p">.</span><span class="n">col</span><span class="p">(</span><span class="n">i</span><span class="p">)(</span><span class="mi">0</span><span class="p">))</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+          <span class="kt">size_t</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+          <span class="k">if</span> <span class="p">(</span><span class="n">boundingBoxOffset</span><span class="p">.</span><span class="n">count</span><span class="p">({</span><span class="n">gridX</span><span class="p">,</span> <span class="n">gridY</span><span class="p">}))</span>
+          <span class="p">{</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">boundingBoxOffset</span><span class="p">[{</span><span class="n">gridX</span><span class="p">,</span> <span class="n">gridY</span><span class="p">}]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="n">boundingBoxOffset</span><span class="p">[{</span><span class="n">gridX</span><span class="p">,</span> <span class="n">gridY</span><span class="p">}]</span><span class="o">++</span><span class="p">;</span>
+          <span class="p">}</span>
+          <span class="k">else</span>
+            <span class="n">boundingBoxOffset</span><span class="p">.</span><span class="n">insert</span><span class="p">({{</span><span class="n">gridX</span><span class="p">,</span> <span class="n">gridY</span><span class="p">},</span> <span class="n">s</span><span class="p">});</span>
+
+          <span class="k">if</span> <span class="p">(</span><span class="n">s</span> <span class="o">&gt;</span> <span class="n">numBoxes</span><span class="p">)</span>
+            <span class="k">continue</span><span class="p">;</span>
+
+          <span class="kt">size_t</span> <span class="n">bBoxOffset</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span> <span class="o">+</span> <span class="n">numClasses</span><span class="p">)</span> <span class="o">*</span> <span class="n">s</span><span class="p">;</span>
+          <span class="n">outputTemp</span><span class="p">(</span><span class="n">arma</span><span class="o">::</span><span class="n">span</span><span class="p">(</span><span class="n">gridX</span><span class="p">),</span> <span class="n">arma</span><span class="o">::</span><span class="n">span</span><span class="p">(</span><span class="n">gridY</span><span class="p">),</span>
+              <span class="n">arma</span><span class="o">::</span><span class="n">span</span><span class="p">(</span><span class="n">bBoxOffset</span><span class="p">,</span> <span class="n">bBoxOffset</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">=</span> <span class="n">centreCoordinates</span><span class="p">;</span>
+          <span class="n">outputTemp</span><span class="p">(</span><span class="n">arma</span><span class="o">::</span><span class="n">span</span><span class="p">(</span><span class="n">gridX</span><span class="p">),</span> <span class="n">arma</span><span class="o">::</span><span class="n">span</span><span class="p">(</span><span class="n">gridY</span><span class="p">),</span>
+              <span class="n">arma</span><span class="o">::</span><span class="n">span</span><span class="p">(</span><span class="n">bBoxOffset</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span>
+                  <span class="n">bBoxOffset</span> <span class="o">+</span> <span class="mi">3</span><span class="p">))</span> <span class="o">=</span> <span class="n">widthAndHeight</span><span class="p">.</span><span class="n">col</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+          <span class="n">outputTemp</span><span class="p">(</span><span class="n">gridX</span><span class="p">,</span> <span class="n">gridY</span><span class="p">,</span> <span class="n">bBoxOffset</span> <span class="o">+</span> <span class="mi">4</span><span class="p">)</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+          <span class="n">outputTemp</span><span class="p">(</span><span class="n">gridX</span><span class="p">,</span> <span class="n">gridY</span><span class="p">,</span> <span class="n">bBoxOffset</span> <span class="o">+</span> <span class="mi">5</span> <span class="o">+</span> <span class="n">labels</span><span class="p">.</span><span class="n">col</span><span class="p">(</span><span class="n">i</span><span class="p">)(</span><span class="mi">0</span><span class="p">))</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="p">}</span> <span class="c1">// namespace models</span>
+<span class="p">}</span> <span class="c1">// namespace mlpack</span>
+
+<span class="cp">#endif</span>
+</pre></div>
+</div>
+</div>
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script type="text/javascript" src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+    <div class="footer" role="contentinfo">
+        <div class="container">
+            &#169; Copyright 2021, mlpack.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.
+        </div>
+    </div>  
+
+</body>
+</html>

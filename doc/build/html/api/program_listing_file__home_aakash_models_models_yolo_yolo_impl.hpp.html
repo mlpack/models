@@ -1,0 +1,321 @@
+
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Program Listing for File yolo_impl.hpp &mdash; models 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/collapsible-lists/css/tree_view.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
+            <a class="site-title" href="../index.html">
+                models
+            </a>
+        </div>
+    </header>
+
+
+<div class="breadcrumbs-outer hidden-xs-down">
+    <div class="container">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a></li>
+        
+      <li>Program Listing for File yolo_impl.hpp</li>
+    
+    
+      <li class="breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/program_listing_file__home_aakash_models_models_yolo_yolo_impl.hpp.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+</div>
+    </div>
+</div>
+    <div class="main-outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 site-nav">
+                    
+<div role="search">
+    <form class="search" action="../search.html" method="get">
+        <div class="icon-input">
+            <input type="text" name="q" placeholder="Search" />
+            <span class="icon-search"></span>
+        </div>
+        <input type="submit" value="Go" class="d-hidden" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+                    <div class="site-nav-tree">
+                        
+                            
+                            
+                                <ul>
+<li class="toctree-l1"><a class="reference internal" href="library_root.html">Models API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#file-hierarchy">File Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#full-api">Full API</a></li>
+</ul>
+</li>
+</ul>
+
+                            
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div class="document">
+                        
+                            
+  <div class="section" id="program-listing-for-file-yolo-impl-hpp">
+<span id="program-listing-file-home-aakash-models-models-yolo-yolo-impl-hpp"></span><h1>Program Listing for File yolo_impl.hpp<a class="headerlink" href="#program-listing-for-file-yolo-impl-hpp" title="Permalink to this headline">¶</a></h1>
+<p>↰ <a class="reference internal" href="file__home_aakash_models_models_yolo_yolo_impl.hpp.html#file-home-aakash-models-models-yolo-yolo-impl-hpp"><span class="std std-ref">Return to documentation for file</span></a> (<code class="docutils literal notranslate"><span class="pre">/home/aakash/models/models/yolo/yolo_impl.hpp</span></code>)</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#ifndef MODELS_MODELS_YOLO_YOLO_IMPL_HPP</span>
+<span class="cp">#define MODELS_MODELS_YOLO_YOLO_IMPL_HPP</span>
+
+<span class="cp">#include</span> <span class="cpf">&quot;yolo.hpp&quot;</span><span class="cp"></span>
+
+<span class="k">namespace</span> <span class="n">mlpack</span> <span class="p">{</span>
+<span class="k">namespace</span> <span class="n">models</span> <span class="p">{</span>
+
+<span class="k">template</span><span class="o">&lt;</span>
+    <span class="k">typename</span> <span class="nc">OutputLayerType</span><span class="p">,</span>
+    <span class="k">typename</span> <span class="nc">InitializationRuleType</span>
+<span class="o">&gt;</span>
+<span class="n">YOLO</span><span class="o">&lt;</span><span class="n">OutputLayerType</span><span class="p">,</span> <span class="n">InitializationRuleType</span><span class="o">&gt;::</span><span class="n">YOLO</span><span class="p">()</span> <span class="o">:</span>
+    <span class="n">inputChannel</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+    <span class="n">inputWidth</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+    <span class="n">inputHeight</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+    <span class="n">numClasses</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+    <span class="n">numBoxes</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+    <span class="n">featureWidth</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+    <span class="n">featureHeight</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+    <span class="n">weights</span><span class="p">(</span><span class="s">&quot;none&quot;</span><span class="p">),</span>
+    <span class="n">yoloVersion</span><span class="p">(</span><span class="s">&quot;none&quot;</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="c1">// Nothing to do here.</span>
+<span class="p">}</span>
+
+<span class="k">template</span><span class="o">&lt;</span>
+    <span class="k">typename</span> <span class="nc">OutputLayerType</span><span class="p">,</span>
+    <span class="k">typename</span> <span class="nc">InitializationRuleType</span>
+<span class="o">&gt;</span>
+<span class="n">YOLO</span><span class="o">&lt;</span><span class="n">OutputLayerType</span><span class="p">,</span> <span class="n">InitializationRuleType</span><span class="o">&gt;::</span><span class="n">YOLO</span><span class="p">(</span>
+  <span class="k">const</span> <span class="kt">size_t</span> <span class="n">inputChannel</span><span class="p">,</span>
+  <span class="k">const</span> <span class="kt">size_t</span> <span class="n">inputWidth</span><span class="p">,</span>
+  <span class="k">const</span> <span class="kt">size_t</span> <span class="n">inputHeight</span><span class="p">,</span>
+  <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">yoloVersion</span><span class="p">,</span>
+  <span class="k">const</span> <span class="kt">size_t</span> <span class="n">numClasses</span><span class="p">,</span>
+  <span class="k">const</span> <span class="kt">size_t</span> <span class="n">numBoxes</span><span class="p">,</span>
+  <span class="k">const</span> <span class="kt">size_t</span> <span class="n">featureWidth</span><span class="p">,</span>
+  <span class="k">const</span> <span class="kt">size_t</span> <span class="n">featureHeight</span><span class="p">,</span>
+  <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">weights</span><span class="p">,</span>
+  <span class="k">const</span> <span class="kt">bool</span> <span class="n">includeTop</span><span class="p">)</span> <span class="o">:</span>
+  <span class="n">YOLO</span><span class="o">&lt;</span><span class="n">OutputLayerType</span><span class="p">,</span> <span class="n">InitializationRuleType</span><span class="o">&gt;</span><span class="p">(</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">tuple</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="kt">size_t</span><span class="p">,</span> <span class="kt">size_t</span><span class="o">&gt;</span><span class="p">(</span>
+      <span class="n">inputChannel</span><span class="p">,</span>
+      <span class="n">inputWidth</span><span class="p">,</span>
+      <span class="n">inputHeight</span><span class="p">),</span>
+      <span class="n">yoloVersion</span><span class="p">,</span>
+      <span class="n">numClasses</span><span class="p">,</span>
+      <span class="n">numBoxes</span><span class="p">,</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">tuple</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="kt">size_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">featureWidth</span><span class="p">,</span> <span class="n">featureHeight</span><span class="p">),</span>
+      <span class="n">weights</span><span class="p">,</span>
+      <span class="n">includeTop</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="c1">// Nothing to do here.</span>
+<span class="p">}</span>
+
+<span class="k">template</span><span class="o">&lt;</span>
+    <span class="k">typename</span> <span class="nc">OutputLayerType</span><span class="p">,</span>
+    <span class="k">typename</span> <span class="nc">InitializationRuleType</span>
+<span class="o">&gt;</span>
+<span class="n">YOLO</span><span class="o">&lt;</span><span class="n">OutputLayerType</span><span class="p">,</span> <span class="n">InitializationRuleType</span><span class="o">&gt;::</span><span class="n">YOLO</span><span class="p">(</span>
+    <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">tuple</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="kt">size_t</span><span class="p">,</span> <span class="kt">size_t</span><span class="o">&gt;</span> <span class="n">inputShape</span><span class="p">,</span>
+    <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">yoloVersion</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">numClasses</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">numBoxes</span><span class="p">,</span>
+    <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">tuple</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="kt">size_t</span><span class="o">&gt;</span> <span class="n">featureShape</span><span class="p">,</span>
+    <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">weights</span><span class="p">,</span>
+    <span class="k">const</span> <span class="kt">bool</span> <span class="n">includeTop</span><span class="p">)</span> <span class="o">:</span>
+    <span class="n">inputChannel</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">inputShape</span><span class="p">)),</span>
+    <span class="n">inputWidth</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">inputShape</span><span class="p">)),</span>
+    <span class="n">inputHeight</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="n">inputShape</span><span class="p">)),</span>
+    <span class="n">numClasses</span><span class="p">(</span><span class="n">numClasses</span><span class="p">),</span>
+    <span class="n">numBoxes</span><span class="p">(</span><span class="n">numBoxes</span><span class="p">),</span>
+    <span class="n">featureWidth</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">featureShape</span><span class="p">)),</span>
+    <span class="n">featureHeight</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">featureShape</span><span class="p">)),</span>
+    <span class="n">weights</span><span class="p">(</span><span class="n">weights</span><span class="p">),</span>
+    <span class="n">yoloVersion</span><span class="p">(</span><span class="n">yoloVersion</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">set</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">supportedVersion</span><span class="p">({</span><span class="s">&quot;v1-tiny&quot;</span><span class="p">});</span>
+  <span class="n">mlpack</span><span class="o">::</span><span class="n">Log</span><span class="o">::</span><span class="n">Assert</span><span class="p">(</span><span class="n">supportedVersion</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="n">yoloVersion</span><span class="p">),</span>
+      <span class="s">&quot;Unsupported YOLO version. Trying to find :&quot;</span> <span class="o">+</span> <span class="n">yoloVersion</span><span class="p">);</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">weights</span> <span class="o">==</span> <span class="s">&quot;voc&quot;</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="c1">// Download weights here.</span>
+    <span class="n">LoadModel</span><span class="p">(</span><span class="s">&quot;./../weights/YOLO/yolo&quot;</span> <span class="o">+</span> <span class="n">yoloVersion</span> <span class="o">+</span> <span class="s">&quot;_voc.bin&quot;</span><span class="p">);</span>
+    <span class="k">return</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">weights</span> <span class="o">!=</span> <span class="s">&quot;none&quot;</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">LoadModel</span><span class="p">(</span><span class="n">weights</span><span class="p">);</span>
+    <span class="k">return</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">yoloVersion</span> <span class="o">==</span> <span class="s">&quot;v1-tiny&quot;</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">yolo</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="k">new</span> <span class="n">ann</span><span class="o">::</span><span class="n">IdentityLayer</span><span class="o">&lt;&gt;</span><span class="p">());</span>
+
+    <span class="c1">// Convolution and activation function in a block.</span>
+    <span class="n">ConvolutionBlock</span><span class="p">(</span><span class="n">inputChannel</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">true</span><span class="p">);</span>
+    <span class="n">PoolingBlock</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+
+    <span class="kt">size_t</span> <span class="n">numBlocks</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+    <span class="kt">size_t</span> <span class="n">outChannels</span> <span class="o">=</span> <span class="mi">16</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">blockId</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">blockId</span> <span class="o">&lt;</span> <span class="n">numBlocks</span><span class="p">;</span> <span class="n">blockId</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="n">ConvolutionBlock</span><span class="p">(</span><span class="n">outChannels</span><span class="p">,</span> <span class="n">outChannels</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">true</span><span class="p">);</span>
+      <span class="n">PoolingBlock</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+      <span class="n">outChannels</span> <span class="o">*=</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">ConvolutionBlock</span><span class="p">(</span><span class="n">outChannels</span><span class="p">,</span> <span class="n">outChannels</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">true</span><span class="p">);</span>
+    <span class="n">outChannels</span> <span class="o">*=</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="n">ConvolutionBlock</span><span class="p">(</span><span class="n">outChannels</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">true</span><span class="p">);</span>
+    <span class="n">outChannels</span> <span class="o">=</span> <span class="mi">256</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">includeTop</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="n">yolo</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="k">new</span> <span class="n">ann</span><span class="o">::</span><span class="n">Linear</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">inputWidth</span> <span class="o">*</span> <span class="n">inputHeight</span> <span class="o">*</span> <span class="n">outChannels</span><span class="p">,</span>
+          <span class="n">featureWidth</span> <span class="o">*</span> <span class="n">featureHeight</span> <span class="o">*</span> <span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <span class="n">numBoxes</span> <span class="o">+</span> <span class="n">numClasses</span><span class="p">)));</span>
+      <span class="n">yolo</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="k">new</span> <span class="n">ann</span><span class="o">::</span><span class="n">SigmoidLayer</span><span class="o">&lt;&gt;</span><span class="p">());</span>
+    <span class="p">}</span>
+
+    <span class="n">yolo</span><span class="p">.</span><span class="n">ResetParameters</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">template</span><span class="o">&lt;</span>
+    <span class="k">typename</span> <span class="nc">OutputLayerType</span><span class="p">,</span>
+    <span class="k">typename</span> <span class="nc">InitializationRuleType</span>
+<span class="o">&gt;</span>
+<span class="kt">void</span> <span class="n">YOLO</span><span class="o">&lt;</span>
+    <span class="n">OutputLayerType</span><span class="p">,</span> <span class="n">InitializationRuleType</span>
+<span class="o">&gt;::</span><span class="n">LoadModel</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">filePath</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">data</span><span class="o">::</span><span class="n">Load</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="s">&quot;yolo&quot;</span> <span class="o">+</span> <span class="n">yoloVersion</span><span class="p">,</span> <span class="n">yolo</span><span class="p">);</span>
+  <span class="n">Log</span><span class="o">::</span><span class="n">Info</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Loaded model.&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">template</span><span class="o">&lt;</span>
+    <span class="k">typename</span> <span class="nc">OutputLayerType</span><span class="p">,</span>
+    <span class="k">typename</span> <span class="nc">InitializationRuleType</span>
+<span class="o">&gt;</span>
+<span class="kt">void</span> <span class="n">YOLO</span><span class="o">&lt;</span>
+    <span class="n">OutputLayerType</span><span class="p">,</span> <span class="n">InitializationRuleType</span>
+<span class="o">&gt;::</span><span class="n">SaveModel</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">filePath</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">Log</span><span class="o">::</span><span class="n">Info</span><span class="o">&lt;&lt;</span> <span class="s">&quot;Saving model.&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="n">data</span><span class="o">::</span><span class="n">Save</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="s">&quot;yolo&quot;</span> <span class="o">+</span> <span class="n">yoloVersion</span><span class="p">,</span> <span class="n">yolo</span><span class="p">);</span>
+  <span class="n">Log</span><span class="o">::</span><span class="n">Info</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Model saved in &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">filePath</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;.&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="p">}</span> <span class="c1">// namespace models</span>
+<span class="p">}</span> <span class="c1">// namespace mlpack</span>
+
+<span class="cp">#endif</span>
+</pre></div>
+</div>
+</div>
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script type="text/javascript" src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+    <div class="footer" role="contentinfo">
+        <div class="container">
+            &#169; Copyright 2021, mlpack.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.
+        </div>
+    </div>  
+
+</body>
+</html>

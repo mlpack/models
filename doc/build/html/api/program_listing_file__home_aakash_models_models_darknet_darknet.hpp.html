@@ -1,0 +1,345 @@
+
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Program Listing for File darknet.hpp &mdash; models 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/collapsible-lists/css/tree_view.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
+            <a class="site-title" href="../index.html">
+                models
+            </a>
+        </div>
+    </header>
+
+
+<div class="breadcrumbs-outer hidden-xs-down">
+    <div class="container">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a></li>
+        
+      <li>Program Listing for File darknet.hpp</li>
+    
+    
+      <li class="breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/program_listing_file__home_aakash_models_models_darknet_darknet.hpp.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+</div>
+    </div>
+</div>
+    <div class="main-outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 site-nav">
+                    
+<div role="search">
+    <form class="search" action="../search.html" method="get">
+        <div class="icon-input">
+            <input type="text" name="q" placeholder="Search" />
+            <span class="icon-search"></span>
+        </div>
+        <input type="submit" value="Go" class="d-hidden" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+                    <div class="site-nav-tree">
+                        
+                            
+                            
+                                <ul>
+<li class="toctree-l1"><a class="reference internal" href="library_root.html">Models API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#file-hierarchy">File Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#full-api">Full API</a></li>
+</ul>
+</li>
+</ul>
+
+                            
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div class="document">
+                        
+                            
+  <div class="section" id="program-listing-for-file-darknet-hpp">
+<span id="program-listing-file-home-aakash-models-models-darknet-darknet-hpp"></span><h1>Program Listing for File darknet.hpp<a class="headerlink" href="#program-listing-for-file-darknet-hpp" title="Permalink to this headline">¶</a></h1>
+<p>↰ <a class="reference internal" href="file__home_aakash_models_models_darknet_darknet.hpp.html#file-home-aakash-models-models-darknet-darknet-hpp"><span class="std std-ref">Return to documentation for file</span></a> (<code class="docutils literal notranslate"><span class="pre">/home/aakash/models/models/darknet/darknet.hpp</span></code>)</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span> <span class="n">author</span> <span class="o">=</span> <span class="p">{</span><span class="n">Joseph</span> <span class="n">Redmon</span><span class="p">,</span> <span class="n">Ali</span> <span class="n">Farhadi</span><span class="p">},</span>
+ <span class="n">title</span> <span class="o">=</span> <span class="p">{</span><span class="nl">YOLO9000</span> <span class="p">:</span> <span class="n">Better</span><span class="p">,</span> <span class="n">Faster</span><span class="p">,</span> <span class="n">Stronger</span><span class="p">},</span>
+ <span class="n">year</span> <span class="o">=</span> <span class="p">{</span><span class="mi">2016</span><span class="p">},</span>
+ <span class="n">url</span> <span class="o">=</span> <span class="p">{</span><span class="nl">https</span><span class="p">:</span><span class="c1">//pjreddie.com/media/files/papers/YOLO9000.pdf}</span>
+<span class="p">}</span>
+ <span class="n">author</span> <span class="o">=</span> <span class="p">{</span><span class="n">Joseph</span> <span class="n">Redmon</span><span class="p">,</span> <span class="n">Ali</span> <span class="n">Farhadi</span><span class="p">},</span>
+ <span class="n">title</span> <span class="o">=</span> <span class="p">{</span><span class="nl">YOLOv3</span> <span class="p">:</span>  <span class="n">An</span> <span class="n">Incremental</span> <span class="n">Improvement</span><span class="p">},</span>
+ <span class="n">year</span> <span class="o">=</span> <span class="p">{</span><span class="mi">2019</span><span class="p">},</span>
+ <span class="n">url</span> <span class="o">=</span> <span class="p">{</span><span class="nl">https</span><span class="p">:</span><span class="c1">//pjreddie.com/media/files/papers/YOLOv3.pdf}</span>
+<span class="p">}</span>
+
+<span class="cp">#ifndef MODELS_MODELS_DARKNET_DARKNET_HPP</span>
+<span class="cp">#define MODELS_MODELS_DARKNET_DARKNET_HPP</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;mlpack/core.hpp&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;mlpack/methods/ann/layer/layer.hpp&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;mlpack/methods/ann/ffn.hpp&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;mlpack/methods/ann/layer/layer_types.hpp&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;mlpack/methods/ann/init_rules/random_init.hpp&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;mlpack/methods/ann/loss_functions/binary_cross_entropy_loss.hpp&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;mlpack/methods/ann/init_rules/he_init.hpp&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;mlpack/methods/ann/init_rules/glorot_init.hpp&gt;</span><span class="cp"></span>
+
+<span class="k">namespace</span> <span class="n">mlpack</span> <span class="p">{</span>
+<span class="k">namespace</span> <span class="n">models</span> <span class="p">{</span>
+
+<span class="k">template</span><span class="o">&lt;</span>
+  <span class="k">typename</span> <span class="nc">OutputLayerType</span> <span class="o">=</span> <span class="n">ann</span><span class="o">::</span><span class="n">CrossEntropyError</span><span class="o">&lt;&gt;</span><span class="p">,</span>
+  <span class="k">typename</span> <span class="nc">InitializationRuleType</span> <span class="o">=</span> <span class="n">ann</span><span class="o">::</span><span class="n">RandomInitialization</span><span class="p">,</span>
+  <span class="kt">size_t</span> <span class="n">DarkNetVersion</span> <span class="o">=</span> <span class="mi">19</span>
+<span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">DarkNet</span>
+<span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="n">DarkNet</span><span class="p">();</span>
+
+  <span class="n">DarkNet</span><span class="p">(</span><span class="k">const</span> <span class="kt">size_t</span> <span class="n">inputChannel</span><span class="p">,</span>
+          <span class="k">const</span> <span class="kt">size_t</span> <span class="n">inputWidth</span><span class="p">,</span>
+          <span class="k">const</span> <span class="kt">size_t</span> <span class="n">inputHeight</span><span class="p">,</span>
+          <span class="k">const</span> <span class="kt">size_t</span> <span class="n">numClasses</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+          <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">weights</span> <span class="o">=</span> <span class="s">&quot;none&quot;</span><span class="p">,</span>
+          <span class="k">const</span> <span class="kt">bool</span> <span class="n">includeTop</span> <span class="o">=</span> <span class="nb">true</span><span class="p">);</span>
+
+  <span class="n">DarkNet</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">tuple</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="p">,</span> <span class="kt">size_t</span><span class="p">,</span> <span class="kt">size_t</span><span class="o">&gt;</span> <span class="n">inputShape</span><span class="p">,</span>
+          <span class="k">const</span> <span class="kt">size_t</span> <span class="n">numClasses</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+          <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">weights</span> <span class="o">=</span> <span class="s">&quot;none&quot;</span><span class="p">,</span>
+          <span class="k">const</span> <span class="kt">bool</span> <span class="n">includeTop</span> <span class="o">=</span> <span class="nb">true</span><span class="p">);</span>
+
+  <span class="n">ann</span><span class="o">::</span><span class="n">FFN</span><span class="o">&lt;</span><span class="n">OutputLayerType</span><span class="p">,</span> <span class="n">InitializationRuleType</span><span class="o">&gt;&amp;</span> <span class="n">GetModel</span><span class="p">()</span>
+  <span class="p">{</span>
+    <span class="k">return</span> <span class="n">darkNet</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span> <span class="n">LoadModel</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">filePath</span><span class="p">);</span>
+
+  <span class="kt">void</span> <span class="nf">SaveModel</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">filePath</span><span class="p">);</span>
+
+ <span class="k">private</span><span class="o">:</span>
+  <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="nc">SequentialType</span> <span class="o">=</span> <span class="n">ann</span><span class="o">::</span><span class="n">Sequential</span><span class="o">&lt;&gt;&gt;</span>
+  <span class="kt">void</span> <span class="n">ConvolutionBlock</span><span class="p">(</span><span class="k">const</span> <span class="kt">size_t</span> <span class="n">inSize</span><span class="p">,</span>
+                        <span class="k">const</span> <span class="kt">size_t</span> <span class="n">outSize</span><span class="p">,</span>
+                        <span class="k">const</span> <span class="kt">size_t</span> <span class="n">kernelWidth</span><span class="p">,</span>
+                        <span class="k">const</span> <span class="kt">size_t</span> <span class="n">kernelHeight</span><span class="p">,</span>
+                        <span class="k">const</span> <span class="kt">size_t</span> <span class="n">strideWidth</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                        <span class="k">const</span> <span class="kt">size_t</span> <span class="n">strideHeight</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                        <span class="k">const</span> <span class="kt">size_t</span> <span class="n">padW</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                        <span class="k">const</span> <span class="kt">size_t</span> <span class="n">padH</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                        <span class="k">const</span> <span class="kt">bool</span> <span class="n">batchNorm</span> <span class="o">=</span> <span class="nb">true</span><span class="p">,</span>
+                        <span class="k">const</span> <span class="kt">double</span> <span class="n">negativeSlope</span> <span class="o">=</span> <span class="mf">1e-1</span><span class="p">,</span>
+                        <span class="n">SequentialType</span><span class="o">*</span> <span class="n">baseLayer</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">ann</span><span class="o">::</span><span class="n">Sequential</span><span class="o">&lt;&gt;*</span> <span class="n">bottleNeck</span> <span class="o">=</span> <span class="k">new</span> <span class="n">mlpack</span><span class="o">::</span><span class="n">ann</span><span class="o">::</span><span class="n">Sequential</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+    <span class="n">bottleNeck</span><span class="o">-&gt;</span><span class="n">Add</span><span class="p">(</span><span class="k">new</span> <span class="n">ann</span><span class="o">::</span><span class="n">Convolution</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">inSize</span><span class="p">,</span> <span class="n">outSize</span><span class="p">,</span> <span class="n">kernelWidth</span><span class="p">,</span>
+        <span class="n">kernelHeight</span><span class="p">,</span> <span class="n">strideWidth</span><span class="p">,</span> <span class="n">strideHeight</span><span class="p">,</span> <span class="n">padW</span><span class="p">,</span> <span class="n">padH</span><span class="p">,</span> <span class="n">inputWidth</span><span class="p">,</span>
+        <span class="n">inputHeight</span><span class="p">));</span>
+
+    <span class="c1">// Update inputWidth and input Height.</span>
+    <span class="n">mlpack</span><span class="o">::</span><span class="n">Log</span><span class="o">::</span><span class="n">Info</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Conv Layer.  &quot;</span><span class="p">;</span>
+    <span class="n">mlpack</span><span class="o">::</span><span class="n">Log</span><span class="o">::</span><span class="n">Info</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;(&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">inputWidth</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">inputHeight</span> <span class="o">&lt;&lt;</span>
+        <span class="s">&quot;, &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">inSize</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;) ----&gt; &quot;</span><span class="p">;</span>
+
+    <span class="n">inputWidth</span> <span class="o">=</span> <span class="n">ConvOutSize</span><span class="p">(</span><span class="n">inputWidth</span><span class="p">,</span> <span class="n">kernelWidth</span><span class="p">,</span> <span class="n">strideWidth</span><span class="p">,</span> <span class="n">padW</span><span class="p">);</span>
+    <span class="n">inputHeight</span> <span class="o">=</span> <span class="n">ConvOutSize</span><span class="p">(</span><span class="n">inputHeight</span><span class="p">,</span> <span class="n">kernelHeight</span><span class="p">,</span> <span class="n">strideHeight</span><span class="p">,</span> <span class="n">padH</span><span class="p">);</span>
+    <span class="n">mlpack</span><span class="o">::</span><span class="n">Log</span><span class="o">::</span><span class="n">Info</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;(&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">inputWidth</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">inputHeight</span> <span class="o">&lt;&lt;</span>
+        <span class="s">&quot;, &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">outSize</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;)&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">batchNorm</span><span class="p">)</span>
+      <span class="n">bottleNeck</span><span class="o">-&gt;</span><span class="n">Add</span><span class="p">(</span><span class="k">new</span> <span class="n">ann</span><span class="o">::</span><span class="n">BatchNorm</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">outSize</span><span class="p">,</span> <span class="mf">1e-5</span><span class="p">,</span> <span class="nb">false</span><span class="p">));</span>
+
+    <span class="n">bottleNeck</span><span class="o">-&gt;</span><span class="n">Add</span><span class="p">(</span><span class="k">new</span> <span class="n">ann</span><span class="o">::</span><span class="n">LeakyReLU</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">negativeSlope</span><span class="p">));</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">baseLayer</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+      <span class="n">baseLayer</span><span class="o">-&gt;</span><span class="n">Add</span><span class="p">(</span><span class="n">bottleNeck</span><span class="p">);</span>
+    <span class="k">else</span>
+      <span class="n">darkNet</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">bottleNeck</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span> <span class="n">PoolingBlock</span><span class="p">(</span><span class="k">const</span> <span class="kt">size_t</span> <span class="n">factor</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+                    <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">type</span> <span class="o">=</span> <span class="s">&quot;max&quot;</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">type</span> <span class="o">==</span> <span class="s">&quot;max&quot;</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="n">darkNet</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="k">new</span> <span class="n">ann</span><span class="o">::</span><span class="n">AdaptiveMaxPooling</span><span class="o">&lt;&gt;</span><span class="p">(</span>
+          <span class="n">std</span><span class="o">::</span><span class="n">ceil</span><span class="p">(</span><span class="n">inputWidth</span> <span class="o">*</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">factor</span><span class="p">),</span>
+          <span class="n">std</span><span class="o">::</span><span class="n">ceil</span><span class="p">(</span><span class="n">inputHeight</span> <span class="o">*</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">factor</span><span class="p">)));</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+      <span class="n">darkNet</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="k">new</span> <span class="n">ann</span><span class="o">::</span><span class="n">AdaptiveMeanPooling</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ceil</span><span class="p">(</span><span class="n">inputWidth</span> <span class="o">*</span> <span class="mf">1.0</span> <span class="o">/</span>
+          <span class="n">factor</span><span class="p">),</span> <span class="n">std</span><span class="o">::</span><span class="n">ceil</span><span class="p">(</span><span class="n">inputHeight</span> <span class="o">*</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">factor</span><span class="p">)));</span>
+    <span class="p">}</span>
+
+    <span class="n">mlpack</span><span class="o">::</span><span class="n">Log</span><span class="o">::</span><span class="n">Info</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Pooling Layer.  &quot;</span><span class="p">;</span>
+    <span class="n">mlpack</span><span class="o">::</span><span class="n">Log</span><span class="o">::</span><span class="n">Info</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;(&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">inputWidth</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">inputHeight</span> <span class="o">&lt;&lt;</span>
+        <span class="s">&quot;) ----&gt; &quot;</span><span class="p">;</span>
+
+    <span class="c1">// Update inputWidth and inputHeight.</span>
+    <span class="n">inputWidth</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">ceil</span><span class="p">(</span><span class="n">inputWidth</span> <span class="o">*</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">factor</span><span class="p">);</span>
+    <span class="n">inputHeight</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">ceil</span><span class="p">(</span><span class="n">inputHeight</span> <span class="o">*</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">factor</span><span class="p">);</span>
+    <span class="n">mlpack</span><span class="o">::</span><span class="n">Log</span><span class="o">::</span><span class="n">Info</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;(&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">inputWidth</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">inputHeight</span> <span class="o">&lt;&lt;</span>
+        <span class="s">&quot;)&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span> <span class="n">DarkNet19SequentialBlock</span><span class="p">(</span><span class="k">const</span> <span class="kt">size_t</span> <span class="n">inputChannel</span><span class="p">,</span>
+                                <span class="k">const</span> <span class="kt">size_t</span> <span class="n">kernelWidth</span><span class="p">,</span>
+                                <span class="k">const</span> <span class="kt">size_t</span> <span class="n">kernelHeight</span><span class="p">,</span>
+                                <span class="k">const</span> <span class="kt">size_t</span> <span class="n">padWidth</span><span class="p">,</span>
+                                <span class="k">const</span> <span class="kt">size_t</span> <span class="n">padHeight</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">ConvolutionBlock</span><span class="p">(</span><span class="n">inputChannel</span><span class="p">,</span> <span class="n">inputChannel</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">kernelWidth</span><span class="p">,</span> <span class="n">kernelHeight</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">padWidth</span><span class="p">,</span> <span class="n">padHeight</span><span class="p">,</span> <span class="nb">true</span><span class="p">);</span>
+    <span class="n">ConvolutionBlock</span><span class="p">(</span><span class="n">inputChannel</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">inputChannel</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">true</span><span class="p">);</span>
+    <span class="n">ConvolutionBlock</span><span class="p">(</span><span class="n">inputChannel</span><span class="p">,</span> <span class="n">inputChannel</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">kernelWidth</span><span class="p">,</span> <span class="n">kernelHeight</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">padWidth</span><span class="p">,</span> <span class="n">padHeight</span><span class="p">,</span> <span class="nb">true</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span> <span class="n">DarkNet53ResidualBlock</span><span class="p">(</span><span class="k">const</span> <span class="kt">size_t</span> <span class="n">inputChannel</span><span class="p">,</span>
+                              <span class="k">const</span> <span class="kt">size_t</span> <span class="n">kernelWidth</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+                              <span class="k">const</span> <span class="kt">size_t</span> <span class="n">kernelHeight</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+                              <span class="k">const</span> <span class="kt">size_t</span> <span class="n">padWidth</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                              <span class="k">const</span> <span class="kt">size_t</span> <span class="n">padHeight</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">mlpack</span><span class="o">::</span><span class="n">Log</span><span class="o">::</span><span class="n">Info</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Residual Block Begin.&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="n">ann</span><span class="o">::</span><span class="n">Residual</span><span class="o">&lt;&gt;*</span> <span class="n">residualBlock</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ann</span><span class="o">::</span><span class="n">Residual</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+    <span class="n">ConvolutionBlock</span><span class="p">(</span><span class="n">inputChannel</span><span class="p">,</span> <span class="n">inputChannel</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">true</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">,</span> <span class="n">residualBlock</span><span class="p">);</span>
+    <span class="n">ConvolutionBlock</span><span class="p">(</span><span class="n">inputChannel</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">inputChannel</span><span class="p">,</span> <span class="n">kernelWidth</span><span class="p">,</span>
+        <span class="n">kernelHeight</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">padWidth</span><span class="p">,</span> <span class="n">padHeight</span><span class="p">,</span> <span class="nb">true</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">,</span> <span class="n">residualBlock</span><span class="p">);</span>
+    <span class="n">darkNet</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">residualBlock</span><span class="p">);</span>
+    <span class="n">mlpack</span><span class="o">::</span><span class="n">Log</span><span class="o">::</span><span class="n">Info</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Residual Block end.&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kt">size_t</span> <span class="n">ConvOutSize</span><span class="p">(</span><span class="k">const</span> <span class="kt">size_t</span> <span class="n">size</span><span class="p">,</span>
+                     <span class="k">const</span> <span class="kt">size_t</span> <span class="n">k</span><span class="p">,</span>
+                     <span class="k">const</span> <span class="kt">size_t</span> <span class="n">s</span><span class="p">,</span>
+                     <span class="k">const</span> <span class="kt">size_t</span> <span class="n">padding</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">floor</span><span class="p">(</span><span class="n">size</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">padding</span> <span class="o">-</span> <span class="n">k</span><span class="p">)</span> <span class="o">/</span> <span class="n">s</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">ann</span><span class="o">::</span><span class="n">FFN</span><span class="o">&lt;</span><span class="n">OutputLayerType</span><span class="p">,</span> <span class="n">InitializationRuleType</span><span class="o">&gt;</span> <span class="n">darkNet</span><span class="p">;</span>
+
+  <span class="kt">size_t</span> <span class="n">inputWidth</span><span class="p">;</span>
+
+  <span class="kt">size_t</span> <span class="n">inputHeight</span><span class="p">;</span>
+
+  <span class="kt">size_t</span> <span class="n">inputChannel</span><span class="p">;</span>
+
+  <span class="kt">size_t</span> <span class="n">numClasses</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">weights</span><span class="p">;</span>
+<span class="p">};</span> <span class="c1">// DarkNet class.</span>
+
+<span class="p">}</span> <span class="c1">// namespace models</span>
+<span class="p">}</span> <span class="c1">// namespace mlpack</span>
+
+<span class="cp"># include &quot;darknet_impl.hpp&quot;</span>
+
+<span class="cp">#endif</span>
+</pre></div>
+</div>
+</div>
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script type="text/javascript" src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+    <div class="footer" role="contentinfo">
+        <div class="container">
+            &#169; Copyright 2021, mlpack.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.
+        </div>
+    </div>  
+
+</body>
+</html>

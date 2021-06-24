@@ -1,0 +1,250 @@
+
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Template Class DarkNet &mdash; models 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/collapsible-lists/css/tree_view.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Template Class DataLoader" href="classmlpack_1_1models_1_1DataLoader.html" />
+    <link rel="prev" title="Class Augmentation" href="classmlpack_1_1models_1_1Augmentation.html" /> 
+
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
+            <a class="site-title" href="../index.html">
+                models
+            </a>
+        </div>
+    </header>
+
+
+<div class="breadcrumbs-outer hidden-xs-down">
+    <div class="container">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a></li>
+        
+          <li><a href="library_root.html">Models API</a></li>
+        
+      <li>Template Class DarkNet</li>
+    
+    
+      <li class="breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/classmlpack_1_1models_1_1DarkNet.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+</div>
+    </div>
+</div>
+    <div class="main-outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 site-nav">
+                    
+<div role="search">
+    <form class="search" action="../search.html" method="get">
+        <div class="icon-input">
+            <input type="text" name="q" placeholder="Search" />
+            <span class="icon-search"></span>
+        </div>
+        <input type="submit" value="Go" class="d-hidden" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+                    <div class="site-nav-tree">
+                        
+                            
+                            
+                                <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="library_root.html">Models API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#file-hierarchy">File Hierarchy</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="library_root.html#full-api">Full API</a></li>
+</ul>
+</li>
+</ul>
+
+                            
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div class="document">
+                        
+                            
+  <div class="section" id="template-class-darknet">
+<span id="exhale-class-classmlpack-1-1models-1-1darknet"></span><h1>Template Class DarkNet<a class="headerlink" href="#template-class-darknet" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Defined in <a class="reference internal" href="file__home_aakash_models_models_darknet_darknet.hpp.html#file-home-aakash-models-models-darknet-darknet-hpp"><span class="std std-ref">File darknet.hpp</span></a></p></li>
+</ul>
+<div class="section" id="class-documentation">
+<h2>Class Documentation<a class="headerlink" href="#class-documentation" title="Permalink to this headline">¶</a></h2>
+<dl class="cpp class">
+<dt id="_CPPv4I00_6size_tEN6mlpack6models7DarkNetE">
+<span id="_CPPv3I00_6size_tEN6mlpack6models7DarkNetE"></span><span id="_CPPv2I00_6size_tEN6mlpack6models7DarkNetE"></span><span class="pre">template&lt;</span><span class="pre">typename</span> <code class="sig-name descname"><span class="pre">OutputLayerType</span></code> <span class="pre">=</span> <span class="pre">ann</span><span class="pre">::</span><span class="pre">CrossEntropyError</span><span class="pre">&lt;</span><span class="pre">&gt;</span><span class="pre">,</span> <span class="pre">typename</span> <code class="sig-name descname"><span class="pre">InitializationRuleType</span></code> <span class="pre">=</span> <span class="pre">ann</span><span class="pre">::</span><span class="pre">RandomInitialization</span><span class="pre">,</span> <span class="pre">size_t</span> <code class="sig-name descname"><span class="pre">DarkNetVersion</span></code> <span class="pre">=</span> <span class="pre">19</span><span class="pre">&gt;</span><br /><span class="target" id="classmlpack_1_1models_1_1DarkNet"></span><em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mlpack</span><span class="pre">::</span><span class="pre">models</span><code class="sig-prename descclassname"><span class="pre">::</span></code></code><code class="sig-name descname"><span class="pre">DarkNet</span></code><a class="headerlink" href="#_CPPv4I00_6size_tEN6mlpack6models7DarkNetE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Definition of a <a class="reference internal" href="#classmlpack_1_1models_1_1DarkNet"><span class="std std-ref">DarkNet</span></a> CNN.</p>
+<p><dl class="field-list simple">
+<dt class="field-odd">tparam OutputLayerType</dt>
+<dd class="field-odd"><p>The output layer type used to evaluate the network. </p>
+</dd>
+<dt class="field-even">tparam InitializationRuleType</dt>
+<dd class="field-even"><p>Rule used to initialize the weight matrix. </p>
+</dd>
+<dt class="field-odd">tparam DaknetVer</dt>
+<dd class="field-odd"><p>Version of <a class="reference internal" href="#classmlpack_1_1models_1_1DarkNet"><span class="std std-ref">DarkNet</span></a>. </p>
+</dd>
+</dl>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt id="_CPPv4N6mlpack6models7DarkNet7DarkNetEv">
+<span id="_CPPv3N6mlpack6models7DarkNet7DarkNetEv"></span><span id="_CPPv2N6mlpack6models7DarkNet7DarkNetEv"></span><span id="mlpack::models::DarkNet::DarkNet"></span><span class="target" id="classmlpack_1_1models_1_1DarkNet_1a3519b3870a4b2a349babe0e9234933d6"></span><code class="sig-name descname"><span class="pre">DarkNet</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6mlpack6models7DarkNet7DarkNetEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create the <a class="reference internal" href="#classmlpack_1_1models_1_1DarkNet"><span class="std std-ref">DarkNet</span></a> model. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6mlpack6models7DarkNet7DarkNetEK6size_tK6size_tK6size_tK6size_tRKNSt6stringEKb">
+<span id="_CPPv3N6mlpack6models7DarkNet7DarkNetEK6size_tK6size_tK6size_tK6size_tRKNSt6stringEKb"></span><span id="_CPPv2N6mlpack6models7DarkNet7DarkNetEK6size_tK6size_tK6size_tK6size_tRKNSt6stringEKb"></span><span id="mlpack::models::DarkNet::DarkNet__sC.sC.sC.sC.ssCR.bC"></span><span class="target" id="classmlpack_1_1models_1_1DarkNet_1a553620db0d43217a25a2548f96d2720c"></span><code class="sig-name descname"><span class="pre">DarkNet</span></code><span class="sig-paren">(</span><em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">inputChannel</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">inputWidth</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">inputHeight</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">numClasses</span></em> <span class="pre">=</span> <span class="pre">1000</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">string</span> <span class="pre">&amp;</span><em><span class="pre">weights</span></em> <span class="pre">=</span> <span class="pre">&quot;none&quot;</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">bool</span> <em><span class="pre">includeTop</span></em> <span class="pre">=</span> <span class="pre">true</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6mlpack6models7DarkNet7DarkNetEK6size_tK6size_tK6size_tK6size_tRKNSt6stringEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="#classmlpack_1_1models_1_1DarkNet"><span class="std std-ref">DarkNet</span></a> constructor intializes input shape and number of classes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputChannels</strong> – Number of input channels of the input image. </p></li>
+<li><p><strong>inputWidth</strong> – Width of the input image. </p></li>
+<li><p><strong>inputHeight</strong> – Height of the input image. </p></li>
+<li><p><strong>numClasses</strong> – Optional number of classes to classify images into, only to be specified if includeTop is true. </p></li>
+<li><p><strong>weights</strong> – One of ‘none’, ‘imagenet’(pre-training on ImageNet) or path to weights. </p></li>
+<li><p><strong>includeTop</strong> – Must be set to true if weights are set. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6mlpack6models7DarkNet7DarkNetEKNSt5tupleI6size_t6size_t6size_tEEK6size_tRKNSt6stringEKb">
+<span id="_CPPv3N6mlpack6models7DarkNet7DarkNetEKNSt5tupleI6size_t6size_t6size_tEEK6size_tRKNSt6stringEKb"></span><span id="_CPPv2N6mlpack6models7DarkNet7DarkNetEKNSt5tupleI6size_t6size_t6size_tEEK6size_tRKNSt6stringEKb"></span><span id="mlpack::models::DarkNet::DarkNet__std::tuple:s.s.s:C.sC.ssCR.bC"></span><span class="target" id="classmlpack_1_1models_1_1DarkNet_1a597b21ae3c2a2a7b3f3bdc4a03733e08"></span><code class="sig-name descname"><span class="pre">DarkNet</span></code><span class="sig-paren">(</span><em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">tuple</span><span class="pre">&lt;</span><span class="pre">size_t</span><span class="pre">,</span> <span class="pre">size_t</span><span class="pre">,</span> <span class="pre">size_t</span><span class="pre">&gt;</span> <em><span class="pre">inputShape</span></em>, <em class="property"><span class="pre">const</span></em> <span class="pre">size_t</span> <em><span class="pre">numClasses</span></em> <span class="pre">=</span> <span class="pre">1000</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">string</span> <span class="pre">&amp;</span><em><span class="pre">weights</span></em> <span class="pre">=</span> <span class="pre">&quot;none&quot;</span>, <em class="property"><span class="pre">const</span></em> <span class="pre">bool</span> <em><span class="pre">includeTop</span></em> <span class="pre">=</span> <span class="pre">true</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6mlpack6models7DarkNet7DarkNetEKNSt5tupleI6size_t6size_t6size_tEEK6size_tRKNSt6stringEKb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="#classmlpack_1_1models_1_1DarkNet"><span class="std std-ref">DarkNet</span></a> constructor intializes input shape and number of classes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputShape</strong> – A three-valued tuple indicating input shape. First value is number of channels (channels-first). Second value is input height. Third value is input width. </p></li>
+<li><p><strong>numClasses</strong> – Optional number of classes to classify images into, only to be specified if includeTop is true. </p></li>
+<li><p><strong>weights</strong> – One of ‘none’, ‘imagenet’(pre-training on ImageNet) or path to weights. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6mlpack6models7DarkNet8GetModelEv">
+<span id="_CPPv3N6mlpack6models7DarkNet8GetModelEv"></span><span id="_CPPv2N6mlpack6models7DarkNet8GetModelEv"></span><span id="mlpack::models::DarkNet::GetModel"></span><span class="target" id="classmlpack_1_1models_1_1DarkNet_1a15a899f2b304f9806b000e99aa023cd9"></span><em class="property"><span class="pre">inline</span></em> <span class="pre">ann</span><span class="pre">::</span><span class="pre">FFN</span><span class="pre">&lt;</span><a class="reference internal" href="#_CPPv4I00_6size_tEN6mlpack6models7DarkNetE" title="mlpack::models::DarkNet::OutputLayerType"><span class="pre">OutputLayerType</span></a><span class="pre">,</span> <a class="reference internal" href="#_CPPv4I00_6size_tEN6mlpack6models7DarkNetE" title="mlpack::models::DarkNet::InitializationRuleType"><span class="pre">InitializationRuleType</span></a><span class="pre">&gt;</span> <span class="pre">&amp;</span><code class="sig-name descname"><span class="pre">GetModel</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6mlpack6models7DarkNet8GetModelEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get Layers of the model. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6mlpack6models7DarkNet9LoadModelERKNSt6stringE">
+<span id="_CPPv3N6mlpack6models7DarkNet9LoadModelERKNSt6stringE"></span><span id="_CPPv2N6mlpack6models7DarkNet9LoadModelERKNSt6stringE"></span><span id="mlpack::models::DarkNet::LoadModel__ssCR"></span><span class="target" id="classmlpack_1_1models_1_1DarkNet_1ad03655607f341787c9f79b661bf1ac2c"></span><span class="pre">void</span> <code class="sig-name descname"><span class="pre">LoadModel</span></code><span class="sig-paren">(</span><em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">string</span> <span class="pre">&amp;</span><em><span class="pre">filePath</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6mlpack6models7DarkNet9LoadModelERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Load weights into the model. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt id="_CPPv4N6mlpack6models7DarkNet9SaveModelERKNSt6stringE">
+<span id="_CPPv3N6mlpack6models7DarkNet9SaveModelERKNSt6stringE"></span><span id="_CPPv2N6mlpack6models7DarkNet9SaveModelERKNSt6stringE"></span><span id="mlpack::models::DarkNet::SaveModel__ssCR"></span><span class="target" id="classmlpack_1_1models_1_1DarkNet_1a96d827082508e31770074b2dce76e73f"></span><span class="pre">void</span> <code class="sig-name descname"><span class="pre">SaveModel</span></code><span class="sig-paren">(</span><em class="property"><span class="pre">const</span></em> <span class="pre">std</span><span class="pre">::</span><span class="pre">string</span> <span class="pre">&amp;</span><em><span class="pre">filePath</span></em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6mlpack6models7DarkNet9SaveModelERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Save weights for the model. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+    <script type="text/javascript" src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+    <div class="footer" role="contentinfo">
+        <div class="container">
+            &#169; Copyright 2021, mlpack.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.
+        </div>
+    </div>  
+
+</body>
+</html>
