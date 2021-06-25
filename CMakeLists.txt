@@ -223,6 +223,7 @@ set(DIRS
   dataloader/
   models/
   tests/
+  augmentation/
 )
 
 foreach(dir ${DIRS})
