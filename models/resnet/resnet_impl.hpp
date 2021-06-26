@@ -65,7 +65,7 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
   {
     LoadModel("./../weights/resnet/resnet" + std::to_string(ResNetVersion) +
         "_imagenet.bin");
-    return;
+    return 0;
   }
 
   // Config for different Versions.
