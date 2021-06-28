@@ -531,7 +531,7 @@ class ResNet{
   std::string builderBlock;
 
   //! Locally stored path string for pretrained model.
-  std::string preTrainedPath;  
+  std::string preTrainedPath;
 }; // ResNet class
 
 // convenience typedefs for different ResNet models.

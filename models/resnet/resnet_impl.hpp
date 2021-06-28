@@ -68,7 +68,7 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
     if (Utils::PathExists(preTrainedPath) == false)
     {
       std::cout << "Downloading resnet" + std::to_string(ResNetVersion) +
-          ".bin" << std::endl;  
+          ".bin" << std::endl;
       Utils::DownloadFile("resnet" + std::to_string(ResNetVersion) + ".bin",
           preTrainedPath, "", false, false,
           "https://www.ratml.org/misc/models/");
