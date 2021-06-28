@@ -94,10 +94,12 @@ class ResNet{
     return resNet;
   }
 
-  //! Load weights into the model.
+  //! Load weights into the model and assumes the internal matrix to be
+  //  named "ResNet"
   void LoadModel(const std::string& filePath);
 
-  //! Save weights for the model.
+  //! Save weights for the model and assumes the internal matrix to be
+  //  named "ResNet"
   void SaveModel(const std::string& filepath);
 
  private:
@@ -288,7 +290,6 @@ class ResNet{
                   const size_t strideHeight = 1,
                   const bool downSample = false)
   {
-    mlpack::Log::Info << "\n";
     downSampleInputWidth = inputWidth;
     downSampleInputHeight = inputHeight;
 

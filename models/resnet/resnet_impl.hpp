@@ -63,6 +63,7 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
 {
   if (preTrained)
   {
+    // Needs to be changed based on how we decide to ship pretrained models.
     LoadModel("./../weights/resnet/resnet" + std::to_string(ResNetVersion) +
         "_imagenet.bin");
     return;
