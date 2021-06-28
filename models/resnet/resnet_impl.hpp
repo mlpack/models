@@ -63,9 +63,17 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
 {
   if (preTrained)
   {
-    // Needs to be changed based on how we decide to ship pretrained models.
-    LoadModel("./../weights/resnet/resnet" + std::to_string(ResNetVersion) +
-        "_imagenet.bin");
+    preTrainedPath = "./weights/resnet/resnet" +
+        std::to_string(ResNetVersion) + ".bin";
+    if (Utils::PathExists(preTrainedPath) == false)
+    {
+      std::cout << "Downloading resnet" + std::to_string(ResNetVersion) +
+          ".bin" << std::endl;  
+      Utils::DownloadFile("resnet" + std::to_string(ResNetVersion) + ".bin",
+          preTrainedPath, "", false, false,
+          "https://www.ratml.org/misc/models/");
+    }
+    LoadModel(preTrainedPath);
     return;
   }
 

@@ -33,6 +33,8 @@
 #include <mlpack/methods/ann/loss_functions/binary_cross_entropy_loss.hpp>
 #include <mlpack/methods/ann/init_rules/he_init.hpp>
 
+#include "./../../utils/utils.hpp"
+
 namespace mlpack {
 namespace models {
 
@@ -527,6 +529,9 @@ class ResNet{
 
   //! Locally stored block string from which to build the model.
   std::string builderBlock;
+
+  //! Locally stored path string for pretrained model.
+  std::string preTrainedPath;  
 }; // ResNet class
 
 // convenience typedefs for different ResNet models.

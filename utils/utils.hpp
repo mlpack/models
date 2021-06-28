@@ -121,9 +121,9 @@ class Utils
     {
       mlpack::Log::Info << "Given download path: " << downloadFolder
           << " does not exist." << std::endl;
+      boost::filesystem::create_directories(downloadFolder);
       mlpack::Log::Info << "Path " << downloadFolder
-          << "created." << std::endl;
-      boost::filesystem::create_directory(downloadFolder);
+          << " created." << std::endl;
     }
 
     if (serverName != "www.mlpack.org")
