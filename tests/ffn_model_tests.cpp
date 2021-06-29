@@ -37,13 +37,13 @@ void ModelDimTest(ModelType& model,
 TEST_CASE("DarknetModelTest", "[FFNModelsTests]")
 {
   arma::mat input(224 * 224 * 3, 1);
-  DarkNet<> darknetModel(3, 224, 224, 1000);
+  DarkNet19 darknet19(3, 224, 224, 1000);
 
   // Check output shape.
-  ModelDimTest(darknetModel.GetModel(), input);
+  ModelDimTest(darknet19.GetModel(), input);
 
   // Repeat for DarkNet-53.
-  DarkNet<> darknet53(3, 224, 224, 1000);
+  DarkNet53 darknet53(3, 224, 224, 1000);
   ModelDimTest(darknet53.GetModel(), input);
 }
 

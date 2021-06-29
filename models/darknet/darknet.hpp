@@ -146,7 +146,7 @@ class DarkNet
                         const double negativeSlope = 1e-1,
                         SequentialType* baseLayer = NULL)
   {
-    ann::Sequential<>* bottleNeck = new mlpack::ann::Sequential<>();
+    ann::Sequential<>* bottleNeck = new ann::Sequential<>();
     bottleNeck->Add(new ann::Convolution<>(inSize, outSize, kernelWidth,
         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
         inputHeight));
@@ -295,6 +295,12 @@ class DarkNet
   //! Locally stored type of pre-trained weights.
   std::string weights;
 }; // DarkNet class.
+
+// convenience typedefs for different ResNet models.
+typedef DarkNet<ann::CrossEntropyError<>, ann::RandomInitialization, 19>
+    DarkNet19;
+typedef DarkNet<ann::CrossEntropyError<>, ann::RandomInitialization, 53>
+    DarkNet53;
 
 } // namespace models
 } // namespace mlpack
