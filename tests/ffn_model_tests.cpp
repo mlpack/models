@@ -19,25 +19,32 @@
 
 using namespace mlpack::models;
 
+template <typename ModelType>
+void ModelDimTest(ModelType& model,
+               arma::mat& input,
+               const size_t n_rows = 1000,
+               const size_t n_cols = 1)
+{
+  arma::mat output;
+  model.Predict(input, output);
+  REQUIRE(output.n_rows == n_rows);
+  REQUIRE(output.n_cols == n_cols);
+}
+
 /**
  * Simple test for Darknet model.
  */
 TEST_CASE("DarknetModelTest", "[FFNModelsTests]")
 {
+  arma::mat input(224 * 224 * 3, 1);
   DarkNet<> darknetModel(3, 224, 224, 1000);
-  arma::mat input(224 * 224 * 3, 1), output;
-  input.ones();
 
   // Check output shape.
-  darknetModel.GetModel().Predict(input, output);
-  REQUIRE(output.n_cols == 1);
-  REQUIRE(output.n_rows == 1000);
+  ModelDimTest(darknetModel.GetModel(), input);
 
   // Repeat for DarkNet-53.
   DarkNet<> darknet53(3, 224, 224, 1000);
-  darknet53.GetModel().Predict(input, output);
-  REQUIRE(output.n_cols == 1);
-  REQUIRE(output.n_rows == 1000);
+  ModelDimTest(darknet53.GetModel(), input);
 }
 
 /**
@@ -45,14 +52,11 @@ TEST_CASE("DarknetModelTest", "[FFNModelsTests]")
  */
 TEST_CASE("YOLOV1ModelTest", "[FFNModelsTests]")
 {
+  arma::mat input(448 * 448 * 3, 1);
   YOLO<> yolo(3, 448, 448);
-  arma::mat input(448 * 448 * 3, 1), output;
-  input.ones();
 
   // Check output shape.
-  yolo.GetModel().Predict(input, output);
-  REQUIRE(output.n_cols == 1);
-  REQUIRE(output.n_rows == (7 * 7 * (5 * 2 + 20)));
+  ModelDimTest(yolo.GetModel(), input, (7 * 7 * (5 * 2 + 20)), 1);
 }
 
 /**
@@ -61,39 +65,25 @@ TEST_CASE("YOLOV1ModelTest", "[FFNModelsTests]")
 TEST_CASE("ResNetModelTest", "[FFNModelsTests]")
 {
   ResNet18 resnet18(3, 224, 224);
-  arma::mat input(224 * 224 * 3, 1), output;
-  input.ones();
+  arma::mat input(224 * 224 * 3, 1);
 
   // Check output shape for resnet18.
-  resnet18.GetModel().Predict(input, output);
-  REQUIRE(output.n_cols == 1);
-  REQUIRE(output.n_rows == 1000);
-
-  ResNet34 resnet34(3, 224, 224);
+  ModelDimTest(resnet18.GetModel(), input);
 
   // Check output shape for resnet34.
-  resnet34.GetModel().Predict(input, output);
-  REQUIRE(output.n_cols == 1);
-  REQUIRE(output.n_rows == 1000);
-
-  ResNet50 resnet50(3, 224, 224);
+  ResNet34 resnet34(3, 224, 224);
+  ModelDimTest(resnet34.GetModel(), input);
 
   // Check output shape for resnet50.
-  resnet50.GetModel().Predict(input, output);
-  REQUIRE(output.n_cols == 1);
-  REQUIRE(output.n_rows == 1000);
-
-  ResNet101 resnet101(3, 224, 224);
+  ResNet50 resnet50(3, 224, 224);
+  ModelDimTest(resnet50.GetModel(), input);
 
   // Check output shape for resnet101.
-  resnet101.GetModel().Predict(input, output);
-  REQUIRE(output.n_cols == 1);
-  REQUIRE(output.n_rows == 1000);
-
-  ResNet152 resnet152(3, 224, 224);
+  ResNet101 resnet101(3, 224, 224);
+  ModelDimTest(resnet101.GetModel(), input);
 
   // Check output shape for resnet152.
-  resnet152.GetModel().Predict(input, output);
-  REQUIRE(output.n_cols == 1);
-  REQUIRE(output.n_rows == 1000);
+  ResNet152 resnet152(3, 224, 224);
+  ModelDimTest(resnet152.GetModel(), input);
+  
 }
