@@ -63,12 +63,13 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
 {
   if (preTrained)
   {
-    preTrainedPath = "./weights/resnet/resnet" +
+    std::string home = getenv("HOME");
+    preTrainedPath = home + "/.cache/mlpack/models/weights/resnet/resnet" +
         std::to_string(ResNetVersion) + ".bin";
     if (Utils::PathExists(preTrainedPath) == false)
     {
       std::cout << "Downloading resnet" + std::to_string(ResNetVersion) +
-          ".bin" << std::endl;
+          ".bin to " + preTrainedPath << std::endl;
       Utils::DownloadFile("resnet" + std::to_string(ResNetVersion) + ".bin",
           preTrainedPath, "", false, false,
           "https://www.ratml.org/misc/models/");
