@@ -72,7 +72,7 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
           ".bin to " + preTrainedPath << std::endl;
       Utils::DownloadFile("resnet" + std::to_string(ResNetVersion) + ".bin",
           preTrainedPath, "", false, false,
-          "https://www.ratml.org/misc/models/");
+          "http://models.mlpack.org/resnet/");
     }
     LoadModel(preTrainedPath);
     return;
