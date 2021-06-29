@@ -5,8 +5,6 @@
  * Definition of ResNet models.
  * 
  * For more information, kindly refer to the following paper.
- * 
- * Paper for ResNet.
  *
  * @code
  * @article{Kaiming He2015,
@@ -97,11 +95,11 @@ class ResNet{
   }
 
   //! Load weights into the model and assumes the internal matrix to be
-  //  named "ResNet"
+  //  named "ResNet".
   void LoadModel(const std::string& filePath);
 
   //! Save weights for the model and assumes the internal matrix to be
-  //  named "ResNet"
+  //  named "ResNet".
   void SaveModel(const std::string& filepath);
 
  private:
@@ -138,7 +136,7 @@ class ResNet{
     mlpack::Log::Info << "Convolution: " << "(" << inSize << ", " << inputWidth
         << ", " << inputHeight << ")" << " ---> (";
 
-    // Updating input dimesntions.
+    // Updating input dimensions.
     inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
     inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
 
@@ -162,7 +160,7 @@ class ResNet{
    * @param kernelHeight Height of the filter/kernel.
    * @param padW Padding width of the input.
    * @param padH Padding height of the input.
-   * @param downSample Bool if it's a downsample block or not. default is false.
+   * @param downSample Bool if it's a downsample block or not. Default is false.
    */
   template<typename SequentialType = ann::Sequential<>>
   void ConvolutionBlock1x1(SequentialType* baseLayer,
@@ -198,7 +196,7 @@ class ResNet{
       mlpack::Log::Info << "Convolution: " << "(" << inSize << ", " <<
           inputWidth << ", " << inputHeight << ")" << " ---> (";
 
-      // Updating input dimesntions.
+      // Updating input dimensions.
       inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
       inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padH);
 
@@ -254,6 +252,7 @@ class ResNet{
    *
    * It's represented as:
    * 
+   * /code
    * resBlock - AddMerge layer
    * {
    *   sequentialBlock - sequentialLayer
@@ -278,7 +277,8 @@ class ResNet{
    * 
    *   ReLU
    * }
-   *
+   * \endcode
+   * 
    * @param inSize Number of input maps.
    * @param outSize Number of output maps.
    * @param strideWidth Stride of filter application in the x direction.

@@ -296,7 +296,7 @@ class DarkNet
   std::string weights;
 }; // DarkNet class.
 
-// convenience typedefs for different DarkNet models.
+// Convenience typedefs for different DarkNet models.
 typedef DarkNet<ann::CrossEntropyError<>, ann::RandomInitialization, 19>
     DarkNet19;
 typedef DarkNet<ann::CrossEntropyError<>, ann::RandomInitialization, 53>
