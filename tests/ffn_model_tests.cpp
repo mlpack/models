@@ -127,7 +127,6 @@ TEST_CASE("ResNetModelTest", "[FFNModelsTests]")
   // Check output shape for resnet152.
   ResNet152 resnet152(3, 224, 224);
   ModelDimTest(resnet152.GetModel(), input);
-
 }
 
 /**
