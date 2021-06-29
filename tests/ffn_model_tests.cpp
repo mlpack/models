@@ -128,7 +128,7 @@ TEST_CASE("ResNetModelTest", "[FFNModelsTests]")
 TEST_CASE("ResNet101ModelTest", "[FFNModelsTests]")
 {
   arma::mat input(224 * 224 * 3, 1);
-  
+
   // Check output shape for resnet101.
   ResNet101 resnet101(3, 224, 224);
   ModelDimTest(resnet101.GetModel(), input);
