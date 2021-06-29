@@ -56,8 +56,8 @@ void ModelDimTest(ModelType& model,
 template <typename ModelType>
 void PreTrainedModelTest(ModelType& model,
                          arma::mat& input,
-                         const size_t singleBatchOutput,
-                         const size_t multipleBatchOutput,
+                         const double singleBatchOutput,
+                         const double multipleBatchOutput,
                          const size_t numBatches = 4)
 {
   arma::mat multipleBatchInput(input.n_rows, numBatches), output;
@@ -66,11 +66,11 @@ void PreTrainedModelTest(ModelType& model,
 
   // Run prediction for single batch.
   model.Predict(input, output);
-  REQUIRE(arma::accu(output) == singleBatchOutput);
+  REQUIRE(arma::accu(output) == Approx(singleBatchOutput).epsilon(1e-2));
 
   // Run prediction for multiple batch.
   model.Predict(multipleBatchInput, output);
-  REQUIRE(arma::accu(output) == multipleBatchOutput);
+  REQUIRE(arma::accu(output) == Approx(multipleBatchOutput).epsilon(1e-2));
 }
 
 /**
@@ -102,14 +102,14 @@ TEST_CASE("YOLOV1ModelTest", "[FFNModelsTests]")
 }
 
 /**
- * Simple test for ResNet models.
+ * Simple test for ResNet(18, 34, 50) models.
  */
 TEST_CASE("ResNetModelTest", "[FFNModelsTests]")
 {
-  ResNet18 resnet18(3, 224, 224);
   arma::mat input(224 * 224 * 3, 1);
 
   // Check output shape for resnet18.
+  ResNet18 resnet18(3, 224, 224);
   ModelDimTest(resnet18.GetModel(), input);
 
   // Check output shape for resnet34.
@@ -119,10 +119,28 @@ TEST_CASE("ResNetModelTest", "[FFNModelsTests]")
   // Check output shape for resnet50.
   ResNet50 resnet50(3, 224, 224);
   ModelDimTest(resnet50.GetModel(), input);
+}
 
+/**
+ * Simple test for ResNet101 models.
+ * Have been split from the ResNetModelTests because of memory requirements.
+ */
+TEST_CASE("ResNet101ModelTest", "[FFNModelsTests]")
+{
+  arma::mat input(224 * 224 * 3, 1);
+  
   // Check output shape for resnet101.
   ResNet101 resnet101(3, 224, 224);
   ModelDimTest(resnet101.GetModel(), input);
+}
+
+/**
+ * Simple test for ResNet152 models.
+ * Have been split from the ResNetModelTests because of memory requirements.
+ */
+TEST_CASE("ResNet152ModelTest", "[FFNModelsTests]")
+{
+  arma::mat input(224 * 224 * 3, 1);
 
   // Check output shape for resnet152.
   ResNet152 resnet152(3, 224, 224);
@@ -130,7 +148,7 @@ TEST_CASE("ResNetModelTest", "[FFNModelsTests]")
 }
 
 /**
- * Test for pre-trained ResNet models.
+ * Test for pre-trained ResNet(18, 34, 50) models.
  */
 TEST_CASE("PreTrainedResNetModelTest", "[FFNModelsTests]")
 {
@@ -147,10 +165,30 @@ TEST_CASE("PreTrainedResNetModelTest", "[FFNModelsTests]")
   // Check output(referenced from PyTorch) for resnet50.
   ResNet50 resnet50(3, 224, 224, true, true);
   PreTrainedModelTest(resnet50.GetModel(), input, 0.00266838, 0.01067352);
+}
+
+/**
+ * Test for pre-trained ResNet101 model.
+ * Have been split from the PreTrainedResNetModelTests because of
+ *     memory requirements.
+ */
+TEST_CASE("PreTrainedResNet101ModelTest", "[FFNModelsTests]")
+{
+  arma::mat input(224 * 224 * 3, 1);
 
   // Check output(referenced from PyTorch) for resnet101.
   ResNet101 resnet101(3, 224, 224, true, true);
   PreTrainedModelTest(resnet101.GetModel(), input, 0.00168228, 0.00670624);
+}
+
+/**
+ * Test for pre-trained ResNet152 model.
+ * Have been split from the PreTrainedResNetModelTests because of
+ *     memory requirements.
+ */
+TEST_CASE("PreTrainedResNetModel152Test", "[FFNModelsTests]")
+{
+  arma::mat input(224 * 224 * 3, 1);
 
   // Check output for(referenced from PyTorch) resnet152.
   ResNet152 resnet152(3, 224, 224, true, true);
