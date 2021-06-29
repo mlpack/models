@@ -19,6 +19,16 @@
 
 using namespace mlpack::models;
 
+/**
+ * Checks for the output dimensions of the model.
+ *
+ * @tparam ModelType Type of model to check.
+ *
+ * @param model The model to test.
+ * @param input Input to pass to the model.
+ * @param n_rows Output rows to check against.
+ * @param n_cols Output columns to check against..
+ */
 template <typename ModelType>
 void ModelDimTest(ModelType& model,
                arma::mat& input,
@@ -29,6 +39,38 @@ void ModelDimTest(ModelType& model,
   model.Predict(input, output);
   REQUIRE(output.n_rows == n_rows);
   REQUIRE(output.n_cols == n_cols);
+}
+
+/**
+ * Checks for the output sum of the model for a 
+ *     single and multiple batch input.
+ *
+ * @tparam ModelType Type of model to check.
+ *
+ * @param model The model to test.
+ * @param input Input to pass to the model.
+ * @param singleBatchOutput Sum of the output of a single batch.
+ * @param multipleBatchOutput Sum of the output of Multiple batches.
+ * @param numBatches Number of batches to create for input.
+ */
+template <typename ModelType>
+void PreTrainedModelTest(ModelType& model,
+                         arma::mat& input,
+                         const size_t singleBatchOutput,
+                         const size_t multipleBatchOutput,
+                         const size_t numBatches = 4)
+{
+  arma::mat multipleBatchInput(input.n_rows, numBatches), output;
+  input.ones();
+  multipleBatchInput.ones();
+
+  // Run prediction for single batch.
+  model.Predict(input, output);
+  REQUIRE(arma::accu(output) == singleBatchOutput);
+
+  // Run prediction for multiple batch.
+  model.Predict(multipleBatchInput, output);
+  REQUIRE(arma::accu(output) == multipleBatchOutput);
 }
 
 /**
@@ -86,4 +128,32 @@ TEST_CASE("ResNetModelTest", "[FFNModelsTests]")
   ResNet152 resnet152(3, 224, 224);
   ModelDimTest(resnet152.GetModel(), input);
   
+}
+
+/**
+ * Test for pre-trained ResNet models.
+ */
+TEST_CASE("PreTrainedResNetModelTest", "[FFNModelsTests]")
+{
+  ResNet18 resnet18(3, 224, 224, true, true);
+  arma::mat input(224 * 224 * 3, 1);
+
+  // Check output(referenced from PyTorch) for resnet18.
+  PreTrainedModelTest(resnet18.GetModel(), input, 0.00618362, 0.02469635);
+
+  // Check output(referenced from PyTorch) for resnet34.
+  ResNet34 resnet34(3, 224, 224, true, true);
+  PreTrainedModelTest(resnet34.GetModel(), input, 0.00664139, 0.02662659);
+
+  // Check output(referenced from PyTorch) for resnet50.
+  ResNet50 resnet50(3, 224, 224, true, true);
+  PreTrainedModelTest(resnet50.GetModel(), input, 0.00266838, 0.01067352);
+
+  // Check output(referenced from PyTorch) for resnet101.
+  ResNet101 resnet101(3, 224, 224, true, true);
+  PreTrainedModelTest(resnet101.GetModel(), input, 0.00168228, 0.00670624);
+
+  // Check output for(referenced from PyTorch) resnet152.
+  ResNet152 resnet152(3, 224, 224, true, true);
+  PreTrainedModelTest(resnet152.GetModel(), input, 0.00199318, 0.00799561);
 }
