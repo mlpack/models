@@ -66,7 +66,7 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
     std::string home = getenv("HOME");
     preTrainedPath = home + "/.cache/mlpack/models/weights/resnet/resnet" +
         std::to_string(ResNetVersion) + ".bin";
-    if (Utils::PathExists(preTrainedPath) == false)
+    if (Utils::PathExists(preTrainedPath, true) == false)
     {
       std::cout << "Downloading resnet" + std::to_string(ResNetVersion) +
           ".bin to " + preTrainedPath << std::endl;
