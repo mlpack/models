@@ -127,7 +127,7 @@ TEST_CASE("ResNetModelTest", "[FFNModelsTests]")
   // Check output shape for resnet152.
   ResNet152 resnet152(3, 224, 224);
   ModelDimTest(resnet152.GetModel(), input);
-  
+
 }
 
 /**
@@ -135,10 +135,10 @@ TEST_CASE("ResNetModelTest", "[FFNModelsTests]")
  */
 TEST_CASE("PreTrainedResNetModelTest", "[FFNModelsTests]")
 {
-  ResNet18 resnet18(3, 224, 224, true, true);
   arma::mat input(224 * 224 * 3, 1);
 
   // Check output(referenced from PyTorch) for resnet18.
+  ResNet18 resnet18(3, 224, 224, true, true);
   PreTrainedModelTest(resnet18.GetModel(), input, 0.00618362, 0.02469635);
 
   // Check output(referenced from PyTorch) for resnet34.
