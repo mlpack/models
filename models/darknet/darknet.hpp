@@ -299,6 +299,7 @@ class DarkNet
 // Convenience typedefs for different DarkNet models.
 typedef DarkNet<ann::CrossEntropyError<>, ann::RandomInitialization, 19>
     DarkNet19;
+    
 typedef DarkNet<ann::CrossEntropyError<>, ann::RandomInitialization, 53>
     DarkNet53;
 

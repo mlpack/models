@@ -74,13 +74,15 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
           preTrainedPath, "", false, false,
           "http://models.mlpack.org/resnet/");
     }
+
     LoadModel(preTrainedPath);
     return;
   }
 
   // Config for different Versions.
-  auto configFinder = ResNetConfig.find(ResNetVersion);
-  auto config = configFinder->second;
+  std::map<size_t, std::map<std::string, std::array<size_t, 4>>>::iterator
+      configFinder = ResNetConfig.find(ResNetVersion);
+  std::map<std::string, std::array<size_t, 4>> config = configFinder->second;
   builderBlock = config.begin()->first;
   numBlockArray = config.begin()->second;
 
