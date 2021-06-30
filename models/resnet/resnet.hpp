@@ -135,7 +135,7 @@ class ResNet{
   {
     size_t convInputWidth = inputWidth;
     size_t convInputHeight = inputHeight;
-  
+
     if (downSample)
     {
       convInputWidth = downSampleInputWidth;
