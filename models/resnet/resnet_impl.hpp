@@ -79,7 +79,7 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
     return;
   }
 
-  // Config for different Versions.
+  // Config for different versions.
   std::map<size_t, std::map<std::string, std::array<size_t, 4>>>::iterator
       configFinder = ResNetConfig.find(ResNetVersion);
   std::map<std::string, std::array<size_t, 4>> config = configFinder->second;
@@ -88,7 +88,7 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
 
   if (configFinder == ResNetConfig.end())
   {
-    mlpack::Log::Fatal << "Incorrect ResNet version. Possible Values are: 18, "
+    mlpack::Log::Fatal << "Incorrect ResNet version. Possible values are: 18, "
         "34, 50, 101 and 152" << std::endl;
   }
 
@@ -102,7 +102,7 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
   mlpack::Log::Info << "Padding: " << "(" << "64, " << inputWidth << ", " <<
       inputWidth << " ---> (";
 
-  // Updating input dimesntions.
+  // Updating input dimensions.
   inputWidth += 2;
   inputHeight += 2;
 
@@ -113,7 +113,7 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
   mlpack::Log::Info << "MaxPool: " << "(" <<"64, " << inputWidth << ", " <<
       inputHeight << " ---> (";
 
-  // Updating input dimesntions.
+  // Updating input dimensions.
   inputWidth = ConvOutSize(inputWidth, 3, 2, 0);
   inputHeight = ConvOutSize(inputHeight, 3, 2, 0);
 

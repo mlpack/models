@@ -218,7 +218,7 @@ class ResNet{
    *
    * It's represented as:
    * 
-   * /code
+   * \code
    * resBlock - AddMerge layer
    * {
    *   sequentialBlock - sequentialLayer
@@ -288,6 +288,7 @@ class ResNet{
    *
    * It's represented as:
    * 
+   * \code
    * resBlock - AddMerge layer
    * {
    *   sequentialBlock
@@ -312,6 +313,7 @@ class ResNet{
    * 
    *   ReLU
    * }
+   *\endcode
    *
    * @param inSize Number of input maps.
    * @param outSize Number of output maps.
@@ -388,7 +390,6 @@ class ResNet{
       for (size_t i = 1; i != numBlocks; ++i)
         BasicBlock(downSampleInSize, outSize);
     }
-
     else if (block == "bottleneck")
     {
       if (stride != 1 || downSampleInSize != outSize * bottleNeckExpansion)
