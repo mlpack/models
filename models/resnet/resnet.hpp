@@ -121,17 +121,17 @@ class ResNet{
    */
   template<typename SequentialType = ann::Sequential<>>
   void ConvolutionBlock(SequentialType* baseLayer,
-                           const size_t inSize,
-                           const size_t outSize,
-                           const size_t strideWidth = 1,
-                           const size_t strideHeight = 1,
-                           const size_t kernelWidth = 3,
-                           const size_t kernelHeight = 3,
-                           const size_t padW = 1,
-                           const size_t padH = 1,
-                           const bool downSample = false,
-                           const size_t downSampleInputWidth = 0,
-                           const size_t downSampleInputHeight = 0)
+                        const size_t inSize,
+                        const size_t outSize,
+                        const size_t strideWidth = 1,
+                        const size_t strideHeight = 1,
+                        const size_t kernelWidth = 3,
+                        const size_t kernelHeight = 3,
+                        const size_t padW = 1,
+                        const size_t padH = 1,
+                        const bool downSample = false,
+                        const size_t downSampleInputWidth = 0,
+                        const size_t downSampleInputHeight = 0)
   {
     size_t convInputWidth = inputWidth;
     size_t convInputHeight = inputHeight;
@@ -187,19 +187,30 @@ class ResNet{
                   const size_t outSize,
                   const size_t downSampleInputWidth,
                   const size_t downSampleInputHeight,
-                  const size_t kernelWidth = 1,
-                  const size_t kernelHeight = 1,
                   const size_t strideWidth = 2,
-                  const size_t strideHeight = 2,
-                  const size_t padW = 0,
-                  const size_t padH = 0)
+                  const size_t strideHeight = 2)
   {
+    mlpack::Log::Info << "DownSample (" << std::endl;
     ann::Sequential<>* downSampleBlock = new ann::Sequential<>();
     ConvolutionBlock(downSampleBlock, inSize, outSize, strideWidth,
-        strideHeight, kernelWidth, kernelHeight, padW, padH, true,
-        downSampleInputWidth, downSampleInputHeight);
+        strideHeight, 1, 1, 0, 0, true, downSampleInputWidth,
+        downSampleInputHeight);
+    mlpack::Log::Info << ")" <<std::endl;
 
     resBlock->Add(downSampleBlock);
+  }
+
+
+  /**
+   * Adds a ReLU Layer.
+   *
+   * @tparam SequentialType Layer type in which ReLU layer will be added.
+   */
+  template<typename SequentialType = ann::Sequential<>>
+  void ReLULayer(SequentialType* baseLayer)
+  {
+    baseLayer->Add(new ann::ReLULayer<>);
+    mlpack::Log::Info << "Relu" << std::endl;
   }
 
   /**
@@ -251,18 +262,15 @@ class ResNet{
     ann::Sequential<>* sequentialBlock = new ann::Sequential<>();
     ConvolutionBlock(sequentialBlock, inSize, outSize, strideWidth,
         strideHeight);
-    sequentialBlock->Add(new ann::ReLULayer<>);
-    mlpack::Log::Info << "Relu" << std::endl;
+    ReLULayer(sequentialBlock);
     ConvolutionBlock(sequentialBlock, outSize, outSize);
 
     resBlock->Add(sequentialBlock);
 
     if (downSample == true)
     {
-      mlpack::Log::Info << "DownSample (" << std::endl;
       DownSample(resBlock, inSize, outSize, downSampleInputWidth,
           downSampleInputHeight);
-      mlpack::Log::Info << ")" <<std::endl;
     }
     else
     {
@@ -271,8 +279,7 @@ class ResNet{
     }
 
     basicBlock->Add(resBlock);
-    basicBlock->Add(new ann::ReLULayer<>);
-    mlpack::Log::Info << "Relu" << std::endl;
+    ReLULayer(basicBlock);
     resNet.Add(basicBlock);
   }
 
@@ -331,23 +338,19 @@ class ResNet{
     ann::AddMerge<>* resBlock = new ann::AddMerge<>(true, true);
     ann::Sequential<>* sequentialBlock = new ann::Sequential<>();
     ConvolutionBlock(sequentialBlock, inSize, width, 1, 1, 1, 1, 0, 0);
-    sequentialBlock->Add(new ann::ReLULayer<>);
-    mlpack::Log::Info << "Relu" << std::endl;
+    ReLULayer(sequentialBlock);
     ConvolutionBlock(sequentialBlock, width, width, strideWidth,
         strideHeight);
-    sequentialBlock->Add(new ann::ReLULayer<>);
-    mlpack::Log::Info << "Relu" << std::endl;
+    ReLULayer(sequentialBlock);
     ConvolutionBlock(sequentialBlock, width, outSize * bottleNeckExpansion, 1,
         1, 1, 1, 0, 0);
     resBlock->Add(sequentialBlock);
 
     if (downSample == true)
     {
-      mlpack::Log::Info << "DownSample (" << std::endl;
       DownSample(resBlock, inSize, outSize * bottleNeckExpansion,
-          downSampleInputWidth, downSampleInputHeight, 1, 1, strideWidth,
+          downSampleInputWidth, downSampleInputHeight, strideWidth,
           strideHeight);
-      mlpack::Log::Info << ")" << std::endl;
     }
     else
     {
@@ -356,8 +359,7 @@ class ResNet{
     }
 
     basicBlock->Add(resBlock);
-    basicBlock->Add(new ann::ReLULayer<>);
-    mlpack::Log::Info << "Relu" << std::endl;
+    ReLULayer(basicBlock);
     resNet.Add(basicBlock);
   }
 
