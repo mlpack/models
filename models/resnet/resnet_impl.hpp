@@ -92,25 +92,11 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
         "34, 50, 101 and 152" << std::endl;
   }
 
-  resNet.Add(new ann::Convolution<>(3, 64, 7, 7, 2, 2, 3, 3, inputWidth,
-      inputHeight));
-
-  mlpack::Log::Info << "Convolution: " << "(" << 3 << ", " <<
-      inputWidth << ", " << inputHeight << ")" << " ---> (";
-
-  // Updating input dimesntions.
-  inputWidth = ConvOutSize(inputWidth, 7, 2, 3);
-  inputHeight = ConvOutSize(inputHeight, 7, 2, 3);
-
-  mlpack::Log::Info << 64 << ", " << inputWidth << ", " << inputHeight
-      << ")" << std::endl;
-
-  resNet.Add(new ann::BatchNorm<>(64, 1e-5));
-  mlpack::Log::Info << "BatchNorm: " << "(" << 64 << ")" << " ---> ("
-        << 64 << ")" << std::endl;
-
-  resNet.Add(new ann::ReLULayer<>);
-  mlpack::Log::Info << "Relu" << std::endl;
+  resNet.Add(new ann::IdentityLayer<>);
+  ann::Sequential<>* seqBlock = new ann::Sequential<>();
+  ConvolutionBlock(seqBlock, 3, 64, 2, 2, 7, 7, 3, 3);
+  ReLULayer(seqBlock);
+  resNet.Add(seqBlock);
 
   resNet.Add(new ann::Padding<>(1, 1, 1, 1, inputWidth, inputHeight));
   mlpack::Log::Info << "Padding: " << "(" << "64, " << inputWidth << ", " <<
