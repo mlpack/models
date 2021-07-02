@@ -218,7 +218,7 @@ class ResNet{
    *
    * It's represented as:
    * 
-   * \code
+   * @code
    * resBlock - AddMerge layer
    * {
    *   sequentialBlock - sequentialLayer
@@ -231,7 +231,7 @@ class ResNet{
    *   sequentialLayer
    *   {
    *     if downsample == true
-   *       ConvolutionBlock(inSize, outSize, downSampleInputWidth,
+   *       DownSample(inSize, outSize, downSampleInputWidth,
    *           downSampleInputHeight)
    *     else
    *       IdentityLayer
@@ -239,7 +239,7 @@ class ResNet{
    * 
    *   ReLU
    * }
-   * \endcode
+   * @endcode
    * 
    * @param inSize Number of input maps.
    * @param outSize Number of output maps.
@@ -288,7 +288,7 @@ class ResNet{
    *
    * It's represented as:
    * 
-   * \code
+   * @code
    * resBlock - AddMerge layer
    * {
    *   sequentialBlock
@@ -304,8 +304,8 @@ class ResNet{
    *   sequentialLayer
    *   {
    *     if downsample == true
-   *       ConvolutionBlock(resBlock, inSize, outSize * bottleNeckExpansion,
-               downSampleInputWidth, downSampleInputHeight, 1, 1, strideWidth,
+   *       DownSample(resBlock, inSize, outSize * bottleNeckExpansion,
+               downSampleInputWidth, downSampleInputHeight, strideWidth,
                strideHeight)
    *     else
    *       IdentityLayer
@@ -313,7 +313,7 @@ class ResNet{
    * 
    *   ReLU
    * }
-   *\endcode
+   *@endcode
    *
    * @param inSize Number of input maps.
    * @param outSize Number of output maps.
@@ -389,16 +389,15 @@ class ResNet{
       downSampleInSize = outSize * basicBlockExpansion;
       for (size_t i = 1; i != numBlocks; ++i)
         BasicBlock(downSampleInSize, outSize);
+      return;
     }
-    else if (block == "bottleneck")
-    {
-      if (stride != 1 || downSampleInSize != outSize * bottleNeckExpansion)
-        downSample = true;
-      BottleNeck(downSampleInSize, outSize, stride, stride, downSample);
-      downSampleInSize = outSize * bottleNeckExpansion;
-      for (size_t i = 1; i != numBlocks; ++i)
-        BottleNeck(downSampleInSize, outSize);
-    }
+
+    if (stride != 1 || downSampleInSize != outSize * bottleNeckExpansion)
+      downSample = true;
+    BottleNeck(downSampleInSize, outSize, stride, stride, downSample);
+    downSampleInSize = outSize * bottleNeckExpansion;
+    for (size_t i = 1; i != numBlocks; ++i)
+      BottleNeck(downSampleInSize, outSize);
   }
 
   /**
@@ -464,7 +463,7 @@ class ResNet{
   //! Locally stored block string from which to build the model.
   std::string builderBlock;
 
-  //! Locally stored path string for pretrained model.
+  //! Locally stored path string for pre-trained model.
   std::string preTrainedPath;
 }; // ResNet class
 
