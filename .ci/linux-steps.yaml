@@ -49,7 +49,7 @@ steps:
   displayName: 'Build models'
 
 # Run CTests.
-- script: cd build/tests/ && sudo CTEST_OUTPUT_ON_FAILURE=1 ctest -T Test .
+- script: cd build/bin/ && ./models_test -x 50
   displayName: 'Run tests via ctest'
 
 # Publish test results to Azure Pipelines

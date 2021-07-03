@@ -134,8 +134,11 @@ steps:
 
 # Run tests via ctest.
 - bash: |
-    cd build/tests
-    CTEST_OUTPUT_ON_FAILURE=1 ctest -T Test -C Release .
+    cd build/
+    dir
+    cd bin/
+    dir
+    ./models_test.exe -x 50
   displayName: 'Run tests via ctest'
 
 # Publish test results to Azure Pipelines
