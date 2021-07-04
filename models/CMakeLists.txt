@@ -3,8 +3,9 @@ project(models)
 
 set(DIR
   darknet
-  yolo
-  resnet)
+  mobilenet
+  resnet
+  yolo)
 
 foreach(dir ${DIR})
   add_subdirectory(${dir})
