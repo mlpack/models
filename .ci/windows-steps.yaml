@@ -138,6 +138,8 @@ steps:
     dir
     cd bin/
     dir
+    cd Release/
+    dir
     ./models_test.exe -x 50
   displayName: 'Run tests via ctest'
 
