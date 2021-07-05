@@ -5,8 +5,8 @@ set(DIR_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/)
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../../")
 
 set(SOURCES
-  mobilenet.hpp
-  mobilenet_impl.hpp
+  mobilenet_v1.hpp
+  mobilenet_v1_impl.hpp
 )
 
 foreach(file ${SOURCES})

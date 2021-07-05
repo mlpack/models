@@ -1,17 +1,19 @@
 /**
- * @file resnet.hpp
+ * @file mobilenet_v1.hpp
  * @author Aakash Kaushik
  * 
- * Definition of ResNet models.
+ * Definition of MobileNet V1 model.
  * 
  * For more information, kindly refer to the following paper.
  *
  * @code
- * @article{Kaiming He2015,
- *  author = {Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun},
- *  title = {Deep Residual Learning for Image Recognition},
- *  year = {2015},
- *  url = {https://arxiv.org/pdf/1512.03385.pdf}
+ * @article{Andrew G2017,
+ *  author = {Andrew G. Howard, Menglong Zhu, Bo Chen, Dmitry Kalenichenko,
+ *      Weijun Wang, Tobias Weyand, Marco Andreetto, Hartwig Adam},
+ *  title = {MobileNets: Efficient Convolutional Neural Networks for Mobile
+ *      Vision Applications},
+ *  year = {2017},
+ *  url = {https://arxiv.org/pdf/1704.04861}
  * }
  * @endcode
  * 
@@ -20,8 +22,8 @@
  * 3-clause BSD license along with mlpack.  If not, see
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
-#ifndef MODELS_MODELS_RESNET_RESNET_HPP
-#define MODELS_MODELS_RESNET_RESNET_HPP
+#ifndef MODELS_MODELS_MOBILENET_MOBILENET_V1_HPP
+#define MODELS_MODELS_MOBILENET_MOBILENET_V1_HPP
 
 #include <mlpack/core.hpp>
 #include <mlpack/methods/ann/layer/layer.hpp>
@@ -37,24 +39,22 @@ namespace mlpack {
 namespace models {
 
 /**
- * Definition of a ResNet CNN.
+ * Definition of a MobileNet V1 CNN.
  * 
  * @tparam OutputLayerType The output layer type used to evaluate the network.
  * @tparam InitializationRuleType Rule used to initialize the weight matrix.
- * @tparam ResNetVersion Version of ResNet.
  */
 template<
   typename OutputLayerType = ann::CrossEntropyError<>,
-  typename InitializationRuleType = ann::RandomInitialization,
-  size_t ResNetVersion = 18
+  typename InitializationRuleType = ann::RandomInitialization
 >
-class ResNet{
+class MobileNetV1{
  public:
-  //! Create the ResNet model.
-  ResNet();
+  //! Create the MobileNet model.
+  MobileNetV1();
 
   /**
-   * ResNet constructor intializes input shape and number of classes.
+   * MobileNetV1 constructor intializes input shape and number of classes.
    *
    * @param inputChannels Number of input channels of the input image.
    * @param inputWidth Width of the input image.
@@ -65,7 +65,7 @@ class ResNet{
    * @param numClasses Optional number of classes to classify images into,
    *     only to be specified if includeTop is true, default is 1000.
    */
-  ResNet(const size_t inputChannel,
+  MobileNetV1(const size_t inputChannel,
          const size_t inputWidth,
          const size_t inputHeight,
          const bool includeTop = true,
@@ -73,7 +73,7 @@ class ResNet{
          const size_t numClasses = 1000);
 
   /**
-   * ResNet constructor intializes input shape and number of classes.
+   * MobileNetV1 constructor intializes input shape and number of classes.
    *
    * @param inputShape A three-valued tuple indicating input shape.
    *     First value is number of channels (channels-first).
@@ -83,7 +83,7 @@ class ResNet{
    * @param numClasses Optional number of classes to classify images into,
    *     only to be specified if includeTop is  true.
    */
-  ResNet(std::tuple<size_t, size_t, size_t> inputShape,
+  MobileNetV1(std::tuple<size_t, size_t, size_t> inputShape,
          const bool includeTop = true,
          const bool preTrained = false,
          const size_t numClasses = 1000);
@@ -93,11 +93,11 @@ class ResNet{
       GetModel() { return resNet; }
 
   //! Load weights into the model and assumes the internal matrix to be
-  //  named "ResNet".
+  //  named "MobileNetV1".
   void LoadModel(const std::string& filePath);
 
   //! Save weights for the model and assumes the internal matrix to be
-  //  named "ResNet".
+  //  named "MobileNetV1".
   void SaveModel(const std::string& filepath);
 
  private:
