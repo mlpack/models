@@ -9,17 +9,16 @@
  * 3-clause BSD license along with mlpack.  If not, see
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
-#ifndef MODELS_MODELS_RESNET_RESNET_IMPL_HPP
-#define MODELS_MODELS_RESNET_RESNET_IMPL_HPP
+#ifndef MODELS_MODELS_MOBILENET_MOBILENET_V1_IMPL_HPP
+#define MODELS_MODELS_MOBILENET_MOBILENET_V1_IMPL_HPP
 
-#include "resnet.hpp"
+#include "mobilenet_v1.hpp"
 
 namespace mlpack {
 namespace models {
 
-template<typename OutputLayerType, typename InitializationRuleType,
-    size_t ResNetVersion>
-ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet() :
+template<typename OutputLayerType, typename InitializationRuleType>
+void MobileNetV1<OutputLayerType, InitializationRuleType>::ResNet() :
     inputChannel(0),
     inputWidth(0),
     inputHeight(0),
@@ -28,9 +27,8 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet() :
   // Nothing to do here.
 }
 
-template<typename OutputLayerType, typename InitializationRuleType,
-    size_t ResNetVersion>
-ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
+template<typename OutputLayerType, typename InitializationRuleType>
+void MobileNetV1<OutputLayerType, InitializationRuleType>::ResNet(
     const size_t inputChannel,
     const size_t inputWidth,
     const size_t inputHeight,
@@ -49,9 +47,8 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
   // Nothing to do here.
 }
 
-template<typename OutputLayerType, typename InitializationRuleType,
-    size_t ResNetVersion>
-ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
+template<typename OutputLayerType, typename InitializationRuleType>
+void MobileNetV1<OutputLayerType, InitializationRuleType>::ResNet(
     std::tuple<size_t, size_t, size_t> inputShape,
     const bool includeTop,
     const bool preTrained,
@@ -61,106 +58,28 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
     inputHeight(std::get<2>(inputShape)),
     numClasses(numClasses)
 {
-  if (preTrained)
-  {
-    std::string home = getenv("HOME");
-    preTrainedPath = home + "/.cache/mlpack/models/weights/resnet/resnet" +
-        std::to_string(ResNetVersion) + ".bin";
-    if (Utils::PathExists(preTrainedPath, true) == false)
-    {
-      std::cout << "Downloading resnet" + std::to_string(ResNetVersion) +
-          ".bin to " + preTrainedPath << std::endl;
-      Utils::DownloadFile("resnet" + std::to_string(ResNetVersion) + ".bin",
-          preTrainedPath, "", false, false,
-          "http://models.mlpack.org/resnet/");
-    }
-
-    LoadModel(preTrainedPath);
-    return;
-  }
-
-  // Config for different versions.
-  std::map<size_t, std::map<std::string, std::array<size_t, 4>>>::iterator
-      configFinder = ResNetConfig.find(ResNetVersion);
-  std::map<std::string, std::array<size_t, 4>> config = configFinder->second;
-  builderBlock = config.begin()->first;
-  numBlockArray = config.begin()->second;
-
-  if (configFinder == ResNetConfig.end())
-  {
-    mlpack::Log::Fatal << "Incorrect ResNet version. Possible values are: 18, "
-        "34, 50, 101 and 152" << std::endl;
-  }
-
-  resNet.Add(new ann::IdentityLayer<>);
-  ann::Sequential<>* seqBlock = new ann::Sequential<>();
-  ConvolutionBlock(seqBlock, 3, 64, 2, 2, 7, 7, 3, 3);
-  ReLULayer(seqBlock);
-  resNet.Add(seqBlock);
-
-  resNet.Add(new ann::Padding<>(1, 1, 1, 1, inputWidth, inputHeight));
-  mlpack::Log::Info << "Padding: " << "(" << "64, " << inputWidth << ", " <<
-      inputWidth << " ---> (";
-
-  // Updating input dimensions.
-  inputWidth += 2;
-  inputHeight += 2;
-
-  mlpack::Log::Info <<"64, "<< inputWidth << ", " << inputHeight << ")" <<
-      std::endl;
-
-  resNet.Add(new ann::MaxPooling<>(3, 3, 2, 2));
-  mlpack::Log::Info << "MaxPool: " << "(" <<"64, " << inputWidth << ", " <<
-      inputHeight << " ---> (";
-
-  // Updating input dimensions.
-  inputWidth = ConvOutSize(inputWidth, 3, 2, 0);
-  inputHeight = ConvOutSize(inputHeight, 3, 2, 0);
-
-  mlpack::Log::Info << "64, " << inputWidth << ", " << inputHeight << ")" <<
-      std::endl;
-
-  MakeLayer(builderBlock, 64, numBlockArray[0]);
-  MakeLayer(builderBlock, 128, numBlockArray[1], 2);
-  MakeLayer(builderBlock, 256, numBlockArray[2], 2);
-  MakeLayer(builderBlock, 512, numBlockArray[3], 2);
-
-  if (includeTop)
-  {
-    resNet.Add(new ann::AdaptiveMeanPooling<>(1, 1));
-    mlpack::Log::Info << "AdaptiveMeanPooling: " << "(1, 1)" << std::endl;
-
-    if (ResNetVersion == 18 || ResNetVersion == 34)
-    {
-      resNet.Add(new ann::Linear<>(512 * basicBlockExpansion, numClasses));
-      mlpack::Log::Info << "Linear: " << "(" << 512 * basicBlockExpansion <<
-          ") ---> (" << numClasses << ")" <<std::endl;
-    }
-    else if (ResNetVersion == 50 || ResNetVersion == 101 ||
-        ResNetVersion == 152)
-    {
-      resNet.Add(new ann::Linear<>(512 * bottleNeckExpansion, numClasses));
-      mlpack::Log::Info<<"Linear: " << "(" << 512 * bottleNeckExpansion <<
-          ") ---> (" << numClasses << ")" << std::endl;
-    }
-  }
-
-  resNet.ResetParameters();
+  mobileNet.Add(new ann::Convolution<>(3, int(32 * alpha), 3, 3, 2, 2, 0, 0,
+      inputWidth, inputHeight, "same"));
+  mobileNet.Add(new ann::BatchNorm<>(int(32 * alpha), 1e-3, true, 0.99))
+  // Need a relu6 or a layer whose max can be modified.
+  // reference:
+  // 1. https://www.tensorflow.org/api_docs/python/tf/nn/relu6
+  // 2. https://keras.io/api/layers/activation_layers/relu/
+  mobileNet.Add(new ann::RelU6<>())
+  mobileNet.ResetParameters();
 }
 
-template<typename OutputLayerType, typename InitializationRuleType,
-    size_t ResNetVersion>
-void ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::
-    LoadModel(const std::string& filePath)
+template<typename OutputLayerType, typename InitializationRuleType>
+void MobileNetV1<OutputLayerType, InitializationRuleType>::LoadModel(
+    const std::string& filePath)
 {
   data::Load(filePath, "ResNet", resNet);
   Log::Info << "Loaded model" << std::endl;
 }
 
-template<typename OutputLayerType, typename InitializationRuleType,
-    size_t ResNetVersion>
-void ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::
-    SaveModel(const std::string& filePath)
+template<typename OutputLayerType, typename InitializationRuleType>
+void MobileNetV1<OutputLayerType, InitializationRuleType>::SaveModel(
+    const std::string& filePath)
 {
   Log::Info<< "Saving model." << std::endl;
   data::Save(filePath, "ResNet", resNet);

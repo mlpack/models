@@ -133,13 +133,6 @@ class MobileNetV1{
                         const size_t downSampleInputWidth = 0,
                         const size_t downSampleInputHeight = 0)
   {
-    if (downSample)
-    {
-      mlpack::Log::Info << "DownSample (" << std::endl;
-      inputWidth = downSampleInputWidth;
-      inputHeight = downSampleInputHeight;
-    }
-
     ann::Sequential<>* tempBaseLayer = new ann::Sequential<>();
     tempBaseLayer->Add(new ann::Convolution<>(inSize, outSize, kernelWidth,
         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
@@ -380,7 +373,7 @@ class MobileNetV1{
   }
 
   //! Locally stored DarkNet Model.
-  ann::FFN<OutputLayerType, InitializationRuleType> resNet;
+  ann::FFN<OutputLayerType, InitializationRuleType> mobileNet;
 
   //! Locally stored number of channels in the image.
   size_t inputChannel;
@@ -409,16 +402,6 @@ class MobileNetV1{
   //! InSize for ResNet block creation.
   size_t downSampleInSize = 64;
 
-  //! Locally stored map to constructor different ResNet versions.
-  std::map<size_t, std::map<std::string, std::array<size_t, 4>>> ResNetConfig =
-      {
-        {18, {{"basicblock", {2, 2, 2, 2}}}},
-        {34, {{"basicblock", {3, 4, 6, 3}}}},
-        {50, {{"bottleneck", {3, 4, 6, 3}}}},
-        {101, {{"bottleneck", {3, 4, 23, 3}}}},
-        {152, {{"bottleneck", {3, 8, 36, 3}}}}
-      };
-
   //! Locally stored array to constructor different ResNet versions.
   std::array<size_t , 4> numBlockArray;
 
@@ -427,19 +410,7 @@ class MobileNetV1{
 
   //! Locally stored path string for pre-trained model.
   std::string preTrainedPath;
-}; // ResNet class
-
-// convenience typedefs for different ResNet models.
-typedef ResNet<ann::CrossEntropyError<>, ann::RandomInitialization, 18>
-    ResNet18;
-typedef ResNet<ann::CrossEntropyError<>, ann::RandomInitialization, 34>
-    ResNet34;
-typedef ResNet<ann::CrossEntropyError<>, ann::RandomInitialization, 50>
-    ResNet50;
-typedef ResNet<ann::CrossEntropyError<>, ann::RandomInitialization, 101>
-    ResNet101;
-typedef ResNet<ann::CrossEntropyError<>, ann::RandomInitialization, 152>
-    ResNet152;
+}; // MobileNetV1 class
 
 } // namespace models
 } // namespace mlpack
