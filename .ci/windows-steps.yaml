@@ -128,14 +128,14 @@ steps:
   displayName: 'Build models'
 
 - powershell: |
-    cp build\*.dll build\tests
-    cp build\*.lib build\tests
+    cp build\*.dll build\bin\Release
+    cp build\*.lib build\bin\Release
   displayName: 'Copy lib and dll files to build/bin'
 
 # Run tests via ctest.
 - bash: |
-    cd build/tests
-    CTEST_OUTPUT_ON_FAILURE=1 ctest -T Test -C Release .
+    cd build/bin/Release/
+    ./models_test.exe -x 50
   displayName: 'Run tests via ctest'
 
 # Publish test results to Azure Pipelines
