@@ -54,6 +54,7 @@ main mlpack repository.)_
              spirit) >= 1.58
       CMake          >= 3.3.2
       ensmallen      >= 2.10.0
+      opencv         >= 2.x
 
 To install mlpack refer to the [installation
 guide](https://www.mlpack.org/docs.html) that's available in the mlpack
@@ -173,7 +174,7 @@ For all datasets that we support we provide, We preprocess them internally. We a
 provide access to preprocessor functions for standard datasets in case one needs to
 apply them to their datasets.
 
-They can simply be called as follows by calling static functions of ProProcess class i.e.
+They can simply be called as follows by calling static functions of PreProcess class i.e.
 PreProcess::SupportedDatasetName
 
 ```cpp
@@ -199,10 +200,19 @@ Currently model-zoo project has the following models implemented:
 | --- | --- | --- | --- |
 |  Darknet&nbsp;19 | DarkNet<NegativeLogLikelihood<>, HeInitialization, 19>&nbsp;darknet19({imageDepth, imageWidth, imageHeight}, numClasses)| ImageNet |[YOLO9000](https://pjreddie.com/media/files/papers/YOLO9000.pdf)|
 |  Darknet&nbsp;53 | DarkNet<NegativeLogLikelihood<>, HeInitialization, 53>&nbsp;darknet19({imageDepth, imageWidth, imageHeight}, numClasses)| ImageNet |[YOLOv3](https://pjreddie.com/media/files/papers/YOLOv3.pdf)|
+| YOLOv1 | YOLO<>&nbsp;yolov1({imageDepth, imageWidth, imageHeight}, numClasses)| VOC |[YOLO](https://arxiv.org/pdf/1506.02640.pdf)|
 
 All models can be included as shown below :
 ```cpp
 #include <models/Model-ClassName/Model_ClassName.hpp>
 ```
+
+### 7. Visualization Tools
+
+We use open cv to visulize plots such as bounding boxes. The visualization functions are static functions that are a part of `VisualizationTools` class.
+
+`VisualizationTools::FunctionName(paramters);`
+
+For more details, take a look at our wiki page.
 
 For more information about usage, take a look at our wiki page.
