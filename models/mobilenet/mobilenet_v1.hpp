@@ -166,8 +166,8 @@ class MobileNetV1{
 
     sequentialBlock->Add(new ann::SeparableConvolution<>(inSize,
         depthMultipliedOutSize, 3, 3, stride, stride, 0, 0, inputWidth,
-        inputHeight, paddingType));
-    mlpack::Log::Info << "Convolution: " << "(" << inSize << ", " <<
+        inputHeight, inSize, paddingType));
+    mlpack::Log::Info << "Separable convolution: " << "(" << inSize << ", " <<
         inputWidth << ", " << inputHeight << ")" << " ---> (";
 
     if (paddingType == "valid")
@@ -186,9 +186,10 @@ class MobileNetV1{
     ReLU6Layer(sequentialBlock);
     sequentialBlock->Add(new ann::Convolution<>(depthMultipliedOutSize,
         pointwiseOutSize, 1, 1, 1, 1, 0, 0, inputWidth, inputHeight, "same"));
-    mlpack::Log::Info << "Convolution: " << "(" << inSize << ", " << inputWidth
-        << ", " << inputHeight << ")" << " ---> (" << depthMultipliedOutSize
-        << ", " << inputWidth << ", " << inputHeight << ")" << std::endl;
+    mlpack::Log::Info << "Convolution: " << "(" << depthMultipliedOutSize <<
+        ", " << inputWidth << ", " << inputHeight << ")" << " ---> ("
+        << pointwiseOutSize << ", " << inputWidth << ", " << inputHeight << ")"
+        << std::endl;
     sequentialBlock->Add(new ann::BatchNorm<>(pointwiseOutSize, 1e-3, true,
         0.99));
     mlpack::Log::Info << "BatchNorm: " << "(" << pointwiseOutSize << ")"
@@ -242,13 +243,13 @@ class MobileNetV1{
   //! Locally stored output channels to use when building blocks.
   size_t outSize;
 
-  //! Locally stored array to construct mobileNetV1 blocks.
-  size_t mobileNetConfig[4][2] = {
-                                  {128, 2},
-                                  {256, 2},
-                                  {512, 6},
-                                  {1024, 2},
-                                 };
+  //! Locally stored mpa to construct mobileNetV1 blocks.
+  std::map<size_t, size_t> mobileNetConfig = {
+                                               {128, 2},
+                                               {256, 2},
+                                               {512, 6},
+                                               {1024, 2},
+                                              };
 
   //! Locally stored path string for pre-trained model.
   std::string preTrainedPath;
