@@ -66,11 +66,13 @@ class MobileNetV1{
    *     only to be specified if includeTop is true, default is 1000.
    */
   MobileNetV1(const size_t inputChannel,
-         const size_t inputWidth,
-         const size_t inputHeight,
-         const bool includeTop = true,
-         const bool preTrained = false,
-         const size_t numClasses = 1000);
+              const size_t inputWidth,
+              const size_t inputHeight,
+              const size_t alpha = 1.0,
+              const size_t depthMultiplier = 1.0,
+              const bool includeTop = true,
+              const bool preTrained = false,
+              const size_t numClasses = 1000);
 
   /**
    * MobileNetV1 constructor intializes input shape and number of classes.
@@ -84,13 +86,15 @@ class MobileNetV1{
    *     only to be specified if includeTop is  true.
    */
   MobileNetV1(std::tuple<size_t, size_t, size_t> inputShape,
-         const bool includeTop = true,
-         const bool preTrained = false,
-         const size_t numClasses = 1000);
+              const size_t alpha = 1.0,
+              const size_t depthMultiplier = 1.0,
+              const bool includeTop = true,
+              const bool preTrained = false,
+              const size_t numClasses = 1000);
 
   //! Get Layers of the model.
   ann::FFN<OutputLayerType, InitializationRuleType>&
-      GetModel() { return resNet; }
+      GetModel() { return mobileNet; }
 
   //! Load weights into the model and assumes the internal matrix to be
   //  named "MobileNetV1".
@@ -128,21 +132,25 @@ class MobileNetV1{
    * @code
    * @endcode
    * 
-   * @param inSize Number of input maps.
-   * @param outSize Number of output maps.
-   * @param strideWidth Stride of filter application in the x direction.
-   * @param strideHeight Stride of filter application in the y direction.
-   * @param downSample If there will be a downSample block or not, default
-   *     false.
+   * @param inSize Number of input channels.
+   * @param outSize Number of output channels.
+   * @param alpha Controls the number of output channels in pointwise
+   *     convolution: outSize * depthMultiplier.
+   * @param depthMultiplier Controls the number of output channels in depthwise
+   *     convolution: inSize * depthMultiplier.
+   * @param stride The stride width and height.
    */
-  void DepthWiseConvBlock(const size_t inSize,
-                          const size_t alpha,
-                          const size_t depthMultiplier = 1,
-                          const size_t stride = 1)
+  size_t DepthWiseConvBlock(const size_t inSize,
+                            const size_t outSize,
+                            const size_t alpha,
+                            const size_t depthMultiplier,
+                            const size_t stride = 1)
 {
+    paddingType = "same";
     size_t pointwiseOutSize = size_t(outSize * alpha);
     size_t depthMultipliedOutSize = size_t(inSize * depthMultiplier);
     ann::Sequential<>* sequentialBlock = new ann::Sequential<>();
+
     if (stride != 1)
     {
       sequentialBlock->Add(new ann::Padding<>(0, 1, 0, 1, inputWidth,
@@ -153,10 +161,10 @@ class MobileNetV1{
       inputHeight += 1;
       mlpack::Log::Info << inSize << ", " << inputWidth << ", " << inputHeight
           << ")" << std::endl;
-      paddingType = "valid"
+      paddingType = "valid";
     }
 
-    sequentialBlock->Add(new SeparableConvolution<>(inSize,
+    sequentialBlock->Add(new ann::SeparableConvolution<>(inSize,
         depthMultipliedOutSize, 3, 3, stride, stride, 0, 0, inputWidth,
         inputHeight, paddingType));
     mlpack::Log::Info << "Convolution: " << "(" << inSize << ", " <<
@@ -187,7 +195,9 @@ class MobileNetV1{
         << " ---> (" << pointwiseOutSize << ")" << std::endl;
     ReLU6Layer(sequentialBlock);
 
+    return pointwiseOutSize;
 }
+
   /**
    * Return the convolution output size.
    *
@@ -220,15 +230,33 @@ class MobileNetV1{
   //! Locally stored number of output classes.
   size_t numClasses;
 
-  //! InSize for ResNet block creation.
-  size_t downSampleInSize = 64;
+  //! Locally stored Depth multiplier for mobileNet block creation.
+  float depthMultiplier;
+
+  //! Locally stored alpha for mobileNet block creation.
+  float alpha;
 
   //! Locally stored block string from which to build the model.
-  std::string paddingType = "same";
+  std::string paddingType;
+
+  //! Locally stored output channels to use when building blocks.
+  size_t outSize;
+
+  //! Locally stored array to construct mobileNetV1 blocks.
+  size_t mobileNetConfig[4][2] = {
+                                  {128, 2},
+                                  {256, 2},
+                                  {512, 6},
+                                  {1024, 2},
+                                 };
 
   //! Locally stored path string for pre-trained model.
   std::string preTrainedPath;
 }; // MobileNetV1 class
+
+// convenience typedef.
+typedef MobileNetV1<ann::CrossEntropyError<>, ann::RandomInitialization>
+    MobilenetV1;
 
 } // namespace models
 } // namespace mlpack

@@ -1,8 +1,8 @@
 /**
- * @file resnet_impl.hpp
+ * @file mobilenet_v1_impl.hpp
  * @author Aakash Kaushik
  *
- * Implementation of ResNet using mlpack.
+ * Implementation of MobileNetV1 using mlpack.
  *
  * mlpack is free software; you may redistribute it and/or modify it under the
  * terms of the 3-clause BSD license.  You should have received a copy of the
@@ -22,7 +22,9 @@ void MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1() :
     inputChannel(0),
     inputWidth(0),
     inputHeight(0),
-    numClasses(0)
+    numClasses(0),
+    alpha(0),
+    depthMultiplier(0)
 {
   // Nothing to do here.
 }
@@ -32,14 +34,18 @@ void MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
     const size_t inputChannel,
     const size_t inputWidth,
     const size_t inputHeight,
+    const size_t alpha,
+    const size_t depthMultiplier
     const bool includeTop,
     const bool preTrained,
     const size_t numClasses) :
-    ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>(
+    MobileNetV1<OutputLayerType, InitializationRuleType>(
         std::tuple<size_t, size_t, size_t>(
         inputChannel,
         inputWidth,
         inputHeight),
+        alpha,
+        depthMultiplier,
         includeTop,
         preTrained,
         numClasses)
@@ -50,12 +56,16 @@ void MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
 template<typename OutputLayerType, typename InitializationRuleType>
 void MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
     std::tuple<size_t, size_t, size_t> inputShape,
+    const size_t alpha,
+    const size_t depthMultiplier,
     const bool includeTop,
     const bool preTrained,
     const size_t numClasses) :
     inputChannel(std::get<0>(inputShape)),
     inputWidth(std::get<1>(inputShape)),
     inputHeight(std::get<2>(inputShape)),
+    alpha(alpha),
+    depthMultiplier(depthMultiplier),
     numClasses(numClasses)
 {
   if (inputWidth < 32 || inputHeight < 32)
@@ -64,17 +74,35 @@ void MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
         " 32.\nGiven input width and height: (" << inputWidth << ", "
         << inputHeight << ")" << std::endl;
   }
-
-  mobileNet.Add(new ann::Convolution<>(3, int(32 * alpha), 3, 3, 2, 2, 0, 0,
+  outSize = size_t(32 * alpha);
+  mobileNet.Add(new ann::Convolution<>(3, outSize, 3, 3, 2, 2, 0, 0,
       inputWidth, inputHeight, "same"));
   mlpack::Log::Info << "Convolution: " << "(" << "3, " << inputWidth << ", "
-      << inputHeight << ")" << " ---> (" << int(32 * alpha) << ", "
+      << inputHeight << ")" << " ---> (" << outSize << ", "
       << inputWidth << ", " << inputHeight << ")" << std::endl;
-  mobileNet.Add(new ann::BatchNorm<>(int(32 * alpha), 1e-3, true, 0.99))
-  mlpack::Log::Info << "BatchNorm: " << "(" << int(32 * alpha) << ")"
-        << " ---> (" << int(32 * alpha) << ")" << std::endl;
+  mobileNet.Add(new ann::BatchNorm<>(outSize, 1e-3, true, 0.99))
+  mlpack::Log::Info << "BatchNorm: " << "(" << outSize << ")"
+        << " ---> (" << outSize << ")" << std::endl;
   ReLU6Layer();
+  outSize = DepthWiseConvBlock(outSize, 64, alpha, depthMultiplier);
+  
+  for (const size_t[2] blockConfig: mobileNetConfig)
+  { 
+    outSize = DepthWiseConvBlock(outSize, blockConfig[0], alpha, depthMultiplier,
+        2);
 
+    for(size_t numBlock = 1; numBlock < blockConfig[1]; ++i)
+    {
+      outSize = DepthWiseConvBlock(outSize, blockConfig[0], alpha,
+          depthMultiplier);
+    }
+
+  }
+
+  // if (includeTop)
+  // {
+  //   mobileNet.Add(new ann::AdaptiveMeanPooling<>(1, 1))
+  // }
   
   // Reset parameters for a new network.
   mobileNet.ResetParameters();
@@ -84,7 +112,7 @@ template<typename OutputLayerType, typename InitializationRuleType>
 void MobileNetV1<OutputLayerType, InitializationRuleType>::LoadModel(
     const std::string& filePath)
 {
-  data::Load(filePath, "ResNet", resNet);
+  data::Load(filePath, "mobilenet_v1", mobileNet);
   Log::Info << "Loaded model" << std::endl;
 }
 
@@ -93,7 +121,7 @@ void MobileNetV1<OutputLayerType, InitializationRuleType>::SaveModel(
     const std::string& filePath)
 {
   Log::Info<< "Saving model." << std::endl;
-  data::Save(filePath, "ResNet", resNet);
+  data::Save(filePath, "mobilenet_v1", mobileNet);
   Log::Info << "Model saved in " << filePath << "." << std::endl;
 }
 
