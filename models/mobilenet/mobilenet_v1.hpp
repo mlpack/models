@@ -102,97 +102,30 @@ class MobileNetV1{
 
  private:
   /**
-   * Adds a Convolution Block depending on the configuration.
+   * Adds a ReLU6 Layer.
    *
-   * @tparam SequentialType Layer type in which convolution block will
-   *     be added.
-   *
-   * @param inSize Number of input maps.
-   * @param outSize Number of output maps.
-   * @param strideWidth Stride of filter application in the x direction.
-   * @param strideHeight Stride of filter application in the y direction.
-   * @param kernelWidth Width of the filter/kernel.
-   * @param kernelHeight Height of the filter/kernel.
-   * @param padW Padding width of the input.
-   * @param padH Padding height of the input.
-   * @param downSample Bool if it's a downsample block or not. Default is false.
-   * @param downSampleInputWidth Input widht for downSample block.
-   * @param downSampleInputHeight Input height for downSample block.
+   * @param baseLayer Sequential layer type in which ReLU6 layer will be added if it's not NULL ot
+   *     added to mobileNet.
    */
-  template<typename SequentialType = ann::Sequential<>>
-  void ConvolutionBlock(SequentialType* baseLayer,
-                        const size_t inSize,
-                        const size_t outSize,
-                        const size_t strideWidth = 1,
-                        const size_t strideHeight = 1,
-                        const size_t kernelWidth = 3,
-                        const size_t kernelHeight = 3,
-                        const size_t padW = 1,
-                        const size_t padH = 1,
-                        const bool downSample = false,
-                        const size_t downSampleInputWidth = 0,
-                        const size_t downSampleInputHeight = 0)
+  void ReLU6Layer(ann::Sequential<>* baseLayer = NULL)
   {
-    ann::Sequential<>* tempBaseLayer = new ann::Sequential<>();
-    tempBaseLayer->Add(new ann::Convolution<>(inSize, outSize, kernelWidth,
-        kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
-        inputHeight));
-    mlpack::Log::Info << "Convolution: " << "(" << inSize << ", " <<
-        inputWidth << ", " << inputHeight << ")" << " ---> (";
+    if (baseLayer != NULL)
+    {
+      baseLayer->Add(new ann::ReLU6<>);
+      mlpack::Log::Info << "RelU6" << std::endl;
+      return;
+    }
 
-    // Updating input dimensions.
-    inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padW);
-    inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight,
-        padH);
-
-    mlpack::Log::Info << outSize << ", " << inputWidth << ", " <<
-        inputHeight << ")" << std::endl;
-
-    tempBaseLayer->Add(new ann::BatchNorm<>(outSize, 1e-5));
-    mlpack::Log::Info << "BatchNorm: " << "(" << outSize << ")" << " ---> ("
-        << outSize << ")" << std::endl;
-    baseLayer->Add(tempBaseLayer);
-    if (downSample)
-      mlpack::Log::Info << ")" <<std::endl;
+    mobileNet.Add(new ann::ReLU6<>);
+    mlpack::Log::Info << "RelU6" << std::endl;
   }
 
   /**
-   * Adds a ReLU Layer.
-   *
-   * @param baseLayer Sequential layer type in which ReLU layer will be added.
-   */
-  void ReLULayer(ann::Sequential<>* baseLayer)
-  {
-    baseLayer->Add(new ann::ReLULayer<>);
-    mlpack::Log::Info << "Relu" << std::endl;
-  }
-
-  /**
-   * Adds basicBlock block for ResNet 18 and 34.
+   * Adds DepthWiseConvBlock block.
    *
    * It's represented as:
    * 
    * @code
-   * resBlock - AddMerge layer
-   * {
-   *   sequentialBlock - sequentialLayer
-   *   {
-   *     ConvolutionBlock(inSize, outSize, strideWidth, strideHeight)
-   *     ReLU
-   *     ConvolutionBlock(inSize, outSize)
-   *   }
-   *
-   *   sequentialLayer
-   *   {
-   *     if downsample == true
-   *       ConvolutionBlock(inSize, outSize, strideWidth, strideHeight, 1, 1,
-   *           0, 0, true, downSampleInputWidth, downSampleInputHeight);
-   *     else
-   *       IdentityLayer
-   *   }
-   * 
-   *   ReLU
-   * }
    * @endcode
    * 
    * @param inSize Number of input maps.
@@ -202,159 +135,59 @@ class MobileNetV1{
    * @param downSample If there will be a downSample block or not, default
    *     false.
    */
-  void BasicBlock(const size_t inSize,
-                  const size_t outSize,
-                  const size_t strideWidth = 1,
-                  const size_t strideHeight = 1,
-                  const bool downSample = false)
-  {
-    downSampleInputWidth = inputWidth;
-    downSampleInputHeight = inputHeight;
-
-    ann::Sequential<>* basicBlock = new ann::Sequential<>();
-    ann::AddMerge<>* resBlock = new ann::AddMerge<>(true, true);
+  void DepthWiseConvBlock(const size_t inSize,
+                          const size_t alpha,
+                          const size_t depthMultiplier = 1,
+                          const size_t stride = 1)
+{
+    size_t pointwiseOutSize = size_t(outSize * alpha);
+    size_t depthMultipliedOutSize = size_t(inSize * depthMultiplier);
     ann::Sequential<>* sequentialBlock = new ann::Sequential<>();
-    ConvolutionBlock(sequentialBlock, inSize, outSize, strideWidth,
-        strideHeight);
-    ReLULayer(sequentialBlock);
-    ConvolutionBlock(sequentialBlock, outSize, outSize);
-
-    resBlock->Add(sequentialBlock);
-
-    if (downSample == true)
+    if (stride != 1)
     {
-      ConvolutionBlock(resBlock, inSize, outSize, strideWidth, strideHeight,
-          1, 1, 0, 0, true, downSampleInputWidth, downSampleInputHeight);
-    }
-    else
-    {
-      mlpack::Log::Info << "IdentityLayer" << std::endl;
-      resBlock->Add(new ann::IdentityLayer<>);
+      sequentialBlock->Add(new ann::Padding<>(0, 1, 0, 1, inputWidth,
+          inputHeight));
+      mlpack::Log::Info << "Padding: " << "(" << inSize << ", " << inputWidth
+          << ", " << inputWidth << " ---> (";
+      inputWidth += 1;
+      inputHeight += 1;
+      mlpack::Log::Info << inSize << ", " << inputWidth << ", " << inputHeight
+          << ")" << std::endl;
+      paddingType = "valid"
     }
 
-    basicBlock->Add(resBlock);
-    ReLULayer(basicBlock);
-    resNet.Add(basicBlock);
-  }
+    sequentialBlock->Add(new SeparableConvolution<>(inSize,
+        depthMultipliedOutSize, 3, 3, stride, stride, 0, 0, inputWidth,
+        inputHeight, paddingType));
+    mlpack::Log::Info << "Convolution: " << "(" << inSize << ", " <<
+        inputWidth << ", " << inputHeight << ")" << " ---> (";
 
-  /**
-   * Adds bottleNeck block for ResNet 50, 101 and 152.
-   *
-   * It's represented as:
-   * 
-   * @code
-   * resBlock - AddMerge layer
-   * {
-   *   sequentialBlock
-   *   {
-   *     ConvolutionBlock(sequentialBlock, inSize, width, 1, 1, 1, 1, 0, 0)
-   *     ReLU
-   *     ConvolutionBlock(width, width, strideWidth, strideHeight)
-   *     ReLU
-   *     ConvolutionBlock(sequentialBlock, width, outSize * bottleNeckExpansion,
-   *         1, 1, 1, 1, 0, 0)
-   *   }
-   *
-   *   sequentialLayer
-   *   {
-   *     if downsample == true
-   *       ConvolutionBlock(inSize, outSize * bottleNeckExpansion, strideWidth,
-   *           strideHeight, 1, 1, 0, 0, true, downSampleInputWidth,
-   *           downSampleInputHeight);
-   *     else
-   *       IdentityLayer
-   *   }
-   * 
-   *   ReLU
-   * }
-   *@endcode
-   *
-   * @param inSize Number of input maps.
-   * @param outSize Number of output maps.
-   * @param strideWidth Stride of filter application in the x direction.
-   * @param strideHeight Stride of filter application in the y direction.
-   * @param downSample If there will be a downSample block or not, default
-   *     false.
-   * @param baseWidth Parameter for calculating width.
-   * @param groups Parameter for calculating width.
-   */
-  void BottleNeck(const size_t inSize,
-                  const size_t outSize,
-                  const size_t strideWidth = 1,
-                  const size_t strideHeight = 1,
-                  const bool downSample = false,
-                  const size_t baseWidth = 64,
-                  const size_t groups = 1)
-  {
-    downSampleInputWidth = inputWidth;
-    downSampleInputHeight = inputHeight;
-
-    size_t width = int((baseWidth / 64.0) * outSize) * groups;
-    ann::Sequential<>* basicBlock = new ann::Sequential<>();
-    ann::AddMerge<>* resBlock = new ann::AddMerge<>(true, true);
-    ann::Sequential<>* sequentialBlock = new ann::Sequential<>();
-    ConvolutionBlock(sequentialBlock, inSize, width, 1, 1, 1, 1, 0, 0);
-    ReLULayer(sequentialBlock);
-    ConvolutionBlock(sequentialBlock, width, width, strideWidth,
-        strideHeight);
-    ReLULayer(sequentialBlock);
-    ConvolutionBlock(sequentialBlock, width, outSize * bottleNeckExpansion, 1,
-        1, 1, 1, 0, 0);
-    resBlock->Add(sequentialBlock);
-
-    if (downSample == true)
+    if (paddingType == "valid")
     {
-      ConvolutionBlock(resBlock, inSize, outSize * bottleNeckExpansion,
-           strideWidth, strideHeight, 1, 1, 0, 0, true, downSampleInputWidth,
-           downSampleInputHeight);
-      mlpack::Log::Info << ")" <<std::endl;
-    }
-    else
-    {
-      mlpack::Log::Info << "IdentityLayer" << std::endl;
-      resBlock->Add(new ann::IdentityLayer<>);
+      inputWidth = ConvOutSize(inputWidth, 3, stride, 0);
+      inputHeight = ConvOutSize(inputHeight, 3, stride, 0);
     }
 
-    basicBlock->Add(resBlock);
-    ReLULayer(basicBlock);
-    resNet.Add(basicBlock);
-  }
+    mlpack::Log::Info << depthMultipliedOutSize << ", " << inputWidth << ", "
+        << inputHeight << ")" << std::endl;
 
-  /**
-   * Creates model layers based on the type of layer and parameters supplied.
-   *
-   * @param block Type of block to use for layer creation.
-   * @param outSize Number of output maps.
-   * @param numBlocks Number of layers to create.
-   * @param stride Single parameter for StrideHeight and strideWidth.
-   */
-  void MakeLayer(const std::string& block,
-                 const size_t outSize,
-                 const size_t numBlocks,
-                 const size_t stride = 1)
-  {
-    bool downSample = false;
+    sequentialBlock->Add(new ann::BatchNorm<>(depthMultipliedOutSize, 1e-3,
+        true, 0.99));
+    mlpack::Log::Info << "BatchNorm: " << "(" << depthMultipliedOutSize << ")"
+        << " ---> (" << depthMultipliedOutSize << ")" << std::endl;
+    ReLU6Layer(sequentialBlock);
+    sequentialBlock->Add(new ann::Convolution<>(depthMultipliedOutSize,
+        pointwiseOutSize, 1, 1, 1, 1, 0, 0, inputWidth, inputHeight, "same"));
+    mlpack::Log::Info << "Convolution: " << "(" << inSize << ", " << inputWidth
+        << ", " << inputHeight << ")" << " ---> (" << depthMultipliedOutSize
+        << ", " << inputWidth << ", " << inputHeight << ")" << std::endl;
+    sequentialBlock->Add(new ann::BatchNorm<>(pointwiseOutSize, 1e-3, true,
+        0.99));
+    mlpack::Log::Info << "BatchNorm: " << "(" << pointwiseOutSize << ")"
+        << " ---> (" << pointwiseOutSize << ")" << std::endl;
+    ReLU6Layer(sequentialBlock);
 
-    if (block == "basicblock")
-    {
-      if (stride != 1 || downSampleInSize != outSize * basicBlockExpansion)
-        downSample = true;
-      BasicBlock(downSampleInSize, outSize * basicBlockExpansion, stride,
-          stride, downSample);
-      downSampleInSize = outSize * basicBlockExpansion;
-      for (size_t i = 1; i != numBlocks; ++i)
-        BasicBlock(downSampleInSize, outSize);
-      return;
-    }
-
-    if (stride != 1 || downSampleInSize != outSize * bottleNeckExpansion)
-      downSample = true;
-    BottleNeck(downSampleInSize, outSize, stride, stride, downSample);
-    downSampleInSize = outSize * bottleNeckExpansion;
-    for (size_t i = 1; i != numBlocks; ++i)
-      BottleNeck(downSampleInSize, outSize);
-  }
-
+}
   /**
    * Return the convolution output size.
    *
@@ -387,26 +220,11 @@ class MobileNetV1{
   //! Locally stored number of output classes.
   size_t numClasses;
 
-  //! Locally stored width of image for downSample block.
-  size_t downSampleInputWidth;
-
-  //! Locally stored height of image for downSample block.
-  size_t downSampleInputHeight;
-
-  //! Locally stored expansion for BasicBlock.
-  size_t basicBlockExpansion = 1;
-
-  //! Locally stored expansion for BottleNeck.
-  size_t bottleNeckExpansion = 4;
-
   //! InSize for ResNet block creation.
   size_t downSampleInSize = 64;
 
-  //! Locally stored array to constructor different ResNet versions.
-  std::array<size_t , 4> numBlockArray;
-
   //! Locally stored block string from which to build the model.
-  std::string builderBlock;
+  std::string paddingType = "same";
 
   //! Locally stored path string for pre-trained model.
   std::string preTrainedPath;
@@ -415,6 +233,6 @@ class MobileNetV1{
 } // namespace models
 } // namespace mlpack
 
-#include "resnet_impl.hpp"
+#include "mobilenet_v1_impl.hpp"
 
 #endif

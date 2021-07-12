@@ -18,7 +18,7 @@ namespace mlpack {
 namespace models {
 
 template<typename OutputLayerType, typename InitializationRuleType>
-void MobileNetV1<OutputLayerType, InitializationRuleType>::ResNet() :
+void MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1() :
     inputChannel(0),
     inputWidth(0),
     inputHeight(0),
@@ -28,7 +28,7 @@ void MobileNetV1<OutputLayerType, InitializationRuleType>::ResNet() :
 }
 
 template<typename OutputLayerType, typename InitializationRuleType>
-void MobileNetV1<OutputLayerType, InitializationRuleType>::ResNet(
+void MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
     const size_t inputChannel,
     const size_t inputWidth,
     const size_t inputHeight,
@@ -48,7 +48,7 @@ void MobileNetV1<OutputLayerType, InitializationRuleType>::ResNet(
 }
 
 template<typename OutputLayerType, typename InitializationRuleType>
-void MobileNetV1<OutputLayerType, InitializationRuleType>::ResNet(
+void MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
     std::tuple<size_t, size_t, size_t> inputShape,
     const bool includeTop,
     const bool preTrained,
@@ -58,14 +58,25 @@ void MobileNetV1<OutputLayerType, InitializationRuleType>::ResNet(
     inputHeight(std::get<2>(inputShape)),
     numClasses(numClasses)
 {
+  if (inputWidth < 32 || inputHeight < 32)
+  {
+    mlpack::Log::Fatal << "input width and input height cannot be smaller than" 
+        " 32.\nGiven input width and height: (" << inputWidth << ", "
+        << inputHeight << ")" << std::endl;
+  }
+
   mobileNet.Add(new ann::Convolution<>(3, int(32 * alpha), 3, 3, 2, 2, 0, 0,
       inputWidth, inputHeight, "same"));
+  mlpack::Log::Info << "Convolution: " << "(" << "3, " << inputWidth << ", "
+      << inputHeight << ")" << " ---> (" << int(32 * alpha) << ", "
+      << inputWidth << ", " << inputHeight << ")" << std::endl;
   mobileNet.Add(new ann::BatchNorm<>(int(32 * alpha), 1e-3, true, 0.99))
-  // Need a relu6 or a layer whose max can be modified.
-  // reference:
-  // 1. https://www.tensorflow.org/api_docs/python/tf/nn/relu6
-  // 2. https://keras.io/api/layers/activation_layers/relu/
-  mobileNet.Add(new ann::RelU6<>())
+  mlpack::Log::Info << "BatchNorm: " << "(" << int(32 * alpha) << ")"
+        << " ---> (" << int(32 * alpha) << ")" << std::endl;
+  ReLU6Layer();
+
+  
+  // Reset parameters for a new network.
   mobileNet.ResetParameters();
 }
 
