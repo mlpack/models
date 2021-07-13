@@ -70,7 +70,7 @@ MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
 {
   if (inputWidth < 32 || inputHeight < 32)
   {
-    mlpack::Log::Fatal << "input width and input height cannot be smaller than" 
+    mlpack::Log::Fatal << "input width and input height cannot be smaller than"
         " 32.\nGiven input width and height: (" << inputWidth << ", "
         << inputHeight << ")" << std::endl;
   }
@@ -87,24 +87,23 @@ MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
         << " ---> (" << outSize << ")" << std::endl;
   ReLU6Layer();
   outSize = DepthWiseConvBlock(outSize, 64, alpha, depthMultiplier);
-  
-  for (const auto& blockConfig: mobileNetConfig)
-  { 
+
+  for (const auto& blockConfig : mobileNetConfig)
+  {
     outSize = DepthWiseConvBlock(outSize, blockConfig.first, alpha,
         depthMultiplier, 2);
 
-    for(size_t numBlock = 1; numBlock < blockConfig.second; ++numBlock)
+    for (size_t numBlock = 1; numBlock < blockConfig.second; ++numBlock)
     {
       outSize = DepthWiseConvBlock(outSize, blockConfig.first, alpha,
           depthMultiplier);
     }
-
   }
 
   mobileNet.Add(new ann::AdaptiveMeanPooling<>(1, 1));
   mlpack::Log::Info << "Adaptive mean pooling: (1024, " << inputWidth << ", "
       << inputHeight << ") ---> (1024, 1, 1)" << std::endl;
-  
+
   if (includeTop)
   {
     mobileNet.Add(new ann::Dropout<>(1e-3));
@@ -116,7 +115,7 @@ MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
     mobileNet.Add(new ann::Softmax<>);
     mlpack::Log::Info << "Softmax" << std::endl;
   }
-  
+
   // Reset parameters for a new network.
   mobileNet.ResetParameters();
 }
