@@ -195,6 +195,7 @@ class MobileNetV1{
     mlpack::Log::Info << "BatchNorm: " << "(" << pointwiseOutSize << ")"
         << " ---> (" << pointwiseOutSize << ")" << std::endl;
     ReLU6Layer(sequentialBlock);
+    mobileNet.Add(sequentialBlock);
 
     return pointwiseOutSize;
 }

@@ -75,8 +75,8 @@ MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
         << inputHeight << ")" << std::endl;
   }
   outSize = size_t(32 * alpha);
-  mobileNet.Add(new ann::Convolution<>(3, outSize, 3, 3, 2, 2, 0, 0,
-      inputWidth, inputHeight, "same"));
+  mobileNet.Add(new ann::Convolution<>(inputChannel, outSize, 3, 3, 2, 2, 1, 1,
+      inputWidth, inputHeight));
   mlpack::Log::Info << "Convolution: " << "(" << "3, " << inputWidth << ", "
       << inputHeight << ")" << " ---> (" << outSize << ", ";
   inputWidth = ConvOutSize(inputWidth, 3, 2, 1);
@@ -101,22 +101,20 @@ MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
 
   }
 
+  mobileNet.Add(new ann::AdaptiveMeanPooling<>(1, 1));
+  mlpack::Log::Info << "Adaptive mean pooling: (1024, " << inputWidth << ", "
+      << inputHeight << ") ---> (1024, 1, 1)" << std::endl;
+  
   if (includeTop)
   {
-    // We need something like Global average pooling, refernce:
-    // 1. https://keras.io/api/layers/pooling_layers/global_average_pooling2d/
-
-    // mobileNet.Add(new ann::AdaptiveMeanPooling<>(1024, 1));
-    // mlpack::Log::Info << "Adaptive mean pooling" << std::endl;
-    // mobileNet.Add(new ann::Dropout<>(1e-3));
-    // mlpack::Log::Info << "Dropout" << std::endl;
-    // mobileNet.Add(new ann::Convolution<>(/*need to figure out inSize*/,
-    //     numClasses, 1, 1, 1, 1, 0, 0, inputWidth, inputHeight, "same"));
-    // mlpack::Log::Info << "Convolution: " << "(" << "3, " << inputWidth << ", "
-    //   << inputHeight << ")" << " ---> (" << outSize << ", "
-    //   << inputWidth << ", " << inputHeight << ")" << std::endl;
-    // mobileNet.Add(new ann::Softmax<>);
-    // mlpack::Log::Info << "Softmax" << std::endl;
+    mobileNet.Add(new ann::Dropout<>(1e-3));
+    mlpack::Log::Info << "Dropout" << std::endl;
+    mobileNet.Add(new ann::Convolution<>(1024, numClasses, 1, 1, 1, 1, 0, 0,
+        1, 1, "same"));
+    mlpack::Log::Info << "Convolution: " << "(1024, 1, 1) ---> (" << numClasses
+        << " , 1, 1)" << std::endl;
+    mobileNet.Add(new ann::Softmax<>);
+    mlpack::Log::Info << "Softmax" << std::endl;
   }
   
   // Reset parameters for a new network.
