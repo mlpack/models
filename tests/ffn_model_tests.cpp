@@ -15,6 +15,7 @@
 #include <models/darknet/darknet.hpp>
 #include <models/yolo/yolo.hpp>
 #include <models/resnet/resnet.hpp>
+#include <models/mobilenet/mobilenet_v1.hpp>
 #include "catch.hpp"
 
 using namespace mlpack::models;
@@ -193,4 +194,16 @@ TEST_CASE("PreTrainedResNetModel152Test", "[FFNModelsTests]")
   // Check output for(referenced from PyTorch) resnet152.
   ResNet152 resnet152(3, 224, 224, true, true);
   PreTrainedModelTest(resnet152.GetModel(), input, 0.00199318, 0.00799561);
+}
+
+/**
+ * Simple test for MobileNetV1 model.
+ */
+TEST_CASE("MobileNetV1ModelTest", "[FFNModelsTests]")
+{
+  arma::mat input(224 * 224 * 3, 1);
+
+  // Check output shape for resnet152.
+  MobilenetV1 mobilenet(3, 224, 224);
+  ModelDimTest(mobilenet.GetModel(), input);
 }

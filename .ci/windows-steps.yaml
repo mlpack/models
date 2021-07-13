@@ -58,7 +58,7 @@ steps:
 
 # Configure mlpack
 - powershell: |
-    git clone --depth 1 https://github.com/mlpack/mlpack.git
+    git clone --depth 1 -b depthwise https://github.com/Aakash-kaushik/mlpack.git
     mkdir mlpack\build
     cd mlpack\build
 

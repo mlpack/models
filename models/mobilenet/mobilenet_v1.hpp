@@ -229,14 +229,14 @@ class MobileNetV1{
   //! Locally stored height of the image.
   size_t inputHeight;
 
-  //! Locally stored number of output classes.
-  size_t numClasses;
+  //! Locally stored alpha for mobileNet block creation.
+  float alpha;
 
   //! Locally stored Depth multiplier for mobileNet block creation.
   float depthMultiplier;
 
-  //! Locally stored alpha for mobileNet block creation.
-  float alpha;
+  //! Locally stored number of output classes.
+  size_t numClasses;
 
   //! Locally stored block string from which to build the model.
   std::string paddingType;
