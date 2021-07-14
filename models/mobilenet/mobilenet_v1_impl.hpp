@@ -101,8 +101,8 @@ MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
   }
 
   mobileNet.Add(new ann::AdaptiveMeanPooling<>(1, 1));
-  mlpack::Log::Info << "Adaptive mean pooling: (1024, " << inputWidth << ", "
-      << inputHeight << ") ---> (1024, 1, 1)" << std::endl;
+  mlpack::Log::Info << "Adaptive mean pooling: (" << size_t(1024 * alpha) << ", " << inputWidth << ", "
+      << inputHeight << ") ---> (" << size_t(1024 * alpha) << ", 1, 1)" << std::endl;
 
   if (includeTop)
   {
@@ -110,7 +110,7 @@ MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
     mlpack::Log::Info << "Dropout" << std::endl;
     mobileNet.Add(new ann::Convolution<>(1024, numClasses, 1, 1, 1, 1, 0, 0,
         1, 1, "same"));
-    mlpack::Log::Info << "Convolution: " << "(1024, 1, 1) ---> (" << numClasses
+    mlpack::Log::Info << "Convolution: (" << size_t(1024 * alpha) << ", 1, 1) ---> (" << numClasses
         << " , 1, 1)" << std::endl;
     mobileNet.Add(new ann::Softmax<>);
     mlpack::Log::Info << "Softmax" << std::endl;
