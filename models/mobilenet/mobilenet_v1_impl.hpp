@@ -79,8 +79,8 @@ MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
   {
     if (numClasses != 1000)
     {
-      mlpack::Log::Fatal << "Number of classes should be 1000 when pre-trained is"
-          " true" << std::endl;
+      mlpack::Log::Fatal << "Number of classes should be 1000 when pre-trained"
+          " is true." << std::endl;
     }
 
     if (inputWidth != inputHeight)

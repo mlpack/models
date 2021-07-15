@@ -240,7 +240,7 @@ TEST_CASE("PreTrainedMobileNetV1ModelTest", "[FFNModelsTests]")
   for (double alpha_val : alpha)
   {
     for (int image_size_val : image_size)
-    { 
+    {
       MobilenetV1 mobilenet(3, image_size_val, image_size_val, alpha_val, 1,
           true, true);
       input.set_size(image_size_val * image_size_val * 3, 1);
