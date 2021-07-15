@@ -34,7 +34,7 @@ MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
     const size_t inputChannel,
     const size_t inputWidth,
     const size_t inputHeight,
-    const size_t alpha,
+    const float alpha,
     const size_t depthMultiplier,
     const bool includeTop,
     const bool preTrained,
@@ -56,7 +56,7 @@ MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
 template<typename OutputLayerType, typename InitializationRuleType>
 MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
     std::tuple<size_t, size_t, size_t> inputShape,
-    const size_t alpha,
+    const float alpha,
     const size_t depthMultiplier,
     const bool includeTop,
     const bool preTrained,
@@ -74,11 +74,58 @@ MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
         " 32.\nGiven input width and height: (" << inputWidth << ", "
         << inputHeight << ")" << std::endl;
   }
+
+  if (preTrained)
+  {
+    if (numClasses != 1000)
+    {
+      mlpack::Log::Fatal << "Number of classes should be 1000 when pre-trained is"
+          " true" << std::endl;
+    }
+    
+    if (inputWidth != inputHeight)
+    {
+      mlpack::Log::Fatal << "When pre-trained is true image height should be"
+          " equal to image width." << std::endl;
+    }
+
+    std::map<size_t, std::string>::iterator imageSizeString =
+        imageSizeToString.find(inputWidth);
+    if (imageSizeString == imageSizeToString.end())
+    {
+      mlpack::Log::Fatal << "Image size can only be one of the following when"
+          " pre-trained is true: (128, 160, 192, 224)" << std::endl;
+    }
+
+    std::map<double, std::string>::iterator alphaString =
+        alphaToString.find(alpha);
+    if (alphaString == alphaToString.end())
+    {
+      mlpack::Log::Fatal << "Alpha can only be one of the following when"
+          " pre-trained is true: (0.25, 0.5, 0.75, 1.0)" << std::endl;
+    }
+
+    std::string home = getenv("HOME");
+    preTrainedPath = home + "/.cache/mlpack/models/weights/mobilenetv1/"
+        "mobilenetv1_" + alphaString->second + "_" + imageSizeString->second +
+        ".bin";
+    if (Utils::PathExists(preTrainedPath, true) == false)
+    {
+      std::cout << "mobilenetv1_" + alphaString->second + "_" +
+          imageSizeString->second + ".bin to " + preTrainedPath << std::endl;
+      Utils::DownloadFile("mobilenetv1_" + alphaString->second + "_" +
+          imageSizeString->second + ".bin", preTrainedPath, "", false, false,
+          "http://models.mlpack.org/mobilenetv1/");
+    }
+
+    LoadModel(preTrainedPath);
+    return;
+  }
   outSize = size_t(32 * alpha);
-  mobileNet.Add(new ann::Convolution<>(inputChannel, outSize, 3, 3, 2, 2, 1, 1,
-      inputWidth, inputHeight));
-  mlpack::Log::Info << "Convolution: " << "(" << "3, " << inputWidth << ", "
-      << inputHeight << ")" << " ---> (" << outSize << ", ";
+  mobileNet.Add(new ann::Convolution<>(inputChannel, outSize, 3, 3, 2, 2,
+      std::make_tuple(0, 1), std::make_tuple(0, 1), inputWidth, inputHeight));
+  mlpack::Log::Info << "Convolution: " << "(" << "3, " << inputWidth + 1 << ", "
+      << inputHeight + 1 << ")" << " ---> (" << outSize << ", ";
   inputWidth = ConvOutSize(inputWidth, 3, 2, 1);
   inputHeight = ConvOutSize(inputHeight, 3, 2, 1);
   mlpack::Log::Info << inputWidth << ", " << inputHeight << ")" << std::endl;
@@ -100,18 +147,19 @@ MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
     }
   }
 
-  mobileNet.Add(new ann::MeanPooling<>(7, 7, 7, 7));
-  mlpack::Log::Info << "Mean pooling: (" << size_t(1024 * alpha) << ", " << inputWidth << ", "
-      << inputHeight << ") ---> (" << size_t(1024 * alpha) << ", 1, 1)" << std::endl;
+  mobileNet.Add(new ann::AdaptiveMeanPooling<>(1, 1));
+  mlpack::Log::Info << "Adaptive mean pooling: (" << size_t(1024 * alpha) << ", "
+      << inputWidth << ", " << inputHeight << ") ---> (" << size_t(1024 * alpha)
+      << ", 1, 1)" << std::endl;
 
   if (includeTop)
   {
     mobileNet.Add(new ann::Dropout<>(1e-3));
     mlpack::Log::Info << "Dropout" << std::endl;
-    mobileNet.Add(new ann::Convolution<>(1024, numClasses, 1, 1, 1, 1, 0, 0,
+    mobileNet.Add(new ann::Convolution<>(size_t(1024 * alpha), numClasses, 1, 1, 1, 1, 0, 0,
         1, 1, "same"));
-    mlpack::Log::Info << "Convolution: (" << size_t(1024 * alpha) << ", 1, 1) ---> (" << numClasses
-        << " , 1, 1)" << std::endl;
+    mlpack::Log::Info << "Convolution: (" << size_t(1024 * alpha)
+        << ", 1, 1) ---> (" << numClasses << " , 1, 1)" << std::endl;
     mobileNet.Add(new ann::Softmax<>);
     mlpack::Log::Info << "Softmax" << std::endl;
   }

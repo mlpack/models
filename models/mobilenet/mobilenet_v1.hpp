@@ -68,7 +68,7 @@ class MobileNetV1{
   MobileNetV1(const size_t inputChannel,
               const size_t inputWidth,
               const size_t inputHeight,
-              const size_t alpha = 1.0,
+              const float alpha = 1.0,
               const size_t depthMultiplier = 1.0,
               const bool includeTop = true,
               const bool preTrained = false,
@@ -86,7 +86,7 @@ class MobileNetV1{
    *     only to be specified if includeTop is  true.
    */
   MobileNetV1(std::tuple<size_t, size_t, size_t> inputShape,
-              const size_t alpha = 1.0,
+              const float alpha = 1.0,
               const size_t depthMultiplier = 1.0,
               const bool includeTop = true,
               const bool preTrained = false,
@@ -108,8 +108,8 @@ class MobileNetV1{
   /**
    * Adds a ReLU6 Layer.
    *
-   * @param baseLayer Sequential layer type in which ReLU6 layer will be added if it's not NULL ot
-   *     added to mobileNet.
+   * @param baseLayer Sequential layer type in which ReLU6 layer will be added
+   *     if it's not NULL oterwise added to mobileNet.
    */
   void ReLU6Layer(ann::Sequential<>* baseLayer = NULL)
   {
@@ -142,11 +142,10 @@ class MobileNetV1{
    */
   size_t DepthWiseConvBlock(const size_t inSize,
                             const size_t outSize,
-                            const size_t alpha,
+                            const float alpha,
                             const size_t depthMultiplier,
                             const size_t stride = 1)
 {   
-    mlpack::Log::Info << "Block starts: " << std::endl;
     paddingType = "same";
     size_t pointwiseOutSize = size_t(outSize * alpha);
     size_t depthMultipliedOutSize = size_t(inSize * depthMultiplier);
@@ -246,11 +245,25 @@ class MobileNetV1{
 
   //! Locally stored mpa to construct mobileNetV1 blocks.
   std::map<size_t, size_t> mobileNetConfig = {
-                                               {128, 2},
-                                               {256, 2},
-                                               {512, 6},
-                                               {1024, 2},
+                                                {128, 2},
+                                                {256, 2},
+                                                {512, 6},
+                                                {1024, 2},
                                               };
+
+  std::map<double, std::string> alphaToString = {
+                                                  {0.25, "0.25"},
+                                                  {0.5, "0.5"},
+                                                  {0.75, "0.75"},
+                                                  {1.0, "1"}
+                                                }; 
+
+  std::map<size_t, std::string> imageSizeToString = {
+                                                      {128, "128"},
+                                                      {160, "160"},
+                                                      {198, "198"},
+                                                      {224, "224"}
+                                                    };                                        
 
   //! Locally stored path string for pre-trained model.
   std::string preTrainedPath;
