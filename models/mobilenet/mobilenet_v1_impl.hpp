@@ -91,6 +91,7 @@ MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
 
     std::map<size_t, std::string>::iterator imageSizeString =
         imageSizeToString.find(inputWidth);
+    std::cout << imageSizeString->first << "  " <<imageSizeString->second <<std::endl;
     if (imageSizeString == imageSizeToString.end())
     {
       mlpack::Log::Fatal << "Image size can only be one of the following when"

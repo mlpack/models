@@ -234,6 +234,7 @@ TEST_CASE("PreTrainedMobileNetV1ModelTest", "[FFNModelsTests]")
       {0.0001756725978339091, 0.00011693470878526568, 0.000924319785553962}, 
       {0.0003898103896062821, 0.0003618707705754787, 0.0009399897535331547} 
   };
+  arma::mat input, output;
   std::vector<double> alpha = {0.25, 0.5, 0.75, 1.0};
   std::vector<int> image_size = {128, 160, 192, 224};
   for (double alpha_val : alpha)
@@ -242,11 +243,12 @@ TEST_CASE("PreTrainedMobileNetV1ModelTest", "[FFNModelsTests]")
     { 
       MobilenetV1 mobilenet(3, image_size_val, image_size_val, alpha_val, 1,
           true, true);
-      arma::mat input(image_size_val * image_size_val * 3, 1), output;
+      input.set_size(image_size_val * image_size_val * 3, 1);
       input.fill(1);
-      REQUIRE(output[0] == targets[counter][0]);
-      REQUIRE(output[500] == targets[counter][1]);
-      REQUIRE(output[999] == targets[counter][2]);
+      mobilenet.GetModel().Predict(input, output);
+      REQUIRE(output[0] == Approx(targets[counter][0]).epsilon(1e-4));
+      REQUIRE(output[500] == Approx(targets[counter][1]).epsilon(1e-4));
+      REQUIRE(output[999] == Approx(targets[counter][2]).epsilon(1e-4));
       counter++;
     }
   }

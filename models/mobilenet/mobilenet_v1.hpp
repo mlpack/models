@@ -261,7 +261,7 @@ class MobileNetV1{
   std::map<size_t, std::string> imageSizeToString = {
                                                       {128, "128"},
                                                       {160, "160"},
-                                                      {198, "198"},
+                                                      {192, "192"},
                                                       {224, "224"}
                                                     };                                        
 
