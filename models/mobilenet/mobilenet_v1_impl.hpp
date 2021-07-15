@@ -82,7 +82,7 @@ MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
   inputWidth = ConvOutSize(inputWidth, 3, 2, 1);
   inputHeight = ConvOutSize(inputHeight, 3, 2, 1);
   mlpack::Log::Info << inputWidth << ", " << inputHeight << ")" << std::endl;
-  mobileNet.Add(new ann::BatchNorm<>(outSize, 1e-3, true, 0.99));
+  mobileNet.Add(new ann::BatchNorm<>(outSize, 1e-3, true));
   mlpack::Log::Info << "BatchNorm: " << "(" << outSize << ")"
         << " ---> (" << outSize << ")" << std::endl;
   ReLU6Layer();
@@ -100,8 +100,8 @@ MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
     }
   }
 
-  mobileNet.Add(new ann::AdaptiveMeanPooling<>(1, 1));
-  mlpack::Log::Info << "Adaptive mean pooling: (" << size_t(1024 * alpha) << ", " << inputWidth << ", "
+  mobileNet.Add(new ann::MeanPooling<>(7, 7, 7, 7));
+  mlpack::Log::Info << "Mean pooling: (" << size_t(1024 * alpha) << ", " << inputWidth << ", "
       << inputHeight << ") ---> (" << size_t(1024 * alpha) << ", 1, 1)" << std::endl;
 
   if (includeTop)

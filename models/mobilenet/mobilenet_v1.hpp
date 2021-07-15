@@ -145,7 +145,8 @@ class MobileNetV1{
                             const size_t alpha,
                             const size_t depthMultiplier,
                             const size_t stride = 1)
-{
+{   
+    mlpack::Log::Info << "Block starts: " << std::endl;
     paddingType = "same";
     size_t pointwiseOutSize = size_t(outSize * alpha);
     size_t depthMultipliedOutSize = size_t(inSize * depthMultiplier);
@@ -180,7 +181,7 @@ class MobileNetV1{
         << inputHeight << ")" << std::endl;
 
     sequentialBlock->Add(new ann::BatchNorm<>(depthMultipliedOutSize, 1e-3,
-        true, 0.99));
+        true));
     mlpack::Log::Info << "BatchNorm: " << "(" << depthMultipliedOutSize << ")"
         << " ---> (" << depthMultipliedOutSize << ")" << std::endl;
     ReLU6Layer(sequentialBlock);
@@ -190,8 +191,7 @@ class MobileNetV1{
         ", " << inputWidth << ", " << inputHeight << ")" << " ---> ("
         << pointwiseOutSize << ", " << inputWidth << ", " << inputHeight << ")"
         << std::endl;
-    sequentialBlock->Add(new ann::BatchNorm<>(pointwiseOutSize, 1e-3, true,
-        0.99));
+    sequentialBlock->Add(new ann::BatchNorm<>(pointwiseOutSize, 1e-3, true));
     mlpack::Log::Info << "BatchNorm: " << "(" << pointwiseOutSize << ")"
         << " ---> (" << pointwiseOutSize << ")" << std::endl;
     ReLU6Layer(sequentialBlock);
