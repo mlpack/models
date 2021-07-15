@@ -145,7 +145,7 @@ class MobileNetV1{
                             const float alpha,
                             const size_t depthMultiplier,
                             const size_t stride = 1)
-{   
+{
     paddingType = "same";
     size_t pointwiseOutSize = size_t(outSize * alpha);
     size_t depthMultipliedOutSize = size_t(inSize * depthMultiplier);
@@ -256,14 +256,14 @@ class MobileNetV1{
                                                   {0.5, "0.5"},
                                                   {0.75, "0.75"},
                                                   {1.0, "1"}
-                                                }; 
+                                                };
 
   std::map<size_t, std::string> imageSizeToString = {
                                                       {128, "128"},
                                                       {160, "160"},
                                                       {192, "192"},
                                                       {224, "224"}
-                                                    };                                        
+                                                    };
 
   //! Locally stored path string for pre-trained model.
   std::string preTrainedPath;

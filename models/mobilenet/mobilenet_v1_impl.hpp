@@ -82,7 +82,7 @@ MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
       mlpack::Log::Fatal << "Number of classes should be 1000 when pre-trained is"
           " true" << std::endl;
     }
-    
+
     if (inputWidth != inputHeight)
     {
       mlpack::Log::Fatal << "When pre-trained is true image height should be"
@@ -91,7 +91,6 @@ MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
 
     std::map<size_t, std::string>::iterator imageSizeString =
         imageSizeToString.find(inputWidth);
-    std::cout << imageSizeString->first << "  " <<imageSizeString->second <<std::endl;
     if (imageSizeString == imageSizeToString.end())
     {
       mlpack::Log::Fatal << "Image size can only be one of the following when"
@@ -149,16 +148,16 @@ MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
   }
 
   mobileNet.Add(new ann::AdaptiveMeanPooling<>(1, 1));
-  mlpack::Log::Info << "Adaptive mean pooling: (" << size_t(1024 * alpha) << ", "
-      << inputWidth << ", " << inputHeight << ") ---> (" << size_t(1024 * alpha)
-      << ", 1, 1)" << std::endl;
+  mlpack::Log::Info << "Adaptive mean pooling: (" << size_t(1024 * alpha)
+      << ", " << inputWidth << ", " << inputHeight << ") ---> ("
+      << size_t(1024 * alpha) << ", 1, 1)" << std::endl;
 
   if (includeTop)
   {
     mobileNet.Add(new ann::Dropout<>(1e-3));
     mlpack::Log::Info << "Dropout" << std::endl;
-    mobileNet.Add(new ann::Convolution<>(size_t(1024 * alpha), numClasses, 1, 1, 1, 1, 0, 0,
-        1, 1, "same"));
+    mobileNet.Add(new ann::Convolution<>(size_t(1024 * alpha), numClasses, 1,
+        1, 1, 1, 0, 0, 1, 1, "same"));
     mlpack::Log::Info << "Convolution: (" << size_t(1024 * alpha)
         << ", 1, 1) ---> (" << numClasses << " , 1, 1)" << std::endl;
     mobileNet.Add(new ann::Softmax<>);
