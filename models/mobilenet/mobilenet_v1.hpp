@@ -124,6 +124,65 @@ class MobileNetV1{
   }
 
   /**
+   * Adds a Convolution Block.
+   *
+   * @param inSize Number of input maps.
+   * @param outSize Number of output maps.
+   * @param strideWidth Stride of filter application in the x direction.
+   * @param strideHeight Stride of filter application in the y direction.
+   * @param kernelWidth Width of the filter/kernel.
+   * @param kernelHeight Height of the filter/kernel.
+   * @param padL Left padding width of the input.
+   * @param padR Right padding height of the input.
+   * @param padT Top padding width of the input.
+   * @param padB Bottom padding height of the input.
+   * @param paddingType Type of padding used.
+   *
+   * @tparam SequentialType Layer type in which convolution block will
+   *    be added if it's not NULL otherwise added to mobileNet.
+   */
+  template<typename SequentialType = ann::Sequential<>>
+  void ConvolutionBlock(const size_t inSize,
+                        const size_t outSize,
+                        const size_t kernelWidth = 1,
+                        const size_t kernelHeight = 1,
+                        const size_t strideWidth = 1,
+                        const size_t strideHeight = 1,
+                        const size_t padL = 0,
+                        const size_t padR = 0,
+                        const size_t padT = 0,
+                        const size_t padB = 0,
+                        const std::string paddingType = "None",
+                        SequentialType* baseLayer = NULL)
+  {
+    ann::Sequential<>* sequentialBlock = new ann::Sequential<>();
+    sequentialBlock->Add(new ann::Convolution<>(inSize, outSize, kernelWidth,
+        kernelHeight, strideWidth, strideHeight, std::make_tuple(padL, padR),
+        std::make_tuple(padT, padB), inputWidth, inputHeight, paddingType));
+
+    mlpack::Log::Info << "Convolution: " << "(" << inSize << ", " << inputWidth
+        << ", " << inputHeight << ")" << " ---> (";
+
+    if (paddingType != "same")
+    {
+      // Updating input dimesntions.
+      inputWidth = ConvOutSize(inputWidth, kernelWidth, strideWidth, padR);
+      inputHeight = ConvOutSize(inputHeight, kernelHeight, strideHeight, padB);
+    }
+
+    mlpack::Log::Info << outSize << ", " << inputWidth << ", " << inputHeight
+        << ")" << std::endl;
+
+    if (baseLayer != NULL)
+    {
+      baseLayer->Add(sequentialBlock);
+      return;
+    }
+
+    mobileNet.Add(sequentialBlock);
+  }
+
+  /**
    * Adds DepthWiseConvBlock block.
    * 
    * @return pointwiseOutSize Returns pointwise output channel size.
@@ -195,12 +254,8 @@ class MobileNetV1{
     mlpack::Log::Info << "BatchNorm: " << "(" << depthMultipliedOutSize << ")"
         << " ---> (" << depthMultipliedOutSize << ")" << std::endl;
     ReLU6Layer(sequentialBlock);
-    sequentialBlock->Add(new ann::Convolution<>(depthMultipliedOutSize,
-        pointwiseOutSize, 1, 1, 1, 1, 0, 0, inputWidth, inputHeight, "same"));
-    mlpack::Log::Info << "Convolution: " << "(" << depthMultipliedOutSize <<
-        ", " << inputWidth << ", " << inputHeight << ")" << " ---> ("
-        << pointwiseOutSize << ", " << inputWidth << ", " << inputHeight << ")"
-        << std::endl;
+    ConvolutionBlock(depthMultipliedOutSize, pointwiseOutSize, 1, 1, 1, 1, 0,
+        0, 0, 0, "same", sequentialBlock);
     sequentialBlock->Add(new ann::BatchNorm<>(pointwiseOutSize, 1e-3, true));
     mlpack::Log::Info << "BatchNorm: " << "(" << pointwiseOutSize << ")"
         << " ---> (" << pointwiseOutSize << ")" << std::endl;

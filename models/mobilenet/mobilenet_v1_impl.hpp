@@ -23,7 +23,7 @@ MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1() :
     inputWidth(0),
     inputHeight(0),
     numClasses(0),
-    alpha(0),
+    alpha(1.0),
     depthMultiplier(0)
 {
   // Nothing to do here.
@@ -121,14 +121,9 @@ MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
     LoadModel(preTrainedPath);
     return;
   }
+
   outSize = size_t(32 * alpha);
-  mobileNet.Add(new ann::Convolution<>(inputChannel, outSize, 3, 3, 2, 2,
-      std::make_tuple(0, 1), std::make_tuple(0, 1), inputWidth, inputHeight));
-  mlpack::Log::Info << "Convolution: " << "(" << "3, " << inputWidth + 1 << ", "
-      << inputHeight + 1 << ")" << " ---> (" << outSize << ", ";
-  inputWidth = ConvOutSize(inputWidth, 3, 2, 1);
-  inputHeight = ConvOutSize(inputHeight, 3, 2, 1);
-  mlpack::Log::Info << inputWidth << ", " << inputHeight << ")" << std::endl;
+  ConvolutionBlock(inputChannel, outSize, 3, 3, 2, 2, 0, 1, 0, 1);
   mobileNet.Add(new ann::BatchNorm<>(outSize, 1e-3, true));
   mlpack::Log::Info << "BatchNorm: " << "(" << outSize << ")"
         << " ---> (" << outSize << ")" << std::endl;
