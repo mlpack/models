@@ -31,7 +31,6 @@
 #include <mlpack/methods/ann/layer/layer_types.hpp>
 #include <mlpack/methods/ann/init_rules/random_init.hpp>
 #include <mlpack/methods/ann/loss_functions/binary_cross_entropy_loss.hpp>
-#include <mlpack/methods/ann/init_rules/he_init.hpp>
 
 #include "./../../utils/utils.hpp"
 
@@ -54,7 +53,7 @@ class MobileNetV1{
   MobileNetV1();
 
   /**
-   * MobileNetV1 constructor intializes input shape and number of classes.
+   * MobileNetV1 constructor initializes input shape and number of classes.
    *
    * @param inputChannels Number of input channels of the input image.
    * @param inputWidth Width of the input image.
@@ -75,7 +74,7 @@ class MobileNetV1{
               const size_t numClasses = 1000);
 
   /**
-   * MobileNetV1 constructor intializes input shape and number of classes.
+   * MobileNetV1 constructor initializes input shape and number of classes.
    *
    * @param inputShape A three-valued tuple indicating input shape.
    *     First value is number of channels (channels-first).
@@ -109,7 +108,7 @@ class MobileNetV1{
    * Adds a ReLU6 Layer.
    *
    * @param baseLayer Sequential layer type in which ReLU6 layer will be added
-   *     if it's not NULL oterwise added to mobileNet.
+   *     if it's not NULL otherwise added to mobileNet.
    */
   void ReLU6Layer(ann::Sequential<>* baseLayer = NULL)
   {
@@ -126,10 +125,22 @@ class MobileNetV1{
 
   /**
    * Adds DepthWiseConvBlock block.
+   * 
+   * @return pointwiseOutSize Returns pointwise output channel size.
    *
    * It's represented as:
    * 
    * @code
+   * sequentialBlock - Sequential
+   * {
+   *   Padding(0, 1, 0, 1, inputWidth, inputHeight)
+   *   SeparableConvolution(inSize, depthMultipliedOutSize, 3, 3, stride,
+   *       stride, 0, 0, inputWidth, inputHeight, inSize, paddingType)
+   *   BatchNorm(depthMultipliedOutSize, 1e-3, true)
+   *   Convolution(depthMultipliedOutSize, pointwiseOutSize, 1, 1, 1, 1, 0,
+   *       0, inputWidth, inputHeight, "same")
+   *   BatchNorm(pointwiseOutSize, 1e-3, true)
+   * }
    * @endcode
    * 
    * @param inSize Number of input channels.
@@ -243,7 +254,7 @@ class MobileNetV1{
   //! Locally stored output channels to use when building blocks.
   size_t outSize;
 
-  //! Locally stored mpa to construct mobileNetV1 blocks.
+  //! Locally stored map to construct mobileNetV1 blocks.
   std::map<size_t, size_t> mobileNetConfig = {
                                                 {128, 2},
                                                 {256, 2},
@@ -251,6 +262,7 @@ class MobileNetV1{
                                                 {1024, 2},
                                               };
 
+  //! Locally stored map to convert alpha value to string.
   std::map<double, std::string> alphaToString = {
                                                   {0.25, "0.25"},
                                                   {0.5, "0.5"},
@@ -258,6 +270,7 @@ class MobileNetV1{
                                                   {1.0, "1"}
                                                 };
 
+  //! Locally stored map to convert image size to string.
   std::map<size_t, std::string> imageSizeToString = {
                                                       {128, "128"},
                                                       {160, "160"},

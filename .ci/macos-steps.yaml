@@ -14,6 +14,9 @@ steps:
     pip install cython numpy pandas zipp configparser
     brew install openblas armadillo boost cereal
     git clone --depth 1 https://github.com/mlpack/jenkins-conf.git conf
+    
+    # We build against this fork because the depthwise layer has some test
+    # errors which need to be fixed before merging.
     git clone --depth 1 -b depthwise https://github.com/Aakash-kaushik/mlpack.git
   displayName: 'Install Build Dependencies'
 

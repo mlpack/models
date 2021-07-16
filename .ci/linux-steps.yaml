@@ -12,6 +12,8 @@ steps:
     tar -xvzpf v1.3.0.tar.gz # Unpack into cereal-1.3.0/.
 
     git clone --depth 1 https://github.com/mlpack/jenkins-conf.git conf
+    # We build against this fork because the depthwise layer has some test
+    # errors which need to be fixed before merging.
     git clone --depth 1 -b depthwise https://github.com/Aakash-kaushik/mlpack.git
 
     mkdir data
