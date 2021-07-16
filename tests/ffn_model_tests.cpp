@@ -213,9 +213,15 @@ TEST_CASE("MobileNetV1ModelTest", "[FFNModelsTests]")
  */
 TEST_CASE("PreTrainedMobileNetV1ModelTest", "[FFNModelsTests]")
 {
-  // Values taken from a PyTorch implemetation based on
+  // Values taken from a PyTorch implementation based on
   // https://github.com/ZFTurbo/MobileNet-v1-Pytorch
   size_t counter = 0;
+
+  // The first dimensions corresponds to the different configs of mobilenet as can
+  // be figured out from the below loop and the values inside are from the output
+  // of the model which are from index: 0, 500, 999.
+  // The output values are obtained from the above mentioned PyTorch implementation
+  // of MobileNetV1.
   double targets[16][3] = {{7.982727765920572e-06, 0.0008073403732851148,
       0.0009284192346967757},
       {9.541783219901845e-05, 7.927525439299643e-05, 0.0003265062696300447},
