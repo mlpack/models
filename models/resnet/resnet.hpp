@@ -314,7 +314,6 @@ class ResNet{
       ConvolutionBlock(resBlock, inSize, outSize * bottleNeckExpansion,
            strideWidth, strideHeight, 1, 1, 0, 0, true, downSampleInputWidth,
            downSampleInputHeight);
-      mlpack::Log::Info << ")" <<std::endl;
     }
     else
     {
