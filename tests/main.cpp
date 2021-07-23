@@ -9,18 +9,11 @@
  * 3-clause BSD license along with mlpack.  If not, see
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
-
-/**
- * CATCH_CONFIG_MAIN tells Catch to provide a main() don't include
- * this in other test files.
- */
-
-// #define CATCH_CONFIG_MAIN // Allow catch to define main()
-#define CATCH_CONFIG_RUNNER // Define main() yourself
+#define CATCH_CONFIG_RUNNER // Define main() for Catch2 yourself.
 #include "catch.hpp"
 #include <armadillo>
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
   /**
    * Uncomment these three lines if you want to test with different random seeds
@@ -30,8 +23,7 @@ int main(int argc, char *argv[])
   // size_t seed = std::time(NULL);
   // srand((unsigned int) seed);
   // arma::arma_rng::set_seed(seed);
+  int result = Catch::Session().run(argc, argv);
 
-  Catch::Session().run(argc, argv);
-
-  return 0;
+  return result;
 }
