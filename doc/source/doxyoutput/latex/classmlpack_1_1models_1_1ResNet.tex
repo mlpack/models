@@ -1,0 +1,136 @@
+\hypertarget{classmlpack_1_1models_1_1ResNet}{}\doxysection{mlpack\+::models\+::Res\+Net$<$ Output\+Layer\+Type, Initialization\+Rule\+Type, Res\+Net\+Version $>$ Class Template Reference}
+\label{classmlpack_1_1models_1_1ResNet}\index{mlpack::models::ResNet$<$ OutputLayerType, InitializationRuleType, ResNetVersion $>$@{mlpack::models::ResNet$<$ OutputLayerType, InitializationRuleType, ResNetVersion $>$}}
+
+
+{\ttfamily \#include $<$resnet.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmlpack_1_1models_1_1ResNet_ad61758366c9c0111ba3a5332914673f7}{Res\+Net}} ()
+\begin{DoxyCompactList}\small\item\em Create the \mbox{\hyperlink{classmlpack_1_1models_1_1ResNet}{Res\+Net}} model. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmlpack_1_1models_1_1ResNet_ab627daa3406c564db4e8391edd541278}{Res\+Net}} (const size\+\_\+t input\+Channel, const size\+\_\+t input\+Width, const size\+\_\+t input\+Height, const bool include\+Top=true, const bool pre\+Trained=false, const size\+\_\+t num\+Classes=1000)
+\item 
+\mbox{\hyperlink{classmlpack_1_1models_1_1ResNet_a69274b72ca52f6e64b70f9adb110fbbb}{Res\+Net}} (std\+::tuple$<$ size\+\_\+t, size\+\_\+t, size\+\_\+t $>$ input\+Shape, const bool include\+Top=true, const bool pre\+Trained=false, const size\+\_\+t num\+Classes=1000)
+\item 
+ann\+::\+FFN$<$ Output\+Layer\+Type, Initialization\+Rule\+Type $>$ \& \mbox{\hyperlink{classmlpack_1_1models_1_1ResNet_aec411bd13dcc56ffacbc2f79b489988d}{Get\+Model}} ()
+\begin{DoxyCompactList}\small\item\em Get Layers of the model. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmlpack_1_1models_1_1ResNet_a6fd010f4cdd52c6c08c254b29b5111ee}{Load\+Model}} (const std\+::string \&file\+Path)
+\begin{DoxyCompactList}\small\item\em Load weights into the model and assumes the internal matrix to be. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmlpack_1_1models_1_1ResNet_a5538f3855734a2d2f73aa624370b2a31}{Save\+Model}} (const std\+::string \&filepath)
+\begin{DoxyCompactList}\small\item\em Save weights for the model and assumes the internal matrix to be. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename Output\+Layer\+Type = ann\+::\+Cross\+Entropy\+Error$<$$>$, typename Initialization\+Rule\+Type = ann\+::\+Random\+Initialization, size\+\_\+t Res\+Net\+Version = 18$>$\newline
+class mlpack\+::models\+::\+Res\+Net$<$ Output\+Layer\+Type, Initialization\+Rule\+Type, Res\+Net\+Version $>$}
+
+Definition of a \mbox{\hyperlink{classmlpack_1_1models_1_1ResNet}{Res\+Net}} CNN.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Output\+Layer\+Type} & The output layer type used to evaluate the network. \\
+\hline
+{\em Initialization\+Rule\+Type} & Rule used to initialize the weight matrix. \\
+\hline
+{\em Res\+Net\+Version} & Version of \mbox{\hyperlink{classmlpack_1_1models_1_1ResNet}{Res\+Net}}. \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classmlpack_1_1models_1_1ResNet_ad61758366c9c0111ba3a5332914673f7}\label{classmlpack_1_1models_1_1ResNet_ad61758366c9c0111ba3a5332914673f7}} 
+\index{mlpack::models::ResNet$<$ OutputLayerType, InitializationRuleType, ResNetVersion $>$@{mlpack::models::ResNet$<$ OutputLayerType, InitializationRuleType, ResNetVersion $>$}!ResNet@{ResNet}}
+\index{ResNet@{ResNet}!mlpack::models::ResNet$<$ OutputLayerType, InitializationRuleType, ResNetVersion $>$@{mlpack::models::ResNet$<$ OutputLayerType, InitializationRuleType, ResNetVersion $>$}}
+\doxysubsubsection{\texorpdfstring{ResNet()}{ResNet()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$typename Output\+Layer\+Type , typename Initialization\+Rule\+Type , size\+\_\+t Res\+Net\+Version$>$ \\
+\mbox{\hyperlink{classmlpack_1_1models_1_1ResNet}{mlpack\+::models\+::\+Res\+Net}}$<$ Output\+Layer\+Type, Initialization\+Rule\+Type, Res\+Net\+Version $>$\+::\mbox{\hyperlink{classmlpack_1_1models_1_1ResNet}{Res\+Net}}}
+
+
+
+Create the \mbox{\hyperlink{classmlpack_1_1models_1_1ResNet}{Res\+Net}} model. 
+
+\mbox{\Hypertarget{classmlpack_1_1models_1_1ResNet_ab627daa3406c564db4e8391edd541278}\label{classmlpack_1_1models_1_1ResNet_ab627daa3406c564db4e8391edd541278}} 
+\index{mlpack::models::ResNet$<$ OutputLayerType, InitializationRuleType, ResNetVersion $>$@{mlpack::models::ResNet$<$ OutputLayerType, InitializationRuleType, ResNetVersion $>$}!ResNet@{ResNet}}
+\index{ResNet@{ResNet}!mlpack::models::ResNet$<$ OutputLayerType, InitializationRuleType, ResNetVersion $>$@{mlpack::models::ResNet$<$ OutputLayerType, InitializationRuleType, ResNetVersion $>$}}
+\doxysubsubsection{\texorpdfstring{ResNet()}{ResNet()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$typename Output\+Layer\+Type , typename Initialization\+Rule\+Type , size\+\_\+t Res\+Net\+Version$>$ \\
+\mbox{\hyperlink{classmlpack_1_1models_1_1ResNet}{mlpack\+::models\+::\+Res\+Net}}$<$ Output\+Layer\+Type, Initialization\+Rule\+Type, Res\+Net\+Version $>$\+::\mbox{\hyperlink{classmlpack_1_1models_1_1ResNet}{Res\+Net}} (\begin{DoxyParamCaption}\item[{const size\+\_\+t}]{input\+Channel,  }\item[{const size\+\_\+t}]{input\+Width,  }\item[{const size\+\_\+t}]{input\+Height,  }\item[{const bool}]{include\+Top = {\ttfamily true},  }\item[{const bool}]{pre\+Trained = {\ttfamily false},  }\item[{const size\+\_\+t}]{num\+Classes = {\ttfamily 1000} }\end{DoxyParamCaption})}
+
+\mbox{\hyperlink{classmlpack_1_1models_1_1ResNet}{Res\+Net}} constructor intializes input shape and number of classes.
+
+
+\begin{DoxyParams}{Parameters}
+{\em input\+Channels} & Number of input channels of the input image. \\
+\hline
+{\em input\+Width} & Width of the input image. \\
+\hline
+{\em input\+Height} & Height of the input image. \\
+\hline
+{\em include\+Top} & Must be set to true if pre\+Trained is set to true. \\
+\hline
+{\em pre\+Trained} & True for pre-\/trained weights of Image\+Net, default is false. \\
+\hline
+{\em num\+Classes} & Optional number of classes to classify images into, only to be specified if include\+Top is true, default is 1000. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmlpack_1_1models_1_1ResNet_a69274b72ca52f6e64b70f9adb110fbbb}\label{classmlpack_1_1models_1_1ResNet_a69274b72ca52f6e64b70f9adb110fbbb}} 
+\index{mlpack::models::ResNet$<$ OutputLayerType, InitializationRuleType, ResNetVersion $>$@{mlpack::models::ResNet$<$ OutputLayerType, InitializationRuleType, ResNetVersion $>$}!ResNet@{ResNet}}
+\index{ResNet@{ResNet}!mlpack::models::ResNet$<$ OutputLayerType, InitializationRuleType, ResNetVersion $>$@{mlpack::models::ResNet$<$ OutputLayerType, InitializationRuleType, ResNetVersion $>$}}
+\doxysubsubsection{\texorpdfstring{ResNet()}{ResNet()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$typename Output\+Layer\+Type , typename Initialization\+Rule\+Type , size\+\_\+t Res\+Net\+Version$>$ \\
+\mbox{\hyperlink{classmlpack_1_1models_1_1ResNet}{mlpack\+::models\+::\+Res\+Net}}$<$ Output\+Layer\+Type, Initialization\+Rule\+Type, Res\+Net\+Version $>$\+::\mbox{\hyperlink{classmlpack_1_1models_1_1ResNet}{Res\+Net}} (\begin{DoxyParamCaption}\item[{std\+::tuple$<$ size\+\_\+t, size\+\_\+t, size\+\_\+t $>$}]{input\+Shape,  }\item[{const bool}]{include\+Top = {\ttfamily true},  }\item[{const bool}]{pre\+Trained = {\ttfamily false},  }\item[{const size\+\_\+t}]{num\+Classes = {\ttfamily 1000} }\end{DoxyParamCaption})}
+
+\mbox{\hyperlink{classmlpack_1_1models_1_1ResNet}{Res\+Net}} constructor intializes input shape and number of classes.
+
+
+\begin{DoxyParams}{Parameters}
+{\em input\+Shape} & A three-\/valued tuple indicating input shape. First value is number of channels (channels-\/first). Second value is input height. Third value is input width. \\
+\hline
+{\em pre\+Trained} & True for pre-\/trained weights of Image\+Net, default is false. \\
+\hline
+{\em num\+Classes} & Optional number of classes to classify images into, only to be specified if include\+Top is true. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classmlpack_1_1models_1_1ResNet_aec411bd13dcc56ffacbc2f79b489988d}\label{classmlpack_1_1models_1_1ResNet_aec411bd13dcc56ffacbc2f79b489988d}} 
+\index{mlpack::models::ResNet$<$ OutputLayerType, InitializationRuleType, ResNetVersion $>$@{mlpack::models::ResNet$<$ OutputLayerType, InitializationRuleType, ResNetVersion $>$}!GetModel@{GetModel}}
+\index{GetModel@{GetModel}!mlpack::models::ResNet$<$ OutputLayerType, InitializationRuleType, ResNetVersion $>$@{mlpack::models::ResNet$<$ OutputLayerType, InitializationRuleType, ResNetVersion $>$}}
+\doxysubsubsection{\texorpdfstring{GetModel()}{GetModel()}}
+{\footnotesize\ttfamily template$<$typename Output\+Layer\+Type  = ann\+::\+Cross\+Entropy\+Error$<$$>$, typename Initialization\+Rule\+Type  = ann\+::\+Random\+Initialization, size\+\_\+t Res\+Net\+Version = 18$>$ \\
+ann\+::\+FFN$<$Output\+Layer\+Type, Initialization\+Rule\+Type$>$\& \mbox{\hyperlink{classmlpack_1_1models_1_1ResNet}{mlpack\+::models\+::\+Res\+Net}}$<$ Output\+Layer\+Type, Initialization\+Rule\+Type, Res\+Net\+Version $>$\+::Get\+Model (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get Layers of the model. 
+
+\mbox{\Hypertarget{classmlpack_1_1models_1_1ResNet_a6fd010f4cdd52c6c08c254b29b5111ee}\label{classmlpack_1_1models_1_1ResNet_a6fd010f4cdd52c6c08c254b29b5111ee}} 
+\index{mlpack::models::ResNet$<$ OutputLayerType, InitializationRuleType, ResNetVersion $>$@{mlpack::models::ResNet$<$ OutputLayerType, InitializationRuleType, ResNetVersion $>$}!LoadModel@{LoadModel}}
+\index{LoadModel@{LoadModel}!mlpack::models::ResNet$<$ OutputLayerType, InitializationRuleType, ResNetVersion $>$@{mlpack::models::ResNet$<$ OutputLayerType, InitializationRuleType, ResNetVersion $>$}}
+\doxysubsubsection{\texorpdfstring{LoadModel()}{LoadModel()}}
+{\footnotesize\ttfamily template$<$typename Output\+Layer\+Type , typename Initialization\+Rule\+Type , size\+\_\+t Res\+Net\+Version$>$ \\
+void \mbox{\hyperlink{classmlpack_1_1models_1_1ResNet}{mlpack\+::models\+::\+Res\+Net}}$<$ Output\+Layer\+Type, Initialization\+Rule\+Type, Res\+Net\+Version $>$\+::Load\+Model (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{file\+Path }\end{DoxyParamCaption})}
+
+
+
+Load weights into the model and assumes the internal matrix to be. 
+
+\mbox{\Hypertarget{classmlpack_1_1models_1_1ResNet_a5538f3855734a2d2f73aa624370b2a31}\label{classmlpack_1_1models_1_1ResNet_a5538f3855734a2d2f73aa624370b2a31}} 
+\index{mlpack::models::ResNet$<$ OutputLayerType, InitializationRuleType, ResNetVersion $>$@{mlpack::models::ResNet$<$ OutputLayerType, InitializationRuleType, ResNetVersion $>$}!SaveModel@{SaveModel}}
+\index{SaveModel@{SaveModel}!mlpack::models::ResNet$<$ OutputLayerType, InitializationRuleType, ResNetVersion $>$@{mlpack::models::ResNet$<$ OutputLayerType, InitializationRuleType, ResNetVersion $>$}}
+\doxysubsubsection{\texorpdfstring{SaveModel()}{SaveModel()}}
+{\footnotesize\ttfamily template$<$typename Output\+Layer\+Type , typename Initialization\+Rule\+Type , size\+\_\+t Res\+Net\+Version$>$ \\
+void \mbox{\hyperlink{classmlpack_1_1models_1_1ResNet}{mlpack\+::models\+::\+Res\+Net}}$<$ Output\+Layer\+Type, Initialization\+Rule\+Type, Res\+Net\+Version $>$\+::Save\+Model (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filepath }\end{DoxyParamCaption})}
+
+
+
+Save weights for the model and assumes the internal matrix to be. 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/aakash/models/models/resnet/\mbox{\hyperlink{resnet_8hpp}{resnet.\+hpp}}\item 
+/home/aakash/models/models/resnet/\mbox{\hyperlink{resnet__impl_8hpp}{resnet\+\_\+impl.\+hpp}}\end{DoxyCompactItemize}

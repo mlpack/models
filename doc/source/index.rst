@@ -11,7 +11,7 @@ Welcome to models's documentation!
    :caption: Contents:
 
 Documentation
-============= 
+************* 
 
 .. toctree::
    api/library_root

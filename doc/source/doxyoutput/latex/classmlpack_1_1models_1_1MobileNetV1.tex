@@ -1,0 +1,126 @@
+\hypertarget{classmlpack_1_1models_1_1MobileNetV1}{}\doxysection{mlpack\+::models\+::Mobile\+Net\+V1$<$ Output\+Layer\+Type, Initialization\+Rule\+Type $>$ Class Template Reference}
+\label{classmlpack_1_1models_1_1MobileNetV1}\index{mlpack::models::MobileNetV1$<$ OutputLayerType, InitializationRuleType $>$@{mlpack::models::MobileNetV1$<$ OutputLayerType, InitializationRuleType $>$}}
+
+
+{\ttfamily \#include $<$mobilenet\+\_\+v1.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmlpack_1_1models_1_1MobileNetV1_a54741a2ae20205ecec3e7c916158a542}{Mobile\+Net\+V1}} ()
+\begin{DoxyCompactList}\small\item\em Create the Mobile\+Net model. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classmlpack_1_1models_1_1MobileNetV1_af5df01f6f0a32e927210ded618f248fe}{Mobile\+Net\+V1}} (const size\+\_\+t input\+Channel, const size\+\_\+t input\+Width, const size\+\_\+t input\+Height, const float alpha=1.\+0, const size\+\_\+t depth\+Multiplier=1.\+0, const bool include\+Top=true, const bool pre\+Trained=false, const size\+\_\+t num\+Classes=1000)
+\item 
+\mbox{\hyperlink{classmlpack_1_1models_1_1MobileNetV1_af4d2dd5857fa0d933dda3d3012fd1692}{Mobile\+Net\+V1}} (std\+::tuple$<$ size\+\_\+t, size\+\_\+t, size\+\_\+t $>$ input\+Shape, const float alpha=1.\+0, const size\+\_\+t depth\+Multiplier=1.\+0, const bool include\+Top=true, const bool pre\+Trained=false, const size\+\_\+t num\+Classes=1000)
+\item 
+ann\+::\+FFN$<$ Output\+Layer\+Type, Initialization\+Rule\+Type $>$ \& \mbox{\hyperlink{classmlpack_1_1models_1_1MobileNetV1_a0952251eb16a4b255dfc21b1d2556680}{Get\+Model}} ()
+\begin{DoxyCompactList}\small\item\em Get Layers of the model. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classmlpack_1_1models_1_1MobileNetV1_acd73f8827fb2712b011275128eed222e}{Load\+Model}} (const std\+::string \&file\+Path)
+\item 
+void \mbox{\hyperlink{classmlpack_1_1models_1_1MobileNetV1_aabf2d8aa9859924ba148737ea375c89e}{Save\+Model}} (const std\+::string \&filepath)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename Output\+Layer\+Type = ann\+::\+Cross\+Entropy\+Error$<$$>$, typename Initialization\+Rule\+Type = ann\+::\+Random\+Initialization$>$\newline
+class mlpack\+::models\+::\+Mobile\+Net\+V1$<$ Output\+Layer\+Type, Initialization\+Rule\+Type $>$}
+
+Definition of a Mobile\+Net V1 CNN.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Output\+Layer\+Type} & The output layer type used to evaluate the network. \\
+\hline
+{\em Initialization\+Rule\+Type} & Rule used to initialize the weight matrix. \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classmlpack_1_1models_1_1MobileNetV1_a54741a2ae20205ecec3e7c916158a542}\label{classmlpack_1_1models_1_1MobileNetV1_a54741a2ae20205ecec3e7c916158a542}} 
+\index{mlpack::models::MobileNetV1$<$ OutputLayerType, InitializationRuleType $>$@{mlpack::models::MobileNetV1$<$ OutputLayerType, InitializationRuleType $>$}!MobileNetV1@{MobileNetV1}}
+\index{MobileNetV1@{MobileNetV1}!mlpack::models::MobileNetV1$<$ OutputLayerType, InitializationRuleType $>$@{mlpack::models::MobileNetV1$<$ OutputLayerType, InitializationRuleType $>$}}
+\doxysubsubsection{\texorpdfstring{MobileNetV1()}{MobileNetV1()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$typename Output\+Layer\+Type , typename Initialization\+Rule\+Type $>$ \\
+\mbox{\hyperlink{classmlpack_1_1models_1_1MobileNetV1}{mlpack\+::models\+::\+Mobile\+Net\+V1}}$<$ Output\+Layer\+Type, Initialization\+Rule\+Type $>$\+::\mbox{\hyperlink{classmlpack_1_1models_1_1MobileNetV1}{Mobile\+Net\+V1}}}
+
+
+
+Create the Mobile\+Net model. 
+
+\mbox{\Hypertarget{classmlpack_1_1models_1_1MobileNetV1_af5df01f6f0a32e927210ded618f248fe}\label{classmlpack_1_1models_1_1MobileNetV1_af5df01f6f0a32e927210ded618f248fe}} 
+\index{mlpack::models::MobileNetV1$<$ OutputLayerType, InitializationRuleType $>$@{mlpack::models::MobileNetV1$<$ OutputLayerType, InitializationRuleType $>$}!MobileNetV1@{MobileNetV1}}
+\index{MobileNetV1@{MobileNetV1}!mlpack::models::MobileNetV1$<$ OutputLayerType, InitializationRuleType $>$@{mlpack::models::MobileNetV1$<$ OutputLayerType, InitializationRuleType $>$}}
+\doxysubsubsection{\texorpdfstring{MobileNetV1()}{MobileNetV1()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$typename Output\+Layer\+Type , typename Initialization\+Rule\+Type $>$ \\
+\mbox{\hyperlink{classmlpack_1_1models_1_1MobileNetV1}{mlpack\+::models\+::\+Mobile\+Net\+V1}}$<$ Output\+Layer\+Type, Initialization\+Rule\+Type $>$\+::\mbox{\hyperlink{classmlpack_1_1models_1_1MobileNetV1}{Mobile\+Net\+V1}} (\begin{DoxyParamCaption}\item[{const size\+\_\+t}]{input\+Channel,  }\item[{const size\+\_\+t}]{input\+Width,  }\item[{const size\+\_\+t}]{input\+Height,  }\item[{const float}]{alpha = {\ttfamily 1.0},  }\item[{const size\+\_\+t}]{depth\+Multiplier = {\ttfamily 1.0},  }\item[{const bool}]{include\+Top = {\ttfamily true},  }\item[{const bool}]{pre\+Trained = {\ttfamily false},  }\item[{const size\+\_\+t}]{num\+Classes = {\ttfamily 1000} }\end{DoxyParamCaption})}
+
+\mbox{\hyperlink{classmlpack_1_1models_1_1MobileNetV1}{Mobile\+Net\+V1}} constructor initializes input shape and number of classes.
+
+
+\begin{DoxyParams}{Parameters}
+{\em input\+Channels} & Number of input channels of the input image. \\
+\hline
+{\em input\+Width} & Width of the input image. \\
+\hline
+{\em input\+Height} & Height of the input image. \\
+\hline
+{\em include\+Top} & Must be set to true if pre\+Trained is set to true. \\
+\hline
+{\em pre\+Trained} & True for pre-\/trained weights of Image\+Net, default is false. \\
+\hline
+{\em num\+Classes} & Optional number of classes to classify images into, only to be specified if include\+Top is true, default is 1000. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classmlpack_1_1models_1_1MobileNetV1_af4d2dd5857fa0d933dda3d3012fd1692}\label{classmlpack_1_1models_1_1MobileNetV1_af4d2dd5857fa0d933dda3d3012fd1692}} 
+\index{mlpack::models::MobileNetV1$<$ OutputLayerType, InitializationRuleType $>$@{mlpack::models::MobileNetV1$<$ OutputLayerType, InitializationRuleType $>$}!MobileNetV1@{MobileNetV1}}
+\index{MobileNetV1@{MobileNetV1}!mlpack::models::MobileNetV1$<$ OutputLayerType, InitializationRuleType $>$@{mlpack::models::MobileNetV1$<$ OutputLayerType, InitializationRuleType $>$}}
+\doxysubsubsection{\texorpdfstring{MobileNetV1()}{MobileNetV1()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$typename Output\+Layer\+Type , typename Initialization\+Rule\+Type $>$ \\
+\mbox{\hyperlink{classmlpack_1_1models_1_1MobileNetV1}{mlpack\+::models\+::\+Mobile\+Net\+V1}}$<$ Output\+Layer\+Type, Initialization\+Rule\+Type $>$\+::\mbox{\hyperlink{classmlpack_1_1models_1_1MobileNetV1}{Mobile\+Net\+V1}} (\begin{DoxyParamCaption}\item[{std\+::tuple$<$ size\+\_\+t, size\+\_\+t, size\+\_\+t $>$}]{input\+Shape,  }\item[{const float}]{alpha = {\ttfamily 1.0},  }\item[{const size\+\_\+t}]{depth\+Multiplier = {\ttfamily 1.0},  }\item[{const bool}]{include\+Top = {\ttfamily true},  }\item[{const bool}]{pre\+Trained = {\ttfamily false},  }\item[{const size\+\_\+t}]{num\+Classes = {\ttfamily 1000} }\end{DoxyParamCaption})}
+
+\mbox{\hyperlink{classmlpack_1_1models_1_1MobileNetV1}{Mobile\+Net\+V1}} constructor initializes input shape and number of classes.
+
+
+\begin{DoxyParams}{Parameters}
+{\em input\+Shape} & A three-\/valued tuple indicating input shape. First value is number of channels (channels-\/first). Second value is input height. Third value is input width. \\
+\hline
+{\em pre\+Trained} & True for pre-\/trained weights of Image\+Net, default is false. \\
+\hline
+{\em num\+Classes} & Optional number of classes to classify images into, only to be specified if include\+Top is true. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classmlpack_1_1models_1_1MobileNetV1_a0952251eb16a4b255dfc21b1d2556680}\label{classmlpack_1_1models_1_1MobileNetV1_a0952251eb16a4b255dfc21b1d2556680}} 
+\index{mlpack::models::MobileNetV1$<$ OutputLayerType, InitializationRuleType $>$@{mlpack::models::MobileNetV1$<$ OutputLayerType, InitializationRuleType $>$}!GetModel@{GetModel}}
+\index{GetModel@{GetModel}!mlpack::models::MobileNetV1$<$ OutputLayerType, InitializationRuleType $>$@{mlpack::models::MobileNetV1$<$ OutputLayerType, InitializationRuleType $>$}}
+\doxysubsubsection{\texorpdfstring{GetModel()}{GetModel()}}
+{\footnotesize\ttfamily template$<$typename Output\+Layer\+Type  = ann\+::\+Cross\+Entropy\+Error$<$$>$, typename Initialization\+Rule\+Type  = ann\+::\+Random\+Initialization$>$ \\
+ann\+::\+FFN$<$Output\+Layer\+Type, Initialization\+Rule\+Type$>$\& \mbox{\hyperlink{classmlpack_1_1models_1_1MobileNetV1}{mlpack\+::models\+::\+Mobile\+Net\+V1}}$<$ Output\+Layer\+Type, Initialization\+Rule\+Type $>$\+::Get\+Model (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get Layers of the model. 
+
+\mbox{\Hypertarget{classmlpack_1_1models_1_1MobileNetV1_acd73f8827fb2712b011275128eed222e}\label{classmlpack_1_1models_1_1MobileNetV1_acd73f8827fb2712b011275128eed222e}} 
+\index{mlpack::models::MobileNetV1$<$ OutputLayerType, InitializationRuleType $>$@{mlpack::models::MobileNetV1$<$ OutputLayerType, InitializationRuleType $>$}!LoadModel@{LoadModel}}
+\index{LoadModel@{LoadModel}!mlpack::models::MobileNetV1$<$ OutputLayerType, InitializationRuleType $>$@{mlpack::models::MobileNetV1$<$ OutputLayerType, InitializationRuleType $>$}}
+\doxysubsubsection{\texorpdfstring{LoadModel()}{LoadModel()}}
+{\footnotesize\ttfamily template$<$typename Output\+Layer\+Type , typename Initialization\+Rule\+Type $>$ \\
+void \mbox{\hyperlink{classmlpack_1_1models_1_1MobileNetV1}{mlpack\+::models\+::\+Mobile\+Net\+V1}}$<$ Output\+Layer\+Type, Initialization\+Rule\+Type $>$\+::Load\+Model (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{file\+Path }\end{DoxyParamCaption})}
+
+Load weights into the model and assumes the internal matrix to be named \char`\"{}\+Mobile\+Net\+V1\char`\"{}. \mbox{\Hypertarget{classmlpack_1_1models_1_1MobileNetV1_aabf2d8aa9859924ba148737ea375c89e}\label{classmlpack_1_1models_1_1MobileNetV1_aabf2d8aa9859924ba148737ea375c89e}} 
+\index{mlpack::models::MobileNetV1$<$ OutputLayerType, InitializationRuleType $>$@{mlpack::models::MobileNetV1$<$ OutputLayerType, InitializationRuleType $>$}!SaveModel@{SaveModel}}
+\index{SaveModel@{SaveModel}!mlpack::models::MobileNetV1$<$ OutputLayerType, InitializationRuleType $>$@{mlpack::models::MobileNetV1$<$ OutputLayerType, InitializationRuleType $>$}}
+\doxysubsubsection{\texorpdfstring{SaveModel()}{SaveModel()}}
+{\footnotesize\ttfamily template$<$typename Output\+Layer\+Type , typename Initialization\+Rule\+Type $>$ \\
+void \mbox{\hyperlink{classmlpack_1_1models_1_1MobileNetV1}{mlpack\+::models\+::\+Mobile\+Net\+V1}}$<$ Output\+Layer\+Type, Initialization\+Rule\+Type $>$\+::Save\+Model (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filepath }\end{DoxyParamCaption})}
+
+Save weights for the model and assumes the internal matrix to be named \char`\"{}\+Mobile\+Net\+V1\char`\"{}. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/aakash/models/models/mobilenet/\mbox{\hyperlink{mobilenet__v1_8hpp}{mobilenet\+\_\+v1.\+hpp}}\item 
+/home/aakash/models/models/mobilenet/\mbox{\hyperlink{mobilenet__v1__impl_8hpp}{mobilenet\+\_\+v1\+\_\+impl.\+hpp}}\end{DoxyCompactItemize}

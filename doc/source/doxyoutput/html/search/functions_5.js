@@ -1,0 +1,5 @@
+var searchData=
+[
+  ['mnist_106',['MNIST',['../classmlpack_1_1models_1_1Datasets.html#ab4a26b6d32b6a2a3dbe5cea8da9077de',1,'mlpack::models::Datasets']]],
+  ['mobilenetv1_107',['MobileNetV1',['../classmlpack_1_1models_1_1MobileNetV1.html#a54741a2ae20205ecec3e7c916158a542',1,'mlpack::models::MobileNetV1::MobileNetV1()'],['../classmlpack_1_1models_1_1MobileNetV1.html#af5df01f6f0a32e927210ded618f248fe',1,'mlpack::models::MobileNetV1::MobileNetV1(const size_t inputChannel, const size_t inputWidth, const size_t inputHeight, const float alpha=1.0, const size_t depthMultiplier=1.0, const bool includeTop=true, const bool preTrained=false, const size_t numClasses=1000)'],['../classmlpack_1_1models_1_1MobileNetV1.html#af4d2dd5857fa0d933dda3d3012fd1692',1,'mlpack::models::MobileNetV1::MobileNetV1(std::tuple&lt; size_t, size_t, size_t &gt; inputShape, const float alpha=1.0, const size_t depthMultiplier=1.0, const bool includeTop=true, const bool preTrained=false, const size_t numClasses=1000)']]]
+];

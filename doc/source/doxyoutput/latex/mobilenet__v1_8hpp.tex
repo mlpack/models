@@ -1,0 +1,60 @@
+\hypertarget{mobilenet__v1_8hpp}{}\doxysection{/home/aakash/models/models/mobilenet/mobilenet\+\_\+v1.hpp File Reference}
+\label{mobilenet__v1_8hpp}\index{/home/aakash/models/models/mobilenet/mobilenet\_v1.hpp@{/home/aakash/models/models/mobilenet/mobilenet\_v1.hpp}}
+{\ttfamily \#include $<$mlpack/core.\+hpp$>$}\newline
+{\ttfamily \#include $<$mlpack/methods/ann/layer/layer.\+hpp$>$}\newline
+{\ttfamily \#include $<$mlpack/methods/ann/ffn.\+hpp$>$}\newline
+{\ttfamily \#include $<$mlpack/methods/ann/layer/layer\+\_\+types.\+hpp$>$}\newline
+{\ttfamily \#include $<$mlpack/methods/ann/init\+\_\+rules/random\+\_\+init.\+hpp$>$}\newline
+{\ttfamily \#include $<$mlpack/methods/ann/loss\+\_\+functions/binary\+\_\+cross\+\_\+entropy\+\_\+loss.\+hpp$>$}\newline
+{\ttfamily \#include \char`\"{}./../../utils/utils.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}mobilenet\+\_\+v1\+\_\+impl.\+hpp\char`\"{}}\newline
+Include dependency graph for mobilenet\+\_\+v1.\+hpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{mobilenet__v1_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=241pt]{mobilenet__v1_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classmlpack_1_1models_1_1MobileNetV1}{mlpack\+::models\+::\+Mobile\+Net\+V1$<$ Output\+Layer\+Type, Initialization\+Rule\+Type $>$}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{mobilenet__v1_8hpp_ae6e5298c59b098d628805b3e48b508da}\label{mobilenet__v1_8hpp_ae6e5298c59b098d628805b3e48b508da}} 
+typedef Mobile\+Net\+V1$<$ ann\+::\+Cross\+Entropy\+Error$<$$>$, ann\+::\+Random\+Initialization $>$ {\bfseries mlpack\+::models\+::\+Mobilenet\+V1}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Aakash Kaushik
+\end{DoxyAuthor}
+Definition of Mobile\+Net V1 model.
+
+For more information, kindly refer to the following paper.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{@article\{Andrew G2017,}
+\DoxyCodeLine{ author = \{Andrew G. Howard, Menglong Zhu, Bo Chen, Dmitry Kalenichenko,}
+\DoxyCodeLine{     Weijun Wang, Tobias Weyand, Marco Andreetto, Hartwig Adam\},}
+\DoxyCodeLine{ title = \{MobileNets: Efficient Convolutional Neural Networks \textcolor{keywordflow}{for} Mobile}
+\DoxyCodeLine{     Vision Applications\},}
+\DoxyCodeLine{ year = \{2017\},}
+\DoxyCodeLine{ url = \{https:\textcolor{comment}{//arxiv.org/pdf/1704.04861\}}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+mlpack is free software; you may redistribute it and/or modify it under the terms of the 3-\/clause BSD license. You should have received a copy of the 3-\/clause BSD license along with mlpack. If not, see \href{http://www.opensource.org/licenses/BSD-3-Clause}{\texttt{ http\+://www.\+opensource.\+org/licenses/\+BSD-\/3-\/\+Clause}} for more information. 
