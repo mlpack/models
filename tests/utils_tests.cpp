@@ -20,7 +20,6 @@ using namespace mlpack::models;
  */
 TEST_CASE("DownloadFileTest", "[UtilsTest]")
 {
-  REQUIRE(0 == 1);
   // To check downloader, perform the following :
   // 1. Download the file.
   // 2. Check for it's existence.
