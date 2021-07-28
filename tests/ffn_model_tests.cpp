@@ -138,16 +138,18 @@ TEST_CASE("ResNet101ModelTest", "[FFNModelsTests]")
 /**
  * Simple test for ResNet152 models.
  * Have been split from the ResNetModelTests because of memory requirements.
+ * This test will not run on windows because of the memory requirements.
  */
-TEST_CASE("ResNet152ModelTest", "[FFNModelsTests]")
-{
-  arma::mat input(224 * 224 * 3, 1);
+#if !defined(WIN32)
+  TEST_CASE("ResNet152ModelTest", "[FFNModelsTests]")
+  {
+    arma::mat input(224 * 224 * 3, 1);
 
-  // Check output shape for resnet152.
-  ResNet152 resnet152(3, 224, 224);
-  ModelDimTest(resnet152.GetModel(), input);
-}
-
+    // Check output shape for resnet152.
+    ResNet152 resnet152(3, 224, 224);
+    ModelDimTest(resnet152.GetModel(), input);
+  }
+#endif
 /**
  * Test for pre-trained ResNet(18, 34, 50) models.
  */
@@ -186,15 +188,18 @@ TEST_CASE("PreTrainedResNet101ModelTest", "[FFNModelsTests]")
  * Test for pre-trained ResNet152 model.
  * Have been split from the PreTrainedResNetModelTests because of
  *     memory requirements.
+ * This test will not run on windows because of the memory requirements.
  */
-TEST_CASE("PreTrainedResNetModel152Test", "[FFNModelsTests]")
-{
-  arma::mat input(224 * 224 * 3, 1);
+#if !defined(WIN32)
+  TEST_CASE("PreTrainedResNetModel152Test", "[FFNModelsTests]")
+  {
+    arma::mat input(224 * 224 * 3, 1);
 
-  // Check output for(referenced from PyTorch) resnet152.
-  ResNet152 resnet152(3, 224, 224, true, true);
-  PreTrainedModelTest(resnet152.GetModel(), input, 0.00199318, 0.00799561);
-}
+    // Check output for(referenced from PyTorch) resnet152.
+    ResNet152 resnet152(3, 224, 224, true, true);
+    PreTrainedModelTest(resnet152.GetModel(), input, 0.00199318, 0.00799561);
+  }
+#endif
 
 /**
  * Simple test for MobileNetV1 model.
