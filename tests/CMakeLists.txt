@@ -35,7 +35,8 @@ target_link_libraries(models_test
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 if(NOT WIN32)
-  catch_discover_tests(models_test)
+  catch_discover_tests(models_test PROPERTIES TIMEOUT 0)
 else()
   add_test(NAME "test" COMMAND models_test)
+  set_tests_properties("test" PROPERTIES TIMEOUT 0)
 endif()

@@ -101,6 +101,7 @@ class MobileNetV1{
 
   //! Save weights for the model and assumes the internal matrix to be
   //!  named "MobileNetV1".
+
   void SaveModel(const std::string& filepath);
 
  private:
