@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'models'
+project = 'mlpack'
 copyright = '2021, mlpack'
 author = 'mlpack'
 
@@ -30,12 +30,12 @@ release = '0.0.1'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = [ 'breathe', 'exhale' ]
+extensions = [ 'breathe', 'exhale', 'm2r2' ]
 
 # Breathe configuration
-breathe_projects = { "models": "./doxyoutput/xml/" }
+breathe_projects = { "mlpack": "./doxyoutput/xml/" }
 
-breathe_default_project = "models"
+breathe_default_project = "mlpack"
 
 # Setup the exhale extension
 exhale_args = {
@@ -72,7 +72,32 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'karma_sphinx_theme'
+html_theme = 'sphinx_material'
+
+# HTML configuration
+html_logo = "./assets/mlpack-logo.png"
+html_favicon = "./assets/mlpack-favicon.ico"
+html_theme_options = {
+
+    # Set the name of the project to appear in the navigation.
+    'nav_title': 'Models',
+
+    # Set the color and the accent color
+    'color_primary': 'light-blue',
+    'color_accent': 'deep-orange',
+
+    # Set the repo location to get a badge with stats
+    'repo_url': 'https://github.com/mlpack/models',
+    'repo_name': 'Models',
+
+    # Visible levels of the global TOC; -1 means unlimited
+    'globaltoc_depth': 3,
+    # If False, expand all TOC entries
+    'globaltoc_collapse': False,
+    # If True, show hidden TOC entries
+    'globaltoc_includehidden': False,
+}
+
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

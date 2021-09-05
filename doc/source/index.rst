@@ -3,21 +3,26 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to models's documentation!
-==================================
+Models documentation
+====================
 
+.. mdinclude:: ../../README.md
+
+Tutorials
+=========
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
-Documentation
-************* 
+   assets/tutorials   
 
+Models API
+==========
 .. toctree::
+   :maxdepth: 2
+
    api/library_root
 
 Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`search`

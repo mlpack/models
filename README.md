@@ -23,7 +23,7 @@ _(If this repository gets set up as a submodule to the main mlpack repository
 and that is how everything in it should be compiled, then we should point that
 out here!)_
 
-### 0. Contents
+### Contents
 
   1. [Introduction](#1-introduction)
   2. [Dependencies](#2-dependencies)
@@ -39,6 +39,8 @@ This repository contains a number of different models implemented in C++ using
 mlpack. To understand more about mlpack, refer to the [mlpack
 repository](https://github.com/mlpack/mlpack/) or the [mlpack
 website](https://www.mlpack.org/).
+
+### 2. Dependencies
 
 In order to compile and build the programs in this repository, you'll need to
 make sure that you have the same dependencies available that mlpack requires, in
@@ -111,11 +113,12 @@ model.Predict(dataloader.TestFeatures(), dataloader.TestLabels());
 ```
 
 Currently supported datasets are mentioned below :
+
 |  **Dataset** | **Usage** | **Details** |
 | --- | --- | --- |
-|  MNIST | DataLoader<>&nbsp;("mnist"); | MNIST dataset is the de facto “hello world” dataset of computer vision.<br/> Each image is 28 pixels in height and 28 pixels in width, for a total of 784 pixels in total. The first column, called "label", is the digit that was drawn by the user. The rest of the columns contain the pixel-values of the associated image.|
-|  Pascal VOC Detection | DataLoader<mat, field<vec>>&nbsp;("voc-detection") | The Pascal VOC challenge is a very popular dataset for building and evaluating algorithms for image classification, object detection and segmentation.<br/> VOC detection dataset provides support for loading object detection dataset in PASCAL VOC. Note : By default we refer to VOC - 2012 dataset as VOC dataset.|
-| CIFAR 10 | DataLoader<>&nbsp;("cifar10"); | The CIFAR-10 dataset consists of 60000 32x32 colour images in 10 classes, with 6000 images per class. There are 50000 training images and 10000 test images.|
+|  MNIST | DataLoader<> ("mnist"); | MNIST dataset is the de facto “hello world” dataset of computer vision.<br/> Each image is 28 pixels in height and 28 pixels in width, for a total of 784 pixels in total. The first column, called "label", is the digit that was drawn by the user. The rest of the columns contain the pixel-values of the associated image.|
+|  Pascal VOC Detection | DataLoader<mat, field<vec>> ("voc-detection") | The Pascal VOC challenge is a very popular dataset for building and evaluating algorithms for image classification, object detection and segmentation.<br/> VOC detection dataset provides support for loading object detection dataset in PASCAL VOC. Note : By default we refer to VOC - 2012 dataset as VOC dataset.|
+| CIFAR 10 | DataLoader<> ("cifar10"); | The CIFAR-10 dataset consists of 60000 32x32 colour images in 10 classes, with 6000 images per class. There are 50000 training images and 10000 test images.|
 
 #### 2. Loading Other Datasets.
 
@@ -195,14 +198,13 @@ augmentation.Transform(dataset, imageWidth, imageHeight, imageDepth);
 ### 6. Supported Models
 
 Currently model-zoo project has the following models implemented:
+
 |  **Model** | **Usage** | **Available Weights** | **Paper** |
 | --- | --- | --- | --- |
-|  Darknet&nbsp;19 | DarkNet<NegativeLogLikelihood<>, HeInitialization, 19>&nbsp;darknet19({imageDepth, imageWidth, imageHeight}, numClasses)| ImageNet |[YOLO9000](https://pjreddie.com/media/files/papers/YOLO9000.pdf)|
-|  Darknet&nbsp;53 | DarkNet<NegativeLogLikelihood<>, HeInitialization, 53>&nbsp;darknet19({imageDepth, imageWidth, imageHeight}, numClasses)| ImageNet |[YOLOv3](https://pjreddie.com/media/files/papers/YOLOv3.pdf)|
+|  Darknet 19 | DarkNet<NegativeLogLikelihood<>, HeInitialization, 19> darknet19({imageDepth, imageWidth, imageHeight}, numClasses)| ImageNet |[YOLO9000](https://pjreddie.com/media/files/papers/YOLO9000.pdf)|
+|  Darknet 53 | DarkNet<NegativeLogLikelihood<>, HeInitialization, 53> darknet19({imageDepth, imageWidth, imageHeight}, numClasses)| ImageNet |[YOLOv3](https://pjreddie.com/media/files/papers/YOLOv3.pdf)|
 
 All models can be included as shown below :
 ```cpp
 #include <models/Model-ClassName/Model_ClassName.hpp>
 ```
-
-For more information about usage, take a look at our wiki page.
