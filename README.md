@@ -89,7 +89,7 @@ It also provides utility function required required for downloading, extracting 
 image, text and sequential data. For more information about dataloaders and utility functions,
 Refer to our wiki page.
 
-#### 1. Dataloaders for popular datasets.
+#### i. Dataloaders for popular datasets.
 
 Creating and processing data can be done in just a single line. Don't have the dataset downloaded,
 No worries, we will download and preprocess it for you. Kindly refer to sample code given below.
@@ -120,7 +120,7 @@ Currently supported datasets are mentioned below :
 |  Pascal VOC Detection | DataLoader<mat, field<vec>> ("voc-detection") | The Pascal VOC challenge is a very popular dataset for building and evaluating algorithms for image classification, object detection and segmentation.<br/> VOC detection dataset provides support for loading object detection dataset in PASCAL VOC. Note : By default we refer to VOC - 2012 dataset as VOC dataset.|
 | CIFAR 10 | DataLoader<> ("cifar10"); | The CIFAR-10 dataset consists of 60000 32x32 colour images in 10 classes, with 6000 images per class. There are 50000 training images and 10000 test images.|
 
-#### 2. Loading Other Datasets.
+#### ii. Loading Other Datasets.
 
 We are continuously adding new datasets to this repository, However you can also
 use our dataloaders to load other datasets. Refer to our dataloaders wiki for more
