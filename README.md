@@ -3,10 +3,10 @@ and cutting-edge machine learning models mostly deep learning models. The
 implementations in this repository are intended to be compiled into command-line
 programs and bindings to Python and other languages.
 
-_(This README contains various TODO comments like this one, so if you are
-helping with the transition from the `examples/` repository, be sure to look for
-comments like this one. Once the transition is done, we can remove this
-comment (and the others).)_
+> (This README contains various TODO comments like this one, so if you are
+> helping with the transition from the `examples/` repository, be sure to look for
+> comments like this one. Once the transition is done, we can remove this
+> comment (and the others).)
 
 We provide ability to download datasets as well as pretrained weights using our
 utility functions, by default we assume the server to be mlpack.org.
@@ -86,8 +86,7 @@ building with 4 cores can be done with the following command:
 
 This repository provides dataloaders and data preprocessing modules for mlpack library.
 It also provides utility function required required for downloading, extracting and processing
-image, text and sequential data. For more information about dataloaders and utility functions,
-Refer to our wiki page.
+image, text and sequential data. For more information about dataloaders and utility functions.
 
 #### Dataloaders for popular datasets.
 
@@ -123,8 +122,7 @@ Currently supported datasets are mentioned below :
 #### Loading Other Datasets.
 
 We are continuously adding new datasets to this repository, However you can also
-use our dataloaders to load other datasets. Refer to our dataloaders wiki for more
-information.
+use our dataloaders to load other datasets.
 
 ##### Loading CSV Datasets.
 Use our `LoadCSV` function to load and process CSV datasets.
@@ -158,8 +156,6 @@ DataLoader<> dataloader;
 dataloader.LoadImageDatasetFromDirectory("path/to/directory", imageWidth, imageHeight, imageDepth);
 ```
 
-For advanced usage, refer to our wiki page.
-
 ##### Loading Object Detection Dataset.
 
 We provide support to load annotations represented in XML files and their corresponding images. If your dataset contains fixed number of objects in each annotation use matrix type to load your dataset else use field type for labels / annotations. If images are not of same size pass a vector containing resize parameter. By default, each image is resized to 64 x 64.
@@ -188,7 +184,7 @@ This is especially useful when preprocessing of your dataset resembles any other
 dataset that we support.
 ### Using Augmentation
 
-To prevent overfitting on training data, we provide support for native augmentation. The constructor takes in a list / vector of strings which contain supported augmentation. Augmentation can be applied to the dataset by calling the `Transform` function. For more information about augmentation, take a look at our wiki page.
+To prevent overfitting on training data, we provide support for native augmentation. The constructor takes in a list / vector of strings which contain supported augmentation. Augmentation can be applied to the dataset by calling the `Transform` function. For more information about augmentation.
 
 ```cpp
 Augmentation augmentation({"horizontal-flip", "resize : (64, 64)"}, 0.2);

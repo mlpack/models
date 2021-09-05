@@ -9,8 +9,8 @@ augmentation : List of strings containing one of the supported augmentations.
 augmentationProbability : Probability of applying augmentation on the dataset.
 ```
 
-Note : Augmentation probability is set to 1 for operations that change the shape or size of the object i.e.    
-       Operations such as resize and reshape are applied to all images.
+> Augmentation probability is set to 1 for operations that change the shape or size of the object i.e.    
+>        Operations such as resize and reshape are applied to all images.
 
 Take a look at our list of [supported augmentations](#supported-augmentations).
 
@@ -27,7 +27,7 @@ datapointDepth : Depth of a single data point. For 2-dimensional data point, set
 
 An example code snippet is given below : 
 
-```
+```cpp
 // Resize image to 8 x 8 and apply horizontal flip to 20 % of images / data points.
 std::vector<std::string> augmentationVector = {"horizontal-flip",
     "resize : 8"};
@@ -44,7 +44,8 @@ Currently we only support `resize` augmentation. There are many more augmentatio
 #### Usage of Resize Transform.
 
 We use regex to parse the string and obtain desired width and desired height. If only a single number is found then desired width and desired height are set to the same number.
-An example for square output,
+
+An example for square output.
 
 ```cpp
 Augmentation augmentation({"resize : 8"});

@@ -1,4 +1,4 @@
-models provide an easy to use data loader to load popular datasets in just a single line of code. Maybe you want to use it some other dataset and you can do that too.
+Models provide an easy to use data loader to load popular datasets in just a single line of code. Maybe you want to use it some other dataset and you can do that too.
 
 **Template Parameters:**
 
@@ -208,7 +208,7 @@ vector<string> classes = {"class-name-0", "class-name-1", "class-name-2"};
 dataloader.LoadObjectDetectionDataset("path/to/annotations/", "path/to/images/", classes);
 ```
 
-** Advanced Usage of Object Detection Dataloader**
+**Advanced Usage of Object Detection Dataloader**
 
 Use XML-Tag parameters to specify tags that the dataloader should look for. Also use parameters like augmentation to make model robust.
 
