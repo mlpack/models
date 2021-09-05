@@ -10,7 +10,7 @@ DatasetY : Datatype for prediction features.
 ScalerType : mlpack's Scaler Object for scaling features.
 ```
 
-### 1. Loading Popular datasets
+### Loading Popular datasets
 
 Use our constructor to pass the required information about the dataset that you want to load and we will download it, extract it and process it so that it's ready to use. For supported datasets take a look at this [list](#4-supported-datasets).
 
@@ -53,7 +53,7 @@ Dataloader<arma::mat, arma::mat, mlpack::data::MinMaxScaler> dataloader("Pascal-
 
 Refer to [accessor methods](#3-Accessor-Methods-Using-DataLoader-object-for-training-and-inference) in data loader to understand how to use data loader for training and testing. 
 
-### 2. Loading Other datasets
+### Loading Other datasets
 
 You can use our data loaders to load any type of dataset you want. We are currently developing Image data loaders to get images path from either CSVs or directories. Till then, we only support CSV datasets as part of our data loader.
 
@@ -233,7 +233,7 @@ dataloader.LoadObjectDetectionDataset("path/to/annotations/", "path/to/images/",
 Refer to [accessor methods](#3-Accessor-Methods-Using-DataLoader-object-for-training-and-inference) in data loader to understand how to use data loader for training and testing. 
 
 
-### 3. Accessor Methods : Using DataLoader object for training and inference
+### Accessor Methods : Using DataLoader object for training and inference
 
 We provide access to loaded data using accessor and modifiers functions. This will allow you to perform extra pre-processing on dataset if you want. Details about the data loader members are given below.
 
@@ -254,7 +254,7 @@ ValidSet() : Returns a tuple containing both ValidFeatures and ValidLabels.
 TestSet() : Returns a tuple containing both TestFeatures and TestLabels.
 ```
 
-### 4. Supported Datasets
+### Supported Datasets
 
 Currently supported datasets are mentioned below :
 

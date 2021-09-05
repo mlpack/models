@@ -1,6 +1,6 @@
 models provide easy to use augmentation techniques to prevent overfitting. Take a look at our tutorial below.
 
-### 1. Constructor Parameters
+### Constructor Parameters
 
 Augmentation class takes in two parameters that are mentioned below :
 
@@ -14,7 +14,7 @@ Note : Augmentation probability is set to 1 for operations that change the shape
 
 Take a look at our list of [supported augmentations](#supported-augmentations).
 
-### 2. Usage
+### Usage
 
 Use the `Transform` function to apply augmentation to the dataset.
 
@@ -37,11 +37,11 @@ Augmentation augmentation(augmentationVector, 0.2);
 augmentation.Transform(input, inputWidth, inputHeight, depth);
 ```
 
-### 3. Supported Augmentations
+### Supported Augmentations
 
 Currently we only support `resize` augmentation. There are many more augmentations that will be added over the next few months. We are an open source organization and we really appreciate it if you take the time to add any augmentation.
 
-#### 4. Usage of Resize Transform.
+#### Usage of Resize Transform.
 
 We use regex to parse the string and obtain desired width and desired height. If only a single number is found then desired width and desired height are set to the same number.
 An example for square output,

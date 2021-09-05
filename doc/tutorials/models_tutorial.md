@@ -5,9 +5,9 @@ models repository provide easy to use state of the art models with pre-trained w
  1. [Properties of Models](#1-properties-of-models)
  2. [Object Classification Models](#2-object-classification-models)
 
-### 1. Properties of Models
+### Properties of Models
 
-**i. Including Models**
+#### Including Models
 
 Each model can be included as follows : 
 
@@ -15,7 +15,7 @@ Each model can be included as follows :
 #include <models/ModelClassName/ModelClassName.hpp>
 ```
 
-**ii. Template Parameters**
+#### Template Parameters
 
 Each model accepts at least the following parameters.
 
@@ -26,7 +26,7 @@ InitializationRuleType Rule used to initialize the weight matrix.
 
 Refer to default value of each model. There might be additional template parameters for some models.
 
-**iii. Functions of Model**
+#### Functions of Model
 Each model in the models repository has the following functions:
 
 **1. GetModel()**
@@ -59,7 +59,7 @@ filePath : Path to determine the model the file where the model will be saved.
 
 Model will be saved to the specified file.
 
-### 2. Object Classification Models
+### Object Classification Models
 
 List of supported Object classification models is given below.
 
@@ -74,7 +74,7 @@ List of supported Object classification models is given below.
 |  ResNet152 | ResNet<CrossEntropyError<>, RandomInitialization, 152> resnet152(imageChannel, imageWidth, imageHeight, includeTop, preTrained, numClasses) | ImageNet | [Deep Residual Learning](https://arxiv.org/pdf/1512.03385)|
 |  MobileNetV1 | MobilenetV1 mobilenetv1(imageChannel, imageWidth, imageHeight, alpha, depthMultiplier, includeTop, preTrained, numClasses) | ImageNet | [MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications](https://arxiv.org/pdf/1704.04861)|
 
-### i. DarkNet Family
+### DarkNet Family
 
 **Including DarkNet Models**
 
