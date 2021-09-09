@@ -96,11 +96,12 @@ class MobileNetV1{
       GetModel() { return mobileNet; }
 
   //! Load weights into the model and assumes the internal matrix to be
-  //  named "MobileNetV1".
+  //!  named "MobileNetV1".
   void LoadModel(const std::string& filePath);
 
   //! Save weights for the model and assumes the internal matrix to be
-  //  named "MobileNetV1".
+  //!  named "MobileNetV1".
+
   void SaveModel(const std::string& filepath);
 
  private:
