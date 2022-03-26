@@ -41,7 +41,6 @@ namespace models {
  * 
  * @tparam OutputLayerType The output layer type used to evaluate the network.
  * @tparam InitializationRuleType Rule used to initialize the weight matrix.
- * @tparam YOLOVersion Version of YOLO model.
  */
 template<
   typename OutputLayerType = ann::NegativeLogLikelihood<>,
