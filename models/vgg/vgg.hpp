@@ -118,7 +118,7 @@ class VGGType : public ann::MultiLayer<MatType>
       { 19, {64, 64, 0, 128, 128, 0, 256, 256, 256, 256, 0, 512, 512, 512, 512,
           0, 512, 512, 512, 512, 0} }
     };
-    std::vector<size_t> layers = construct[VGGVersion];
+    std::vector<size_t> layers = construct.at(VGGVersion);
     for (size_t i = 0; i < layers.size(); i++) 
     {
       if (layers[i] == 0)
