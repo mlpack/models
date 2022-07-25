@@ -66,7 +66,7 @@ class VGGType : public ann::MultiLayer<MatType>
   VGGType(
     const size_t numClasses,
     const bool includeTop = true);
-  
+
   //! Copy the given VGGType.
   VGGType(const VGGType& other);
   //! Take ownership of the layers of the given VGGType.
@@ -78,9 +78,7 @@ class VGGType : public ann::MultiLayer<MatType>
 
   //! Virtual destructor: delete all held layers.
   virtual ~VGGType()
-  {
-    // Nothing to do here. 
-  }
+  { /* Nothing to do here. */ }
 
   //! Create a copy of the VGGType (this is safe for polymorphic use).
   VGGType* Clone() const { return new VGGType(*this); }
@@ -97,7 +95,7 @@ class VGGType : public ann::MultiLayer<MatType>
   >
   ann::FFN<OutputLayerType, InitializationRuleType, MatType>* GetModel()
   {
-    ann::FFN<OutputLayerType, InitializationRuleType, MatType>* vgg = 
+    ann::FFN<OutputLayerType, InitializationRuleType, MatType>* vgg =
         new ann::FFN<OutputLayerType, InitializationRuleType, MatType>();
     vgg->Add(this);
     return vgg;
@@ -119,7 +117,7 @@ class VGGType : public ann::MultiLayer<MatType>
           0, 512, 512, 512, 512, 0} }
     };
     std::vector<size_t> layers = construct.at(VGGVersion);
-    for (size_t i = 0; i < layers.size(); i++) 
+    for (size_t i = 0; i < layers.size(); i++)
     {
       if (layers[i] == 0)
       {

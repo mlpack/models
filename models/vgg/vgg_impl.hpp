@@ -58,7 +58,7 @@ VGGType<MatType, VGGVersion, IsBatchNorm>::VGGType(
 }
 
 template<typename MatType, size_t VGGVersion, bool IsBatchNorm>
-VGGType<MatType, VGGVersion, IsBatchNorm>& 
+VGGType<MatType, VGGVersion, IsBatchNorm>&
 VGGType<MatType, VGGVersion, IsBatchNorm>::operator=(const VGGType& other)
 {
   if (this != &other)
@@ -72,7 +72,7 @@ VGGType<MatType, VGGVersion, IsBatchNorm>::operator=(const VGGType& other)
 }
 
 template<typename MatType, size_t VGGVersion, bool IsBatchNorm>
-VGGType<MatType, VGGVersion, IsBatchNorm>& 
+VGGType<MatType, VGGVersion, IsBatchNorm>&
 VGGType<MatType, VGGVersion, IsBatchNorm>::operator=(VGGType&& other)
 {
   if (this != &other)
