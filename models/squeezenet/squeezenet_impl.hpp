@@ -58,8 +58,9 @@ SqueezeNetType<MatType, SqueezeNetVersion>::SqueezeNetType(
 }
 
 template<typename MatType, size_t SqueezeNetVersion>
-SqueezeNetType<MatType, SqueezeNetVersion>& 
-SqueezeNetType<MatType, SqueezeNetVersion>::operator=(const SqueezeNetType& other)
+SqueezeNetType<MatType, SqueezeNetVersion>&
+SqueezeNetType<MatType, SqueezeNetVersion>::operator=(
+    const SqueezeNetType& other)
 {
   if (this != &other)
   {
@@ -72,7 +73,7 @@ SqueezeNetType<MatType, SqueezeNetVersion>::operator=(const SqueezeNetType& othe
 }
 
 template<typename MatType, size_t SqueezeNetVersion>
-SqueezeNetType<MatType, SqueezeNetVersion>& 
+SqueezeNetType<MatType, SqueezeNetVersion>&
 SqueezeNetType<MatType, SqueezeNetVersion>::operator=(SqueezeNetType&& other)
 {
   if (this != &other)

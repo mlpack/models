@@ -66,7 +66,7 @@ class SqueezeNetType : public ann::MultiLayer<MatType>
   SqueezeNetType(
     const size_t numClasses,
     const bool includeTop = true);
-  
+
   //! Copy the given SqueezeNetType.
   SqueezeNetType(const SqueezeNetType& other);
   //! Take ownership of the layers of the given SqueezeNetType.
@@ -78,9 +78,7 @@ class SqueezeNetType : public ann::MultiLayer<MatType>
 
   //! Virtual destructor: delete all held layers.
   virtual ~SqueezeNetType()
-  {
-    // Nothing to do here. 
-  }
+  { /* Nothing to do here. */ }
 
   //! Create a copy of the SqueezeNetType (this is safe for polymorphic use).
   SqueezeNetType* Clone() const { return new SqueezeNetType(*this); }
@@ -97,7 +95,7 @@ class SqueezeNetType : public ann::MultiLayer<MatType>
   >
   ann::FFN<OutputLayerType, InitializationRuleType, MatType>* GetModel()
   {
-    ann::FFN<OutputLayerType, InitializationRuleType, MatType>* squeezeNet = 
+    ann::FFN<OutputLayerType, InitializationRuleType, MatType>* squeezeNet =
         new ann::FFN<OutputLayerType, InitializationRuleType, MatType>();
     squeezeNet->Add(this);
     return squeezeNet;
@@ -122,13 +120,14 @@ class SqueezeNetType : public ann::MultiLayer<MatType>
   {
     this->template Add<ann::Convolution>(squeezePlanes, 1, 1);
     this->template Add<ann::ReLU>();
-    
+
     ann::MultiLayer<MatType>* expand1x1 = new ann::MultiLayer<MatType>();
     expand1x1->template Add<ann::Convolution>(expand1x1Planes, 1, 1);
     expand1x1->template Add<ann::ReLU>();
-    
+
     ann::MultiLayer<MatType>* expand3x3 = new ann::MultiLayer<MatType>();
-    expand3x3->template Add<ann::Convolution>(expand3x3Planes, 3, 3, 1, 1, 1, 1);
+    expand3x3->template Add<ann::Convolution>(expand3x3Planes, 3, 3, 1, 1, 1,
+        1);
     expand3x3->template Add<ann::ReLU>();
 
     ann::Concat* catLayer = new ann::Concat(2);
