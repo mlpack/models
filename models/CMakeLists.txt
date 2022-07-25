@@ -5,6 +5,7 @@ set(DIR
   darknet
   mobilenet
   resnet
+  xception
   yolo)
 
 foreach(dir ${DIR})
