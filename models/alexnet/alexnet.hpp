@@ -106,11 +106,11 @@ class AlexNetType : public ann::MultiLayer<MatType>
     this->template Add<ann::Convolution>(192, 5, 5, 1, 1, 2, 2);
     this->template Add<ann::ReLU>();
     this->template Add<ann::MaxPooling>(3, 3, 2, 2);
-    this->template Add<ann::Convolution>(384, 3, 3);
+    this->template Add<ann::Convolution>(384, 3, 3, 1, 1, 1, 1);
     this->template Add<ann::ReLU>();
-    this->template Add<ann::Convolution>(256, 3, 3);
+    this->template Add<ann::Convolution>(256, 3, 3, 1, 1, 1, 1);
     this->template Add<ann::ReLU>();
-    this->template Add<ann::Convolution>(256, 3, 3);
+    this->template Add<ann::Convolution>(256, 3, 3, 1, 1, 1, 1);
     this->template Add<ann::ReLU>();
     this->template Add<ann::MaxPooling>(3, 3, 2, 2);
     if (includeTop)
