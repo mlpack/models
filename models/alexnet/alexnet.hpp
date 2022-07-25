@@ -58,7 +58,7 @@ class AlexNetType : public ann::MultiLayer<MatType>
   AlexNetType(
     const size_t numClasses,
     const bool includeTop = true);
-  
+
   //! Copy the given AlexNetType.
   AlexNetType(const AlexNetType& other);
   //! Take ownership of the layers of the given AlexNetType.
@@ -70,9 +70,7 @@ class AlexNetType : public ann::MultiLayer<MatType>
 
   //! Virtual destructor: delete all held layers.
   virtual ~AlexNetType()
-  {
-    // Nothing to do here. 
-  }
+  { /* Nothing to do here. */ }
 
   //! Create a copy of the AlexNetType (this is safe for polymorphic use).
   AlexNetType* Clone() const { return new AlexNetType(*this); }
@@ -89,7 +87,7 @@ class AlexNetType : public ann::MultiLayer<MatType>
   >
   ann::FFN<OutputLayerType, InitializationRuleType, MatType>* GetModel()
   {
-    ann::FFN<OutputLayerType, InitializationRuleType, MatType>* alexNet = 
+    ann::FFN<OutputLayerType, InitializationRuleType, MatType>* alexNet =
         new ann::FFN<OutputLayerType, InitializationRuleType, MatType>();
     alexNet->Add(this);
     return alexNet;
