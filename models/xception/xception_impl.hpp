@@ -58,7 +58,7 @@ XceptionType<MatType>::XceptionType(
 }
 
 template<typename MatType>
-XceptionType<MatType>& 
+XceptionType<MatType>&
 XceptionType<MatType>::operator=(const XceptionType& other)
 {
   if (this != &other)
@@ -72,7 +72,7 @@ XceptionType<MatType>::operator=(const XceptionType& other)
 }
 
 template<typename MatType>
-XceptionType<MatType>& 
+XceptionType<MatType>&
 XceptionType<MatType>::operator=(XceptionType&& other)
 {
   if (this != &other)

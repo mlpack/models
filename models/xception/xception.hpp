@@ -64,7 +64,7 @@ class XceptionType : public ann::MultiLayer<MatType>
   XceptionType(
     const size_t numClasses,
     const bool includeTop = true);
-  
+
   //! Copy the given XceptionType.
   XceptionType(const XceptionType& other);
   //! Take ownership of the layers of the given XceptionType.
@@ -76,9 +76,7 @@ class XceptionType : public ann::MultiLayer<MatType>
 
   //! Virtual destructor: delete all held layers.
   virtual ~XceptionType()
-  {
-    // Nothing to do here. 
-  }
+  { /* Nothing to do here. */ }
 
   //! Create a copy of the XceptionType (this is safe for polymorphic use).
   XceptionType* Clone() const { return new XceptionType(*this); }
@@ -95,7 +93,7 @@ class XceptionType : public ann::MultiLayer<MatType>
   >
   ann::FFN<OutputLayerType, InitializationRuleType, MatType>* GetModel()
   {
-    ann::FFN<OutputLayerType, InitializationRuleType, MatType>* xception = 
+    ann::FFN<OutputLayerType, InitializationRuleType, MatType>* xception =
         new ann::FFN<OutputLayerType, InitializationRuleType, MatType>();
     xception->Add(this);
     return xception;
@@ -108,16 +106,17 @@ class XceptionType : public ann::MultiLayer<MatType>
  private:
   void SeparableConv(
     ann::MultiLayer<MatType>* block,
-    const size_t inMaps, 
+    const size_t inMaps,
     const size_t outMaps,
     const size_t kernelSize,
-    const size_t stride = 1, 
+    const size_t stride = 1,
     const size_t padding = 0,
     const bool useBias = false)
   {
     block->template Add<ann::GroupedConvolution>(inMaps, kernelSize, kernelSize,
       inMaps, stride, stride, padding, padding, "none", useBias);
-    block->template Add<ann::Convolution>(outMaps, 1, 1, 1, 1, 0, 0, "none", useBias);
+    block->template Add<ann::Convolution>(outMaps, 1, 1, 1, 1, 0, 0, "none",
+      useBias);
   }
 
   void Block(
@@ -175,9 +174,10 @@ class XceptionType : public ann::MultiLayer<MatType>
     if (inMaps != outMaps || strides != 1)
     {
       ann::MultiLayer<MatType>* block2 = new ann::MultiLayer<MatType>();
-      block2->template Add<ann::Convolution>(outMaps, 1, 1, strides, strides, 0, 0, "none", false);
+      block2->template Add<ann::Convolution>(outMaps, 1, 1, strides, strides,
+        0, 0, "none", false);
       block2->template Add<ann::BatchNorm>();
-      
+
       ann::AddMerge* merge = new ann::AddMerge();
       merge->template Add(block);
       merge->template Add(block2);
