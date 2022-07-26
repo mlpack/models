@@ -127,7 +127,7 @@ class VGGType : public ann::MultiLayer<MatType>
       {
         this->template Add<ann::Convolution>(layers[i], 3, 3, 1, 1, 1, 1);
         if (IsBatchNorm)
-          this->template Add<ann::BatchNorm>();
+          this->template Add<ann::BatchNorm>(2, 2, 1e-5, false, 0.1);
         this->template Add<ann::ReLU>();
       }
     }
