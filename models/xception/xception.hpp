@@ -188,7 +188,7 @@ class XceptionType : public ann::MultiLayer<MatType>
     {
       ann::AddMerge* merge = new ann::AddMerge();
       merge->template Add(block);
-      merge->template Add<ann::Idenity>();
+      merge->template Add<ann::Identity>();
 
       this->template Add(merge);
     }
@@ -224,7 +224,7 @@ class XceptionType : public ann::MultiLayer<MatType>
     this->template Add<ann::BatchNorm>();
     this->template Add<ann::ReLU>();
 
-    SeparableConv(this, 1024, 1536, 3, 1, 1);
+    SeparableConv(this, 1536, 2048, 3, 1, 1);
     this->template Add<ann::BatchNorm>();
 
     if (includeTop)
