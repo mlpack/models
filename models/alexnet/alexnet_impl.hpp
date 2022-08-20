@@ -23,7 +23,7 @@ AlexNetType<MatType>::AlexNetType() :
     numClasses(1000),
     includeTop(true)
 {
-  makeModel();
+  MakeModel();
 }
 
 template<typename MatType>
@@ -34,7 +34,7 @@ AlexNetType<MatType>::AlexNetType(
     numClasses(numClasses),
     includeTop(includeTop)
 {
-  makeModel();
+  MakeModel();
 }
 
 template<typename MatType>
@@ -90,6 +90,34 @@ void AlexNetType<MatType>::serialize(
 
   ar(CEREAL_NVP(numClasses));
   ar(CEREAL_NVP(includeTop));
+}
+
+template<typename MatType>
+void AlexNetType<MatType>::MakeModel()
+{
+  this->template Add<ann::Convolution>(64, 11, 11, 4, 4, 2, 2);
+  this->template Add<ann::ReLU>();
+  this->template Add<ann::MaxPooling>(3, 3, 2, 2);
+  this->template Add<ann::Convolution>(192, 5, 5, 1, 1, 2, 2);
+  this->template Add<ann::ReLU>();
+  this->template Add<ann::MaxPooling>(3, 3, 2, 2);
+  this->template Add<ann::Convolution>(384, 3, 3, 1, 1, 1, 1);
+  this->template Add<ann::ReLU>();
+  this->template Add<ann::Convolution>(256, 3, 3, 1, 1, 1, 1);
+  this->template Add<ann::ReLU>();
+  this->template Add<ann::Convolution>(256, 3, 3, 1, 1, 1, 1);
+  this->template Add<ann::ReLU>();
+  this->template Add<ann::MaxPooling>(3, 3, 2, 2);
+  if (includeTop)
+  {
+    this->template Add<ann::Dropout>();
+    this->template Add<ann::Linear>(4096);
+    this->template Add<ann::ReLU>();
+    this->template Add<ann::Dropout>();
+    this->template Add<ann::Linear>(4096);
+    this->template Add<ann::ReLU>();
+    this->template Add<ann::Linear>(numClasses);
+  }
 }
 
 } // namespace models

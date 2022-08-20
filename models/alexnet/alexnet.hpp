@@ -52,12 +52,11 @@ class AlexNetType : public ann::MultiLayer<MatType>
    * AlexNetType constructor intializes number of classes and weights.
    *
    * @param numClasses Optional number of classes to classify images into,
-   *     only to be specified if includeTop is  true.
-   * @param includeTop Must be set to true if weights are set.
+   *     only to be specified if includeTop is true.
+   * @param includeTop Must be set to true if classifier layers are  set.
    */
-  AlexNetType(
-    const size_t numClasses,
-    const bool includeTop = true);
+  AlexNetType(const size_t numClasses,
+              const bool includeTop = true);
 
   //! Copy the given AlexNetType.
   AlexNetType(const AlexNetType& other);
@@ -76,7 +75,7 @@ class AlexNetType : public ann::MultiLayer<MatType>
   AlexNetType* Clone() const { return new AlexNetType(*this); }
 
   /**
-   * Get Layers of the model.
+   * Get the FFN object representing the network.
    * 
    * @tparam OutputLayerType The output layer type used to evaluate the network.
    * @tparam InitializationRuleType Rule used to initialize the weight matrix.
@@ -98,32 +97,8 @@ class AlexNetType : public ann::MultiLayer<MatType>
   void serialize(Archive& ar, const uint32_t /* version */);
 
  private:
-  void makeModel()
-  {
-    this->template Add<ann::Convolution>(64, 11, 11, 4, 4, 2, 2);
-    this->template Add<ann::ReLU>();
-    this->template Add<ann::MaxPooling>(3, 3, 2, 2);
-    this->template Add<ann::Convolution>(192, 5, 5, 1, 1, 2, 2);
-    this->template Add<ann::ReLU>();
-    this->template Add<ann::MaxPooling>(3, 3, 2, 2);
-    this->template Add<ann::Convolution>(384, 3, 3, 1, 1, 1, 1);
-    this->template Add<ann::ReLU>();
-    this->template Add<ann::Convolution>(256, 3, 3, 1, 1, 1, 1);
-    this->template Add<ann::ReLU>();
-    this->template Add<ann::Convolution>(256, 3, 3, 1, 1, 1, 1);
-    this->template Add<ann::ReLU>();
-    this->template Add<ann::MaxPooling>(3, 3, 2, 2);
-    if (includeTop)
-    {
-      this->template Add<ann::Dropout>();
-      this->template Add<ann::Linear>(4096);
-      this->template Add<ann::ReLU>();
-      this->template Add<ann::Dropout>();
-      this->template Add<ann::Linear>(4096);
-      this->template Add<ann::ReLU>();
-      this->template Add<ann::Linear>(numClasses);
-    }
-  }
+  //! Generate the layers of the AlexNet.
+  void MakeModel();
 
   //! Locally stored number of output classes.
   size_t numClasses;
