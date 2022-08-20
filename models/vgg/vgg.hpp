@@ -38,17 +38,15 @@ namespace models {
 /**
  * Definition of a VGG CNN.
  * 
- * NOTE: Note that output size will be 1x1xN. Here, N is number of classes.
- * 
  * @tparam MatType Matrix representation to accept as input and use for
  *    computation.
- * @tparam VGGVersion Version of VGG.
- * @tparam IsBatchNorm Whether to apply Batch Norm layer.
+ * @tparam VGGVersion Version of VGG (Valid Configuration - 11, 13, 16, 19).
+ * @tparam UsesBatchNorm Whether to apply Batch Norm layer.
  */
 template<
   typename MatType = arma::mat,
   size_t VGGVersion = 11,
-  bool IsBatchNorm = false
+  bool UsesBatchNorm = false
 >
 class VGGType : public ann::MultiLayer<MatType>
 {
@@ -60,12 +58,11 @@ class VGGType : public ann::MultiLayer<MatType>
    * VGGType constructor intializes number of classes and weights.
    *
    * @param numClasses Optional number of classes to classify images into,
-   *     only to be specified if includeTop is  true.
-   * @param includeTop Must be set to true if weights are set.
+   *     only to be specified if includeTop is true.
+   * @param includeTop Must be set to true if classifier layers are set.
    */
-  VGGType(
-    const size_t numClasses,
-    const bool includeTop = true);
+  VGGType(const size_t numClasses,
+          const bool includeTop = true);
 
   //! Copy the given VGGType.
   VGGType(const VGGType& other);
@@ -84,7 +81,7 @@ class VGGType : public ann::MultiLayer<MatType>
   VGGType* Clone() const { return new VGGType(*this); }
 
   /**
-   * Get Layers of the model.
+   * Get the FFN object representing the network.
    * 
    * @tparam OutputLayerType The output layer type used to evaluate the network.
    * @tparam InitializationRuleType Rule used to initialize the weight matrix.
@@ -106,42 +103,7 @@ class VGGType : public ann::MultiLayer<MatType>
   void serialize(Archive& ar, const uint32_t /* version */);
 
  private:
-  void makeModel()
-  {
-    std::map<size_t, std::vector<size_t>> const construct {
-      { 11, {64, 0, 128, 0, 256, 256, 0, 512, 512, 0, 512, 512, 0} },
-      { 13, {64, 64, 0, 128, 128, 0, 256, 256, 0, 512, 512, 0, 512, 512, 0} },
-      { 16, {64, 64, 0, 128, 128, 0, 256, 256, 256, 0, 512, 512, 512, 0, 512,
-          512, 512, 0} },
-      { 19, {64, 64, 0, 128, 128, 0, 256, 256, 256, 256, 0, 512, 512, 512, 512,
-          0, 512, 512, 512, 512, 0} }
-    };
-    std::vector<size_t> layers = construct.at(VGGVersion);
-    for (size_t i = 0; i < layers.size(); i++)
-    {
-      if (layers[i] == 0)
-      {
-        this->template Add<ann::MaxPooling>(2, 2, 2, 2);
-      }
-      else
-      {
-        this->template Add<ann::Convolution>(layers[i], 3, 3, 1, 1, 1, 1);
-        if (IsBatchNorm)
-          this->template Add<ann::BatchNorm>(2, 2, 1e-5, false, 0.1);
-        this->template Add<ann::ReLU>();
-      }
-    }
-    if (includeTop)
-    {
-      this->template Add<ann::Linear>(4096);
-      this->template Add<ann::ReLU>();
-      this->template Add<ann::Dropout>();
-      this->template Add<ann::Linear>(4096);
-      this->template Add<ann::ReLU>();
-      this->template Add<ann::Dropout>();
-      this->template Add<ann::Linear>(numClasses);
-    }
-  }
+  void MakeModel();
 
   //! Locally stored number of output classes.
   size_t numClasses;
