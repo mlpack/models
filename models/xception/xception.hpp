@@ -36,14 +36,10 @@ namespace mlpack {
 namespace models {
 
 /**
- * Definition of a VGG CNN.
- * 
- * NOTE: Note that output size will be 1x1xN. Here, N is number of classes.
+ * Definition of a Xception CNN.
  * 
  * @tparam MatType Matrix representation to accept as input and use for
  *    computation.
- * @tparam VGGVersion Version of VGG.
- * @tparam IsBatchNorm Whether to apply Batch Norm layer.
  */
 template<
   typename MatType = arma::mat
@@ -58,12 +54,11 @@ class XceptionType : public ann::MultiLayer<MatType>
    * XceptionType constructor intializes number of classes and weights.
    *
    * @param numClasses Optional number of classes to classify images into,
-   *     only to be specified if includeTop is  true.
-   * @param includeTop Must be set to true if weights are set.
+   *     only to be specified if includeTop is true.
+   * @param includeTop Must be set to true if classifier layers are set.
    */
-  XceptionType(
-    const size_t numClasses,
-    const bool includeTop = true);
+  XceptionType(const size_t numClasses,
+               const bool includeTop = true);
 
   //! Copy the given XceptionType.
   XceptionType(const XceptionType& other);
@@ -82,7 +77,7 @@ class XceptionType : public ann::MultiLayer<MatType>
   XceptionType* Clone() const { return new XceptionType(*this); }
 
   /**
-   * Get Layers of the model.
+   * Get the FFN object representing the network.
    * 
    * @tparam OutputLayerType The output layer type used to evaluate the network.
    * @tparam InitializationRuleType Rule used to initialize the weight matrix.
@@ -104,136 +99,45 @@ class XceptionType : public ann::MultiLayer<MatType>
   void serialize(Archive& ar, const uint32_t /* version */);
 
  private:
-  void SeparableConv(
-    ann::MultiLayer<MatType>* block,
-    const size_t inMaps,
-    const size_t outMaps,
-    const size_t kernelSize,
-    const size_t stride = 1,
-    const size_t padding = 0,
-    const bool useBias = false)
-  {
-    block->template Add<ann::GroupedConvolution>(inMaps, kernelSize, kernelSize,
-      inMaps, stride, stride, padding, padding, "none", useBias);
-    block->template Add<ann::Convolution>(outMaps, 1, 1, 1, 1, 0, 0, "none",
-      useBias);
-  }
+  /**
+   * Adds Seperable Convolution to the given block.
+   *
+   * @param block Block to add the separable convolution to.
+   * @param inMaps Number of input maps.
+   * @param outMaps Number of output maps.
+   * @param kernelSize Kernel size of the convolution.
+   * @param stride Stride of the convolution.
+   * @param padding Padding of the convolution.
+   * @param useBias Whether to use bias in the convolution.
+   */
+  void SeparableConv(ann::MultiLayer<MatType>* block,
+                     const size_t inMaps,
+                     const size_t outMaps,
+                     const size_t kernelSize,
+                     const size_t stride = 1,
+                     const size_t padding = 0,
+                     const bool useBias = false);
 
-  void Block(
-    const size_t inMaps,
-    const size_t outMaps,
-    const size_t reps,
-    const size_t strides = 1,
-    const bool startWithRelu = true,
-    const bool growFirst = true)
-  {
-    ann::MultiLayer<MatType>* block = new ann::MultiLayer<MatType>();
-    size_t filter = inMaps;
-    if (reps < 2)
-    {
-      if (startWithRelu)
-        block->template Add<ann::ReLU>();
-      SeparableConv(block, inMaps, outMaps, 3, 1, 1, false);
-      block->template Add<ann::BatchNorm>();
-    }
-    else
-    {
-      if (growFirst)
-      {
-        if (startWithRelu)
-          block->template Add<ann::ReLU>();
-        SeparableConv(block, inMaps, outMaps, 3, 1, 1, false);
-        block->template Add<ann::BatchNorm>();
-        filter = outMaps;
-      }
-      if (startWithRelu || growFirst)
-        block->template Add<ann::ReLU>();
-      SeparableConv(block, filter, filter, 3, 1, 1, false);
-      block->template Add<ann::BatchNorm>();
-      if (reps > 2)
-      {
-        for (size_t i = 0; i < reps - 2; i++)
-        {
-          block->template Add<ann::ReLU>();
-          SeparableConv(block, filter, filter, 3, 1, 1, false);
-          block->template Add<ann::BatchNorm>();
-        }
-      }
-      if (!growFirst)
-      {
-        block->template Add<ann::ReLU>();
-        SeparableConv(block, inMaps, outMaps, 3, 1, 1, false);
-        block->template Add<ann::BatchNorm>();
-      }
-    }
-    if (strides != 1)
-    {
-      block->template Add<ann::Padding>(1, 1, 1, 1);
-      block->template Add<ann::MaxPooling>(3, 3, strides, strides);
-    }
-    if (inMaps != outMaps || strides != 1)
-    {
-      ann::MultiLayer<MatType>* block2 = new ann::MultiLayer<MatType>();
-      block2->template Add<ann::Convolution>(outMaps, 1, 1, strides, strides,
-        0, 0, "none", false);
-      block2->template Add<ann::BatchNorm>();
+  /**
+   * Adds block.
+   *
+   * @param inMaps Number of input maps.
+   * @param outMaps Number of output maps.
+   * @param reps Number of repetitions of the convolution.
+   * @param strides Stride of the convolution.
+   * @param startWithRelu Whether to use ReLU at the start of the block.
+   * @param growFirst Whether to map to outMaps at beginning only. If false,
+   *                  it maps to inMaps at last convolution layer.
+   */
+  void Block(const size_t inMaps,
+             const size_t outMaps,
+             const size_t reps,
+             const size_t strides = 1,
+             const bool startWithRelu = true,
+             const bool growFirst = true);
 
-      ann::AddMerge* merge = new ann::AddMerge();
-      merge->template Add(block);
-      merge->template Add(block2);
-
-      this->template Add(merge);
-    }
-    else
-    {
-      ann::AddMerge* merge = new ann::AddMerge();
-      merge->template Add(block);
-      merge->template Add<ann::Identity>();
-
-      this->template Add(merge);
-    }
-  }
-
-  void makeModel()
-  {
-    this->template Add<ann::Convolution>(32, 3, 3, 2, 2, 0, 0, "none", false);
-    this->template Add<ann::BatchNorm>();
-    this->template Add<ann::ReLU>();
-
-    this->template Add<ann::Convolution>(64, 3, 3, 1, 1, 0, 0, "none", false);
-    this->template Add<ann::BatchNorm>();
-    this->template Add<ann::ReLU>();
-
-    Block(64, 128, 2, 2, false, true);
-    Block(128, 256, 2, 2);
-    Block(256, 728, 2, 2);
-
-    Block(728, 728, 3, 1);
-    Block(728, 728, 3, 1);
-    Block(728, 728, 3, 1);
-    Block(728, 728, 3, 1);
-
-    Block(728, 728, 3, 1);
-    Block(728, 728, 3, 1);
-    Block(728, 728, 3, 1);
-    Block(728, 728, 3, 1);
-
-    Block(728, 1024, 2, 2, true, false);
-
-    SeparableConv(this, 1024, 1536, 3, 1, 1);
-    this->template Add<ann::BatchNorm>();
-    this->template Add<ann::ReLU>();
-
-    SeparableConv(this, 1536, 2048, 3, 1, 1);
-    this->template Add<ann::BatchNorm>();
-
-    if (includeTop)
-    {
-      this->template Add<ann::ReLU>();
-      this->template Add<ann::AdaptiveMeanPooling>(1, 1);
-      this->template Add<ann::Linear>(numClasses);
-    }
-  }
+  //! Generate the layers of the Xception.
+  void MakeModel();
 
   //! Locally stored number of output classes.
   size_t numClasses;
