@@ -41,10 +41,12 @@ namespace models {
  * Definition of a SqueezeNet CNN.
  * 
  * NOTE: Note that output size will be 1x1xN. Here, N is number of classes.
+ *       Especially, if we are using this network as layer in a network, then
+ *       the output size of the network will matter.
  * 
  * @tparam MatType Matrix representation to accept as input and use for
  *    computation.
- * @tparam SqueezeNetVersion Version of SqueeeNet.
+ * @tparam SqueezeNetVersion Version of SqueeeNet (Possible Config - 0, 1).
  */
 template<
   typename MatType = arma::mat,
@@ -60,12 +62,11 @@ class SqueezeNetType : public ann::MultiLayer<MatType>
    * SqueezeNetType constructor intializes number of classes and weights.
    *
    * @param numClasses Optional number of classes to classify images into,
-   *     only to be specified if includeTop is  true.
-   * @param includeTop Must be set to true if weights are set.
+   *     only to be specified if includeTop is true.
+   * @param includeTop Must be set to true if classifier layers are set.
    */
-  SqueezeNetType(
-    const size_t numClasses,
-    const bool includeTop = true);
+  SqueezeNetType(const size_t numClasses,
+                 const bool includeTop = true);
 
   //! Copy the given SqueezeNetType.
   SqueezeNetType(const SqueezeNetType& other);
@@ -84,7 +85,7 @@ class SqueezeNetType : public ann::MultiLayer<MatType>
   SqueezeNetType* Clone() const { return new SqueezeNetType(*this); }
 
   /**
-   * Get Layers of the model.
+   * Get the FFN object representing the network.
    * 
    * @tparam OutputLayerType The output layer type used to evaluate the network.
    * @tparam InitializationRuleType Rule used to initialize the weight matrix.
@@ -113,76 +114,12 @@ class SqueezeNetType : public ann::MultiLayer<MatType>
    * @param expand1x1Planes Number of expansion maps with 1x1 kernel.
    * @param expand3x3Planes Number of expansion maps with 3x3 kernel.
    */
-  void Fire(
-    const size_t squeezePlanes,
-    const size_t expand1x1Planes,
-    const size_t expand3x3Planes)
-  {
-    this->template Add<ann::Convolution>(squeezePlanes, 1, 1);
-    this->template Add<ann::ReLU>();
+  void Fire(const size_t squeezePlanes,
+            const size_t expand1x1Planes,
+            const size_t expand3x3Planes);
 
-    ann::MultiLayer<MatType>* expand1x1 = new ann::MultiLayer<MatType>();
-    expand1x1->template Add<ann::Convolution>(expand1x1Planes, 1, 1);
-    expand1x1->template Add<ann::ReLU>();
-
-    ann::MultiLayer<MatType>* expand3x3 = new ann::MultiLayer<MatType>();
-    expand3x3->template Add<ann::Convolution>(expand3x3Planes, 3, 3, 1, 1, 1,
-        1);
-    expand3x3->template Add<ann::ReLU>();
-
-    ann::Concat* catLayer = new ann::Concat(2);
-    catLayer->template Add(expand1x1);
-    catLayer->template Add(expand3x3);
-
-    this->template Add(catLayer);
-  }
-
-  void makeModel()
-  {
-    if (SqueezeNetVersion == 0)
-    {
-      this->template Add<ann::Convolution>(96, 7, 7, 2, 2);
-      this->template Add<ann::ReLU>();
-      this->template Add<ann::MaxPooling>(3, 3, 2, 2, false);
-      Fire(16, 64, 64);
-      Fire(16, 64, 64);
-      Fire(32, 128, 128);
-      this->template Add<ann::MaxPooling>(3, 3, 2, 2, false);
-      Fire(32, 128, 128);
-      Fire(48, 192, 192);
-      Fire(48, 192, 192);
-      Fire(64, 256, 256);
-      this->template Add<ann::MaxPooling>(3, 3, 2, 2, false);
-      Fire(64, 256, 256);
-    }
-    else if (SqueezeNetVersion == 1)
-    {
-      this->template Add<ann::Convolution>(64, 3, 3, 2, 2);
-      this->template Add<ann::ReLU>();
-      this->template Add<ann::MaxPooling>(3, 3, 2, 2, false);
-      Fire(16, 64, 64);
-      Fire(16, 64, 64);
-      this->template Add<ann::MaxPooling>(3, 3, 2, 2, false);
-      Fire(32, 128, 128);
-      Fire(32, 128, 128);
-      this->template Add<ann::MaxPooling>(3, 3, 2, 2, false);
-      Fire(48, 192, 192);
-      Fire(48, 192, 192);
-      Fire(64, 256, 256);
-      Fire(64, 256, 256);
-    }
-    else
-    {
-      mlpack::Log::Fatal << "Unsuppoted SqueezeNet version." << std::endl;
-    }
-    if (includeTop)
-    {
-      this->template Add<ann::Dropout>();
-      this->template Add<ann::Convolution>(numClasses, 1, 1);
-      this->template Add<ann::ReLU>();
-      this->template Add<ann::AdaptiveMeanPooling>(1, 1);
-    }
-  }
+  //! Generate the layers of the SqueezeNet.
+  void MakeModel();
 
   //! Locally stored number of output classes.
   size_t numClasses;
