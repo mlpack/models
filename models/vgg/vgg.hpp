@@ -38,6 +38,12 @@ namespace models {
 /**
  * Definition of a VGG CNN.
  * 
+ * Paper uses different kind of notation for specifying the CNN (Table 1).
+ * A - 11
+ * B - 13
+ * D - 16
+ * E - 19
+ * 
  * @tparam MatType Matrix representation to accept as input and use for
  *    computation.
  * @tparam VGGVersion Version of VGG (Valid Configuration - 11, 13, 16, 19).
@@ -51,17 +57,14 @@ template<
 class VGGType : public ann::MultiLayer<MatType>
 {
  public:
-  //! Create the VGGType layer.
-  VGGType();
-
   /**
-   * VGGType constructor intializes number of classes and weights.
+   * VGGType constructor intializes layer with number of classes given.
    *
-   * @param numClasses Optional number of classes to classify images into,
+   * @param numClasses Number of classes to classify images into,
    *     only to be specified if includeTop is true.
    * @param includeTop Must be set to true if classifier layers are set.
    */
-  VGGType(const size_t numClasses,
+  VGGType(const size_t numClasses = 1000,
           const bool includeTop = true);
 
   //! Copy the given VGGType.

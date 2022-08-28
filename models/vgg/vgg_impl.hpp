@@ -18,15 +18,6 @@ namespace mlpack {
 namespace models {
 
 template<typename MatType, size_t VGGVersion, bool UsesBatchNorm>
-VGGType<MatType, VGGVersion, UsesBatchNorm>::VGGType() :
-    ann::MultiLayer<MatType>(),
-    numClasses(1000),
-    includeTop(true)
-{
-  MakeModel();
-}
-
-template<typename MatType, size_t VGGVersion, bool UsesBatchNorm>
 VGGType<MatType, VGGVersion, UsesBatchNorm>::VGGType(
     const size_t numClasses,
     const bool includeTop) :
