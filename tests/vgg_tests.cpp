@@ -2,7 +2,7 @@
  * @file tests/vgg_tests.cpp
  * @author Shubham Agrawal
  *
- * Tests the SqueezeNet model.
+ * Tests the VGG models.
  *
  * mlpack is free software; you may redistribute it and/or modify it under the
  * terms of the 3-clause BSD license.  You should have received a copy of the
