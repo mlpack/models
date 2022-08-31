@@ -47,17 +47,14 @@ template<
 class XceptionType : public ann::MultiLayer<MatType>
 {
  public:
-  //! Create the XceptionType layer.
-  XceptionType();
-
   /**
    * XceptionType constructor intializes number of classes and weights.
    *
-   * @param numClasses Optional number of classes to classify images into,
+   * @param numClasses Number of classes to classify images into,
    *     only to be specified if includeTop is true.
    * @param includeTop Must be set to true if classifier layers are set.
    */
-  XceptionType(const size_t numClasses,
+  XceptionType(const size_t numClasses = 1000,
                const bool includeTop = true);
 
   //! Copy the given XceptionType.

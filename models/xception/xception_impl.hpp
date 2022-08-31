@@ -18,15 +18,6 @@ namespace mlpack {
 namespace models {
 
 template<typename MatType>
-XceptionType<MatType>::XceptionType() :
-    ann::MultiLayer<MatType>(),
-    numClasses(1000),
-    includeTop(true)
-{
-  MakeModel();
-}
-
-template<typename MatType>
 XceptionType<MatType>::XceptionType(
     const size_t numClasses,
     const bool includeTop) :
