@@ -55,17 +55,14 @@ template<
 class SqueezeNetType : public ann::MultiLayer<MatType>
 {
  public:
-  //! Create the SqueezeNetType layer.
-  SqueezeNetType();
-
   /**
    * SqueezeNetType constructor intializes number of classes and weights.
    *
-   * @param numClasses Optional number of classes to classify images into,
+   * @param numClasses Number of classes to classify images into,
    *     only to be specified if includeTop is true.
    * @param includeTop Must be set to true if classifier layers are set.
    */
-  SqueezeNetType(const size_t numClasses,
+  SqueezeNetType(const size_t numClasses = 1000,
                  const bool includeTop = true);
 
   //! Copy the given SqueezeNetType.

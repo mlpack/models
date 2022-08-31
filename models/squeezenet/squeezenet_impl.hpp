@@ -18,15 +18,6 @@ namespace mlpack {
 namespace models {
 
 template<typename MatType, size_t SqueezeNetVersion>
-SqueezeNetType<MatType, SqueezeNetVersion>::SqueezeNetType() :
-    ann::MultiLayer<MatType>(),
-    numClasses(1000),
-    includeTop(true)
-{
-  MakeModel();
-}
-
-template<typename MatType, size_t SqueezeNetVersion>
 SqueezeNetType<MatType, SqueezeNetVersion>::SqueezeNetType(
     const size_t numClasses,
     const bool includeTop) :
