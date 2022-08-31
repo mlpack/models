@@ -11,9 +11,9 @@
  */
 #include "../models/squeezenet/squeezenet.hpp"
 
-#include "./test_catch_tools.hpp"
-#include "./catch.hpp"
-#include "./serialization.hpp"
+#include "test_catch_tools.hpp"
+#include "catch.hpp"
+#include "serialization.hpp"
 
 using namespace mlpack;
 
