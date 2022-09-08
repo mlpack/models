@@ -108,50 +108,50 @@ void ModelSerializationTest(LayerType& layer)
 
 TEST_CASE("AlexNetSerializationTest", "[AlexnetTests]")
 {
-	models::AlexNet model;
-	ModelSerializationTest(model);
+  models::AlexNet model;
+  ModelSerializationTest(model);
 }
 
 TEST_CASE("AlexNetTest", "[AlexnetTests]")
 {
-	arma::mat input(224 * 224 * 3, 1, arma::fill::randu);
-	arma::mat output;
-	models::AlexNet alexLayer;
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::AlexNet>(alexLayer);
-	ModelDimTest(model, input);
+  arma::mat input(224 * 224 * 3, 1, arma::fill::randu);
+  arma::mat output;
+  models::AlexNet alexLayer;
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::AlexNet>(alexLayer);
+  ModelDimTest(model, input);
 }
 
 TEST_CASE("AlexNetMultiBatchTest", "[AlexnetTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::AlexNet alexLayer;
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::AlexNet>(alexLayer);
-	ModelDimTest(model, input, 1000, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::AlexNet alexLayer;
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::AlexNet>(alexLayer);
+  ModelDimTest(model, input, 1000, 10);
 }
 
 TEST_CASE("AlexNetCustomTest", "[AlexnetTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::AlexNet alexLayer(512);
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::AlexNet>(alexLayer);
-	ModelDimTest(model, input, 512, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::AlexNet alexLayer(512);
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::AlexNet>(alexLayer);
+  ModelDimTest(model, input, 512, 10);
 }
 
 TEST_CASE("AlexNetNoTopTest", "[AlexnetTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::AlexNet alexLayer(512, false);
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::AlexNet>(alexLayer);
-	ModelDimTest(model, input, 9216, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::AlexNet alexLayer(512, false);
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::AlexNet>(alexLayer);
+  ModelDimTest(model, input, 9216, 10);
 }
