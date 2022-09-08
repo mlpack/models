@@ -108,400 +108,400 @@ void ModelSerializationTest(LayerType& layer)
 
 TEST_CASE("VGG11SerializationTest", "[VGGTests]")
 {
-	models::VGG11 model;
-	ModelSerializationTest(model);
+  models::VGG11 model;
+  ModelSerializationTest(model);
 }
 
 TEST_CASE("VGG13SerializationTest", "[VGGTests]")
 {
-	models::VGG13 model;
-	ModelSerializationTest(model);
+  models::VGG13 model;
+  ModelSerializationTest(model);
 }
 
 TEST_CASE("VGG16SerializationTest", "[VGGTests]")
 {
-	models::VGG16 model;
-	ModelSerializationTest(model);
+  models::VGG16 model;
+  ModelSerializationTest(model);
 }
 
 TEST_CASE("VGG19SerializationTest", "[VGGTests]")
 {
-	models::VGG19 model;
-	ModelSerializationTest(model);
+  models::VGG19 model;
+  ModelSerializationTest(model);
 }
 
 TEST_CASE("VGG11BNSerializationTest", "[VGGTests]")
 {
-	models::VGG11BN model;
-	ModelSerializationTest(model);
+  models::VGG11BN model;
+  ModelSerializationTest(model);
 }
 
 TEST_CASE("VGG13BNSerializationTest", "[VGGTests]")
 {
-	models::VGG13BN model;
-	ModelSerializationTest(model);
+  models::VGG13BN model;
+  ModelSerializationTest(model);
 }
 
 TEST_CASE("VGG16BNSerializationTest", "[VGGTests]")
 {
-	models::VGG16BN model;
-	ModelSerializationTest(model);
+  models::VGG16BN model;
+  ModelSerializationTest(model);
 }
 
 TEST_CASE("VGG19BNSerializationTest", "[VGGTests]")
 {
-	models::VGG19BN model;
-	ModelSerializationTest(model);
+  models::VGG19BN model;
+  ModelSerializationTest(model);
 }
 
 TEST_CASE("VGG11Test", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 1, arma::fill::randu);
-	arma::mat output;
-	models::VGG11 vggLayer11;
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG11>(vggLayer11);
-	ModelDimTest(model, input);
+  arma::mat input(224 * 224 * 3, 1, arma::fill::randu);
+  arma::mat output;
+  models::VGG11 vggLayer11;
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG11>(vggLayer11);
+  ModelDimTest(model, input);
 }
 
 TEST_CASE("VGG13Test", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 1, arma::fill::randu);
-	arma::mat output;
-	models::VGG13 vggLayer13;
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG13>(vggLayer13);
-	ModelDimTest(model, input);
+  arma::mat input(224 * 224 * 3, 1, arma::fill::randu);
+  arma::mat output;
+  models::VGG13 vggLayer13;
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG13>(vggLayer13);
+  ModelDimTest(model, input);
 }
 
 TEST_CASE("VGG16Test", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 1, arma::fill::randu);
-	arma::mat output;
-	models::VGG16 vggLayer16;
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG16>(vggLayer16);
-	ModelDimTest(model, input);
+  arma::mat input(224 * 224 * 3, 1, arma::fill::randu);
+  arma::mat output;
+  models::VGG16 vggLayer16;
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG16>(vggLayer16);
+  ModelDimTest(model, input);
 }
 
 TEST_CASE("VGG19Test", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 1, arma::fill::randu);
-	arma::mat output;
-	models::VGG19 vggLayer19;
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG19>(vggLayer19);
-	ModelDimTest(model, input);
+  arma::mat input(224 * 224 * 3, 1, arma::fill::randu);
+  arma::mat output;
+  models::VGG19 vggLayer19;
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG19>(vggLayer19);
+  ModelDimTest(model, input);
 }
 
 TEST_CASE("VGG11BNTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 1, arma::fill::randu);
-	arma::mat output;
-	models::VGG11BN vggbnLayer11;
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG11BN>(vggbnLayer11);
-	ModelDimTest(model, input);
+  arma::mat input(224 * 224 * 3, 1, arma::fill::randu);
+  arma::mat output;
+  models::VGG11BN vggbnLayer11;
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG11BN>(vggbnLayer11);
+  ModelDimTest(model, input);
 }
 
 TEST_CASE("VGG13BNTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 1, arma::fill::randu);
-	arma::mat output;
-	models::VGG13BN vggbnLayer13;
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG13BN>(vggbnLayer13);
-	ModelDimTest(model, input);
+  arma::mat input(224 * 224 * 3, 1, arma::fill::randu);
+  arma::mat output;
+  models::VGG13BN vggbnLayer13;
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG13BN>(vggbnLayer13);
+  ModelDimTest(model, input);
 }
 
 TEST_CASE("VGG16BNTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 1, arma::fill::randu);
-	arma::mat output;
-	models::VGG16BN vggbnLayer16;
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG16BN>(vggbnLayer16);
-	ModelDimTest(model, input);
+  arma::mat input(224 * 224 * 3, 1, arma::fill::randu);
+  arma::mat output;
+  models::VGG16BN vggbnLayer16;
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG16BN>(vggbnLayer16);
+  ModelDimTest(model, input);
 }
 
 TEST_CASE("VGG19BNTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 1, arma::fill::randu);
-	arma::mat output;
-	models::VGG19BN vggbnLayer19;
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG19BN>(vggbnLayer19);
-	ModelDimTest(model, input);
+  arma::mat input(224 * 224 * 3, 1, arma::fill::randu);
+  arma::mat output;
+  models::VGG19BN vggbnLayer19;
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG19BN>(vggbnLayer19);
+  ModelDimTest(model, input);
 }
 
 TEST_CASE("VGG11MultiBatchTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::VGG11 vggLayer11;
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG11>(vggLayer11);
-	ModelDimTest(model, input, 1000, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::VGG11 vggLayer11;
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG11>(vggLayer11);
+  ModelDimTest(model, input, 1000, 10);
 }
 
 TEST_CASE("VGG13MultiBatchTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::VGG13 vggLayer13;
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG13>(vggLayer13);
-	ModelDimTest(model, input, 1000, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::VGG13 vggLayer13;
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG13>(vggLayer13);
+  ModelDimTest(model, input, 1000, 10);
 }
 
 TEST_CASE("VGG16MultiBatchTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::VGG16 vggLayer16;
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG16>(vggLayer16);
-	ModelDimTest(model, input, 1000, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::VGG16 vggLayer16;
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG16>(vggLayer16);
+  ModelDimTest(model, input, 1000, 10);
 }
 
 TEST_CASE("VGG19MultiBatchTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::VGG19 vggLayer19;
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG19>(vggLayer19);
-	ModelDimTest(model, input, 1000, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::VGG19 vggLayer19;
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG19>(vggLayer19);
+  ModelDimTest(model, input, 1000, 10);
 }
 
 TEST_CASE("VGG11BNMultiBatchTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::VGG11BN vggbnLayer11;
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG11BN>(vggbnLayer11);
-	ModelDimTest(model, input, 1000, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::VGG11BN vggbnLayer11;
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG11BN>(vggbnLayer11);
+  ModelDimTest(model, input, 1000, 10);
 }
 
 TEST_CASE("VGG13BNMultiBatchTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::VGG13BN vggbnLayer13;
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG13BN>(vggbnLayer13);
-	ModelDimTest(model, input, 1000, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::VGG13BN vggbnLayer13;
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG13BN>(vggbnLayer13);
+  ModelDimTest(model, input, 1000, 10);
 }
 
 TEST_CASE("VGG16BNMultiBatchTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::VGG16BN vggbnLayer16;
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG16BN>(vggbnLayer16);
-	ModelDimTest(model, input, 1000, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::VGG16BN vggbnLayer16;
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG16BN>(vggbnLayer16);
+  ModelDimTest(model, input, 1000, 10);
 }
 
 TEST_CASE("VGG19BNMultiBatchTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::VGG19BN vggbnLayer19;
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG19BN>(vggbnLayer19);
-	ModelDimTest(model, input, 1000, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::VGG19BN vggbnLayer19;
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG19BN>(vggbnLayer19);
+  ModelDimTest(model, input, 1000, 10);
 }
 
 TEST_CASE("VGG11CustomTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::VGG11 vggLayer11(512);
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG11>(vggLayer11);
-	ModelDimTest(model, input, 512, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::VGG11 vggLayer11(512);
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG11>(vggLayer11);
+  ModelDimTest(model, input, 512, 10);
 }
 
 TEST_CASE("VGG13CustomTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::VGG13 vggLayer13(512);
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG13>(vggLayer13);
-	ModelDimTest(model, input, 512, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::VGG13 vggLayer13(512);
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG13>(vggLayer13);
+  ModelDimTest(model, input, 512, 10);
 }
 
 TEST_CASE("VGG16CustomTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::VGG16 vggLayer16(512);
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG16>(vggLayer16);
-	ModelDimTest(model, input, 512, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::VGG16 vggLayer16(512);
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG16>(vggLayer16);
+  ModelDimTest(model, input, 512, 10);
 }
 
 TEST_CASE("VGG19CustomTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::VGG19 vggLayer19(512);
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG19>(vggLayer19);
-	ModelDimTest(model, input, 512, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::VGG19 vggLayer19(512);
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG19>(vggLayer19);
+  ModelDimTest(model, input, 512, 10);
 }
 
 TEST_CASE("VGG11BNCustomTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::VGG11BN vggbnLayer11(512);
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG11BN>(vggbnLayer11);
-	ModelDimTest(model, input, 512, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::VGG11BN vggbnLayer11(512);
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG11BN>(vggbnLayer11);
+  ModelDimTest(model, input, 512, 10);
 }
 
 TEST_CASE("VGG13BNCustomTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::VGG13BN vggbnLayer13(512);
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG13BN>(vggbnLayer13);
-	ModelDimTest(model, input, 512, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::VGG13BN vggbnLayer13(512);
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG13BN>(vggbnLayer13);
+  ModelDimTest(model, input, 512, 10);
 }
 
 TEST_CASE("VGG16BNCustomTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::VGG16BN vggbnLayer16(512);
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG16BN>(vggbnLayer16);
-	ModelDimTest(model, input, 512, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::VGG16BN vggbnLayer16(512);
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG16BN>(vggbnLayer16);
+  ModelDimTest(model, input, 512, 10);
 }
 
 TEST_CASE("VGG19BNCustomTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::VGG19BN vggbnLayer19(512);
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG19BN>(vggbnLayer19);
-	ModelDimTest(model, input, 512, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::VGG19BN vggbnLayer19(512);
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG19BN>(vggbnLayer19);
+  ModelDimTest(model, input, 512, 10);
 }
 
 TEST_CASE("VGG11NoTopTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::VGG11 vggLayer11(512, false);
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG11>(vggLayer11);
-	ModelDimTest(model, input, 25088, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::VGG11 vggLayer11(512, false);
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG11>(vggLayer11);
+  ModelDimTest(model, input, 25088, 10);
 }
 
 TEST_CASE("VGG13NoTopTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::VGG13 vggLayer13(512, false);
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG13>(vggLayer13);
-	ModelDimTest(model, input, 25088, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::VGG13 vggLayer13(512, false);
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG13>(vggLayer13);
+  ModelDimTest(model, input, 25088, 10);
 }
 
 TEST_CASE("VGG16NoTopTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::VGG16 vggLayer16(512, false);
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG16>(vggLayer16);
-	ModelDimTest(model, input, 25088, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::VGG16 vggLayer16(512, false);
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG16>(vggLayer16);
+  ModelDimTest(model, input, 25088, 10);
 }
 
 TEST_CASE("VGG19NoTopTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::VGG19 vggLayer19(512, false);
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG19>(vggLayer19);
-	ModelDimTest(model, input, 25088, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::VGG19 vggLayer19(512, false);
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG19>(vggLayer19);
+  ModelDimTest(model, input, 25088, 10);
 }
 
 TEST_CASE("VGG11BNNoTopTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::VGG11BN vggbnLayer11(512, false);
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG11BN>(vggbnLayer11);
-	ModelDimTest(model, input, 25088, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::VGG11BN vggbnLayer11(512, false);
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG11BN>(vggbnLayer11);
+  ModelDimTest(model, input, 25088, 10);
 }
 
 TEST_CASE("VGG13BNNoTopTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::VGG13BN vggbnLayer13(512, false);
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG13BN>(vggbnLayer13);
-	ModelDimTest(model, input, 25088, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::VGG13BN vggbnLayer13(512, false);
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG13BN>(vggbnLayer13);
+  ModelDimTest(model, input, 25088, 10);
 }
 
 TEST_CASE("VGG16BNNoTopTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::VGG16BN vggbnLayer16(512, false);
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG16BN>(vggbnLayer16);
-	ModelDimTest(model, input, 25088, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::VGG16BN vggbnLayer16(512, false);
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG16BN>(vggbnLayer16);
+  ModelDimTest(model, input, 25088, 10);
 }
 
 TEST_CASE("VGG19BNNoTopTest", "[VGGTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::VGG19BN vggbnLayer19(512, false);
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::VGG19BN>(vggbnLayer19);
-	ModelDimTest(model, input, 25088, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::VGG19BN vggbnLayer19(512, false);
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::VGG19BN>(vggbnLayer19);
+  ModelDimTest(model, input, 25088, 10);
 }
