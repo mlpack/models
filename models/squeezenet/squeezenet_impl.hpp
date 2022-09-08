@@ -150,7 +150,7 @@ void SqueezeNetType<MatType, SqueezeNetVersion>::MakeModel()
   }
   else
   {
-    mlpack::Log::Fatal << "Unsuppoted SqueezeNet version." << std::endl;
+    mlpack::Log::Fatal << "Unsupported SqueezeNet version." << std::endl;
   }
   if (includeTop)
   {
