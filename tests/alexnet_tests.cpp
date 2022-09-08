@@ -81,8 +81,9 @@ void ModelSerializationTest(LayerType& layer)
   ann::FFN<> model;
   model.Add<LayerType>(layer);
 
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
 
+  // Takes only one pass over the input data.
   ens::StandardSGD opt(0.1, 1, 5, -100, false);
   model.Train(input, output, opt);
 
