@@ -99,7 +99,7 @@ class XceptionType : public ann::MultiLayer<MatType>
 
  private:
   /**
-   * Adds Seperable Convolution to the given block.
+   * Adds Separable Convolution to the given block.
    *
    * @param block Block to add the separable convolution to.
    * @param inMaps Number of input maps.
