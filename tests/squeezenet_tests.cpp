@@ -108,100 +108,100 @@ void ModelSerializationTest(LayerType& layer)
 
 TEST_CASE("SqueezeNet0SerializationTest", "[SqueezenetTests]")
 {
-	models::SqueezeNet0 model;
-	ModelSerializationTest(model);
+  models::SqueezeNet0 model;
+  ModelSerializationTest(model);
 }
 
 TEST_CASE("SqueezeNet1SerializationTest", "[SqueezenetTests]")
 {
-	models::SqueezeNet1 model;
-	ModelSerializationTest(model);
+  models::SqueezeNet1 model;
+  ModelSerializationTest(model);
 }
 
 TEST_CASE("SqueezeNet0Test", "[SqueezenetTests]")
 {
-	arma::mat input(224 * 224 * 3, 1, arma::fill::randu);
-	arma::mat output;
-	models::SqueezeNet0 squeezeLayer0;
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::SqueezeNet0>(squeezeLayer0);
-	ModelDimTest(model, input);
+  arma::mat input(224 * 224 * 3, 1, arma::fill::randu);
+  arma::mat output;
+  models::SqueezeNet0 squeezeLayer0;
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::SqueezeNet0>(squeezeLayer0);
+  ModelDimTest(model, input);
 }
 
 TEST_CASE("SqueezeNet1Test", "[SqueezenetTests]")
 {
-	arma::mat input(224 * 224 * 3, 1, arma::fill::randu);
-	arma::mat output;
-	models::SqueezeNet1 squeezeLayer1;
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::SqueezeNet1>(squeezeLayer1);
-	ModelDimTest(model, input);
+  arma::mat input(224 * 224 * 3, 1, arma::fill::randu);
+  arma::mat output;
+  models::SqueezeNet1 squeezeLayer1;
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::SqueezeNet1>(squeezeLayer1);
+  ModelDimTest(model, input);
 }
 
 TEST_CASE("SqueezeNet0MultiBatchTest", "[SqueezenetTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::SqueezeNet0 squeezeLayer0;
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::SqueezeNet0>(squeezeLayer0);
-	ModelDimTest(model, input, 1000, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::SqueezeNet0 squeezeLayer0;
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::SqueezeNet0>(squeezeLayer0);
+  ModelDimTest(model, input, 1000, 10);
 }
 
 TEST_CASE("SqueezeNet1MultiBatchTest", "[SqueezenetTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::SqueezeNet1 squeezeLayer1;
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::SqueezeNet1>(squeezeLayer1);
-	ModelDimTest(model, input, 1000, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::SqueezeNet1 squeezeLayer1;
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::SqueezeNet1>(squeezeLayer1);
+  ModelDimTest(model, input, 1000, 10);
 }
 
 TEST_CASE("SqueezeNet0CustomTest", "[SqueezenetTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::SqueezeNet0 squeezeLayer0(512);
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::SqueezeNet0>(squeezeLayer0);
-	ModelDimTest(model, input, 512, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::SqueezeNet0 squeezeLayer0(512);
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::SqueezeNet0>(squeezeLayer0);
+  ModelDimTest(model, input, 512, 10);
 }
 
 TEST_CASE("SqueezeNet1CustomTest", "[SqueezenetTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::SqueezeNet1 squeezeLayer1(512);
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::SqueezeNet1>(squeezeLayer1);
-	ModelDimTest(model, input, 512, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::SqueezeNet1 squeezeLayer1(512);
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::SqueezeNet1>(squeezeLayer1);
+  ModelDimTest(model, input, 512, 10);
 }
 
 TEST_CASE("SqueezeNet0NoTopTest", "[SqueezenetTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::SqueezeNet0 squeezeLayer0(512, false);
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::SqueezeNet0>(squeezeLayer0);
-	ModelDimTest(model, input, 86528, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::SqueezeNet0 squeezeLayer0(512, false);
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::SqueezeNet0>(squeezeLayer0);
+  ModelDimTest(model, input, 86528, 10);
 }
 
 TEST_CASE("SqueezeNet1NoTopTest", "[SqueezenetTests]")
 {
-	arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
-	arma::mat output;
-	models::SqueezeNet1 squeezeLayer1(512, false);
-	ann::FFN<> model;
-	model.InputDimensions() = std::vector<size_t>({224, 224, 3});
-	model.Add<models::SqueezeNet1>(squeezeLayer1);
-	ModelDimTest(model, input, 86528, 10);
+  arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
+  arma::mat output;
+  models::SqueezeNet1 squeezeLayer1(512, false);
+  ann::FFN<> model;
+  model.InputDimensions() = std::vector<size_t>({224, 224, 3});
+  model.Add<models::SqueezeNet1>(squeezeLayer1);
+  ModelDimTest(model, input, 86528, 10);
 }
