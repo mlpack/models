@@ -84,6 +84,8 @@ class SqueezeNetType : public ann::MultiLayer<MatType>
   /**
    * Get the FFN object representing the network.
    * 
+   * NOTE: The caller is responsible for deleting the returned object.
+   * 
    * @tparam OutputLayerType The output layer type used to evaluate the network.
    * @tparam InitializationRuleType Rule used to initialize the weight matrix.
    */
