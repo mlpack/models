@@ -98,9 +98,9 @@ void XceptionType<MatType>::SeparableConv(
     const bool useBias = false)
 {
   block->template Add<ann::GroupedConvolution>(inMaps, kernelSize, kernelSize,
-    inMaps, stride, stride, padding, padding, "none", useBias);
+      inMaps, stride, stride, padding, padding, "none", useBias);
   block->template Add<ann::Convolution>(outMaps, 1, 1, 1, 1, 0, 0, "none",
-    useBias);
+      useBias);
 }
 
 template<typename MatType>
@@ -160,7 +160,7 @@ void XceptionType<MatType>::Block(
   {
     ann::MultiLayer<MatType>* block2 = new ann::MultiLayer<MatType>();
     block2->template Add<ann::Convolution>(outMaps, 1, 1, strides, strides,
-      0, 0, "none", false);
+        0, 0, "none", false);
     block2->template Add<ann::BatchNorm>();
 
     ann::AddMerge* merge = new ann::AddMerge();

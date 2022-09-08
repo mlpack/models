@@ -148,7 +148,6 @@ class XceptionType : public ann::MultiLayer<MatType>
 // Convenience typedefs for different VGG layer.
 typedef XceptionType<arma::mat> Xception;
 
-
 } // namespace models
 } // namespace mlpack
 
