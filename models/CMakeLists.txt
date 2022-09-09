@@ -6,6 +6,7 @@ set(DIR
   darknet
   mobilenet
   resnet
+  squeezenet
   vgg
   yolo)
 
