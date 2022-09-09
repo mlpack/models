@@ -19,6 +19,9 @@ add_executable(models_test
                dataloader_tests.cpp
                preprocessor_tests.cpp
                utils_tests.cpp
+               serialization.cpp
+               serialization.hpp
+               test_catch_tools.hpp
 )
 
 # Link dependencies of test executable.
