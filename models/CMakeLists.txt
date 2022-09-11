@@ -8,6 +8,7 @@ set(DIR
   resnet
   squeezenet
   vgg
+  xception
   yolo)
 
 foreach(dir ${DIR})
