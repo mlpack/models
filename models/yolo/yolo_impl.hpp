@@ -105,7 +105,7 @@ YOLO<OutputLayerType, InitializationRuleType>::YOLO(
 
   if (yoloVersion == "v1-tiny")
   {
-    yolo.Add(new ann::IdentityLayer<>());
+    yolo.Add(new IdentityLayer<>());
 
     // Convolution and activation function in a block.
     ConvolutionBlock(inputChannel, 16, 3, 3, 1, 1, 1, 1, true);
@@ -127,9 +127,9 @@ YOLO<OutputLayerType, InitializationRuleType>::YOLO(
 
     if (includeTop)
     {
-      yolo.Add(new ann::Linear<>(inputWidth * inputHeight * outChannels,
+      yolo.Add(new Linear<>(inputWidth * inputHeight * outChannels,
           featureWidth * featureHeight * (5 * numBoxes + numClasses)));
-      yolo.Add(new ann::SigmoidLayer<>());
+      yolo.Add(new SigmoidLayer<>());
     }
 
     yolo.ResetParameters();

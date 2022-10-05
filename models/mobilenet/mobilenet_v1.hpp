@@ -25,12 +25,8 @@
 #ifndef MODELS_MODELS_MOBILENET_MOBILENET_V1_HPP
 #define MODELS_MODELS_MOBILENET_MOBILENET_V1_HPP
 
-#include <mlpack/core.hpp>
-#include <mlpack/methods/ann/layer/layer.hpp>
-#include <mlpack/methods/ann/ffn.hpp>
-#include <mlpack/methods/ann/layer/layer_types.hpp>
-#include <mlpack/methods/ann/init_rules/random_init.hpp>
-#include <mlpack/methods/ann/loss_functions/binary_cross_entropy_loss.hpp>
+#define MLPACK_ENABLE_ANN_SERIALIZATION
+#include <mlpack.hpp>
 
 #include "./../../utils/utils.hpp"
 
@@ -44,10 +40,11 @@ namespace models {
  * @tparam InitializationRuleType Rule used to initialize the weight matrix.
  */
 template<
-  typename OutputLayerType = ann::CrossEntropyError<>,
-  typename InitializationRuleType = ann::RandomInitialization
+  typename OutputLayerType = CrossEntropyError<>,
+  typename InitializationRuleType = RandomInitialization
 >
-class MobileNetV1{
+class MobileNetV1
+{
  public:
   //! Create the MobileNet model.
   MobileNetV1();
@@ -92,8 +89,7 @@ class MobileNetV1{
               const size_t numClasses = 1000);
 
   //! Get Layers of the model.
-  ann::FFN<OutputLayerType, InitializationRuleType>&
-      GetModel() { return mobileNet; }
+  FFN<OutputLayerType, InitializationRuleType>& GetModel() { return mobileNet; }
 
   //! Load weights into the model and assumes the internal matrix to be
   //!  named "MobileNetV1".
@@ -111,16 +107,16 @@ class MobileNetV1{
    * @param baseLayer Sequential layer type in which ReLU6 layer will be added
    *     if it's not NULL otherwise added to mobileNet.
    */
-  void ReLU6Layer(ann::Sequential<>* baseLayer = NULL)
+  void ReLU6Layer(Sequential<>* baseLayer = NULL)
   {
     if (baseLayer != NULL)
     {
-      baseLayer->Add(new ann::ReLU6<>);
+      baseLayer->Add(new ReLU6<>);
       mlpack::Log::Info << "RelU6" << std::endl;
       return;
     }
 
-    mobileNet.Add(new ann::ReLU6<>);
+    mobileNet.Add(new ReLU6<>);
     mlpack::Log::Info << "RelU6" << std::endl;
   }
 
@@ -142,7 +138,7 @@ class MobileNetV1{
    * @tparam SequentialType Layer type in which convolution block will
    *    be added if it's not NULL otherwise added to mobileNet.
    */
-  template<typename SequentialType = ann::Sequential<>>
+  template<typename SequentialType = Sequential<>>
   void ConvolutionBlock(const size_t inSize,
                         const size_t outSize,
                         const size_t kernelWidth = 1,
@@ -156,8 +152,8 @@ class MobileNetV1{
                         const std::string paddingType = "None",
                         SequentialType* baseLayer = NULL)
   {
-    ann::Sequential<>* sequentialBlock = new ann::Sequential<>();
-    sequentialBlock->Add(new ann::Convolution<>(inSize, outSize, kernelWidth,
+    Sequential<>* sequentialBlock = new Sequential<>();
+    sequentialBlock->Add(new Convolution<>(inSize, outSize, kernelWidth,
         kernelHeight, strideWidth, strideHeight, std::make_tuple(padL, padR),
         std::make_tuple(padT, padB), inputWidth, inputHeight, paddingType));
 
@@ -220,11 +216,11 @@ class MobileNetV1{
     paddingType = "same";
     size_t pointwiseOutSize = size_t(outSize * alpha);
     size_t depthMultipliedOutSize = size_t(inSize * depthMultiplier);
-    ann::Sequential<>* sequentialBlock = new ann::Sequential<>();
+    Sequential<>* sequentialBlock = new Sequential<>();
 
     if (stride != 1)
     {
-      sequentialBlock->Add(new ann::Padding<>(0, 1, 0, 1, inputWidth,
+      sequentialBlock->Add(new Padding<>(0, 1, 0, 1, inputWidth,
           inputHeight));
       mlpack::Log::Info << "Padding: " << "(" << inSize << ", " << inputWidth
           << ", " << inputWidth << " ---> (";
@@ -235,7 +231,7 @@ class MobileNetV1{
       paddingType = "valid";
     }
 
-    sequentialBlock->Add(new ann::SeparableConvolution<>(inSize,
+    sequentialBlock->Add(new SeparableConvolution<>(inSize,
         depthMultipliedOutSize, 3, 3, stride, stride, 0, 0, inputWidth,
         inputHeight, inSize, paddingType));
     mlpack::Log::Info << "Separable convolution: " << "(" << inSize << ", " <<
@@ -250,14 +246,14 @@ class MobileNetV1{
     mlpack::Log::Info << depthMultipliedOutSize << ", " << inputWidth << ", "
         << inputHeight << ")" << std::endl;
 
-    sequentialBlock->Add(new ann::BatchNorm<>(depthMultipliedOutSize, 1e-3,
+    sequentialBlock->Add(new BatchNorm<>(depthMultipliedOutSize, 1e-3,
         true));
     mlpack::Log::Info << "BatchNorm: " << "(" << depthMultipliedOutSize << ")"
         << " ---> (" << depthMultipliedOutSize << ")" << std::endl;
     ReLU6Layer(sequentialBlock);
     ConvolutionBlock(depthMultipliedOutSize, pointwiseOutSize, 1, 1, 1, 1, 0,
         0, 0, 0, "same", sequentialBlock);
-    sequentialBlock->Add(new ann::BatchNorm<>(pointwiseOutSize, 1e-3, true));
+    sequentialBlock->Add(new BatchNorm<>(pointwiseOutSize, 1e-3, true));
     mlpack::Log::Info << "BatchNorm: " << "(" << pointwiseOutSize << ")"
         << " ---> (" << pointwiseOutSize << ")" << std::endl;
     ReLU6Layer(sequentialBlock);
@@ -284,7 +280,7 @@ class MobileNetV1{
   }
 
   //! Locally stored DarkNet Model.
-  ann::FFN<OutputLayerType, InitializationRuleType> mobileNet;
+  FFN<OutputLayerType, InitializationRuleType> mobileNet;
 
   //! Locally stored number of channels in the image.
   size_t inputChannel;
@@ -339,7 +335,7 @@ class MobileNetV1{
 }; // MobileNetV1 class
 
 // convenience typedef.
-typedef MobileNetV1<ann::CrossEntropyError<>, ann::RandomInitialization>
+typedef MobileNetV1<CrossEntropyError<>, RandomInitialization>
     MobilenetV1;
 
 } // namespace models

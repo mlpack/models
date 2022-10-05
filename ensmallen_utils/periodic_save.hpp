@@ -14,7 +14,8 @@
 #define ENSMALLEN_CALLBACKS_PERIODIC_SAVE_HPP
 
 #include <ensmallen.hpp>
-#include <mlpack/core.hpp>
+#define MLPACK_ENABLE_ANN_SERIALIZATION
+#include <mlpack.hpp>
 
 namespace ens {
 

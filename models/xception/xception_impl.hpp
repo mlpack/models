@@ -21,7 +21,7 @@ template<typename MatType>
 XceptionType<MatType>::XceptionType(
     const size_t numClasses,
     const bool includeTop) :
-    ann::MultiLayer<MatType>(),
+    MultiLayer<MatType>(),
     numClasses(numClasses),
     includeTop(includeTop)
 {
@@ -31,7 +31,7 @@ XceptionType<MatType>::XceptionType(
 template<typename MatType>
 XceptionType<MatType>::XceptionType(
     const XceptionType& other) :
-    ann::MultiLayer<MatType>(other),
+    MultiLayer<MatType>(other),
     numClasses(other.numClasses),
     includeTop(other.includeTop)
 {
@@ -41,7 +41,7 @@ XceptionType<MatType>::XceptionType(
 template<typename MatType>
 XceptionType<MatType>::XceptionType(
     XceptionType&& other) :
-    ann::MultiLayer<MatType>(std::move(other)),
+    MultiLayer<MatType>(std::move(other)),
     numClasses(std::move(other.numClasses)),
     includeTop(std::move(other.includeTop))
 {
@@ -54,7 +54,7 @@ XceptionType<MatType>::operator=(const XceptionType& other)
 {
   if (this != &other)
   {
-    ann::MultiLayer<MatType>::operator=(other);
+    MultiLayer<MatType>::operator=(other);
     numClasses = other.numClasses;
     includeTop = other.includeTop;
   }
@@ -68,7 +68,7 @@ XceptionType<MatType>::operator=(XceptionType&& other)
 {
   if (this != &other)
   {
-    ann::MultiLayer<MatType>::operator=(std::move(other));
+    MultiLayer<MatType>::operator=(std::move(other));
     numClasses = std::move(other.numClasses);
     includeTop = std::move(other.includeTop);
   }
@@ -81,7 +81,7 @@ template<typename Archive>
 void XceptionType<MatType>::serialize(
     Archive& ar, const uint32_t /* version */)
 {
-  ar(cereal::base_class<ann::MultiLayer<MatType>>(this));
+  ar(cereal::base_class<MultiLayer<MatType>>(this));
 
   ar(CEREAL_NVP(numClasses));
   ar(CEREAL_NVP(includeTop));
@@ -89,7 +89,7 @@ void XceptionType<MatType>::serialize(
 
 template<typename MatType>
 void XceptionType<MatType>::SeparableConv(
-    ann::MultiLayer<MatType>* block,
+    MultiLayer<MatType>* block,
     const size_t inMaps,
     const size_t outMaps,
     const size_t kernelSize,
@@ -97,9 +97,9 @@ void XceptionType<MatType>::SeparableConv(
     const size_t padding = 0,
     const bool useBias = false)
 {
-  block->template Add<ann::GroupedConvolution>(inMaps, kernelSize, kernelSize,
+  block->template Add<GroupedConvolution>(inMaps, kernelSize, kernelSize,
       inMaps, stride, stride, padding, padding, "none", useBias);
-  block->template Add<ann::Convolution>(outMaps, 1, 1, 1, 1, 0, 0, "none",
+  block->template Add<Convolution>(outMaps, 1, 1, 1, 1, 0, 0, "none",
       useBias);
 }
 
@@ -112,58 +112,58 @@ void XceptionType<MatType>::Block(
     const bool startWithRelu = true,
     const bool growFirst = true)
 {
-  ann::MultiLayer<MatType>* block = new ann::MultiLayer<MatType>();
+  MultiLayer<MatType>* block = new MultiLayer<MatType>();
   size_t filter = inMaps;
   if (reps < 2)
   {
     if (startWithRelu)
-      block->template Add<ann::ReLU>();
+      block->template Add<ReLU>();
     SeparableConv(block, inMaps, outMaps, 3, 1, 1, false);
-    block->template Add<ann::BatchNorm>();
+    block->template Add<BatchNorm>();
   }
   else
   {
     if (growFirst)
     {
       if (startWithRelu)
-        block->template Add<ann::ReLU>();
+        block->template Add<ReLU>();
       SeparableConv(block, inMaps, outMaps, 3, 1, 1, false);
-      block->template Add<ann::BatchNorm>();
+      block->template Add<BatchNorm>();
       filter = outMaps;
     }
     if (startWithRelu || growFirst)
-      block->template Add<ann::ReLU>();
+      block->template Add<ReLU>();
     SeparableConv(block, filter, filter, 3, 1, 1, false);
-    block->template Add<ann::BatchNorm>();
+    block->template Add<BatchNorm>();
     if (reps > 2)
     {
       for (size_t i = 0; i < reps - 2; i++)
       {
-        block->template Add<ann::ReLU>();
+        block->template Add<ReLU>();
         SeparableConv(block, filter, filter, 3, 1, 1, false);
-        block->template Add<ann::BatchNorm>();
+        block->template Add<BatchNorm>();
       }
     }
     if (!growFirst)
     {
-      block->template Add<ann::ReLU>();
+      block->template Add<ReLU>();
       SeparableConv(block, inMaps, outMaps, 3, 1, 1, false);
-      block->template Add<ann::BatchNorm>();
+      block->template Add<BatchNorm>();
     }
   }
   if (strides != 1)
   {
-    block->template Add<ann::Padding>(1, 1, 1, 1);
-    block->template Add<ann::MaxPooling>(3, 3, strides, strides);
+    block->template Add<Padding>(1, 1, 1, 1);
+    block->template Add<MaxPooling>(3, 3, strides, strides);
   }
   if (inMaps != outMaps || strides != 1)
   {
-    ann::MultiLayer<MatType>* block2 = new ann::MultiLayer<MatType>();
-    block2->template Add<ann::Convolution>(outMaps, 1, 1, strides, strides,
+    MultiLayer<MatType>* block2 = new MultiLayer<MatType>();
+    block2->template Add<Convolution>(outMaps, 1, 1, strides, strides,
         0, 0, "none", false);
-    block2->template Add<ann::BatchNorm>();
+    block2->template Add<BatchNorm>();
 
-    ann::AddMerge* merge = new ann::AddMerge();
+    AddMerge* merge = new AddMerge();
     merge->template Add(block);
     merge->template Add(block2);
 
@@ -171,9 +171,9 @@ void XceptionType<MatType>::Block(
   }
   else
   {
-    ann::AddMerge* merge = new ann::AddMerge();
+    AddMerge* merge = new AddMerge();
     merge->template Add(block);
-    merge->template Add<ann::Identity>();
+    merge->template Add<Identity>();
 
     this->template Add(merge);
   }
@@ -182,13 +182,13 @@ void XceptionType<MatType>::Block(
 template<typename MatType>
 void XceptionType<MatType>::MakeModel()
 {
-  this->template Add<ann::Convolution>(32, 3, 3, 2, 2, 0, 0, "none", false);
-  this->template Add<ann::BatchNorm>();
-  this->template Add<ann::ReLU>();
+  this->template Add<Convolution>(32, 3, 3, 2, 2, 0, 0, "none", false);
+  this->template Add<BatchNorm>();
+  this->template Add<ReLU>();
 
-  this->template Add<ann::Convolution>(64, 3, 3, 1, 1, 0, 0, "none", false);
-  this->template Add<ann::BatchNorm>();
-  this->template Add<ann::ReLU>();
+  this->template Add<Convolution>(64, 3, 3, 1, 1, 0, 0, "none", false);
+  this->template Add<BatchNorm>();
+  this->template Add<ReLU>();
 
   Block(64, 128, 2, 2, false, true);
   Block(128, 256, 2, 2);
@@ -207,17 +207,17 @@ void XceptionType<MatType>::MakeModel()
   Block(728, 1024, 2, 2, true, false);
 
   SeparableConv(this, 1024, 1536, 3, 1, 1);
-  this->template Add<ann::BatchNorm>();
-  this->template Add<ann::ReLU>();
+  this->template Add<BatchNorm>();
+  this->template Add<ReLU>();
 
   SeparableConv(this, 1536, 2048, 3, 1, 1);
-  this->template Add<ann::BatchNorm>();
+  this->template Add<BatchNorm>();
 
   if (includeTop)
   {
-    this->template Add<ann::ReLU>();
-    this->template Add<ann::AdaptiveMeanPooling>(1, 1);
-    this->template Add<ann::Linear>(numClasses);
+    this->template Add<ReLU>();
+    this->template Add<AdaptiveMeanPooling>(1, 1);
+    this->template Add<Linear>(numClasses);
   }
 }
 

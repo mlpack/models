@@ -13,7 +13,7 @@
 #ifndef MODELS_DATALOADER_PREPROCESSOR_HPP
 #define MODELS_DATALOADER_PREPROCESSOR_HPP
 
-#include <mlpack/prereqs.hpp>
+#include <mlpack.hpp>
 
 namespace mlpack {
 namespace models {

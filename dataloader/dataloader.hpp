@@ -12,16 +12,12 @@
 #ifndef MODELS_DATALOADER_DATALOADER_HPP
 #define MODELS_DATALOADER_DATALOADER_HPP
 
-#include <mlpack/core/data/scaler_methods/min_max_scaler.hpp>
+#include <mlpack.hpp>
 #include <boost/property_tree/xml_parser.hpp>
-#include <mlpack/core/math/shuffle_data.hpp>
-#include <mlpack/core/data/split_data.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <augmentation/augmentation.hpp>
 #include <dataloader/datasets.hpp>
-#include <mlpack/prereqs.hpp>
 #include <boost/foreach.hpp>
-#include <mlpack/core.hpp>
 #include <utils/utils.hpp>
 #include <set>
 

@@ -26,11 +26,8 @@
 #ifndef MODELS_MODELS_XCEPTION_XCEPTION_HPP
 #define MODELS_MODELS_XCEPTION_XCEPTION_HPP
 
-#include <mlpack/core.hpp>
-#include <mlpack/methods/ann/ffn.hpp>
-#include <mlpack/methods/ann/layer/layer_types.hpp>
-#include <mlpack/methods/ann/init_rules/random_init.hpp>
-#include <mlpack/methods/ann/loss_functions/binary_cross_entropy_loss.hpp>
+#define MLPACK_ENABLE_ANN_SERIALIZATION
+#include <mlpack.hpp>
 
 namespace mlpack {
 namespace models {
@@ -44,7 +41,7 @@ namespace models {
 template<
   typename MatType = arma::mat
 >
-class XceptionType : public ann::MultiLayer<MatType>
+class XceptionType : public MultiLayer<MatType>
 {
  public:
   /**
@@ -82,13 +79,13 @@ class XceptionType : public ann::MultiLayer<MatType>
    * @tparam InitializationRuleType Rule used to initialize the weight matrix.
    */
   template<
-    typename OutputLayerType = ann::CrossEntropyError,
-    typename InitializationRuleType = ann::RandomInitialization
+    typename OutputLayerType = CrossEntropyError,
+    typename InitializationRuleType = RandomInitialization
   >
-  ann::FFN<OutputLayerType, InitializationRuleType, MatType>* GetModel()
+  FFN<OutputLayerType, InitializationRuleType, MatType>* GetModel()
   {
-    ann::FFN<OutputLayerType, InitializationRuleType, MatType>* xception =
-        new ann::FFN<OutputLayerType, InitializationRuleType, MatType>();
+    FFN<OutputLayerType, InitializationRuleType, MatType>* xception =
+        new FFN<OutputLayerType, InitializationRuleType, MatType>();
     xception->Add(this);
     return xception;
   }
@@ -109,7 +106,7 @@ class XceptionType : public ann::MultiLayer<MatType>
    * @param padding Padding of the convolution.
    * @param useBias Whether to use bias in the convolution.
    */
-  void SeparableConv(ann::MultiLayer<MatType>* block,
+  void SeparableConv(MultiLayer<MatType>* block,
                      const size_t inMaps,
                      const size_t outMaps,
                      const size_t kernelSize,

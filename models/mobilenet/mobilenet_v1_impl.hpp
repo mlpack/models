@@ -124,7 +124,7 @@ MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
 
   outSize = size_t(32 * alpha);
   ConvolutionBlock(inputChannel, outSize, 3, 3, 2, 2, 0, 1, 0, 1);
-  mobileNet.Add(new ann::BatchNorm<>(outSize, 1e-3, true));
+  mobileNet.Add(new BatchNorm<>(outSize, 1e-3, true));
   mlpack::Log::Info << "BatchNorm: " << "(" << outSize << ")"
         << " ---> (" << outSize << ")" << std::endl;
   ReLU6Layer();
@@ -142,20 +142,20 @@ MobileNetV1<OutputLayerType, InitializationRuleType>::MobileNetV1(
     }
   }
 
-  mobileNet.Add(new ann::AdaptiveMeanPooling<>(1, 1));
+  mobileNet.Add(new AdaptiveMeanPooling<>(1, 1));
   mlpack::Log::Info << "Adaptive mean pooling: (" << size_t(1024 * alpha)
       << ", " << inputWidth << ", " << inputHeight << ") ---> ("
       << size_t(1024 * alpha) << ", 1, 1)" << std::endl;
 
   if (includeTop)
   {
-    mobileNet.Add(new ann::Dropout<>(1e-3));
+    mobileNet.Add(new Dropout<>(1e-3));
     mlpack::Log::Info << "Dropout" << std::endl;
-    mobileNet.Add(new ann::Convolution<>(size_t(1024 * alpha), numClasses, 1,
+    mobileNet.Add(new Convolution<>(size_t(1024 * alpha), numClasses, 1,
         1, 1, 1, 0, 0, 1, 1, "same"));
     mlpack::Log::Info << "Convolution: (" << size_t(1024 * alpha)
         << ", 1, 1) ---> (" << numClasses << " , 1, 1)" << std::endl;
-    mobileNet.Add(new ann::Softmax<>);
+    mobileNet.Add(new Softmax<>);
     mlpack::Log::Info << "Softmax" << std::endl;
   }
 

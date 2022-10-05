@@ -21,7 +21,7 @@ template<typename MatType>
 AlexNetType<MatType>::AlexNetType(
     const size_t numClasses,
     const bool includeTop) :
-    ann::MultiLayer<MatType>(),
+    MultiLayer<MatType>(),
     numClasses(numClasses),
     includeTop(includeTop)
 {
@@ -30,7 +30,7 @@ AlexNetType<MatType>::AlexNetType(
 
 template<typename MatType>
 AlexNetType<MatType>::AlexNetType(const AlexNetType& other) :
-    ann::MultiLayer<MatType>(other),
+    MultiLayer<MatType>(other),
     numClasses(other.numClasses),
     includeTop(other.includeTop)
 {
@@ -39,7 +39,7 @@ AlexNetType<MatType>::AlexNetType(const AlexNetType& other) :
 
 template<typename MatType>
 AlexNetType<MatType>::AlexNetType(AlexNetType&& other) :
-    ann::MultiLayer<MatType>(std::move(other)),
+    MultiLayer<MatType>(std::move(other)),
     numClasses(std::move(other.numClasses)),
     includeTop(std::move(other.includeTop))
 {
@@ -51,7 +51,7 @@ AlexNetType<MatType>& AlexNetType<MatType>::operator=(const AlexNetType& other)
 {
   if (this != &other)
   {
-    ann::MultiLayer<MatType>::operator=(other);
+    MultiLayer<MatType>::operator=(other);
     numClasses = other.numClasses;
     includeTop = other.includeTop;
   }
@@ -64,7 +64,7 @@ AlexNetType<MatType>& AlexNetType<MatType>::operator=(AlexNetType&& other)
 {
   if (this != &other)
   {
-    ann::MultiLayer<MatType>::operator=(std::move(other));
+    MultiLayer<MatType>::operator=(std::move(other));
     numClasses = std::move(other.numClasses);
     includeTop = std::move(other.includeTop);
   }
@@ -77,7 +77,7 @@ template<typename Archive>
 void AlexNetType<MatType>::serialize(
     Archive& ar, const uint32_t /* version */)
 {
-  ar(cereal::base_class<ann::MultiLayer<MatType>>(this));
+  ar(cereal::base_class<MultiLayer<MatType>>(this));
 
   ar(CEREAL_NVP(numClasses));
   ar(CEREAL_NVP(includeTop));
@@ -86,28 +86,28 @@ void AlexNetType<MatType>::serialize(
 template<typename MatType>
 void AlexNetType<MatType>::MakeModel()
 {
-  this->template Add<ann::Convolution>(64, 11, 11, 4, 4, 2, 2);
-  this->template Add<ann::ReLU>();
-  this->template Add<ann::MaxPooling>(3, 3, 2, 2);
-  this->template Add<ann::Convolution>(192, 5, 5, 1, 1, 2, 2);
-  this->template Add<ann::ReLU>();
-  this->template Add<ann::MaxPooling>(3, 3, 2, 2);
-  this->template Add<ann::Convolution>(384, 3, 3, 1, 1, 1, 1);
-  this->template Add<ann::ReLU>();
-  this->template Add<ann::Convolution>(256, 3, 3, 1, 1, 1, 1);
-  this->template Add<ann::ReLU>();
-  this->template Add<ann::Convolution>(256, 3, 3, 1, 1, 1, 1);
-  this->template Add<ann::ReLU>();
-  this->template Add<ann::MaxPooling>(3, 3, 2, 2);
+  this->template Add<Convolution>(64, 11, 11, 4, 4, 2, 2);
+  this->template Add<ReLU>();
+  this->template Add<MaxPooling>(3, 3, 2, 2);
+  this->template Add<Convolution>(192, 5, 5, 1, 1, 2, 2);
+  this->template Add<ReLU>();
+  this->template Add<MaxPooling>(3, 3, 2, 2);
+  this->template Add<Convolution>(384, 3, 3, 1, 1, 1, 1);
+  this->template Add<ReLU>();
+  this->template Add<Convolution>(256, 3, 3, 1, 1, 1, 1);
+  this->template Add<ReLU>();
+  this->template Add<Convolution>(256, 3, 3, 1, 1, 1, 1);
+  this->template Add<ReLU>();
+  this->template Add<MaxPooling>(3, 3, 2, 2);
   if (includeTop)
   {
-    this->template Add<ann::Dropout>();
-    this->template Add<ann::Linear>(4096);
-    this->template Add<ann::ReLU>();
-    this->template Add<ann::Dropout>();
-    this->template Add<ann::Linear>(4096);
-    this->template Add<ann::ReLU>();
-    this->template Add<ann::Linear>(numClasses);
+    this->template Add<Dropout>();
+    this->template Add<Linear>(4096);
+    this->template Add<ReLU>();
+    this->template Add<Dropout>();
+    this->template Add<Linear>(4096);
+    this->template Add<ReLU>();
+    this->template Add<Linear>(numClasses);
   }
 }
 

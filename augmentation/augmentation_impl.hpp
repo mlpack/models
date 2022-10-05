@@ -63,7 +63,7 @@ void Augmentation::ResizeTransform(
 
   // We will use mlpack's bilinear interpolation layer to
   // resize the input.
-  mlpack::ann::BilinearInterpolation<DatasetType, DatasetType> resizeLayer(
+  mlpack::BilinearInterpolation<DatasetType, DatasetType> resizeLayer(
       datapointWidth, datapointHeight, outputWidth, outputHeight,
       datapointDepth);
 
