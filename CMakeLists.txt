@@ -61,7 +61,6 @@ endif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 #   ARMADILLO_INCLUDE_DIR - directory containing <armadillo>
 #   ARMADILLO_INCLUDE_DIRS - directories necessary for Armadillo includes
 #   MLPACK_INCLUDE_DIR - include directory for mlpack
-#   MLPACK_LIBRARY - library directory for mlpack
 
 find_package(Armadillo 8.400.0 REQUIRED)
 find_package(cereal "${CEREAL_VERSION}" REQUIRED)
@@ -117,7 +116,7 @@ if (WIN32)
       ${ARMADILLO_LIBRARIES} ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
 endif ()
 
-find_package(MLPACK REQUIRED)
+find_package(mlpack REQUIRED)
 
 find_package(Ensmallen 1.10.0)
 if (NOT ENSMALLEN_FOUND)
@@ -201,8 +200,7 @@ set(MODELS_INCLUDE_DIRS ${MLPACK_INCLUDE_DIR}
                         ${Boost_INCLUDE_DIRS}
                         ${CEREAL_INCLUDE_DIR})
 
-set(MODELS_LIBRARIES ${MLPACK_LIBRARY}
-                     ${ARMADILLO_LIBRARIES}
+set(MODELS_LIBRARIES ${ARMADILLO_LIBRARIES}
                      ${Boost_LIBRARIES})
 
 include_directories(${MODELS_INCLUDE_DIRS})
