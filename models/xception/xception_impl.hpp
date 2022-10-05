@@ -93,9 +93,9 @@ void XceptionType<MatType>::SeparableConv(
     const size_t inMaps,
     const size_t outMaps,
     const size_t kernelSize,
-    const size_t stride = 1,
-    const size_t padding = 0,
-    const bool useBias = false)
+    const size_t stride,
+    const size_t padding,
+    const bool useBias)
 {
   block->template Add<GroupedConvolution>(inMaps, kernelSize, kernelSize,
       inMaps, stride, stride, padding, padding, "none", useBias);
@@ -108,9 +108,9 @@ void XceptionType<MatType>::Block(
     const size_t inMaps,
     const size_t outMaps,
     const size_t reps,
-    const size_t strides = 1,
-    const bool startWithRelu = true,
-    const bool growFirst = true)
+    const size_t strides,
+    const bool startWithRelu,
+    const bool growFirst)
 {
   MultiLayer<MatType>* block = new MultiLayer<MatType>();
   size_t filter = inMaps;

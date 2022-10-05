@@ -11,7 +11,7 @@ set(CEREAL_VERSION "1.1.2")
 option(DOWNLOAD_ENSMALLEN "If ensmallen is not found, download it." ON)
 option(USE_OPENMP "If available, use OpenMP for parallelization." ON)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Include modules in the CMake directory.
@@ -174,7 +174,6 @@ find_package(Boost 1.49
 )
 
 if (USE_OPENMP)
-  message(WARNING "Only use OpenMP if mlpack has been compiled with OpenMP.")
   find_package(OpenMP)
 endif ()
 

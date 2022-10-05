@@ -14,7 +14,7 @@
 #
 # This module sets the following variables::
 #
-#   MLPACK_FOUND - set to true if the library is found
+#   mlpack_FOUND - set to true if the library is found
 #   MLPACK_INCLUDE_DIRS - list of required include directories
 #   MLPACK_VERSION_MAJOR - major version number
 #   MLPACK_VERSION_MINOR - minor version number
@@ -29,11 +29,11 @@ find_path(MLPACK_INCLUDE_DIR
     PATHS "$ENV{ProgramFiles}/mlpack"
 )
 
-find_package_handle_standard_args(MLPACK
+find_package_handle_standard_args(mlpack
     REQUIRED_VARS MLPACK_INCLUDE_DIR
 )
 
-if(MLPACK_FOUND)
+if(mlpack_FOUND)
   set(MLPACK_INCLUDE_DIRS ${MLPACK_INCLUDE_DIR})
 endif()
 
