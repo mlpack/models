@@ -12,7 +12,7 @@
 #ifndef MLPACK_TESTS_SERIALIZATION_CATCH_HPP
 #define MLPACK_TESTS_SERIALIZATION_CATCH_HPP
 
-#include <mlpack/core.hpp>
+#include <mlpack.hpp>
 
 #include "test_catch_tools.hpp"
 #include "catch.hpp"

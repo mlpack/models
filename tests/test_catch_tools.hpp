@@ -12,7 +12,7 @@
 #ifndef MLPACK_TESTS_TEST_CATCH_TOOLS_HPP
 #define MLPACK_TESTS_TEST_CATCH_TOOLS_HPP
 
-#include <mlpack/core.hpp>
+#include <mlpack.hpp>
 
 #include "catch.hpp"
 
