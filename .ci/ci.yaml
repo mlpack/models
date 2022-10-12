@@ -34,7 +34,7 @@ jobs:
     matrix:
       Plain:
           CMakeArgs-mlpack: '-DDEBUG=OFF -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF'
-          CMakeArgs-models: '-DDEBUG=ON'
+          CMakeArgs-models: '-DDEBUG=ON -DMLPACK_INCLUDE_DIR=/usr/local/include/'
 
   steps:
   - template: linux-steps.yaml
