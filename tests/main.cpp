@@ -10,8 +10,9 @@
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
 #define CATCH_CONFIG_RUNNER // Define main() for Catch2 yourself.
+
+#include <mlpack.hpp>
 #include "catch.hpp"
-#include <armadillo>
 
 int main(int argc, char* argv[])
 {
