@@ -13,12 +13,12 @@ jobs:
   timeoutInMinutes: 360
   displayName: macOS-10.14
   pool:
-    vmImage: macOS-10.14
+    vmImage: macOS-latest
 
   strategy:
     matrix:
       Plain:
-        CMakeArgs-mlpack: '-DDEBUG=OFF -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF'
+        CMakeArgs-mlpack: '-DDEBUG=OFF -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF -DDOWNLOAD_DEPENDENCIES=ON'
         CMakeArgs-models: '-DDEBUG=ON'
 
   steps:
@@ -44,7 +44,7 @@ jobs:
   timeoutInMinutes: 360
   displayName: Windows VS15
   pool:
-    vmImage: vs2017-win2016
+    vmImage: windows-2019
 
   strategy:
     matrix:
