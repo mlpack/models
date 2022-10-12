@@ -33,8 +33,8 @@ jobs:
   strategy:
     matrix:
       Plain:
-          CMakeArgs-mlpack: '-DDEBUG=OFF -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF -DCEREAL_INCLUDE_DIR=../../cereal-1.3.0/include/'
-          CMakeArgs-models: '-DDEBUG=ON -DCEREAL_INCLUDE_DIR=../cereal-1.3.0/include/'
+          CMakeArgs-mlpack: '-DDEBUG=OFF -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF'
+          CMakeArgs-models: '-DDEBUG=ON'
 
   steps:
   - template: linux-steps.yaml
