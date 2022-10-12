@@ -51,7 +51,7 @@ jobs:
       Plain:
           CMakeArgs-mlpack: '-DDEBUG=OFF -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF'
           CMakeArgs-models: '-DDEBUG=ON'
-          CMakeGenerator: '-G "Visual Studio 15 2017 Win64"'
+          CMakeGenerator: '-G "Visual Studio 16 2019"'
           MSBuildVersion: '15.0'
 
   steps:
