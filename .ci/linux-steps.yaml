@@ -20,7 +20,7 @@ steps:
 
 # Install Armadillo from source so we get the oldest supported verson.
 - script: |
-    curl https://files.mlpack.org/armadillo-8.400.0.tar.gz | tar -xvz && cd armadillo*
+    curl https://files.mlpack.org/armadillo-9.800.1.tar.gz | tar -xvz && cd armadillo*
     cmake . && make && sudo make install && cd ..
   displayName: 'Install Build Dependencies'
 
