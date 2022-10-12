@@ -17,12 +17,13 @@ steps:
     echo "##vso[task.setvariable variable=BOOST_ROOT]"$BOOST_ROOT
 
     sudo apt-get install -y --allow-unauthenticated liblapack-dev g++ libboost1.70-dev xz-utils libcereal-dev libstb-dev
+  displayName: 'Install build dependencies'
 
 # Install Armadillo from source so we get the oldest supported verson.
 - script: |
     curl https://files.mlpack.org/armadillo-9.800.1.tar.gz | tar -xvz && cd armadillo*
     cmake -DCMAKE_INSTALL_PREFIX=/usr . && make && sudo make install && cd ..
-  displayName: 'Install Build Dependencies'
+  displayName: 'Install Armadillo'
 
 # Install ensmallen from source.
 - script: |
@@ -36,6 +37,7 @@ steps:
     sudo make install
     cd ../
     rm -rf ensmallen-*/
+  displayName: 'Install ensmallen'
 
 # Configure CMake Args for mlpack.
 - script: |
