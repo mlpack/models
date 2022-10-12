@@ -9,16 +9,18 @@ steps:
 # Install mlpack from master to get new functionalities instantly.
 - script: |
     set -e
-    sudo xcode-select --switch /Applications/Xcode_10.1.app/Contents/Developer
+    sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
     unset BOOST_ROOT
     pip install cython numpy pandas zipp configparser
     brew install openblas armadillo boost cereal
+
     git clone --depth 1 https://github.com/mlpack/jenkins-conf.git conf
   displayName: 'Install Build Dependencies'
 
 # Configure CMake Args for mlpack.
 - script: |
     unset BOOST_ROOT
+    git clone --depth 1 https://github.com/mlpack/mlpack
     cd mlpack && mkdir build && cd build && cmake $(CMakeArgs-mlpack) ..
   displayName: 'CMake for mlpack'
 
