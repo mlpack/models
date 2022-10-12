@@ -18,7 +18,7 @@ jobs:
   strategy:
     matrix:
       Plain:
-        CMakeArgs-mlpack: '-DDEBUG=OFF -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF -DDOWNLOAD_DEPENDENCIES=ON'
+        CMakeArgs-mlpack: '-DDEBUG=OFF -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF -DDOWNLOAD_DEPENDENCIES=ON -DBUILD_CLI_EXECUTABLES=OFF'
         CMakeArgs-models: '-DDEBUG=ON'
 
   steps:
@@ -33,7 +33,7 @@ jobs:
   strategy:
     matrix:
       Plain:
-          CMakeArgs-mlpack: '-DDEBUG=OFF -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF'
+          CMakeArgs-mlpack: '-DDEBUG=OFF -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF -DBUILD_CLI_EXECUTABLES=OFF'
           CMakeArgs-models: '-DDEBUG=ON -DMLPACK_INCLUDE_DIR=/usr/local/include/'
 
   steps:
@@ -49,7 +49,7 @@ jobs:
   strategy:
     matrix:
       Plain:
-          CMakeArgs-mlpack: '-DDEBUG=OFF -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF'
+          CMakeArgs-mlpack: '-DDEBUG=OFF -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF -DBUILD_CLI_EXECUTABLES=OFF'
           CMakeArgs-models: '-DDEBUG=ON'
           CMakeGenerator: '-G "Visual Studio 16 2019"'
           MSBuildVersion: '15.0'
