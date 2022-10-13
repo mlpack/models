@@ -177,9 +177,9 @@ find_package(Boost 1.49
 # Detect OpenMP support in a compiler. If the compiler supports OpenMP, flags
 # to compile with OpenMP are returned and added.  Note that MSVC does not
 # support a new-enough version of OpenMP to be useful.
-if (USE_OPENMP)
-  find_package(OpenMP)
-endif ()
+#if (USE_OPENMP)
+#  find_package(OpenMP)
+#endif ()
 
 if (OpenMP_FOUND AND OpenMP_CXX_VERSION VERSION_GREATER_EQUAL 3.0.0)
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
