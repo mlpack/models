@@ -13,12 +13,11 @@
 #ifndef MODELS_UTILS_UTILS_HPP
 #define MODELS_UTILS_UTILS_HPP
 
-#include <iostream>
+#include <mlpack.hpp>
 #include <boost/asio.hpp>
 #include <cstdlib>
 #include <sys/stat.h>
 #include <boost/crc.hpp>
-#include <mlpack.hpp>
 #include <boost/filesystem.hpp>
 
 namespace mlpack {

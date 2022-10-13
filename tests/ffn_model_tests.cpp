@@ -9,8 +9,8 @@
  * 3-clause BSD license along with mlpack.  If not, see
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
+#include <mlpack.hpp>
 #include <utils/utils.hpp>
-#include <ensmallen.hpp>
 #include <dataloader/dataloader.hpp>
 #include <models/darknet/darknet.hpp>
 #include <models/yolo/yolo.hpp>
