@@ -50,7 +50,7 @@ jobs:
     matrix:
       Plain:
           CMakeArgs-mlpack: '-DDEBUG=OFF -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF -DBUILD_CLI_EXECUTABLES=OFF -DUSE_OPENMP=OFF'
-          CMakeArgs-models: '-DDEBUG=ON'
+          CMakeArgs-models: '-DDEBUG=ON -DUSE_OPENMP=OFF'
           CMakeGenerator: '-G "Visual Studio 16 2019"'
           MSBuildVersion: '16.0'
 
