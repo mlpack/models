@@ -26,11 +26,8 @@
 #ifndef MODELS_MODELS_VGG_VGG_HPP
 #define MODELS_MODELS_VGG_VGG_HPP
 
-#include <mlpack/core.hpp>
-#include <mlpack/methods/ann/ffn.hpp>
-#include <mlpack/methods/ann/layer/layer_types.hpp>
-#include <mlpack/methods/ann/init_rules/random_init.hpp>
-#include <mlpack/methods/ann/loss_functions/binary_cross_entropy_loss.hpp>
+#define MLPACK_ENABLE_ANN_SERIALIZATION
+#include <mlpack.hpp>
 
 namespace mlpack {
 namespace models {
@@ -54,7 +51,7 @@ template<
   size_t VGGVersion = 11,
   bool UsesBatchNorm = false
 >
-class VGGType : public ann::MultiLayer<MatType>
+class VGGType : public MultiLayer<MatType>
 {
  public:
   /**
@@ -90,13 +87,13 @@ class VGGType : public ann::MultiLayer<MatType>
    * @tparam InitializationRuleType Rule used to initialize the weight matrix.
    */
   template<
-    typename OutputLayerType = ann::CrossEntropyError,
-    typename InitializationRuleType = ann::RandomInitialization
+    typename OutputLayerType = CrossEntropyError,
+    typename InitializationRuleType = RandomInitialization
   >
-  ann::FFN<OutputLayerType, InitializationRuleType, MatType>* GetModel()
+  FFN<OutputLayerType, InitializationRuleType, MatType>* GetModel()
   {
-    ann::FFN<OutputLayerType, InitializationRuleType, MatType>* vgg =
-        new ann::FFN<OutputLayerType, InitializationRuleType, MatType>();
+    FFN<OutputLayerType, InitializationRuleType, MatType>* vgg =
+        new FFN<OutputLayerType, InitializationRuleType, MatType>();
     vgg->Add(this);
     return vgg;
   }

@@ -21,7 +21,7 @@ template<typename MatType, size_t VGGVersion, bool UsesBatchNorm>
 VGGType<MatType, VGGVersion, UsesBatchNorm>::VGGType(
     const size_t numClasses,
     const bool includeTop) :
-    ann::MultiLayer<MatType>(),
+    MultiLayer<MatType>(),
     numClasses(numClasses),
     includeTop(includeTop)
 {
@@ -31,7 +31,7 @@ VGGType<MatType, VGGVersion, UsesBatchNorm>::VGGType(
 template<typename MatType, size_t VGGVersion, bool UsesBatchNorm>
 VGGType<MatType, VGGVersion, UsesBatchNorm>::VGGType(
     const VGGType& other) :
-    ann::MultiLayer<MatType>(other),
+    MultiLayer<MatType>(other),
     numClasses(other.numClasses),
     includeTop(other.includeTop)
 {
@@ -41,7 +41,7 @@ VGGType<MatType, VGGVersion, UsesBatchNorm>::VGGType(
 template<typename MatType, size_t VGGVersion, bool UsesBatchNorm>
 VGGType<MatType, VGGVersion, UsesBatchNorm>::VGGType(
     VGGType&& other) :
-    ann::MultiLayer<MatType>(std::move(other)),
+    MultiLayer<MatType>(std::move(other)),
     numClasses(std::move(other.numClasses)),
     includeTop(std::move(other.includeTop))
 {
@@ -54,7 +54,7 @@ VGGType<MatType, VGGVersion, UsesBatchNorm>::operator=(const VGGType& other)
 {
   if (this != &other)
   {
-    ann::MultiLayer<MatType>::operator=(other);
+    MultiLayer<MatType>::operator=(other);
     numClasses = other.numClasses;
     includeTop = other.includeTop;
   }
@@ -68,7 +68,7 @@ VGGType<MatType, VGGVersion, UsesBatchNorm>::operator=(VGGType&& other)
 {
   if (this != &other)
   {
-    ann::MultiLayer<MatType>::operator=(std::move(other));
+    MultiLayer<MatType>::operator=(std::move(other));
     numClasses = std::move(other.numClasses);
     includeTop = std::move(other.includeTop);
   }
@@ -81,7 +81,7 @@ template<typename Archive>
 void VGGType<MatType, VGGVersion, UsesBatchNorm>::serialize(
     Archive& ar, const uint32_t /* version */)
 {
-  ar(cereal::base_class<ann::MultiLayer<MatType>>(this));
+  ar(cereal::base_class<MultiLayer<MatType>>(this));
 
   ar(CEREAL_NVP(numClasses));
   ar(CEREAL_NVP(includeTop));
@@ -107,25 +107,25 @@ void VGGType<MatType, VGGVersion, UsesBatchNorm>::MakeModel()
   {
     if (layers[i] == 0)
     {
-      this->template Add<ann::MaxPooling>(2, 2, 2, 2);
+      this->template Add<MaxPooling>(2, 2, 2, 2);
     }
     else
     {
-      this->template Add<ann::Convolution>(layers[i], 3, 3, 1, 1, 1, 1);
+      this->template Add<Convolution>(layers[i], 3, 3, 1, 1, 1, 1);
       if (UsesBatchNorm)
-        this->template Add<ann::BatchNorm>(2, 2, 1e-5, false, 0.1);
-      this->template Add<ann::ReLU>();
+        this->template Add<BatchNorm>(2, 2, 1e-5, false, 0.1);
+      this->template Add<ReLU>();
     }
   }
   if (includeTop)
   {
-    this->template Add<ann::Linear>(4096);
-    this->template Add<ann::ReLU>();
-    this->template Add<ann::Dropout>();
-    this->template Add<ann::Linear>(4096);
-    this->template Add<ann::ReLU>();
-    this->template Add<ann::Dropout>();
-    this->template Add<ann::Linear>(numClasses);
+    this->template Add<Linear>(4096);
+    this->template Add<ReLU>();
+    this->template Add<Dropout>();
+    this->template Add<Linear>(4096);
+    this->template Add<ReLU>();
+    this->template Add<Dropout>();
+    this->template Add<Linear>(numClasses);
   }
 }
 

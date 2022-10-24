@@ -13,12 +13,11 @@
 #ifndef MODELS_UTILS_UTILS_HPP
 #define MODELS_UTILS_UTILS_HPP
 
-#include <iostream>
+#include <mlpack.hpp>
 #include <boost/asio.hpp>
 #include <cstdlib>
 #include <sys/stat.h>
 #include <boost/crc.hpp>
-#include <mlpack/core.hpp>
 #include <boost/filesystem.hpp>
 
 namespace mlpack {
@@ -42,7 +41,7 @@ class Utils
     struct stat buffer;
     // Set correct path.
     std::string filePath = absolutePath ? path :
-      boost::filesystem::current_path().string() + "/" + path;
+        boost::filesystem::current_path().string() + "/" + path;
     return (stat(filePath.c_str(), &buffer) == 0);
   }
 

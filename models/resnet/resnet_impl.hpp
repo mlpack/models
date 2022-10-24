@@ -92,13 +92,13 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
         "34, 50, 101 and 152" << std::endl;
   }
 
-  resNet.Add(new ann::IdentityLayer<>);
-  ann::Sequential<>* seqBlock = new ann::Sequential<>();
+  resNet.Add(new IdentityLayer<>);
+  Sequential<>* seqBlock = new Sequential<>();
   ConvolutionBlock(seqBlock, 3, 64, 2, 2, 7, 7, 3, 3);
   ReLULayer(seqBlock);
   resNet.Add(seqBlock);
 
-  resNet.Add(new ann::Padding<>(1, 1, 1, 1, inputWidth, inputHeight));
+  resNet.Add(new Padding<>(1, 1, 1, 1, inputWidth, inputHeight));
   mlpack::Log::Info << "Padding: " << "(" << "64, " << inputWidth << ", " <<
       inputWidth << " ---> (";
 
@@ -109,7 +109,7 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
   mlpack::Log::Info <<"64, "<< inputWidth << ", " << inputHeight << ")" <<
       std::endl;
 
-  resNet.Add(new ann::MaxPooling<>(3, 3, 2, 2));
+  resNet.Add(new MaxPooling<>(3, 3, 2, 2));
   mlpack::Log::Info << "MaxPool: " << "(" <<"64, " << inputWidth << ", " <<
       inputHeight << " ---> (";
 
@@ -127,19 +127,19 @@ ResNet<OutputLayerType, InitializationRuleType, ResNetVersion>::ResNet(
 
   if (includeTop)
   {
-    resNet.Add(new ann::AdaptiveMeanPooling<>(1, 1));
+    resNet.Add(new AdaptiveMeanPooling<>(1, 1));
     mlpack::Log::Info << "AdaptiveMeanPooling: " << "(1, 1)" << std::endl;
 
     if (ResNetVersion == 18 || ResNetVersion == 34)
     {
-      resNet.Add(new ann::Linear<>(512 * basicBlockExpansion, numClasses));
+      resNet.Add(new Linear<>(512 * basicBlockExpansion, numClasses));
       mlpack::Log::Info << "Linear: " << "(" << 512 * basicBlockExpansion <<
           ") ---> (" << numClasses << ")" <<std::endl;
     }
     else if (ResNetVersion == 50 || ResNetVersion == 101 ||
         ResNetVersion == 152)
     {
-      resNet.Add(new ann::Linear<>(512 * bottleNeckExpansion, numClasses));
+      resNet.Add(new Linear<>(512 * bottleNeckExpansion, numClasses));
       mlpack::Log::Info<<"Linear: " << "(" << 512 * bottleNeckExpansion <<
           ") ---> (" << numClasses << ")" << std::endl;
     }

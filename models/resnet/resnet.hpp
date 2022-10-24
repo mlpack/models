@@ -23,13 +23,8 @@
 #ifndef MODELS_MODELS_RESNET_RESNET_HPP
 #define MODELS_MODELS_RESNET_RESNET_HPP
 
-#include <mlpack/core.hpp>
-#include <mlpack/methods/ann/layer/layer.hpp>
-#include <mlpack/methods/ann/ffn.hpp>
-#include <mlpack/methods/ann/layer/layer_types.hpp>
-#include <mlpack/methods/ann/init_rules/random_init.hpp>
-#include <mlpack/methods/ann/loss_functions/binary_cross_entropy_loss.hpp>
-#include <mlpack/methods/ann/init_rules/he_init.hpp>
+#define MLPACK_ENABLE_ANN_SERIALIZATION
+#include <mlpack.hpp>
 
 #include "./../../utils/utils.hpp"
 
@@ -44,11 +39,12 @@ namespace models {
  * @tparam ResNetVersion Version of ResNet.
  */
 template<
-  typename OutputLayerType = ann::CrossEntropyError<>,
-  typename InitializationRuleType = ann::RandomInitialization,
+  typename OutputLayerType = CrossEntropyError<>,
+  typename InitializationRuleType = RandomInitialization,
   size_t ResNetVersion = 18
 >
-class ResNet{
+class ResNet
+{
  public:
   //! Create the ResNet model.
   ResNet();
@@ -89,8 +85,7 @@ class ResNet{
          const size_t numClasses = 1000);
 
   //! Get Layers of the model.
-  ann::FFN<OutputLayerType, InitializationRuleType>&
-      GetModel() { return resNet; }
+  FFN<OutputLayerType, InitializationRuleType>& GetModel() { return resNet; }
 
   //! Load weights into the model and assumes the internal matrix to be
   //  named "ResNet".
@@ -119,7 +114,7 @@ class ResNet{
    * @param downSampleInputWidth Input widht for downSample block.
    * @param downSampleInputHeight Input height for downSample block.
    */
-  template<typename SequentialType = ann::Sequential<>>
+  template<typename SequentialType = Sequential<>>
   void ConvolutionBlock(SequentialType* baseLayer,
                         const size_t inSize,
                         const size_t outSize,
@@ -140,8 +135,8 @@ class ResNet{
       inputHeight = downSampleInputHeight;
     }
 
-    ann::Sequential<>* tempBaseLayer = new ann::Sequential<>();
-    tempBaseLayer->Add(new ann::Convolution<>(inSize, outSize, kernelWidth,
+    Sequential<>* tempBaseLayer = new Sequential<>();
+    tempBaseLayer->Add(new Convolution<>(inSize, outSize, kernelWidth,
         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
         inputHeight));
     mlpack::Log::Info << "Convolution: " << "(" << inSize << ", " <<
@@ -155,7 +150,7 @@ class ResNet{
     mlpack::Log::Info << outSize << ", " << inputWidth << ", " <<
         inputHeight << ")" << std::endl;
 
-    tempBaseLayer->Add(new ann::BatchNorm<>(outSize, 1e-5));
+    tempBaseLayer->Add(new BatchNorm<>(outSize, 1e-5));
     mlpack::Log::Info << "BatchNorm: " << "(" << outSize << ")" << " ---> ("
         << outSize << ")" << std::endl;
     baseLayer->Add(tempBaseLayer);
@@ -168,9 +163,9 @@ class ResNet{
    *
    * @param baseLayer Sequential layer type in which ReLU layer will be added.
    */
-  void ReLULayer(ann::Sequential<>* baseLayer)
+  void ReLULayer(Sequential<>* baseLayer)
   {
-    baseLayer->Add(new ann::ReLULayer<>);
+    baseLayer->Add(new ReLULayer<>);
     mlpack::Log::Info << "Relu" << std::endl;
   }
 
@@ -218,9 +213,9 @@ class ResNet{
     downSampleInputWidth = inputWidth;
     downSampleInputHeight = inputHeight;
 
-    ann::Sequential<>* basicBlock = new ann::Sequential<>();
-    ann::AddMerge<>* resBlock = new ann::AddMerge<>(true, true);
-    ann::Sequential<>* sequentialBlock = new ann::Sequential<>();
+    Sequential<>* basicBlock = new Sequential<>();
+    AddMerge<>* resBlock = new AddMerge<>(true, true);
+    Sequential<>* sequentialBlock = new Sequential<>();
     ConvolutionBlock(sequentialBlock, inSize, outSize, strideWidth,
         strideHeight);
     ReLULayer(sequentialBlock);
@@ -236,7 +231,7 @@ class ResNet{
     else
     {
       mlpack::Log::Info << "IdentityLayer" << std::endl;
-      resBlock->Add(new ann::IdentityLayer<>);
+      resBlock->Add(new IdentityLayer<>);
     }
 
     basicBlock->Add(resBlock);
@@ -297,9 +292,9 @@ class ResNet{
     downSampleInputHeight = inputHeight;
 
     size_t width = int((baseWidth / 64.0) * outSize) * groups;
-    ann::Sequential<>* basicBlock = new ann::Sequential<>();
-    ann::AddMerge<>* resBlock = new ann::AddMerge<>(true, true);
-    ann::Sequential<>* sequentialBlock = new ann::Sequential<>();
+    Sequential<>* basicBlock = new Sequential<>();
+    AddMerge<>* resBlock = new AddMerge<>(true, true);
+    Sequential<>* sequentialBlock = new Sequential<>();
     ConvolutionBlock(sequentialBlock, inSize, width, 1, 1, 1, 1, 0, 0);
     ReLULayer(sequentialBlock);
     ConvolutionBlock(sequentialBlock, width, width, strideWidth,
@@ -318,7 +313,7 @@ class ResNet{
     else
     {
       mlpack::Log::Info << "IdentityLayer" << std::endl;
-      resBlock->Add(new ann::IdentityLayer<>);
+      resBlock->Add(new IdentityLayer<>);
     }
 
     basicBlock->Add(resBlock);
@@ -379,7 +374,7 @@ class ResNet{
   }
 
   //! Locally stored DarkNet Model.
-  ann::FFN<OutputLayerType, InitializationRuleType> resNet;
+  FFN<OutputLayerType, InitializationRuleType> resNet;
 
   //! Locally stored number of channels in the image.
   size_t inputChannel;
@@ -429,16 +424,11 @@ class ResNet{
 }; // ResNet class
 
 // convenience typedefs for different ResNet models.
-typedef ResNet<ann::CrossEntropyError<>, ann::RandomInitialization, 18>
-    ResNet18;
-typedef ResNet<ann::CrossEntropyError<>, ann::RandomInitialization, 34>
-    ResNet34;
-typedef ResNet<ann::CrossEntropyError<>, ann::RandomInitialization, 50>
-    ResNet50;
-typedef ResNet<ann::CrossEntropyError<>, ann::RandomInitialization, 101>
-    ResNet101;
-typedef ResNet<ann::CrossEntropyError<>, ann::RandomInitialization, 152>
-    ResNet152;
+typedef ResNet<CrossEntropyError<>, RandomInitialization, 18> ResNet18;
+typedef ResNet<CrossEntropyError<>, RandomInitialization, 34> ResNet34;
+typedef ResNet<CrossEntropyError<>, RandomInitialization, 50> ResNet50;
+typedef ResNet<CrossEntropyError<>, RandomInitialization, 101> ResNet101;
+typedef ResNet<CrossEntropyError<>, RandomInitialization, 152> ResNet152;
 
 } // namespace models
 } // namespace mlpack

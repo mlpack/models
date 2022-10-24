@@ -28,11 +28,8 @@
 #ifndef MODELS_MODELS_SQUEEZENET_SQUEEZENET_HPP
 #define MODELS_MODELS_SQUEEZENET_SQUEEZENET_HPP
 
-#include <mlpack/core.hpp>
-#include <mlpack/methods/ann/ffn.hpp>
-#include <mlpack/methods/ann/layer/layer_types.hpp>
-#include <mlpack/methods/ann/init_rules/random_init.hpp>
-#include <mlpack/methods/ann/loss_functions/binary_cross_entropy_loss.hpp>
+#define MLPACK_ENABLE_ANN_SERIALIZATION
+#include <mlpack.hpp>
 
 namespace mlpack {
 namespace models {
@@ -52,7 +49,7 @@ template<
   typename MatType = arma::mat,
   size_t SqueezeNetVersion = 0
 >
-class SqueezeNetType : public ann::MultiLayer<MatType>
+class SqueezeNetType : public MultiLayer<MatType>
 {
  public:
   /**
@@ -90,13 +87,13 @@ class SqueezeNetType : public ann::MultiLayer<MatType>
    * @tparam InitializationRuleType Rule used to initialize the weight matrix.
    */
   template<
-    typename OutputLayerType = ann::CrossEntropyError,
-    typename InitializationRuleType = ann::RandomInitialization
+    typename OutputLayerType = CrossEntropyError,
+    typename InitializationRuleType = RandomInitialization
   >
-  ann::FFN<OutputLayerType, InitializationRuleType, MatType>* GetModel()
+  FFN<OutputLayerType, InitializationRuleType, MatType>* GetModel()
   {
-    ann::FFN<OutputLayerType, InitializationRuleType, MatType>* squeezeNet =
-        new ann::FFN<OutputLayerType, InitializationRuleType, MatType>();
+    FFN<OutputLayerType, InitializationRuleType, MatType>* squeezeNet =
+        new FFN<OutputLayerType, InitializationRuleType, MatType>();
     squeezeNet->Add(this);
     return squeezeNet;
   }

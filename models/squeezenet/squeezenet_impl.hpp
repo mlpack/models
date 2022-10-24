@@ -21,7 +21,7 @@ template<typename MatType, size_t SqueezeNetVersion>
 SqueezeNetType<MatType, SqueezeNetVersion>::SqueezeNetType(
     const size_t numClasses,
     const bool includeTop) :
-    ann::MultiLayer<MatType>(),
+    MultiLayer<MatType>(),
     numClasses(numClasses),
     includeTop(includeTop)
 {
@@ -31,7 +31,7 @@ SqueezeNetType<MatType, SqueezeNetVersion>::SqueezeNetType(
 template<typename MatType, size_t SqueezeNetVersion>
 SqueezeNetType<MatType, SqueezeNetVersion>::SqueezeNetType(
     const SqueezeNetType& other) :
-    ann::MultiLayer<MatType>(other),
+    MultiLayer<MatType>(other),
     numClasses(other.numClasses),
     includeTop(other.includeTop)
 {
@@ -41,7 +41,7 @@ SqueezeNetType<MatType, SqueezeNetVersion>::SqueezeNetType(
 template<typename MatType, size_t SqueezeNetVersion>
 SqueezeNetType<MatType, SqueezeNetVersion>::SqueezeNetType(
     SqueezeNetType&& other) :
-    ann::MultiLayer<MatType>(std::move(other)),
+    MultiLayer<MatType>(std::move(other)),
     numClasses(std::move(other.numClasses)),
     includeTop(std::move(other.includeTop))
 {
@@ -55,7 +55,7 @@ SqueezeNetType<MatType, SqueezeNetVersion>::operator=(
 {
   if (this != &other)
   {
-    ann::MultiLayer<MatType>::operator=(other);
+    MultiLayer<MatType>::operator=(other);
     numClasses = other.numClasses;
     includeTop = other.includeTop;
   }
@@ -69,7 +69,7 @@ SqueezeNetType<MatType, SqueezeNetVersion>::operator=(SqueezeNetType&& other)
 {
   if (this != &other)
   {
-    ann::MultiLayer<MatType>::operator=(std::move(other));
+    MultiLayer<MatType>::operator=(std::move(other));
     numClasses = std::move(other.numClasses);
     includeTop = std::move(other.includeTop);
   }
@@ -82,7 +82,7 @@ template<typename Archive>
 void SqueezeNetType<MatType, SqueezeNetVersion>::serialize(
     Archive& ar, const uint32_t /* version */)
 {
-  ar(cereal::base_class<ann::MultiLayer<MatType>>(this));
+  ar(cereal::base_class<MultiLayer<MatType>>(this));
 
   ar(CEREAL_NVP(numClasses));
   ar(CEREAL_NVP(includeTop));
@@ -94,19 +94,18 @@ void SqueezeNetType<MatType, SqueezeNetVersion>::Fire(
     const size_t expand1x1Planes,
     const size_t expand3x3Planes)
 {
-  this->template Add<ann::Convolution>(squeezePlanes, 1, 1);
-  this->template Add<ann::ReLU>();
+  this->template Add<Convolution>(squeezePlanes, 1, 1);
+  this->template Add<ReLU>();
 
-  ann::MultiLayer<MatType>* expand1x1 = new ann::MultiLayer<MatType>();
-  expand1x1->template Add<ann::Convolution>(expand1x1Planes, 1, 1);
-  expand1x1->template Add<ann::ReLU>();
+  MultiLayer<MatType>* expand1x1 = new MultiLayer<MatType>();
+  expand1x1->template Add<Convolution>(expand1x1Planes, 1, 1);
+  expand1x1->template Add<ReLU>();
 
-  ann::MultiLayer<MatType>* expand3x3 = new ann::MultiLayer<MatType>();
-  expand3x3->template Add<ann::Convolution>(expand3x3Planes, 3, 3, 1, 1, 1,
-      1);
-  expand3x3->template Add<ann::ReLU>();
+  MultiLayer<MatType>* expand3x3 = new MultiLayer<MatType>();
+  expand3x3->template Add<Convolution>(expand3x3Planes, 3, 3, 1, 1, 1, 1);
+  expand3x3->template Add<ReLU>();
 
-  ann::Concat* catLayer = new ann::Concat(2);
+  Concat* catLayer = new Concat(2);
   catLayer->template Add(expand1x1);
   catLayer->template Add(expand3x3);
 
@@ -118,31 +117,31 @@ void SqueezeNetType<MatType, SqueezeNetVersion>::MakeModel()
 {
   if (SqueezeNetVersion == 0)
   {
-    this->template Add<ann::Convolution>(96, 7, 7, 2, 2);
-    this->template Add<ann::ReLU>();
-    this->template Add<ann::MaxPooling>(3, 3, 2, 2, false);
+    this->template Add<Convolution>(96, 7, 7, 2, 2);
+    this->template Add<ReLU>();
+    this->template Add<MaxPooling>(3, 3, 2, 2, false);
     Fire(16, 64, 64);
     Fire(16, 64, 64);
     Fire(32, 128, 128);
-    this->template Add<ann::MaxPooling>(3, 3, 2, 2, false);
+    this->template Add<MaxPooling>(3, 3, 2, 2, false);
     Fire(32, 128, 128);
     Fire(48, 192, 192);
     Fire(48, 192, 192);
     Fire(64, 256, 256);
-    this->template Add<ann::MaxPooling>(3, 3, 2, 2, false);
+    this->template Add<MaxPooling>(3, 3, 2, 2, false);
     Fire(64, 256, 256);
   }
   else if (SqueezeNetVersion == 1)
   {
-    this->template Add<ann::Convolution>(64, 3, 3, 2, 2);
-    this->template Add<ann::ReLU>();
-    this->template Add<ann::MaxPooling>(3, 3, 2, 2, false);
+    this->template Add<Convolution>(64, 3, 3, 2, 2);
+    this->template Add<ReLU>();
+    this->template Add<MaxPooling>(3, 3, 2, 2, false);
     Fire(16, 64, 64);
     Fire(16, 64, 64);
-    this->template Add<ann::MaxPooling>(3, 3, 2, 2, false);
+    this->template Add<MaxPooling>(3, 3, 2, 2, false);
     Fire(32, 128, 128);
     Fire(32, 128, 128);
-    this->template Add<ann::MaxPooling>(3, 3, 2, 2, false);
+    this->template Add<MaxPooling>(3, 3, 2, 2, false);
     Fire(48, 192, 192);
     Fire(48, 192, 192);
     Fire(64, 256, 256);
@@ -154,10 +153,10 @@ void SqueezeNetType<MatType, SqueezeNetVersion>::MakeModel()
   }
   if (includeTop)
   {
-    this->template Add<ann::Dropout>();
-    this->template Add<ann::Convolution>(numClasses, 1, 1);
-    this->template Add<ann::ReLU>();
-    this->template Add<ann::AdaptiveMeanPooling>(1, 1);
+    this->template Add<Dropout>();
+    this->template Add<Convolution>(numClasses, 1, 1);
+    this->template Add<ReLU>();
+    this->template Add<AdaptiveMeanPooling>(1, 1);
   }
 }
 

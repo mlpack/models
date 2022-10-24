@@ -37,14 +37,8 @@
 #ifndef MODELS_MODELS_DARKNET_DARKNET_HPP
 #define MODELS_MODELS_DARKNET_DARKNET_HPP
 
-#include <mlpack/core.hpp>
-#include <mlpack/methods/ann/layer/layer.hpp>
-#include <mlpack/methods/ann/ffn.hpp>
-#include <mlpack/methods/ann/layer/layer_types.hpp>
-#include <mlpack/methods/ann/init_rules/random_init.hpp>
-#include <mlpack/methods/ann/loss_functions/binary_cross_entropy_loss.hpp>
-#include <mlpack/methods/ann/init_rules/he_init.hpp>
-#include <mlpack/methods/ann/init_rules/glorot_init.hpp>
+#define MLPACK_ENABLE_ANN_SERIALIZATION
+#include <mlpack.hpp>
 
 namespace mlpack {
 namespace models {
@@ -57,8 +51,8 @@ namespace models {
  * @tparam DaknetVer Version of DarkNet.
  */
 template<
-  typename OutputLayerType = ann::CrossEntropyError<>,
-  typename InitializationRuleType = ann::RandomInitialization,
+  typename OutputLayerType = CrossEntropyError<>,
+  typename InitializationRuleType = RandomInitialization,
   size_t DarkNetVersion = 19
 >
 class DarkNet
@@ -101,7 +95,7 @@ class DarkNet
           const bool includeTop = true);
 
   //! Get Layers of the model.
-  ann::FFN<OutputLayerType, InitializationRuleType>& GetModel()
+  FFN<OutputLayerType, InitializationRuleType>& GetModel()
   {
     return darkNet;
   }
@@ -133,7 +127,7 @@ class DarkNet
    * @param baseLayer Layer in which Convolution block will be added, if
    *                  NULL added to darkNet FFN.
    */
-  template<typename SequentialType = ann::Sequential<>>
+  template<typename SequentialType = Sequential<>>
   void ConvolutionBlock(const size_t inSize,
                         const size_t outSize,
                         const size_t kernelWidth,
@@ -146,8 +140,8 @@ class DarkNet
                         const double negativeSlope = 1e-1,
                         SequentialType* baseLayer = NULL)
   {
-    ann::Sequential<>* bottleNeck = new ann::Sequential<>();
-    bottleNeck->Add(new ann::Convolution<>(inSize, outSize, kernelWidth,
+    Sequential<>* bottleNeck = new Sequential<>();
+    bottleNeck->Add(new Convolution<>(inSize, outSize, kernelWidth,
         kernelHeight, strideWidth, strideHeight, padW, padH, inputWidth,
         inputHeight));
 
@@ -162,9 +156,9 @@ class DarkNet
         ", " << outSize << ")" << std::endl;
 
     if (batchNorm)
-      bottleNeck->Add(new ann::BatchNorm<>(outSize, 1e-5, false));
+      bottleNeck->Add(new BatchNorm<>(outSize, 1e-5, false));
 
-    bottleNeck->Add(new ann::LeakyReLU<>(negativeSlope));
+    bottleNeck->Add(new LeakyReLU<>(negativeSlope));
 
     if (baseLayer != NULL)
       baseLayer->Add(bottleNeck);
@@ -184,13 +178,13 @@ class DarkNet
   {
     if (type == "max")
     {
-      darkNet.Add(new ann::AdaptiveMaxPooling<>(
+      darkNet.Add(new AdaptiveMaxPooling<>(
           std::ceil(inputWidth * 1.0 / factor),
           std::ceil(inputHeight * 1.0 / factor)));
     }
     else
     {
-      darkNet.Add(new ann::AdaptiveMeanPooling<>(std::ceil(inputWidth * 1.0 /
+      darkNet.Add(new AdaptiveMeanPooling<>(std::ceil(inputWidth * 1.0 /
           factor), std::ceil(inputHeight * 1.0 / factor)));
     }
 
@@ -251,7 +245,7 @@ class DarkNet
                               const size_t padHeight = 1)
   {
     mlpack::Log::Info << "Residual Block Begin." << std::endl;
-    ann::Residual<>* residualBlock = new ann::Residual<>();
+    Residual<>* residualBlock = new Residual<>();
     ConvolutionBlock(inputChannel, inputChannel / 2,
         1, 1, 1, 1, 0, 0, true, 1e-2, residualBlock);
     ConvolutionBlock(inputChannel / 2, inputChannel, kernelWidth,
@@ -278,7 +272,7 @@ class DarkNet
   }
 
   //! Locally stored DarkNet Model.
-  ann::FFN<OutputLayerType, InitializationRuleType> darkNet;
+  FFN<OutputLayerType, InitializationRuleType> darkNet;
 
   //! Locally stored width of the image.
   size_t inputWidth;
@@ -297,10 +291,10 @@ class DarkNet
 }; // DarkNet class.
 
 // Convenience typedefs for different DarkNet models.
-typedef DarkNet<ann::CrossEntropyError<>, ann::RandomInitialization, 19>
+typedef DarkNet<CrossEntropyError<>, RandomInitialization, 19>
     DarkNet19;
 
-typedef DarkNet<ann::CrossEntropyError<>, ann::RandomInitialization, 53>
+typedef DarkNet<CrossEntropyError<>, RandomInitialization, 53>
     DarkNet53;
 
 } // namespace models

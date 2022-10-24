@@ -13,12 +13,12 @@ jobs:
   timeoutInMinutes: 360
   displayName: macOS-10.14
   pool:
-    vmImage: macOS-10.14
+    vmImage: macOS-latest
 
   strategy:
     matrix:
       Plain:
-        CMakeArgs-mlpack: '-DDEBUG=OFF -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF'
+        CMakeArgs-mlpack: '-DDEBUG=OFF -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF -DDOWNLOAD_DEPENDENCIES=ON -DBUILD_CLI_EXECUTABLES=OFF'
         CMakeArgs-models: '-DDEBUG=ON'
 
   steps:
@@ -33,8 +33,8 @@ jobs:
   strategy:
     matrix:
       Plain:
-          CMakeArgs-mlpack: '-DDEBUG=OFF -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF -DCEREAL_INCLUDE_DIR=../../cereal-1.3.0/include/'
-          CMakeArgs-models: '-DDEBUG=ON -DCEREAL_INCLUDE_DIR=../cereal-1.3.0/include/'
+          CMakeArgs-mlpack: '-DDEBUG=OFF -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF -DBUILD_CLI_EXECUTABLES=OFF'
+          CMakeArgs-models: '-DDEBUG=ON -DMLPACK_INCLUDE_DIR=/usr/local/include/'
 
   steps:
   - template: linux-steps.yaml
@@ -44,15 +44,15 @@ jobs:
   timeoutInMinutes: 360
   displayName: Windows VS15
   pool:
-    vmImage: vs2017-win2016
+    vmImage: windows-2019
 
   strategy:
     matrix:
       Plain:
-          CMakeArgs-mlpack: '-DDEBUG=OFF -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF'
-          CMakeArgs-models: '-DDEBUG=ON'
-          CMakeGenerator: '-G "Visual Studio 15 2017 Win64"'
-          MSBuildVersion: '15.0'
+          CMakeArgs-mlpack: '-DDEBUG=OFF -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_TESTS=OFF -DBUILD_CLI_EXECUTABLES=OFF -DUSE_OPENMP=OFF'
+          CMakeArgs-models: '-DDEBUG=ON -DUSE_OPENMP=OFF'
+          CMakeGenerator: '-G "Visual Studio 16 2019"'
+          MSBuildVersion: '16.0'
 
   steps:
   - template: windows-steps.yaml

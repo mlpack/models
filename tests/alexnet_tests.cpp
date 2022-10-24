@@ -78,7 +78,7 @@ void ModelSerializationTest(LayerType& layer)
   arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
   arma::mat output(1000, 10, arma::fill::randu);
 
-  ann::FFN<> model;
+  FFN<> model;
   model.Add<LayerType>(layer);
 
   model.InputDimensions() = std::vector<size_t>({224, 224, 3});
@@ -91,7 +91,7 @@ void ModelSerializationTest(LayerType& layer)
   model.Predict(input, originalOutput);
 
   // Now serialize the model.
-  ann::FFN<> xmlModel, jsonModel, binaryModel;
+  FFN<> xmlModel, jsonModel, binaryModel;
   SerializeObjectAll(model, xmlModel, jsonModel, binaryModel);
 
   // Ensure that predictions are the same.
@@ -118,7 +118,7 @@ TEST_CASE("AlexNetTest", "[AlexnetTests]")
   arma::mat input(224 * 224 * 3, 1, arma::fill::randu);
   arma::mat output;
   models::AlexNet alexLayer;
-  ann::FFN<> model;
+  FFN<> model;
   model.InputDimensions() = std::vector<size_t>({224, 224, 3});
   model.Add<models::AlexNet>(alexLayer);
   ModelDimTest(model, input);
@@ -129,7 +129,7 @@ TEST_CASE("AlexNetMultiBatchTest", "[AlexnetTests]")
   arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
   arma::mat output;
   models::AlexNet alexLayer;
-  ann::FFN<> model;
+  FFN<> model;
   model.InputDimensions() = std::vector<size_t>({224, 224, 3});
   model.Add<models::AlexNet>(alexLayer);
   ModelDimTest(model, input, 1000, 10);
@@ -140,7 +140,7 @@ TEST_CASE("AlexNetCustomTest", "[AlexnetTests]")
   arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
   arma::mat output;
   models::AlexNet alexLayer(512);
-  ann::FFN<> model;
+  FFN<> model;
   model.InputDimensions() = std::vector<size_t>({224, 224, 3});
   model.Add<models::AlexNet>(alexLayer);
   ModelDimTest(model, input, 512, 10);
@@ -151,7 +151,7 @@ TEST_CASE("AlexNetNoTopTest", "[AlexnetTests]")
   arma::mat input(224 * 224 * 3, 10, arma::fill::randu);
   arma::mat output;
   models::AlexNet alexLayer(512, false);
-  ann::FFN<> model;
+  FFN<> model;
   model.InputDimensions() = std::vector<size_t>({224, 224, 3});
   model.Add<models::AlexNet>(alexLayer);
   ModelDimTest(model, input, 9216, 10);

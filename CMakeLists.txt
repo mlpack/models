@@ -11,7 +11,7 @@ set(CEREAL_VERSION "1.1.2")
 option(DOWNLOAD_ENSMALLEN "If ensmallen is not found, download it." ON)
 option(USE_OPENMP "If available, use OpenMP for parallelization." ON)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Include modules in the CMake directory.
@@ -28,7 +28,8 @@ if(CMAKE_COMPILER_IS_GNUCC OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 endif()
 
 if (MSVC)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj")
+  set(CMAKE_CXX_STANDARD 17)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj /Zm200 /Zc:__cplusplus")
 endif ()
 
 # If using clang, we have to link against libc++ depending on the
@@ -61,7 +62,6 @@ endif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 #   ARMADILLO_INCLUDE_DIR - directory containing <armadillo>
 #   ARMADILLO_INCLUDE_DIRS - directories necessary for Armadillo includes
 #   MLPACK_INCLUDE_DIR - include directory for mlpack
-#   MLPACK_LIBRARY - library directory for mlpack
 
 find_package(Armadillo 8.400.0 REQUIRED)
 find_package(cereal "${CEREAL_VERSION}" REQUIRED)
@@ -117,7 +117,7 @@ if (WIN32)
       ${ARMADILLO_LIBRARIES} ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
 endif ()
 
-find_package(MLPACK REQUIRED)
+find_package(mlpack REQUIRED)
 
 find_package(Ensmallen 1.10.0)
 if (NOT ENSMALLEN_FOUND)
@@ -174,14 +174,25 @@ find_package(Boost 1.49
     REQUIRED
 )
 
+# Detect OpenMP support in a compiler. If the compiler supports OpenMP, flags
+# to compile with OpenMP are returned and added.  Note that MSVC does not
+# support a new-enough version of OpenMP to be useful.
 if (USE_OPENMP)
-  message(WARNING "Only use OpenMP if mlpack has been compiled with OpenMP.")
   find_package(OpenMP)
 endif ()
 
-if (OPENMP_FOUND)
+if (OpenMP_FOUND AND OpenMP_CXX_VERSION VERSION_GREATER_EQUAL 3.0.0)
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+  set(MLPACK_LIBRARIES ${MLPACK_LIBRARIES} ${OpenMP_CXX_LIBRARIES})
+else ()
+  # Disable warnings for all the unknown OpenMP pragmas.
+  if (NOT MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-pragmas")
+  else ()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4068")
+  endif ()
+  set(OpenMP_CXX_FLAGS "")
 endif ()
 
 # In Visual Studio, automatic linking is performed, so we don't need to worry
@@ -201,8 +212,7 @@ set(MODELS_INCLUDE_DIRS ${MLPACK_INCLUDE_DIR}
                         ${Boost_INCLUDE_DIRS}
                         ${CEREAL_INCLUDE_DIR})
 
-set(MODELS_LIBRARIES ${MLPACK_LIBRARY}
-                     ${ARMADILLO_LIBRARIES}
+set(MODELS_LIBRARIES ${ARMADILLO_LIBRARIES}
                      ${Boost_LIBRARIES})
 
 include_directories(${MODELS_INCLUDE_DIRS})

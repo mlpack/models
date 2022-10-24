@@ -12,11 +12,10 @@
 #ifndef MODELS_VAE_UTILS_HPP
 #define MODELS_VAE_UTILS_HPP
 
-#include <mlpack/core.hpp>
-#include <mlpack/methods/ann/ffn.hpp>
+#include <mlpack.hpp>
 
-using namespace mlpack;
-using namespace mlpack::ann;
+namespace mlpack {
+namespace models {
 
 // Calculates mean loss over batches.
 template<typename NetworkType = FFN<MeanSquaredError<>, HeInitialization>,
@@ -64,5 +63,8 @@ void GetSample(DataType &input, DataType& samples, bool isBinary)
     samples = arma::clamp(samples, 0, 255);
   }
 }
+
+} // namespace models
+} // namespace mlpack
 
 #endif

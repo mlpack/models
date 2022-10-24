@@ -91,7 +91,7 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVersion>::DarkNet(
 
   if (DarkNetVersion == 19)
   {
-    darkNet.Add(new ann::IdentityLayer<>());
+    darkNet.Add(new IdentityLayer<>());
 
     // Convolution and activation function in a block.
     ConvolutionBlock(inputChannel, 32, 3, 3, 1, 1, 1, 1, true);
@@ -112,17 +112,17 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVersion>::DarkNet(
 
     if (includeTop)
     {
-      darkNet.Add(new ann::Convolution<>(1024, numClasses, 1, 1,
+      darkNet.Add(new Convolution<>(1024, numClasses, 1, 1,
           1, 1, 0, 0, inputWidth, inputHeight));
-      darkNet.Add(new ann::AdaptiveMeanPooling<>(1, 1));
-      darkNet.Add(new ann::LogSoftMax<>());
+      darkNet.Add(new AdaptiveMeanPooling<>(1, 1));
+      darkNet.Add(new LogSoftMax<>());
     }
 
     darkNet.ResetParameters();
   }
   else if (DarkNetVersion == 53)
   {
-    darkNet.Add(new ann::IdentityLayer<>());
+    darkNet.Add(new IdentityLayer<>());
     ConvolutionBlock(inputChannel, 32, 3, 3, 1, 1, 1, 1, true, 1e-2);
     ConvolutionBlock(32, 64, 3, 3, 2, 2, 1, 1, true, 1e-2);
 
@@ -146,8 +146,8 @@ DarkNet<OutputLayerType, InitializationRuleType, DarkNetVersion>::DarkNet(
 
     if (includeTop)
     {
-      darkNet.Add(new ann::AdaptiveMeanPooling<>(1, 1));
-      darkNet.Add(new ann::Linear<>(curChannels, numClasses));
+      darkNet.Add(new AdaptiveMeanPooling<>(1, 1));
+      darkNet.Add(new Linear<>(curChannels, numClasses));
     }
 
     darkNet.ResetParameters();
