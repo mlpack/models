@@ -113,10 +113,13 @@ void MobileNetType<MatType>::MakeModel()
 
   this->template Add<SeparableConvolution>(outSize, outSize*depthMultiplier,
                     alpha, depthMultiplier);
+
   outSize = size_t(64 * alpha);
+
   for (const auto& blockConfig : mobileNetConfig){
+    this->template Add<Padding>(0, 1, 0, 1);
     this->template Add<SeparableConvolution>(outSize, outSize*depthMultiplier,
-                      alpha, depthMultiplier, 2);
+                      3, 3, 2, 2, 0, 0, 1, 1, "valid");
     this->template Add<BatchNorm>();
     this->template Add<ReLU6>();
 
@@ -125,7 +128,7 @@ void MobileNetType<MatType>::MakeModel()
     for (size_t numBlock = 1; numBlock < blockConfig.second; ++numBlock)
     {
       this->template Add<SeparableConvolution>(outSize, outSize*depthMultiplier,
-                         alpha, depthMultiplier);
+                         3, 3, 1, 1, 0, 0, 0, 0, "same");
       this->template Add<BatchNorm>();
       this->template Add<ReLU6>();
 
