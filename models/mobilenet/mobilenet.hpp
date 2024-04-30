@@ -28,6 +28,8 @@
 #define MLPACK_ENABLE_ANN_SERIALIZATION
 #include <mlpack.hpp>
 
+#include "separable_convolution.hpp"
+
 #include "./../../utils/utils.hpp"
 
 namespace mlpack {
@@ -46,7 +48,7 @@ class MobileNetType : public MultiLayer<MatType>
 {
  public:
   //! Create the MobileNet model.
-  MobileNetType();
+  //MobileNetType();
 
   /**
    * MobileNetType constructor initializes input shape and number of classes.
@@ -103,13 +105,13 @@ class MobileNetType : public MultiLayer<MatType>
   void serialize(Archive& ar, const uint32_t /* version */);
 
  private:
-  //! Generate the layers of the AlexNet.
+  //! Generate the layers of the MobileNet.
   void MakeModel();
 
   //! Locally stored number of output classes.
   size_t numClasses;
 
-  //! Locally stored if classidier layers are included or not.
+  //! Locally stored if classifier layers are included or not.
   bool includeTop;
 
   //! Locally stored alpha for mobileNet block creation.

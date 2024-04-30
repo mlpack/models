@@ -106,7 +106,7 @@ void MobileNetType<MatType>::serialize(
 template<typename MatType>
 void MobileNetType<MatType>::MakeModel()
 {
-  this->template Add<Convolution>(32, 3, 3, 2, 2, 0, 0, "none", false);
+  this->template Add<Convolution>(32, 3, 3, 2, 2, 0, 0);
   this->template Add<BatchNorm>();
 
   size_t outSize = size_t(32 * alpha);
@@ -119,7 +119,7 @@ void MobileNetType<MatType>::MakeModel()
   for (const auto& blockConfig : mobileNetConfig){
     this->template Add<Padding>(0, 1, 0, 1);
     this->template Add<SeparableConvolution>(outSize, outSize*depthMultiplier,
-                      3, 3, 2, 2, 0, 0, 1, 1, "valid");
+                      3, 3, 2, 2, 0, 0, 1, 1, 1, "valid");
     this->template Add<BatchNorm>();
     this->template Add<ReLU6>();
 
@@ -128,7 +128,7 @@ void MobileNetType<MatType>::MakeModel()
     for (size_t numBlock = 1; numBlock < blockConfig.second; ++numBlock)
     {
       this->template Add<SeparableConvolution>(outSize, outSize*depthMultiplier,
-                         3, 3, 1, 1, 0, 0, 0, 0, "same");
+                         3, 3, 1, 1, 0, 0, 0, 0, 1, "same");
       this->template Add<BatchNorm>();
       this->template Add<ReLU6>();
 
@@ -142,7 +142,7 @@ void MobileNetType<MatType>::MakeModel()
   {
     this->template Add<Dropout>(1e-3);
     this->template Add<Convolution>(size_t(1024 * alpha), numClasses,
-                      1, 1, 1, 0, 0, 1, 1, "same");
+                      1, 1, 1, 0, 0);
     this->template Add<Softmax>();
   }
 }
