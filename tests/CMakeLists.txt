@@ -22,7 +22,8 @@ add_executable(models_test
   serialization.cpp
   serialization.hpp
   test_catch_tools.hpp
-#  alexnet_tests.cpp
+  alexnet_tests.cpp
+  mobilenet_tests.cpp
 #  squeezenet_tests.cpp
 #  vgg_tests.cpp
 #  xception_tests.cpp
