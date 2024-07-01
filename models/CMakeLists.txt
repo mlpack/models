@@ -9,7 +9,9 @@ set(DIR
   squeezenet
   vgg
   xception
-  yolo)
+  yolo
+  yolov3_tiny
+)
 
 foreach(dir ${DIR})
   add_subdirectory(${dir})
